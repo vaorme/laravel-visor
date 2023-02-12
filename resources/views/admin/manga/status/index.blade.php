@@ -3,10 +3,10 @@
     hola desde index manga status
     <a href="{{ route('manga_book_status.create') }}">Crear status</a>
     
-    @if ($status)
+    @if ($loop->isNotEmpty())
         <ul>
-            @foreach ($status as $item)
-                <li>{{ $item->name }}</li>
+            @foreach ($loop as $s)
+                <li>{{ $s->name }}</li>
             @endforeach
         </ul>
     @else

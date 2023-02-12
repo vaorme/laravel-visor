@@ -11,7 +11,6 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail{
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -41,4 +40,11 @@ class User extends Authenticatable implements MustVerifyEmail{
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Relacion uno a uno
+    private function profile(){
+        // $profile = Profile::where('user_id', $this->id)->first();
+        // return $profile;
+        return $this->hasOne(Profile::class);
+    }
 }

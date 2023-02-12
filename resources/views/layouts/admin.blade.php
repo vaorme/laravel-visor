@@ -12,25 +12,9 @@
     <body>
         <div id="app">
             <x-header />
-            <main>
-                <div class="sidebar">
-                    <ul>
-                        <li><a href="{{ route('admin.index') }}">Overview</a></li>
-                        <li>
-                            <a href="{{ route('manga.index') }}">Manga</a>
-                            <div class="dropdown">
-                                <ul>
-                                    <li><a href="#">All</a></li>
-                                    <li><a href="#">Categories</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li><a href="#">Users</a></li>
-                        <li><a href="#"></a></li>
-                        <li><a href="#">Overview</a></li>
-                    </ul>
-                </div>
-                <div class="conten">
+            <main class="main flex">
+                <x-admin.aside />
+                <div class="box">
                     {{ $slot }}
                 </div>
             </main>

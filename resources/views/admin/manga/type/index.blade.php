@@ -1,12 +1,12 @@
 <x-admin-layout>
 
-    hola desde index manga demography
+    hola desde manga type
     <a href="{{ route('manga_types.create') }}">Crear tipo</a>
     
-    @if ($types)
+    @if ($loop->isNotEmpty())
         <ul>
-            @foreach ($types as $type)
-                <li>{{ $type->name }}</li>
+            @foreach ($loop as $t)
+                <li>{{ $t->name }}</li>
             @endforeach
         </ul>
     @else

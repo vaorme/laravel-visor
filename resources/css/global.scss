@@ -1,2 +1,9 @@
+@use '../fonts/inter/inter.scss';
+@use './tailwind.scss';
 @use './components/header.scss';
 @use './components/footer.scss';
+
+body{
+    background-color: theme('colors.vo-black');
+    font-family: "Inter", sans-serif;
+}

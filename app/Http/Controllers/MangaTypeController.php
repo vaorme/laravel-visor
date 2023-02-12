@@ -13,8 +13,8 @@ class MangaTypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $types = MangaType::get();
-        return view('admin.manga.type.index', ['types' => $types]);
+        $loop = MangaType::get();
+        return view('admin.manga.type.index', ['loop' => $loop]);
     }
 
     /**
@@ -79,8 +79,8 @@ class MangaTypeController extends Controller
      */
     public function edit($id)
     {
-        $type = MangaType::find($id);
-        return view('admin.manga.type.edit', ['type' => $type]);
+        $edit = MangaType::find($id);
+        return view('admin.manga.type.edit', ['edit' => $edit]);
     }
 
     /**

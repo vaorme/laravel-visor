@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/template', function(){
+    return view('template');
+});
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/u/account', [ProfileController::class, 'edit'])->name('account.index');

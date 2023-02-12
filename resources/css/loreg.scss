@@ -1,0 +1,136 @@
+#app{
+    padding-top: 4rem;
+    .loreg{
+        background-color: #202020;
+        max-width: 1024px;
+        margin: auto;
+        .box{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            .frmo{
+                padding: 4rem 2.5rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .title{
+                    margin-bottom: 2rem;
+                    text-align: center;
+                    h4{
+                        width: 100%;
+                        color: #fff;
+                        font-size: 1.4rem;
+                        font-weight: 600;
+                    }
+                    p{
+                        color: #6e6e6e;
+                    }
+                }
+                form{
+                    width: 100%;
+                    .group{
+                        margin-bottom: 2rem;
+                        & > label{
+                            color: #6e6e6e;
+                            display: block;
+                            margin-bottom: .2rem;
+                        }
+                        & > input{
+                            background-color: transparent;
+                            width: 100%;
+                            outline: none;
+                            color: #fff;
+                            border: 0;
+                            padding: .4rem 0;
+                            border-radius: 0;
+                            border-bottom: 1px solid rgb(#fff, .1);
+                            transition: border .2s ease;
+                            &:focus{
+                                border-color: theme('colors.vo-orange');
+                            }
+                        }
+                        &.remember{
+                            label{
+                                display: flex;
+                            }
+                        }
+                        &.buttons{
+                            a{
+                                display: inline-block;
+                                color: #6e6e6e;
+                                font-size: .9rem;
+                                margin-right: 1rem;
+                                transition: color .2s ease;
+                                &:hover{
+                                    color: #fff;
+                                }
+                            }
+                            button{
+                                background-color: theme('colors.vo-red');
+                                padding: .8rem 2rem;
+                                color: #fff;
+                                font-size: .9rem;
+                                font-weight: 600;
+                                border-radius: .4rem;
+                                text-transform: uppercase;
+                                transition: background .2s ease;
+                                &:hover{
+                                    background-color: theme('colors.vo-red-over');
+                                }
+                            }
+                            &.alt-button{
+                                margin-bottom: 0;
+                                button{
+                                    background-color: #444242;
+                                    &:hover{
+                                        background-color: #525050;
+                                    }
+                                }
+                            }
+                        }
+                        &.cks{
+                            label{
+                                color: rgb(#fff, .5);
+                                font-size: .9rem;
+                            }
+                            input{
+                                display: none;
+                            }
+                            .checkbox{
+                                position: relative;
+                                width: 20px;
+                                height: 20px;
+                                border-radius: .2rem;
+                                border: 1px solid rgb(#fff, .1);
+                                transition: border .2s ease;
+                                &::after{
+                                    background-color: theme('colors.vo-orange');
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    content: "";
+                                    opacity: 0;
+                                    width: 8px;
+                                    height: 8px;
+                                    border-radius: 0.1rem;
+                                    transform: translate(-50%, -50%);
+                                    transition: opacity .2s ease;
+                                }
+                            }
+                            input:checked + .checkbox{
+                                border-color: theme('colors.vo-orange');
+                                &::after{
+                                    opacity: 1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .banner{
+                background-image: url('../../public/assets/portada-2.jpg');
+                background-size: cover;
+                min-height: 700px;
+            }
+        }
+    }
+}

@@ -37,6 +37,12 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'categories.edit']);
         Permission::create(['name' => 'categories.destroy']);
 
+        // Tags
+        Permission::create(['name' => 'tags.index']);
+        Permission::create(['name' => 'tags.create']);
+        Permission::create(['name' => 'tags.edit']);
+        Permission::create(['name' => 'tags.destroy']);
+
         // Permissions
         Permission::create(['name' => 'permissions.index']);
         Permission::create(['name' => 'permissions.create']);
@@ -49,11 +55,17 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'roles.edit']);
         Permission::create(['name' => 'roles.destroy']);
 
-        // Roles Has Permissions
-        Permission::create(['name' => 'roles_has_permissons.view']);
-        Permission::create(['name' => 'roles_has_permissons.create']);
-        Permission::create(['name' => 'roles_has_permissons.edit']);
-        Permission::create(['name' => 'roles_has_permissons.destroy']);
+        // Ranks
+        Permission::create(['name' => 'ranks.index']);
+        Permission::create(['name' => 'ranks.create']);
+        Permission::create(['name' => 'ranks.edit']);
+        Permission::create(['name' => 'ranks.destroy']);
+
+        Permission::create(['name' => 'user_has_rank.index']);
+        Permission::create(['name' => 'user_has_rank.create']);
+        Permission::create(['name' => 'user_has_rank.edit']);
+        Permission::create(['name' => 'user_has_rank.destroy']);
+        
 
         // Manga
         Permission::create(['name' => 'manga.index']);
@@ -88,13 +100,14 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'products.edit']);
         Permission::create(['name' => 'products.destroy']);
 
-        Permission::create(['name' => 'products_type.index']);
-        Permission::create(['name' => 'products_type.create']);
-        Permission::create(['name' => 'products_type.edit']);
-        Permission::create(['name' => 'products_type.destroy']);
+        Permission::create(['name' => 'product_types.index']);
+        Permission::create(['name' => 'product_types.create']);
+        Permission::create(['name' => 'product_types.edit']);
+        Permission::create(['name' => 'product_types.destroy']);
 
         // Orders
         Permission::create(['name' => 'orders.index']);
+        Permission::create(['name' => 'orders.create']);
         Permission::create(['name' => 'orders.edit']);
         Permission::create(['name' => 'orders.destroy']);
 

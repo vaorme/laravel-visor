@@ -8,20 +8,32 @@ use App\Models\MangaDemography;
 use App\Models\MangaType;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class MangaController extends Controller
-{
+class MangaController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        $limit = 10;
-        $mangas = Manga::paginate($limit)->toArray();
-        return view('admin.manga.index', ['mangas' => $mangas]);
+    public function index(Request $request){
+        $request->validate([
+            'status' => ['max:60', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
+        ]);
+        $status = ($request->status == null)? 'published': $request->status;
+        $loop = Manga::where('status', '=', $status)
+            ->join('users', 'manga.user_id', '=', 'users.id')
+            ->join('profiles', 'users.id', '=', 'profiles.id')
+            ->leftJoin('manga_type', 'manga.type_id', '=', 'manga_type.id')
+            ->orderBy('id', 'desc')->get([
+                'manga.id',
+                'manga.name',
+                'manga.alternative_name',
+                'users.username',
+                'profiles.avatar',
+                'manga_type.name as type'
+            ]);
+        return view('admin.manga.index', ['loop' => $loop]);
     }
 
     /**
@@ -143,8 +155,14 @@ class MangaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id){
+        $delete = Manga::destroy($id);
+        if($delete){
+            $response['msg'] = "Manga eliminado correctamente.";
+        }else{
+            $response['msg'] = "Ups, algo salio mal socio.";
+        }
+
+        return $response;
     }
 }

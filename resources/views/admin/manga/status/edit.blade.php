@@ -1,15 +1,15 @@
 <x-admin-layout>
     <h1>editar status</h1>
-    <form action="{{ route('manga_book_status.destroy', ['id' => $status->id]) }}" method="POST">
+    <form action="{{ route('manga_book_status.destroy', ['id' => $edit->id]) }}" method="POST">
         @csrf
         @method('PATCH')
         <div class="group">
             <label>Name</label>
-            <input type="text" name="name" value="{{ old('name', $status->name) }}">
+            <input type="text" name="name" value="{{ old('name', $edit->name) }}">
         </div>
         <div class="group">
             <label>Description</label>
-            <textarea name="description" cols="30" rows="10">{{ old('description', $status->description) }}</textarea>
+            <textarea name="description" cols="30" rows="10">{{ old('description', $edit->description) }}</textarea>
         </div>
         {{-- @error('title')
             <div class="alert alert-danger">{{ $message }}</div>

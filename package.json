@@ -16,6 +16,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "sass": "^1.57.1"
+        "sass": "^1.57.1",
+        "simple-datatables": "^7.1.0"
     }
 }

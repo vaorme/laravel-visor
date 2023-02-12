@@ -7,14 +7,14 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Scripts -->
-        @vite(['resources/css/global.scss', 'resources/css/app.scss', 'resources/js/library.js'])
+        @vite(['resources/css/global.scss', 'resources/css/loreg.scss', 'resources/js/library.js'])
     </head>
     <body>
         <div id="app">
-            <div class="login">
+            <div class="loreg">
                 {{ $slot }}
             </div>
         </div>
-        @vite(['resources/js/app.js'])
+        @vite(['resources/js/loreg.js'])
     </body>
 </html>

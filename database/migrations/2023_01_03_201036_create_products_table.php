@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('price');
+            $table->text('coins')->nullable();
             $table->text('quantity')->nullable();
             $table->unsignedBigInteger('product_type_id');
             $table->foreign('product_type_id')->references('id')->on('product_type');

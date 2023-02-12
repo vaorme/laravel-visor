@@ -14,8 +14,8 @@ class MangaDemographyController extends Controller
      */
     public function index()
     {
-        $demographics = MangaDemography::get();
-        return view('admin.manga.demography.index', ['demographics' => $demographics]);
+        $loop = MangaDemography::get();
+        return view('admin.manga.demography.index', ['loop' => $loop]);
     }
 
     /**
@@ -82,8 +82,8 @@ class MangaDemographyController extends Controller
      */
     public function edit($id)
     {
-        $demography = MangaDemography::find($id);
-        return view('admin.manga.demography.edit', ['demography' => $demography]);
+        $edit = MangaDemography::find($id);
+        return view('admin.manga.demography.edit', ['edit' => $edit]);
     }
 
     /**

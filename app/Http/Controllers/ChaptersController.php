@@ -40,7 +40,7 @@ class ChaptersController extends Controller
 
         $request->validate([
             'name' => ['required', 'max:50'],
-            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
+            'slug' => ['required', 'unique:categories', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
         ]);
         $response = [];
         $images = [];

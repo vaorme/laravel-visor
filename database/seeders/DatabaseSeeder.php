@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
             MangaTypeSeeder::class,
             MangaDemographySeeder::class,
             MangaCategoriesSeeder::class,
-            UserRanks::class
+            UserRanks::class,
+            OrderStatusSeeder::class
         ]);
     }
 }

@@ -30,8 +30,7 @@ return new class extends Migration
             $table->string('country', 2)->nullable();
             $table->tinyInteger('public_profile')->default(1);
             $table->date('date_of_birth')->nullable();
-            $table->unsignedBigInteger('user_id')->unique();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

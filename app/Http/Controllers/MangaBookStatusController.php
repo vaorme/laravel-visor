@@ -13,8 +13,8 @@ class MangaBookStatusController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $status = MangaBookStatus::get();
-        return view('admin.manga.status.index', ['status' => $status]);
+        $loop = MangaBookStatus::get();
+        return view('admin.manga.status.index', ['loop' => $loop]);
     }
 
     /**
@@ -76,8 +76,8 @@ class MangaBookStatusController extends Controller
      */
     public function edit($id)
     {
-        $status = MangaBookStatus::find($id);
-        return view('admin.manga.status.edit', ['status' => $status]);
+        $edit = MangaBookStatus::find($id);
+        return view('admin.manga.status.edit', ['edit' => $edit]);
     }
 
     /**
