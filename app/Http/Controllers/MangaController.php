@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Chapter;
 use App\Models\Manga;
 use App\Models\MangaBookStatus;
 use App\Models\MangaDemography;
@@ -121,19 +123,22 @@ class MangaController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id){
         $manga = Manga::find($id);
         $users = User::get();
         $mangaTypes = MangaType::get();
         $mangaBookStatus = MangaBookStatus::get();
         $mangaDemographies = MangaDemography::get();
+        $categories = Category::get();
+        $chapters = Chapter::where('manga_id', $id)->get();
         return view('admin.manga.edit', [
             'manga' => $manga,
             'users' => $users,
+            'categories' => $categories,
             'manga_types' => $mangaTypes,
             'manga_book_status' => $mangaBookStatus,
-            'manga_demographies' => $mangaDemographies
+            'manga_demographies' => $mangaDemographies,
+            'chapters' => $chapters
         ]);
     }
 
@@ -146,7 +151,7 @@ class MangaController extends Controller{
      */
     public function update(Request $request, $id)
     {
-        return "desde update";
+        dd($request);
     }
 
     /**

@@ -39,6 +39,15 @@ class uploadChaptersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function subir(Request $request){
+        $file = $request->file('archivo')->store('tmp');
+        // $filename = hexdec(uniqid()).'.'.$file->extension();
+        // $folder = uniqid().'-'. now()->timestamp;
+
+        // $file->storeAs('tmp/'.$folder, $filename);
+
+        return response()->json($file);
+    }
     public function store(Request $request, $mangaid){
         $manga = Manga::where('id', $mangaid)->first();
         
@@ -119,12 +128,13 @@ class uploadChaptersController extends Controller
         $zip->close();
 
         if($isSingle){
-            if(!in_array($simpleChapterSlug, $currentChapters)){
+            $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $simpleChapterSlug)->exists();
+            if(!in_array($simpleChapterSlug, $currentChapters) && !$chapterExists){
                 $files = Storage::files($tmp_path);
                 $collectImages = [];
                 foreach($files as $file){
                     $baseFile = basename($file);
-                    $collectImages[] = $baseFile;
+                    $collectImages[] = "manga/$manga->slug/$simpleChapterSlug/$baseFile";
                     // $fileRoute = $storagePath.$simpleChapterSlug."/".$baseFile;
                     $fileConten = Storage::disk('local')->get("tmp/$manga->slug/$simpleChapterSlug/$baseFile");
                     Storage::disk('public')->put("manga/$manga->slug/$simpleChapterSlug/$baseFile", $fileConten);
@@ -137,7 +147,7 @@ class uploadChaptersController extends Controller
                     ];
                 }
 
-                $response['created'] = $res;
+                $response['created'][] = $res;
             }else{
                 $response['excluded'][] = "$simpleChapterName fue omitido, ya existe el capitulo.";
             }
@@ -155,13 +165,14 @@ class uploadChaptersController extends Controller
                 if(!FacadesFile::exists($storagePath.$dirSlug)){
                     rename($storagePath.$dirName, $storagePath.$dirSlug);
                 }
-                if(!in_array($dirSlug, $currentChapters)){
+                $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $dirSlug)->exists();
+                if(!in_array($dirSlug, $currentChapters) && !$chapterExists){
                     if(is_dir($storagePath.$dirSlug)){
                         $files = Storage::files($tmp_path.$dirSlug);
                         
                         foreach($files as $file){
                             $baseFile = basename($file);
-                            $collectImages[] = $baseFile;
+                            $collectImages[] = "manga/$manga->slug/$dirSlug/$baseFile";
                             // $fileRoute = $storagePath.$dirSlug."/".$baseFile;
                             $fileConten = Storage::disk('local')->get("tmp/$manga->slug/$dirSlug/$baseFile");
                             Storage::disk('public')->put("manga/$manga->slug/$dirSlug/$baseFile", $fileConten);
@@ -175,7 +186,6 @@ class uploadChaptersController extends Controller
                             ];
                             continue;
                         }
-
                         $response['created'][] = $res;
                     }
                 }else{
@@ -201,7 +211,8 @@ class uploadChaptersController extends Controller
                     $response['excluded'][] = "$fileName fue omitido, tipo de archivo no permitido";
                     continue;
                 }
-                if(in_array($slugify, $arrayChapters)){
+                $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $slugify)->exists();
+                if(in_array($slugify, $arrayChapters) && !$chapterExists){
                     $response['excluded'][] = "$fileName fue omitido, ya existe el capitulo.";
                     continue;
                 }
@@ -226,12 +237,13 @@ class uploadChaptersController extends Controller
 
     private function createChapter($mangaid, $chapterName, $chapterSlug, $chapterImages = "", $chapterContent = ""){
         try{
+
             $create = new Chapter;
-            $chapterExists = Chapter::where('manga_id', $mangaid)->orderBy('id', 'DESC')->first();
+            $currentCount = Chapter::where('manga_id', $mangaid)->orderBy('id', 'DESC')->first();
             $count = "";
             
-            if($chapterExists){
-                $order = $chapterExists->toArray();
+            if($currentCount){
+                $order = $currentCount->toArray();
                 $count = $order['order'] + 1;
             }else{
                 $count = 1;
@@ -252,7 +264,8 @@ class uploadChaptersController extends Controller
 
             return [
                 "status" => "success",
-                "data" => $create
+                "msg" => "Chapter $create->name created",
+                "item" => $create
             ];
         }
             catch(\Exception $e){

@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Models\Manga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ChaptersController extends Controller
 {
@@ -37,11 +38,18 @@ class ChaptersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $mangaid){
-
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'max:50'],
-            'slug' => ['required', 'unique:categories', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
+            'images.*' => 'mimes:jpg,jpeg,png,gif'
         ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'msg' => $validator->errors()->all()
+            ]);
+        }
+
         $response = [];
         $images = [];
         $count = "";
@@ -49,9 +57,12 @@ class ChaptersController extends Controller
         // Get manga slug
         $mangaSlug = Manga::firstWhere('id', $mangaid)->get();
 
-        $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $request->slug)->first();
+        $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $request->slug)->exists();
         if($chapterExists){
-            $response['error'] = "Ups, ya existe un capitulo con el slug $request->slug";
+            $response = [
+                "status" => "error",
+                "msg" => "Ups, ya existe un capitulo con el slug $request->slug"
+            ];
             return $response;
         }
 
@@ -63,7 +74,7 @@ class ChaptersController extends Controller
         }
 
         // Uploading images
-        if($request->hasFile('images')){
+        if($request->has('images')){
             $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
             $files = $request->file('images');
             foreach($files as $file){
@@ -75,8 +86,8 @@ class ChaptersController extends Controller
                     continue;
                 }
                 // $images[] = $file->store("manga/".$mangaSlug[0]->slug."/".$request->slug, 'public');
-                Storage::disk('public')->putFileAs("manga/".$mangaSlug[0]->slug, $file, $originalName);
-                $images[] = $originalName;
+                Storage::disk('public')->putFileAs("manga/".$mangaSlug[0]->slug."/".$request->slug, $file, $originalName);
+                $images[] = "manga/".$mangaSlug[0]->slug."/".$request->slug."/".$originalName;
             }
         }
 
@@ -97,10 +108,18 @@ class ChaptersController extends Controller
         $chapter->manga_id = $mangaid;
 
         if($chapter->save()){
-            $response['success'] = "Capitulo creado correctamente";
+            $response = [
+                "status" => "success",
+                "msg" => "Chapter $chapter->name created",
+                "item" => $chapter
+            ];
             return $response;
         }
-        $response['error'] = $chapter;
+        $response = [
+            "status" => "error",
+            "msg" => "Ups, algo paso",
+            "item" => $chapter
+        ];
         return $response;
     }
 
@@ -143,8 +162,31 @@ class ChaptersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy($id){
+        $chapter = Chapter::where('id', $id)->get()->first();
+        if($chapter->images){
+            $images = json_decode($chapter->images);
+            foreach($images as $image){
+                $folder = explode('/', $image);
+                $removeFileName = array_pop($folder);
+                $folder = implode('/', $folder);
+                Storage::disk('public')->deleteDirectory($folder);
+                //Storage::disk('public')->delete($image);
+            }
+        }
+
+        $delete = Chapter::destroy($id);
+        if(!$delete){
+            return response()->json([
+                'status' => "error",
+                'msg' => "Ups, algo paso",
+            ]);
+        }
+
+        return response()->json([
+            'status' => "success",
+            'msg' => "Eliminado correctamente",
+            'id' => $id
+        ]);
     }
 }

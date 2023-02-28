@@ -84,8 +84,10 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 
         /* MANGA CHAPTERS */
         Route::post('upload-chapter/{mangaid}', [uploadChaptersController::class, 'store'])->middleware(['permission:chapters.store'])->name('uploadChapter.store');
+        // Route::post('subir', [uploadChaptersController::class, 'subir'])->middleware(['permission:chapters.store'])->name('subir.store');
 
         Route::post('chapter/{mangaid}', [ChaptersController::class, 'store'])->middleware(['permission:chapters.create'])->name('chapters.store');
+        Route::delete('chapter/{mangaid}', [ChaptersController::class, 'destroy'])->middleware(['permission:chapters.destroy'])->name('chapters.destroy');
 
         Route::prefix('categories')->group(function(){
             Route::get("/", [CategoryController::class, 'index'])->middleware(['permission:categories.index'])->name('categories.index');

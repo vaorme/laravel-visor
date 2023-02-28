@@ -8,7 +8,7 @@
         "@tailwindcss/forms": "^0.5.2",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
-        "axios": "^1.1.2",
+        "axios": "^1.3.3",
         "laravel-vite-plugin": "^0.7.2",
         "lodash": "^4.17.19",
         "postcss": "^8.4.6",
@@ -16,7 +16,11 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "air-datepicker": "^3.3.5",
+        "choices.js": "^10.2.0",
         "sass": "^1.57.1",
-        "simple-datatables": "^7.1.0"
+        "simple-datatables": "^7.1.0",
+        "simplebar": "^6.2.1",
+        "toastify-js": "^1.12.0"
     }
 }

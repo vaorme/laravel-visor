@@ -44,7 +44,14 @@
                             <td>{{ $m->name }}</td>
                             <td>{{ $m->alternative_name }}</td>
                             <td>{{ $m->type }}</td>
-                            <td>{{ $m->avatar }} {{ $m->username }}</td>
+                            <td>
+                                <div class="user">
+                                    <div class="avatar">
+                                        <img src="{{ asset($m->avatar) }}" alt="" width="22px">
+                                    </div>
+                                </div>
+                                {{ $m->username }}
+                            </td>
                             <td>
                                 <div class="buttons">
                                     <form action="{{ route('manga.destroy', ['id' => $m->id]) }}" method="POST">

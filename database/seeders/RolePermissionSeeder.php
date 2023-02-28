@@ -140,7 +140,8 @@ class RolePermissionSeeder extends Seeder
         event(new Registered($user));
 
         $profile = new Profile();
-        $profile->user_id  = $user['id'];
+        $profile->user_id = $user['id'];
+        $profile->avatar = 'storage/avatares/avatar-'.rand(1, 10).'.png';
         $profile->save();
     }
 }

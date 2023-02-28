@@ -10,6 +10,7 @@
         @vite(['resources/css/global.scss', 'resources/css/admin.scss', 'resources/js/library.js'])
     </head>
     <body>
+        @routes
         <div id="app">
             <x-header />
             <main class="main flex">
@@ -20,6 +21,6 @@
             </main>
             <x-footer/>
         </div>
-        @vite(['resources/js/admin.js'])
+        @vite('resources/js/admin.js')
     </body>
 </html>

@@ -1,8 +1,14 @@
+@if (Auth::check())
+    @php
+        $auth = Auth::user();
+    @endphp
+@endif
+
 <header class="header">
     <nav class="navbar grid grid-cols-6 px-6 py-6">
         <div class="lft col-span-4 flex items-center gap-8">
             <div class="logo">
-                <a href="#"class="block">
+                <a href="{{ URL::to('/') }}"class="block">
                     <svg width="60" height="34" viewBox="0 0 47 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M29.4219 11.2812C29.3542 11.0052 29.2474 10.763 29.1016 10.5547C28.9557 10.3411 28.7734 10.1615 28.5547 10.0156C28.3411 9.86458 28.0911 9.7526 27.8047 9.67969C27.5234 9.60156 27.2135 9.5625 26.875 9.5625C26.1458 9.5625 25.5234 9.73698 25.0078 10.0859C24.4974 10.4349 24.1068 10.9375 23.8359 11.5937C23.5703 12.25 23.4375 13.0417 23.4375 13.9687C23.4375 14.9062 23.5651 15.7083 23.8203 16.375C24.0755 17.0417 24.4557 17.5521 24.9609 17.9062C25.4661 18.2604 26.0938 18.4375 26.8438 18.4375C27.5052 18.4375 28.0547 18.3411 28.4922 18.1484C28.9349 17.9557 29.2656 17.6823 29.4844 17.3281C29.7031 16.974 29.8125 16.5573 29.8125 16.0781L30.5625 16.1562H26.9063V13.0625H34V15.2812C34 16.7396 33.6901 17.987 33.0703 19.0234C32.4557 20.0547 31.6068 20.8464 30.5234 21.3984C29.4453 21.9453 28.2083 22.2187 26.8125 22.2187C25.2552 22.2187 23.888 21.888 22.7109 21.2266C21.5339 20.5651 20.6146 19.6224 19.9531 18.3984C19.2969 17.1745 18.9688 15.7187 18.9688 14.0313C18.9688 12.7083 19.1693 11.5365 19.5703 10.5156C19.9766 9.49479 20.5391 8.63281 21.2578 7.92969C21.9766 7.22135 22.8073 6.6875 23.75 6.32812C24.6927 5.96354 25.7031 5.78125 26.7813 5.78125C27.7292 5.78125 28.6094 5.91667 29.4219 6.1875C30.2396 6.45312 30.9609 6.83333 31.5859 7.32812C32.2161 7.81771 32.724 8.39844 33.1094 9.07031C33.4948 9.74219 33.7292 10.4792 33.8125 11.2812H29.4219Z" fill="white"/>
                         <path d="M1.03125 22V6H5.375V18.5H11.8438V22H1.03125Z" fill="white"/>
@@ -30,16 +36,21 @@
         </div>
         <div class="rth col-span-2 flex items-center justify-end">
             @if (Auth::check())
+                @php
+                    $uProfile = $auth->profile->toArray();
+                @endphp
                 <div class="panel">
-                    <div class="user flex align-center">
-                        <div class="name">
-                            <span>Bienvenid@</span>
-                            <h4>vaor</h4>
+                    <a href="{{ route('profile.index', ['username' => $auth->username]) }}">
+                        <div class="user flex align-center">
+                            <div class="name">
+                                <span>Bienvenid@</span>
+                                <h4>vaor</h4>
+                            </div>
+                            <div class="avatar">
+                                <img src="{{ asset($uProfile['avatar']) }}" alt="">
+                            </div>
                         </div>
-                        <div class="avatar">
-                            <img src="{{ asset('storage/avatares/avatar-1.png') }}" alt="">
-                        </div>
-                    </div>
+                    </a>
                 </div>
             @else
                 <div class="buttons grid grid-cols-2 gap-4">
