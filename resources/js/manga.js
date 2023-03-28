@@ -1,22 +1,4 @@
-import { dropZone } from './helper/helpers';
-
-// :AXIOS
-import axios from 'axios';
-
-// :CHOICES
-
-import Choices from 'choices.js';
-
-// :AIRDATEPICKER
-
-import localeEs from 'air-datepicker/locale/es';
-import AirDatepicker from 'air-datepicker';
-import 'air-datepicker/air-datepicker.css';
-
-// :TOASTIFY
-
-import Toastify from 'toastify-js'
-import "toastify-js/src/toastify.css";
+import { dropZone, removeBodyScroll, clearBodyScroll } from './helper/helpers';
 
 let allowTypes = ['jpg', 'jpeg', 'png','webp','gif'];
 dropZone('.fm-manga .dropzone #choose', allowTypes);
@@ -57,28 +39,41 @@ if(dateInput){
 }
 
 // Modal: Create Chapter
-let modalCt = document.getElementById('create-chapter');
+let modalCt = document.getElementById('modalChapter');
 if(modalCt){
+    let inputCtName = document.querySelector('#ct-name');
+    let inputCtSlug = document.querySelector('#ct-slug');
+    let inputCtContent = document.querySelector('#modalChapter form textarea');
+    let inputCtImages = document.querySelector('#ct-images');
+    let radioCtType = document.querySelectorAll('#modalChapter form input[name="chaptertype"]');
+
     let button = document.querySelector('main.main .box .frmo.fm-manga .main .section.chapters .buttons a#ct-chapter');
-    let closeBtn = document.querySelector('main.main .box .frmo.fm-manga #create-chapter .content .box .bx-title #close-btn');
+    let closeBtn = document.querySelector('#modalChapter .md-title .md-close');
     button.addEventListener('click', function(e){
         e.preventDefault();
         modalCt.addClass('opn');
+        removeBodyScroll();
     });
     closeBtn.addEventListener('click', function(){
+        modalCt.addClass('clg');
         modalCt.removeClass('opn');
+        clearBodyScroll();
+        // setTimeout(function(){
+        //     modalCt.removeClass('clg');
+        // }, 500)
     });
 
-    let inputRdos = document.querySelectorAll('main.main .box .frmo.fm-manga #create-chapter .content .box .bx-body form .group.radios input');
+    let inputRdos = document.querySelectorAll('main.main .box #modalChapter .md-content form .group.radios label input');
     let tManga = document.querySelector('#t-manga');
     let tNovel = document.querySelector('#t-novel');
+    let previewBox = document.querySelector('#t-preview');
     inputRdos.forEach(item =>{
         item.addEventListener('click', function(e){
-            if(e.target.value == 0){
+            if(e.target.value == "novel"){
                 tManga.addClass('hidden');
                 tNovel.removeClass('hidden');
             }
-            if(e.target.value == 1){
+            if(e.target.value == "manga"){
                 tNovel.addClass('hidden');
                 tManga.removeClass('hidden');
             }
@@ -86,13 +81,7 @@ if(modalCt){
     });
 
     // ? Create chapter
-    let chapterForm = document.querySelector('#create-chapter form');
-
-    let inputCtName = document.querySelector('#ct-name');
-    let inputCtSlug = document.querySelector('#ct-slug');
-    let inputCtContent = document.querySelector('#create-chapter form textarea');
-    let inputCtImages = document.querySelector('#ct-images');
-    let radioCtType = document.querySelectorAll('#create-chapter form input[name="chaptertype"]');
+    let chapterForm = document.querySelector('#modalChapter form');
     let ctRegex = /[^a-zA-Z0-9]+/g;
 
     inputCtName.addEventListener('input', function(e){
@@ -107,27 +96,168 @@ if(modalCt){
     radioCtType.forEach(item => {
         item.addEventListener('change', function(e){
             let vl = e.target.value;
-            if(vl == 1){
+            if(vl == "manga"){
                 inputCtContent.removeAttribute('required');
-                inputCtImages.setAttribute('required', '');
             }
-            if(vl == 0){
-                inputCtImages.removeAttribute('required');
+            if(vl == "novel"){
                 inputCtContent.setAttribute('required', '');
             }
         });
+    });
+
+    let previewFiles = [];
+    // inputCtImages.addEventListener('change', function(e){
+    //     console.log(e.target.files);
+    //     previewFiles.push(...e.target.files);
+    //     if(previewFiles.length > 0){
+    //         generarImagenesPreview(previewFiles);
+    //         previewBox.addClass('show');
+    //     }
+    // });
+
+    // Dropzone chapter images
+    let chapterFileAllow = ['jpeg', 'jpg', 'png', 'gif'];
+    const chapterDropZone = function(zone, allowed){
+        const drop = document.querySelector(zone);
+        let inputElement;
+        if(drop){
+            inputElement = drop.nextElementSibling;
+
+            inputElement.addEventListener('change', function (e) {
+                previewFiles.push(...e.target.files);
+                if(previewFiles.length > 0){
+                    previewFiles = chapterDropButtonFile(previewFiles, allowed);
+                    generarImagenesPreview(previewFiles);
+                    console.log(previewFiles);
+                }
+            })
+            drop.addEventListener('click', () => inputElement.click());
+            drop.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+            drop.addEventListener('drop', (e) => {
+                e.preventDefault();
+                previewFiles.push(...e.dataTransfer.files);
+                if(previewFiles.length > 0){
+                    previewFiles = chapterDropButtonFile(previewFiles, allowed);
+                    generarImagenesPreview(previewFiles);
+                }
+            });
+        }
+    }
+    const chapterDropButtonFile = function(files, allowed){
+        let arrayPermitidos = [];
+        if(!files) {
+            console.log('error, no hay archivos');
+            return [];
+        }
+        for (let i = 0; i < files.length; i++) {
+            let extension = files[i].name.split('.').pop().toLowerCase();
+            if(!allowed.includes(extension)){
+                console.log(files[i].name, 'Tipo de archivo no permitido');
+                continue;
+            }
+            arrayPermitidos.push(files[i]);
+        }
+        return arrayPermitidos;
+    }
+    chapterDropZone('#modalChapter #t-preview .choose', chapterFileAllow);
+
+    const sortable = new DgSortable(previewBox, {
+        draggable: '.item',
+        mirror: {
+            constrainDimensions: true,
+        }
+    });
+    Array.prototype.movePreview = function (from, to) {
+        console.log(this);
+        this.splice(to, 0, this.splice(from, 1)[0]);
+        for (let i = 0; i < this.length; i++) {
+            let ext = this[i].name.split('.');
+            let numGenerator = Date.now() + i;
+            let name = ext[0].replace(/[0-9-]/g, `${i}-`);
+            this[i] = new File([this[i]], `${i}-${numGenerator}.${ext[1]}`);
+        }
+    };
+    sortable.on('sortable:sorted', (e) => {
+        let to = e.data.newIndex;
+        let from = e.data.oldIndex;
+
+        previewFiles.movePreview(from, to);
+        console.log(previewFiles);
+    });
+    sortable.on('sortable:stop', () =>{
+        setTimeout(() => {
+            let items = document.querySelectorAll('#modalChapter .md-content form .group #t-preview .item');
+            for (let index = 0; index < items.length; index++) {
+                items[index].setAttribute('id', 'image-'+index);
+                items[index].setAttribute('index', index);
+                items[index].children[1].setAttribute('data-index', index);
+            }
+        }, 300);
+    });
+
+    const eliminarImagen = function(files, index){
+        let itemDelete = document.querySelector('#image-'+index);
+        itemDelete.remove();
+        let items = document.querySelectorAll('#modalChapter .md-content form .group #t-preview .item');
+        files.splice(index, 1);
+        for (let i = 0; i < files.length; i++) {
+            let ext = files[i].name.split('.');
+            let numGenerator = Date.now() + i;
+            let name = ext[0].replace(/[0-9-]/g, `${i}-`);
+            items[i].setAttribute('id', 'image-'+i);
+            items[i].setAttribute('index', i);
+            items[i].children[1].setAttribute('data-index', i);
+            files[i] = new File([files[i]], `${i}-${numGenerator}.${ext[1]}`);
+        }
+
+        return files;
+    }    
+    document.addEventListener('click', function(e){
+        if (!e.target.matches('.im-remove')) return;
+        e.preventDefault();
+
+        let indx = e.target.getAttribute('data-index');
+
+        previewFiles = eliminarImagen(previewFiles, indx);
     })
 
     chapterForm.addEventListener('submit', async function(e){
         e.preventDefault();
 
-        let chapterForm = document.querySelector('#create-chapter form');
+        let chapterForm = document.querySelector('#modalChapter form');
         let listChapters = document.querySelector('.fm-manga form .chapters .list .simplebar-content');
         let formData = new FormData(chapterForm);
 
-        axios.post(chapterForm.action, formData, {
+        let fieldToken = formData.get('_token')
+        let fieldName = formData.get('name');
+        let fieldSlug = formData.get('slug');
+        let fieldPrice = formData.get('price');
+        // let allFields = [];
+
+        // allFields.push(['_token', fieldToken])
+        // allFields.push(['name', fieldName])
+        // allFields.push(['slug', fieldSlug])
+        // allFields.push(['price', fieldPrice])
+
+        // for(const value of allImages){
+        //     allFields.push(['images[]', value]);
+        // }
+
+        // for (var pair of formData.entries()) {
+        //     console.log(pair);
+        // }
+
+        axios.post(chapterForm.action, {
+            _token: fieldToken,
+            name: fieldName,
+            slug: fieldSlug,
+            images: previewFiles
+        }, {
             headers:{
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'multipart/form-data'
             }
         }).then(function (response){
             // handle success
@@ -192,6 +322,8 @@ if(modalCt){
                 `;
                 listChapters.append(divItem);
                 setTimeout(function(){
+                    previewFiles = [];
+                    limpiarPreview();
                     chapterForm.reset();
                     modalCt.removeClass('opn');
                 }, 1000)
@@ -209,12 +341,51 @@ if(modalCt){
                     }).showToast();
                 }
             }
+            console.log(response);
         })
         .catch(function (error){
             // handle error
-            console.log(error);
+            console.log('error: ',error);
         });
     });
+
+    
+}
+function generarImagenesPreview(images){
+    limpiarPreview();
+    let previewBox = document.querySelector('#t-preview');
+    let lastItem = document.querySelector('#t-preview .item:last-of-type');
+    let cuentaIndex;
+    if(lastItem){
+        cuentaIndex = Number(lastItem.getAttribute('index')) + 1;
+    }else{
+        cuentaIndex = 0;
+    }
+    for(let i = 0; i < images.length; i++){
+        let imageUrl = URL.createObjectURL(images[i]);
+        let imageDiv = document.createElement('div');
+        let cuentaFinal = cuentaIndex + i;
+        imageDiv.addClass('item');
+        imageDiv.setAttribute('id', 'image-'+cuentaFinal);
+        imageDiv.setAttribute('index', cuentaFinal);
+        imageDiv.innerHTML = `
+            <img src="${imageUrl}" alt="preview" />
+            <div class="im-remove" data-index="${cuentaFinal}">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </div>
+        `;
+
+        previewBox.append(imageDiv);
+    }
+}
+
+function limpiarPreview(){
+    let items = document.querySelectorAll('#t-preview .item');
+    if(items){
+        items.forEach(item =>{
+            item.remove();
+        })
+    }
 }
 
 
@@ -302,6 +473,7 @@ function dropButtonFile(file, allowed){
                 console.log(item);
                 let divItem = document.createElement('div');
                 divItem.classList.add('item');
+                divItem.setAttribute('id', 'm-'+item.id);
                 divItem.innerHTML = `
                     <div class="name">
                         ${item.name}

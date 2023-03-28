@@ -16,6 +16,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@shopify/draggable": "^1.0.0-beta.8",
         "air-datepicker": "^3.3.5",
         "choices.js": "^10.2.0",
         "sass": "^1.57.1",

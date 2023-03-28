@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('price')->nullable();
             $table->text('content')->nullable();
             $table->unsignedBigInteger('manga_id');
+            $table->enum('type', ['manga', 'novel']);
             $table->foreign('manga_id')->references('id')->on('manga');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();

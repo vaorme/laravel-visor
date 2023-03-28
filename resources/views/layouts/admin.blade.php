@@ -8,6 +8,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/global.scss', 'resources/css/admin.scss', 'resources/js/library.js'])
+        
     </head>
     <body>
         @routes

@@ -82,4 +82,13 @@ function sanitizeText(text){
     
 }
 
-export { dropZone };
+function removeBodyScroll(){
+    let bdy = document.querySelector('body');
+    bdy.addClass('noscroll');
+}
+function clearBodyScroll(){
+    let bdy = document.querySelector('body');
+    bdy.removeClass('noscroll');
+}
+
+export { dropZone, removeBodyScroll, clearBodyScroll };

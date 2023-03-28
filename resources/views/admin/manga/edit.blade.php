@@ -95,8 +95,6 @@
                                     </div>
                                 </div>
                             @endforeach
-                        @else
-                            no hay elementos
                         @endif
                     </div>
                 </div>
@@ -205,68 +203,63 @@
                 </div>
             </div>
         </form>
-        <!-- Main modal -->
-        <div id="create-chapter" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 w-full pt-20 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full">
-            <div class="overlay absolute left-0 top-0 w-full h-full bg-black opacity-50"></div>
-            <div class="content relative w-full h-full max-w-2xl m-auto">
-                <!-- Modal content -->
-                <div class="box relative rounded-lg shadow">
-                    <!-- Modal header -->
-                    <div class="bx-title flex items-start justify-between p-4 rounded-t">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Crear capítulo</h3>
-                        <button type="button" id="close-btn" class="text-white bg-transparent hover:bg-zinc-800 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-hide="defaultModal">
-                            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            <span class="sr-only">Close modal</span>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="bx-body p-6 space-y-6">
-                        <form action="{{ route('chapters.store', ['mangaid' => $manga->id]) }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="group">
-                                <label for="ct-name">Name</label>
-                                <input type="text" name="name" id="ct-name" required>
-                            </div>
-                            <div class="group">
-                                <label for="ct-slug">Slug</label>
-                                <input type="text" name="slug" id="ct-slug" required>
-                            </div>
-                            <div class="group radios">
-                                <label for="type-0">
-                                    <input type="radio" name="chaptertype" value="0" id="type-0">
-                                    <div class="rdo">
-                                        <div class="name">Novela</div>
-                                        <div class="inpt"></div>
-                                    </div>
-                                </label>
-                                <label for="type-1">
-                                    <input type="radio" name="chaptertype" value="1" id="type-1" checked>
-                                    <div class="rdo">
-                                        <div class="name">Manga</div>
-                                        <div class="inpt"></div>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="group hidden" id="t-novel">
-                                <label for="ct-content">Contenido</label>
-                                <textarea name="content" id="" cols="30" rows="6" id="ct-content"></textarea>
-                            </div>
-                            <div class="group" id="t-manga">
-                                <label for="ct-iamges">Images</label>
-                                <input type="file" name="images[]" multiple id="ct-images" required/>
-                            </div>
-                            <div class="group range">
-                                <label>Price</label>
-                                <input type="number" name="price" id="ct-range">
-                            </div>
-                            <!-- Modal footer -->
-                            <div class="buttons flex items-center space-x-2">
-                                <button data-modal-hide="defaultModal" type="submit" class="text-white bg-vo-green font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-vo-green-over" id="crear">Crear</button>
-                            </div>
-                        </form>
+    </div>
+    <div id="modalChapter" class="modal">
+        <div class="md-title">
+            <h4>Crear capítulo</h4>
+            <div class="md-close">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </div>
+        </div>
+        <div class="md-content">
+            <form action="{{ route('chapters.store', ['mangaid' => $manga->id]) }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="group">
+                    <label for="ct-name">Name</label>
+                    <input type="text" name="name" id="ct-name" required>
+                </div>
+                <div class="group">
+                    <label for="ct-slug">Slug</label>
+                    <input type="text" name="slug" id="ct-slug" required>
+                </div>
+                <div class="group range">
+                    <label>Price</label>
+                    <input type="number" name="price" id="ct-range">
+                </div>
+                <div class="group radios">
+                    <label for="type-1">
+                        <input type="radio" name="chaptertype" value="manga" id="type-1" checked>
+                        <div class="rdo">
+                            <div class="inpt"></div>
+                            <div class="name">Manga</div>
+                        </div>
+                    </label>
+                    <label for="type-0">
+                        <input type="radio" name="chaptertype" value="novel" id="type-0">
+                        <div class="rdo">
+                            <div class="inpt"></div>
+                            <div class="name">Novela</div>
+                        </div>
+                    </label>
+                </div>
+                <div class="group hidden" id="t-novel">
+                    <label for="ct-content">Contenido</label>
+                    <textarea name="content" id="" cols="30" rows="6" id="ct-content"></textarea>
+                </div>
+                <div class="group" id="t-manga">
+                    <label for="ct-iamges">Images</label>
+                    <div id="t-preview">
+                        <div class="file">
+                            <div class="choose">Agregar</div>
+                            <input type="file" name="images[]" accept="image/*" multiple id="ct-images"/>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <!-- Modal footer -->
+                <div class="md-buttons flex items-center space-x-2">
+                    <button data-modal-hide="defaultModal" type="submit" class="text-white bg-vo-green font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-vo-green-over" id="crear">Crear</button>
+                </div>
+            </form>
         </div>
     </div>
 </x-admin-layout>

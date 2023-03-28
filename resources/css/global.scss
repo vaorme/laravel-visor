@@ -6,4 +6,7 @@
 body{
     background-color: theme('colors.vo-black');
     font-family: "Inter", sans-serif;
+    &.noscroll{
+        overflow: hidden;
+    }
 }

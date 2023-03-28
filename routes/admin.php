@@ -86,6 +86,7 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
         Route::post('upload-chapter/{mangaid}', [uploadChaptersController::class, 'store'])->middleware(['permission:chapters.store'])->name('uploadChapter.store');
         // Route::post('subir', [uploadChaptersController::class, 'subir'])->middleware(['permission:chapters.store'])->name('subir.store');
 
+        Route::post('get-chapter/{mangaid}', [ChaptersController::class, 'show'])->middleware(['permission:chapters.index'])->name('chapters.show');
         Route::post('chapter/{mangaid}', [ChaptersController::class, 'store'])->middleware(['permission:chapters.create'])->name('chapters.store');
         Route::delete('chapter/{mangaid}', [ChaptersController::class, 'destroy'])->middleware(['permission:chapters.destroy'])->name('chapters.destroy');
 
