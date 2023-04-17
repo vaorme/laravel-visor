@@ -18,6 +18,7 @@ return new class extends Migration
             $table->collation = 'utf8mb4_unicode_ci';
             $table->id();
             $table->string('name', 24)->unique();
+            $table->string('slug', 50)->unique();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

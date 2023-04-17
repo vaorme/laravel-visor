@@ -4,17 +4,32 @@
         <form action="{{ route('manga.update', ['id' => $manga->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
-            <div class="errores">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+            @if (Session::has('success'))
+                <div class="alertas success">
+                    <div class="box">
+                        <p>{!! \Session::get('success') !!}</p>
                     </div>
-                @endif
-            </div>
+                </div>
+                <script>
+                    let alerta = document.querySelector('.alertas');
+                    setTimeout(() => {
+                        alerta.remove();
+                    }, 2000);
+                </script>
+            @endif
+            @if (Session::has('error'))
+                <div class="alertas error">
+                    <div class="box">
+                        <p>{!! \Session::get('error') !!}</p>
+                    </div>
+                </div>
+                <script>
+                    let alerta = document.querySelector('.alertas');
+                    setTimeout(() => {
+                        alerta.remove();
+                    }, 2000);
+                </script>
+            @endif
             <div class="main">
                 <div class="section head">
                     <div class="item name">
@@ -113,7 +128,7 @@
                         </select>
                     </div>
                     <div class="item delete col-span-2">
-                        <a href="{{ route('manga.destroy', ['id' => $manga['id']]) }}">Eliminar</a>
+                        <a href="#" class="mangaDelete" data-id="{{ $manga['id'] }}">Eliminar</a>
                     </div>
                     <div class="item save col-span-5">
                         <button type="submit">Guardar</button>
@@ -123,7 +138,7 @@
                     <div class="dropzone">
                         <div id="choose">
                             <div class="preview">
-                                <img src="" alt="" class="image-preview">
+                                <img src="{{ asset('storage/'.$manga->featured_image) }}" alt="" class="image-preview added">
                             </div>
                             <p class="text-drop">Elegir portada</p>
                         </div>
@@ -142,37 +157,47 @@
                     </div>
                 </div>
                 <div class="module categories">
-                    <div class="group in-choices in-selects">
+                    <div class="group">
                         <label class="group-label">Categoría</label>
                         <div class="in-field">
-                            <select name="categories[]" class="select-categories" multiple>
+                            <select name="categories[]" id="m-categories" multiple>
+                                @foreach ($manga_categories as $item)
+                                    <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+                                @endforeach
                                 @foreach ($categories as $item)
-                                    <option value="{{ $item->slug }}">{{ $item->name }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="module tags">
-                    <div class="group in-choices">
+                    <div class="group">
                         <label class="group-label">Tags</label>
                         <div class="in-field">
-                            <input type="text" name="tags" class="input-tags" value="uno, dos, tes">
+                            @php
+                                if ($manga_tags) {
+                                    $tags = [];
+                                    foreach ($manga_tags as $tag) {
+                                        $tags[] = $tag->name;
+                                    }
+                                }
+                            @endphp
+                            <input type="text" name="tags" id="m-tags" value="@php if($manga_tags){ echo implode(",", $tags); } @endphp">
                         </div>
                     </div>
                 </div>
                 <div class="module release_date">
                     <div class="group">
                         <label class="group-label">Fecha de lanzamiento</label>
-                        <input type="text" name="release_date" id="field-date">
+                        <input type="text" name="release_date" id="field-date" value="{{ $manga->release_date }}">
                     </div>
                 </div>
                 <div class="module manga_type">
                     <div class="group">
                         <label class="group-label">Tipo de manga</label>
-                        <select name="type_id">
-                            <option value="" selected disabled>Seleccionar tipo</option>
-                            
+                        <select name="type_id" id="m-mangatype">
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($manga_types as $type)
                                 <option value="{{ $type->id }}" {{ ($type->id == $manga->type_id)? 'selected': ''; }}>{{ $type->name }}</option>
                             @endforeach
@@ -182,8 +207,8 @@
                 <div class="module manga_status">
                     <div class="group">
                         <label class="group-label">Manga estado</label>
-                        <select name="book_status_id">
-                            <option value="" selected disabled>Seleccionar manga estado</option>
+                        <select name="book_status_id" id="m-bookstatus">
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($manga_book_status as $item)
                                 <option value="{{ $item->id }}" {{ ($item->id == $manga->book_status_id)? 'selected': ''; }}>{{ $item->name }}</option>
                             @endforeach
@@ -193,8 +218,8 @@
                 <div class="module manga_demography">
                     <div class="group">
                         <label class="group-label">Manga demografia</label>
-                        <select name="demography_id">
-                            <option value="" selected disabled>Seleccionar manga estado</option>
+                        <select name="demography_id" id="m-demography">
+                            <option value="" selected disabled>Seleccionar</option>
                             @foreach ($manga_demographies as $item)
                                 <option value="{{ $item->id }}" {{ ($item->id == $manga->demography_id)? 'selected': ''; }}>{{ $item->name }}</option>
                             @endforeach
@@ -204,7 +229,8 @@
             </div>
         </form>
     </div>
-    <div id="modalChapter" class="modal">
+    
+    <div id="modalChapter" class="modal-chapter">
         <div class="md-title">
             <h4>Crear capítulo</h4>
             <div class="md-close">
@@ -216,11 +242,11 @@
                 @csrf
                 <div class="group">
                     <label for="ct-name">Name</label>
-                    <input type="text" name="name" id="ct-name" required>
+                    <input type="text" name="name" id="ct-name">
                 </div>
                 <div class="group">
                     <label for="ct-slug">Slug</label>
-                    <input type="text" name="slug" id="ct-slug" required>
+                    <input type="text" name="slug" id="ct-slug">
                 </div>
                 <div class="group range">
                     <label>Price</label>
@@ -244,7 +270,7 @@
                 </div>
                 <div class="group hidden" id="t-novel">
                     <label for="ct-content">Contenido</label>
-                    <textarea name="content" id="" cols="30" rows="6" id="ct-content"></textarea>
+                    <div id="createChapterContent"></div>
                 </div>
                 <div class="group" id="t-manga">
                     <label for="ct-iamges">Images</label>

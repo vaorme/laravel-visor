@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MangaDemography;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class MangaDemographyController extends Controller
 {
@@ -12,10 +13,16 @@ class MangaDemographyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(Request $request){
         $loop = MangaDemography::get();
-        return view('admin.manga.demography.index', ['loop' => $loop]);
+        $data = [
+            'loop' => $loop,
+        ];
+        if(isset($request->id)){
+            $edit = MangaDemography::find($request->id);
+            $data['edit'] = $edit;
+        }
+        return view('admin.manga.demography.index', $data);
     }
 
     /**
@@ -23,8 +30,7 @@ class MangaDemographyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         return view('admin.manga.demography.create');
     }
 
@@ -37,29 +43,22 @@ class MangaDemographyController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'max:24']
+            'name' => ['required', 'max:24'],
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:manga_demography',]
         ]);
         
-        $demography = new MangaDemography;
+        $store = new MangaDemography;
 
-        $demography->name = $request->name;
+        $store->name = $request->name;
+        $store->slug = $request->slug;
         if(!empty($request->description)){
-            $demography->description = $request->description;
+            $store->description = $request->description;
         }
 
-        if($demography->save()){
-            $response['success'] = [
-                'msg' => "Demografia creada correctamente.",
-                'data' => $demography
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $demography
-            ];
+        if($store->save()){
+            return redirect()->route('manga_demography.index')->with('success', 'Demografia creada correctamente');
         }
-
-        return $response;
+        return redirect()->route('manga_demography.index')->with('error', 'Ups, se complico la cosa');
 
     }
 
@@ -80,8 +79,7 @@ class MangaDemographyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id){
         $edit = MangaDemography::find($id);
         return view('admin.manga.demography.edit', ['edit' => $edit]);
     }
@@ -97,24 +95,22 @@ class MangaDemographyController extends Controller
         $request->validate([
             'name' => ['required', 'max:24']
         ]);
-        $demography = MangaDemography::find($id);
+        $update = MangaDemography::find($id);
 
-        $demography->name = $request->name;
-        $demography->description = $request->description;
-
-        if($demography->save()){
-            $response['success'] = [
-                'msg' => "Demografia actualizada correctamente.",
-                'data' => $demography
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $demography
-            ];
+        $update->name = $request->name;
+        if($update->slug != $request->slug){
+            $slugExists = MangaDemography::where('slug', $request->slug)->exists();
+            if($slugExists){
+                return Redirect::back()->withErrors("Error: Slug ya existente");
+            }
+            $update->slug = $request->slug;
         }
+        $update->description = $request->description;
 
-        return $response;
+        if($update->save()){
+            return redirect()->route('manga_demography.index')->with('success', 'Demografia actualizada correctamente');
+        }
+        return redirect()->route('manga_demography.index')->with('error', 'Ups, se complico la cosa');
 
     }
 

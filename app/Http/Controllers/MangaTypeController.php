@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MangaType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class MangaTypeController extends Controller
 {
@@ -12,9 +13,16 @@ class MangaTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index(Request $request){
         $loop = MangaType::get();
-        return view('admin.manga.type.index', ['loop' => $loop]);
+        $data = [
+            'loop' => $loop,
+        ];
+        if(isset($request->id)){
+            $edit = MangaType::find($request->id);
+            $data['edit'] = $edit;
+        }
+        return view('admin.manga.type.index', $data);
     }
 
     /**
@@ -35,29 +43,22 @@ class MangaTypeController extends Controller
      */
     public function store(Request $request){
         $request->validate([
-            'name' => ['required', 'max:24']
+            'name' => ['required', 'max:24'],
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:manga_type',]
         ]);
 
-        $type = new MangaType;
+        $store = new MangaType;
 
-        $type->name = $request->name;
-        if(!empty($type->description)){
-            $type->description = $request->description;
+        $store->name = $request->name;
+        $store->slug = $request->slug;
+        if(!empty($store->description)){
+            $store->description = $request->description;
         }
 
-        if($type->save()){
-            $response['success'] = [
-                'msg' => "Tipo creado correctamente.",
-                'data' => $type
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $type
-            ];
+        if($store->save()){
+            return redirect()->route('manga_types.index')->with('success', 'Tipo creado correctamente');
         }
-
-        return $response;
+        return redirect()->route('manga_types.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**
@@ -95,23 +96,22 @@ class MangaTypeController extends Controller
             'name' => ['required', 'max:24']
         ]);
 
-        $type = MangaType::find($id);
+        $update = MangaType::find($id);
 
-        $type->name = $request->name;
-        $type->description = $request->description;
-
-        if($type->save()){
-            $response['success'] = [
-                'msg' => "Tipo actualizado correctamente.",
-                'data' => $type
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $type
-            ];
+        $update->name = $request->name;
+        if($update->slug != $request->slug){
+            $slugExists = MangaType::where('slug', $request->slug)->exists();
+            if($slugExists){
+                return Redirect::back()->withErrors("Error: Slug ya existente");
+            }
+            $update->slug = $request->slug;
         }
-        return $response;
+        $update->description = $request->description;
+
+        if($update->save()){
+            return redirect()->route('manga_types.index')->with('success', 'Tipo actualizado correctamente');
+        }
+        return redirect()->route('manga_types.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**

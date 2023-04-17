@@ -15,10 +15,34 @@ class MangaDemographySeeder extends Seeder
      */
     public function run()
     {
-        $rows = ['Shōnen','Shōjo','Seinen','Josei','Kodomo'];
+        $rows = [
+            [
+                'name' => 'Shōnen',
+                'slug' => 'shonen',
+            ],
+            [
+                'name' => 'Shōjo',
+                'slug' => 'shojo',
+            ],
+            [
+                'name' => 'Seinen',
+                'slug' => 'seinen',
+            ],
+            [
+                'name' => 'Josei',
+                'slug' => 'josei',
+            ],
+            [
+                'name' => 'Kodomo',
+                'slug' => 'kodomo',
+            ]
+        ];
         foreach($rows as $row){
             DB::table('manga_demography')->insert(
-                ['name'=> $row]
+                [
+                    'name'=> $row['name'],
+                    'slug'=> $row['slug']
+                ]
             );
         }
     }

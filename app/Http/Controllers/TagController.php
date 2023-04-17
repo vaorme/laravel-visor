@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class TagController extends Controller{
     /**
@@ -11,9 +12,16 @@ class TagController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index(Request $request){
         $loop = Tag::get();
-        return view('admin.tags.index', ['loop' => $loop]);
+        $data = [
+            'loop' => $loop,
+        ];
+        if(isset($request->id)){
+            $edit = Tag::find($request->id);
+            $data['edit'] = $edit;
+        }
+        return view('admin.tags.index', $data);
     }
 
     /**
@@ -38,24 +46,15 @@ class TagController extends Controller{
             'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
         ]);
 
-        $tag = new Tag;
+        $store = new Tag;
 
-        $tag->name = $request->name;
-        $tag->slug = $request->slug;
+        $store->name = $request->name;
+        $store->slug = $request->slug;
 
-        if($tag->save()){
-            $response['success'] = [
-                'msg' => "Tag creado correctamente.",
-                'data' => $tag
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $tag
-            ];
+        if($store->save()){
+            return redirect()->route('tags.index')->with('success', 'Tag creado correctamente');
         }
-
-        return $response;
+        return redirect()->route('tags.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**
@@ -94,23 +93,21 @@ class TagController extends Controller{
             'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
         ]);
 
-        $tags = Tag::find($id);
-        $tags->name = $request->name;
-        $tags->slug = $request->slug;
+        $update = Tag::find($id);
+        $update->name = $request->name;
+        $update->slug = $request->slug;
 
-        if($tags->save()){
-            $response['success'] = [
-                'msg' => "Tag actualizado",
-                'data' => $tags
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $tags
-            ];
+        if($update->slug != $request->slug){
+            $slugExists = Tag::where('slug', $request->slug)->exists();
+            if($slugExists){
+                return Redirect::back()->withErrors("Error: Slug ya existente");
+            }
+            $update->slug = $request->slug;
         }
-
-        return $response;
+        if($update->save()){
+            return redirect()->route('tags.index')->with('success', 'Tag actualizado correctamente');
+        }
+        return redirect()->route('tags.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller{
     /**
@@ -11,9 +12,16 @@ class CategoryController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index(Request $request){
         $loop = Category::get();
-        return view('admin.categories.index', ['loop' => $loop]);
+        $data = [
+            'loop' => $loop,
+        ];
+        if(isset($request->id)){
+            $edit = Category::find($request->id);
+            $data['edit'] = $edit;
+        }
+        return view('admin.categories.index', $data);
     }
 
     /**
@@ -21,8 +29,7 @@ class CategoryController extends Controller{
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(){
         return view('admin.categories.create');
     }
 
@@ -35,7 +42,7 @@ class CategoryController extends Controller{
     public function store(Request $request){
         $request->validate([
             'name' => ['required', "max:50"],
-            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:categories',]
         ]);
 
         $currentOrder = Category::orderBy('id', 'DESC')->first();
@@ -46,25 +53,16 @@ class CategoryController extends Controller{
             $count = 1;
         }
 
-        $category = new Category;
+        $store = new Category;
 
-        $category->order = $count;
-        $category->name = $request->name;
-        $category->slug = $request->slug;
+        $store->order = $count;
+        $store->name = $request->name;
+        $store->slug = $request->slug;
 
-        if($category->save()){
-            $response['success'] = [
-                'msg' => "Categoria creada correctamente.",
-                'data' => $category
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $category
-            ];
+        if($store->save()){
+            return redirect()->route('categories.index')->with('success', 'Categoria creada correctamente');
         }
-
-        return $response;
+        return redirect()->route('categories.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**
@@ -73,8 +71,7 @@ class CategoryController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id){
         //
     }
 
@@ -96,30 +93,26 @@ class CategoryController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id){
         $request->validate([
             'name' => ['required', "max:50"],
             'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
         ]);
 
-        $category = Category::find($id);
-        $category->name = $request->name;
-        $category->slug = $request->slug;
-
-        if($category->save()){
-            $response['success'] = [
-                'msg' => "Categoria actualizada",
-                'data' => $category
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $category
-            ];
+        $update = Category::find($id);
+        $update->name = $request->name;
+        if($update->slug != $request->slug){
+            $slugExists = Category::where('slug', $request->slug)->exists();
+            if($slugExists){
+                return Redirect::back()->withErrors("Error: Slug ya existente");
+            }
+            $update->slug = $request->slug;
         }
 
-        return $response;
+        if($update->save()){
+            return redirect()->route('categories.index')->with('success', 'Categoria actualizada correctamente');
+        }
+        return redirect()->route('categories.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**

@@ -15,10 +15,38 @@ class MangaBookStatusSeeder extends Seeder
      */
     public function run()
     {
-        $rows = ['Unknown','Ongoing','Completed','Publishing finished','Publishing','On hiatus'];
+        $rows = [
+            [
+                'name' => 'Unknown',
+                'slug' => 'unknown'
+            ],
+            [
+                'name' => 'Ongoing',
+                'slug' => 'ongoing',
+            ],
+            [
+                'name' => 'Completed',
+                'slug' => 'completed',
+            ],
+            [
+                'name' => 'Publishing finished',
+                'slug' => 'publishing-finished',
+            ],
+            [
+                'name' => 'Publishing',
+                'slug' => 'publishing',
+            ],
+            [
+                'name' => 'On hiatus',
+                'slug' => 'on-hiatus',
+            ]
+        ];
         foreach($rows as $row){
             DB::table('manga_book_status')->insert(
-                ['name'=> $row]
+                [
+                    'name'=> $row['name'],
+                    'slug'=> $row['slug']
+                ]
             );
         }
     }

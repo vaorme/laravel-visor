@@ -235,9 +235,78 @@ class uploadChaptersController extends Controller
         return $response;
     }
 
+    public function subirImagenes(Request $request, $mangaid){
+        $chapter = Chapter::find($request->chapterid);
+        $manga = Manga::find($chapter->manga_id);
+
+        $dbImages = json_decode($chapter->images);
+
+        Storage::disk($this->disk)->makeDirectory("manga/$manga->slug/$chapter->slug");
+        foreach($request->images as $file){
+            $path = "public/manga/$manga->slug/$chapter->slug";
+            $storeFile = $file->store($path);
+            $newName = basename($storeFile);
+            $dbImages[] = "manga/$manga->slug/$chapter->slug/$newName";
+        }
+        $chapter->images = json_encode($dbImages);
+
+        if($chapter->save()){
+            return response()->json([
+                'msg' => 'Imagen subida',
+                'data' => $dbImages
+            ]);
+        }else{
+            return response()->json([
+                'error' => "algo paso"
+            ]);
+        }
+    }
+    public function actualizarOrdenImagenes(Request $request, $chapterid){
+        $chapter = Chapter::find($chapterid);
+        $old = $chapter->images;
+        $chapter->images = json_encode($request->images);
+
+        if($chapter->save()){
+            return response()->json([
+                'msg' => "Images chapter actualizadas",
+                'old' => $old,
+                'new' => $chapter->images
+            ]);
+        }else{
+            return response()->json([
+                'error' => "algo paso"
+            ]);
+        }
+    }
+    
+    public function eliminarImagen(Request $request, $chapterid){
+        $chapter = Chapter::find($chapterid);
+        $imagenes = json_decode($chapter->images);
+        $eliminado = Storage::disk($this->disk)->delete($imagenes[$request->index]);
+        if(!$eliminado){
+            return response()->json([
+                'msg' => "No se encontro archivo o no pudo ser eliminado",
+                'data' => $eliminado
+            ]);
+        }
+
+        array_splice($imagenes, $request->index, 1);
+
+        $chapter->images = json_encode($imagenes);
+
+        if($chapter->save()){
+            return response()->json([
+                'msg' => "Eliminado"
+            ]);
+        }else{
+            return response()->json([
+                'error' => "algo paso"
+            ]);
+        }
+    }
+
     private function createChapter($mangaid, $chapterName, $chapterSlug, $chapterImages = "", $chapterContent = ""){
         try{
-
             $create = new Chapter;
             $currentCount = Chapter::where('manga_id', $mangaid)->orderBy('id', 'DESC')->first();
             $count = "";

@@ -83,12 +83,23 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
         });
 
         /* MANGA CHAPTERS */
-        Route::post('upload-chapter/{mangaid}', [uploadChaptersController::class, 'store'])->middleware(['permission:chapters.store'])->name('uploadChapter.store');
-        // Route::post('subir', [uploadChaptersController::class, 'subir'])->middleware(['permission:chapters.store'])->name('subir.store');
+        Route::prefix('chapters')->group(function(){
+            Route::post('uploadChapter/{mangaid}', [uploadChaptersController::class, 'store'])->middleware(['permission:chapters.store'])->name('uploadChapter.store');
 
-        Route::post('get-chapter/{mangaid}', [ChaptersController::class, 'show'])->middleware(['permission:chapters.index'])->name('chapters.show');
-        Route::post('chapter/{mangaid}', [ChaptersController::class, 'store'])->middleware(['permission:chapters.create'])->name('chapters.store');
-        Route::delete('chapter/{mangaid}', [ChaptersController::class, 'destroy'])->middleware(['permission:chapters.destroy'])->name('chapters.destroy');
+            Route::post('getChapter/{mangaid}', [ChaptersController::class, 'show'])->middleware(['permission:chapters.index'])->name('chapters.show');
+
+            Route::post('/{mangaid}', [ChaptersController::class, 'store'])->middleware(['permission:chapters.create'])->name('chapters.store');
+            
+            Route::post('uploadChapterImages/{mangaid}', [uploadChaptersController::class, 'subirImagenes'])->middleware(['permission:chapters.create'])->name('subirChapter.imagenes');
+
+            Route::post('updateChapterOrder/{chapterid}', [uploadChaptersController::class, 'actualizarOrdenImagenes'])->middleware(['permission:chapters.store'])->name('actualizarOrdenChapter.imagenes');
+
+            Route::post('deleteChapterImage/{chapterid}', [uploadChaptersController::class, 'eliminarImagen'])->middleware(['permission:chapters.destroy'])->name('eliminarChapter.imagenes');
+
+            Route::patch('/{chapterid}', [ChaptersController::class, 'update'])->middleware(['permission:chapters.update'])->name('chapters.update');
+
+            Route::delete('/{chapterid}', [ChaptersController::class, 'destroy'])->middleware(['permission:chapters.destroy'])->name('chapters.destroy');
+        });
 
         Route::prefix('categories')->group(function(){
             Route::get("/", [CategoryController::class, 'index'])->middleware(['permission:categories.index'])->name('categories.index');

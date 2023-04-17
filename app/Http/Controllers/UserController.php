@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Countries;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -27,7 +28,8 @@ class UserController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        return view('admin.users.create');
+        $countries = Countries::get();
+        return view('admin.users.create', ['countries' => $countries]);
     }
 
     /**

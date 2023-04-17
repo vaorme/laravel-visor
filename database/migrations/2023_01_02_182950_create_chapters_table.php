@@ -20,12 +20,12 @@ return new class extends Migration
             $table->bigInteger('order');
             $table->string('name', 50);
             $table->string('slug', 50);
-            $table->text('images')->nullable();
+            $table->longText('images')->nullable();
             $table->text('price')->nullable();
-            $table->text('content')->nullable();
+            $table->longText('content')->nullable();
             $table->unsignedBigInteger('manga_id');
             $table->enum('type', ['manga', 'novel']);
-            $table->foreign('manga_id')->references('id')->on('manga');
+            $table->foreign('manga_id')->references('id')->on('manga')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

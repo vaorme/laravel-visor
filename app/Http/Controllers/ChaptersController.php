@@ -97,6 +97,7 @@ class ChaptersController extends Controller
         $chapter->order = $count;
         $chapter->name = $request->name;
         $chapter->slug = $request->slug;
+        $chapter->type = $request->chaptertype;
         if(!empty($request->price)){
             $chapter->price = $request->price;
         }
@@ -123,7 +124,6 @@ class ChaptersController extends Controller
         ];
         return $response;
     }
-
     /**
      * Display the specified resource.
      *
@@ -163,10 +163,10 @@ class ChaptersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
+        // return response()->json($request->all());
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'max:50'],
-            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
-            'images.*' => 'mimes:jpg,jpeg,png,gif'
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -174,68 +174,48 @@ class ChaptersController extends Controller
                 'msg' => $validator->errors()->all()
             ]);
         }
+        
+        $chapter = Chapter::find($id);
 
         $response = [];
-        $images = [];
-        $count = "";
-        
-        // Get manga slug
-        $mangaSlug = Manga::firstWhere('id', $mangaid)->get();
 
-        $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $request->slug)->exists();
-        if($chapterExists){
-            $response = [
-                "status" => "error",
-                "msg" => "Ups, ya existe un capitulo con el slug $request->slug"
-            ];
-            return $response;
-        }
-
-        $orderChapters = Chapter::where('manga_id', $mangaid)->orderBy('id', 'DESC')->first();
-        if($orderChapters){
-            $count = $orderChapters->order + 1;
-        }else{
-            $count = 1;
-        }
-
-        // Uploading images
-        if($request->has('images')){
-            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-            $files = $request->file('images');
-            foreach($files as $file){
-                $originalName = $file->getClientOriginalName();
-                $extensionFile = $file->getClientOriginalExtension();
-                $check = in_array($extensionFile, $allowedExtensions);
-                if(!$check){
-                    $response['excluded'][] = "$originalName fue excluido, solo puedes subir jpg, jpeg, png, gif";
-                    continue;
-                }
-                // $images[] = $file->store("manga/".$mangaSlug[0]->slug."/".$request->slug, 'public');
-                Storage::disk('public')->putFileAs("manga/".$mangaSlug[0]->slug."/".$request->slug, $file, $originalName);
-                $images[] = "manga/".$mangaSlug[0]->slug."/".$request->slug."/".$originalName;
-            }
-        }
-
-        $chapter = new Chapter;
-
-        $chapter->order = $count;
         $chapter->name = $request->name;
-        $chapter->slug = $request->slug;
+        if($chapter->slug != $request->slug){
+            $slugExists = Chapter::where([
+                ['manga_id', '=', $chapter->manga_id],
+                ['slug', '=', $request->slug]
+            ])->exists();
+            //$manga = Manga::firstWhere('id', $chapter->manga_id)->get();
+            if($slugExists){
+                $response = [
+                    "status" => "error",
+                    "msg" => "Ups, ya existe un capitulo con el slug $request->slug"
+                ];
+                return $response;
+            }
+
+            $changeImagesSlug = str_replace($chapter->slug, $request->slug, $chapter->images);
+            $chapter->images = $changeImagesSlug;
+            $mangaSlug = Manga::where('id', $chapter->manga_id)->get()->first();
+            
+            Storage::disk('public')->allFiles("/manga/$mangaSlug->slug/$chapter->slug");
+
+            Storage::disk('public')->move("/manga/$mangaSlug->slug/$chapter->slug", "manga/$mangaSlug->slug/$request->slug");
+
+            $chapter->slug = $request->slug;
+        }
+        $chapter->type = $request->type;
         if(!empty($request->price)){
             $chapter->price = $request->price;
-        }
-        if(!empty($images)){
-            $chapter->images = json_encode($images);
         }
         if(!empty($request->content)){
             $chapter->content = $request->content;
         }
-        $chapter->manga_id = $mangaid;
 
         if($chapter->save()){
             $response = [
                 "status" => "success",
-                "msg" => "Chapter $chapter->name created",
+                "msg" => "Chapter $chapter->name actualizado",
                 "item" => $chapter
             ];
             return $response;

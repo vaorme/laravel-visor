@@ -1,6 +1,5 @@
 <x-admin-layout>
-    <x-admin.bar title="Usuarios" :buttonTo="route('users.create')" buttonText="Crear usuario">
-    </x-admin.bar>
+    <x-admin.bar title="Usuarios" :buttonTo="route('users.create')" buttonText="Crear usuario"/>
     <div class="contain">
         @if ($loop->isNotEmpty())
         <div class="table">

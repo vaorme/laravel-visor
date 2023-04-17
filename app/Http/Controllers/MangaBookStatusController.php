@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MangaBookStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class MangaBookStatusController extends Controller
 {
@@ -12,9 +13,16 @@ class MangaBookStatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index(Request $request){
         $loop = MangaBookStatus::get();
-        return view('admin.manga.status.index', ['loop' => $loop]);
+        $data = [
+            'loop' => $loop,
+        ];
+        if(isset($request->id)){
+            $edit = MangaBookStatus::find($request->id);
+            $data['edit'] = $edit;
+        }
+        return view('admin.manga.status.index', $data);
     }
 
     /**
@@ -35,26 +43,19 @@ class MangaBookStatusController extends Controller
      */
     public function store(Request $request){
         $request->validate([
-            'name' => ['required', 'max:24']
+            'name' => ['required', 'max:24'],
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:manga_book_status',]
         ]);
 
-        $type = new MangaBookStatus;
+        $store = new MangaBookStatus;
 
-        $type->name = $request->name;
+        $store->name = $request->name;
+        $store->slug = $request->slug;
 
-        if($type->save()){
-            $response['success'] = [
-                'msg' => "Status creado correctamente.",
-                'data' => $type
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $type
-            ];
+        if($store->save()){
+            return redirect()->route('manga_book_status.index')->with('success', 'Estado creado correctamente');
         }
-
-        return $response;
+        return redirect()->route('manga_book_status.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**
@@ -92,22 +93,21 @@ class MangaBookStatusController extends Controller
             'name' => ['required', 'max:24']
         ]);
 
-        $status = MangaBookStatus::find($id);
+        $update = MangaBookStatus::find($id);
 
-        $status->name = $request->name;
-
-        if($status->save()){
-            $response['success'] = [
-                'msg' => "Status actualizado correctamente.",
-                'data' => $status
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $status
-            ];
+        $update->name = $request->name;
+        if($update->slug != $request->slug){
+            $slugExists = MangaBookStatus::where('slug', $request->slug)->exists();
+            if($slugExists){
+                return Redirect::back()->withErrors("Error: Slug ya existente");
+            }
+            $update->slug = $request->slug;
         }
-        return $response;
+
+        if($update->save()){
+            return redirect()->route('manga_book_status.index')->with('success', 'Estado actualizado correctamente');
+        }
+        return redirect()->route('manga_book_status.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**

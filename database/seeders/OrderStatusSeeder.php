@@ -15,10 +15,34 @@ class OrderStatusSeeder extends Seeder
      */
     public function run()
     {
-        $rows = ['Completed', 'Processing', 'On hold', 'Failed', 'Canceled'];
+        $rows = [
+            [
+                'name' => 'Completed',
+                'slug' => 'completed',
+            ],
+            [
+                'name' => 'Processing',
+                'slug' => 'processing',
+            ],
+            [
+                'name' => 'On hold',
+                'slug' => 'on-hold',
+            ],
+            [
+                'name' => 'Failed',
+                'slug' => 'failed',
+            ],
+            [
+                'name' => 'Canceled',
+                'slug' => 'canceled',
+            ]
+        ];
         foreach($rows as $row){
             DB::table('order_status')->insert(
-                ['name'=> $row]
+                [
+                    'name'=> $row['name'],
+                    'slug'=> $row['slug']
+                ]
             );
         }
     }

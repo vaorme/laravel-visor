@@ -14,11 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('manga_has_tags', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
             $table->unsignedBigInteger('manga_id');
             $table->unsignedBigInteger('tag_id');
-            $table->foreign('manga_id')->references('id')->on('manga');
-            $table->foreign('tag_id')->references('id')->on('tags');
+            $table->primary(['manga_id', 'tag_id']);
+            $table->foreign('manga_id')->references('id')->on('manga')->cascadeOnDelete();
+            $table->foreign('tag_id')->references('id')->on('tags')->cascadeOnDelete();
             $table->timestamps();
         });
     }
