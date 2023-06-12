@@ -13,9 +13,19 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        $roles = Role::get();
-        return view('admin.roles.index', ['loop' => $roles]);
+    public function index(Request $request){
+        $loop = Role::get();
+		$permissions = Permission::get();
+		$data = [
+            'loop' => $loop,
+			'permissions' => $permissions
+        ];
+        if(isset($request->id)){
+            $edit = Role::find($request->id);
+            $data['edit'] = $edit;
+			$data['currentPermissions'] = $edit->permissions;
+        }
+        return view('admin.roles.index', $data);
     }
 
     /**
@@ -42,18 +52,12 @@ class RoleController extends Controller
         $store->name = $request->name;
 
         if($store->save()){
-            $response['success'] = [
-                'msg' => "Role creado correctamente.",
-                'data' => $store
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $store
-            ];
+			if(isset($request->permisos)){
+				$store->givePermissionTo($request->permisos);
+			}
+            return redirect()->route('roles.index')->with('success', 'Role creado correctamente');
         }
-
-        return $response;
+        return redirect()->route('roles.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**
@@ -94,27 +98,21 @@ class RoleController extends Controller
             'name' => ['max:255', 'regex:/^\S[a-z0-9]+(?:[a-z0-9]+)*$/', 'required']
         ]);
 
-        $permissions = $request->input('permisos');
-
         $update = Role::find($id);
+
         if($update->name != $request->name){
-            $update->name == $request->name;
+            $update->name = $request->name;
         }
-        $update->syncPermissions($permissions);
 
         if($update->save()){
-            $response['success'] = [
-                'msg' => "Role actualizado.",
-                'data' => $update
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $update
-            ];
+			if(isset($request->permisos)){
+				$update->syncPermissions($request->permisos);
+			}else{
+				$update->syncPermissions();
+			}
+            return redirect()->route('roles.index')->with('success', 'Role actualizado correctamente');
         }
-
-        return $response;
+        return redirect()->route('roles.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**

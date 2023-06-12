@@ -10,7 +10,7 @@ class Profile extends Model
     use HasFactory;
 
     // protected $table = "vo_profile";
-    // protected $primaryKey = "id";
+    protected $primaryKey = "user_id";
 
     // public $incrementing = false;
     // protected $keyType = 'string';

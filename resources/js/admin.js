@@ -10,6 +10,15 @@ import { DataTable } from "simple-datatables";
 // :MANGA
 import './manga'
 
+// :USERS
+import './users'
+
+// :PERMISSIONS
+import './permissions'
+
+// :ROLES
+import './roles'
+
 let tabla = document.querySelector('.table');
 if(tabla){
     const dataTable = new DataTable("#tablr", {
@@ -36,10 +45,12 @@ if(templateOneForm){
         let str = e.target.value;
         fieldSlug.value = str.replace(ctRegex, '-').toLowerCase();
     });
-    fieldSlug.addEventListener('input', function(e){
-        let str = e.target.value;
-        fieldSlug.value = str.replace(ctRegex, '-').toLowerCase();
-    });
+	if(fieldSlug){
+		fieldSlug.addEventListener('input', function(e){
+			let str = e.target.value;
+			fieldSlug.value = str.replace(ctRegex, '-').toLowerCase();
+		});
+	}
     templateOneForm.addEventListener('submit', function(e){
         fieldName = document.querySelector('.template-1 form input[name="name"]');
         fieldSlug = document.querySelector('.template-1 form input[name="slug"]');

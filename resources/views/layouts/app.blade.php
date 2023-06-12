@@ -12,8 +12,9 @@
     <body>
         <div id="app">
             <x-header />
-            <main>
+            <main class="main">
                 {{ $slot }}
+				<x-main-shortcuts/>
             </main>
             <x-footer/>
         </div>

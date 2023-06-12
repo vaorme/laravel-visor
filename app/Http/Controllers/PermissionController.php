@@ -12,9 +12,16 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        $permisos = Permission::get();
-        return view('admin.permissions.index', ['loop' => $permisos]);
+    public function index(Request $request){
+        $loop = Permission::get();
+        $data = [
+            'loop' => $loop,
+        ];
+        if(isset($request->id)){
+            $edit = Permission::find($request->id);
+            $data['edit'] = $edit;
+        }
+        return view('admin.permissions.index', $data);
     }
 
     /**
@@ -42,18 +49,9 @@ class PermissionController extends Controller
         $store->name = $request->name;
 
         if($store->save()){
-            $response['success'] = [
-                'msg' => "Permiso creado correctamente.",
-                'data' => $store
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $store
-            ];
+            return redirect()->route('permissions.index')->with('success', 'Permiso creado correctamente');
         }
-
-        return $response;
+        return redirect()->route('permissions.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**
@@ -75,7 +73,7 @@ class PermissionController extends Controller
      */
     public function edit($id){
         $edit = Permission::find($id);
-        return view('admin.permissions.edit', ['permission' => $edit]);
+        return view('admin.permissions.edit', ['edit' => $edit]);
     }
 
     /**
@@ -94,18 +92,9 @@ class PermissionController extends Controller
         $store->name = $request->name;
 
         if($store->save()){
-            $response['success'] = [
-                'msg' => "Permiso actualizado.",
-                'data' => $store
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $store
-            ];
+            return redirect()->route('permissions.index')->with('success', 'Permiso actualizado correctamente');
         }
-
-        return $response;
+        return redirect()->route('permissions.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**

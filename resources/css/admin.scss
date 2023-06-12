@@ -1236,6 +1236,57 @@ main.main{
                                 border-bottom-color: #cb2d2d;
                             }
                         }
+						&.permisos{
+							& > a{
+								background-color: #396899;
+								cursor: pointer;
+							}
+							.md-permissions{
+								background-color: #fff;
+								position: absolute;
+								padding: 2rem;
+								width: 1024px;
+								display: none;
+								top: 10%;
+								left: 50%;
+								border-radius: 22px;
+								transform: translateX(-50%);
+								.md-head{
+									h2{
+										color: #000;
+									}
+								}
+								.md-content{
+									color: #000;
+									display: grid;
+									gap: 1rem;
+									height: 768px;
+									overflow-y: auto;
+									grid-template-columns: repeat(3, 1fr);
+								}
+								.md-buttons{
+									padding-top: 2rem;
+									text-align: center;
+									a{
+										background-color: theme('colors.vo-red');
+										cursor: pointer;
+									}
+								}
+							}
+							label{
+								display: flex;
+								color: #000;
+								padding: 1rem;
+								cursor: pointer;
+								align-items: center;
+								border-radius: 4px;
+								border: 1px solid #ddd;
+								justify-content: space-between;
+								input{
+									width: auto;
+								}
+							}
+						}
                     }
                 }
             }
@@ -1246,14 +1297,198 @@ main.main{
                     .group{
                         margin-bottom: 1.4rem;
                         & > label{
+                            font-size: 1.1rem;
+                            color: #7e7e7e;
                             display: block;
-                            margin-bottom: .6rem;
+                            font-weight: 600;
+                            margin-bottom: 1rem;
                         }
                         & > input,
                         & > select,
                         & > textarea{
                             padding: 0.7rem;
                             border-radius: .4rem;
+                        }
+                        &.perfil-publico{
+                            .rdos{
+                                label{
+                                    .rd-input{
+                                        color: rgb(#fff, .4);
+                                        padding: 1rem .5rem;
+                                        cursor: pointer;
+                                        font-weight: 500;
+                                        text-align: center;
+                                        border-radius: .4rem;
+                                        border: 1px solid rgb(#fff, .1);
+                                        transition: color .2s ease, border .2s ease;
+                                    }
+                                    input{
+                                        display: none;
+                                        &:checked ~ .rd-input{
+                                            color: theme('colors.vo-orange');
+                                            border-color: theme('colors.vo-orange');
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .password-validation{
+                            margin-top: -0.6rem;
+                            padding: 2rem;
+                            border: 1px solid rgb(#fff, .1);
+                            h3{
+                                font-weight: 500;
+                                color: #626262;
+                                margin-bottom: 1rem;
+                            }
+                            p{
+                                &.invalid{
+                                    color: theme('colors.vo-red');
+                                }
+                                &.valid{
+                                    color: theme('colors.vo-green');
+                                }
+                            }
+                        }
+                        &.avatares{
+                            .list{
+                                margin-bottom: 1rem;
+                                .item{
+                                    border-radius: 100%;
+                                    label{
+                                        cursor: pointer;
+                                    }
+                                    .avatar{
+                                        pointer-events: none;
+                                        border-radius: 100%;
+                                        transition: box-shadow .2s ease;
+                                        img{
+                                            border-radius: 100%;
+                                            display: block;
+                                            pointer-events: none;
+                                        }
+                                    }
+                                    input{
+                                        display: none;
+                                        &:checked ~ .avatar{
+                                            box-shadow: 0 0 0 .4rem theme('colors.vo-orange');
+                                        }
+                                    }
+                                }
+                                #avatar{
+                                    cursor: pointer;
+                                    &.selected{
+                                        .avatar{
+                                            box-shadow: 0 0 0 .4rem theme('colors.vo-orange');
+                                        }
+                                    }
+                                }
+                                #userAvatar{
+                                    background-color: #242424;
+                                    border-radius: 100%;
+                                    order: 1;
+                                    transition: background .2s ease, box-shadow .2s ease;
+                                    &:hover{
+                                        background-color: #3a3a3a;
+                                        box-shadow: 0 0 0 .4rem rgb(#fff, .1);
+                                    }
+                                    #choose{
+                                        display: flex;
+                                        height: 100%;
+                                        cursor: pointer;
+                                        align-items: center;
+                                        justify-content: center;
+                                        .add{
+                                            svg{
+                                                pointer-events: none;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+						&.cover{
+							.preview{
+								background-color: #1e1e1e;
+								margin-top: 1rem;
+								border-radius: 0.8rem;
+								overflow: hidden;
+								img{
+									aspect-ratio: 21/9;
+									min-height: 360px;
+									opacity: 0;
+									visibility: visible;
+									transition: opacity .2s ease, visibility .2s ease;
+									&.show{
+										opacity: 1;
+										visibility: visible;
+									}
+								}
+							}
+						}
+                    }
+                    .fields{
+                        padding: 1.5rem;
+                        border-radius: .6rem;
+                        border: 1px solid rgb(#fff, .1);
+                        h4{
+                            margin-bottom: 1rem;
+                        }
+                        &.redes{
+                            .list{
+                                .item{
+                                    display: flex;
+                                    gap: 1rem;
+                                    margin-bottom: 1rem;
+                                    .icon{
+                                        background-color: rgb(#fff, .1);
+                                        display: flex;
+                                        width: 100%;
+                                        max-width: 40px;
+                                        border-radius: .3rem;
+                                        align-items: center;
+                                        justify-content: center;
+                                        svg{
+                                            width: 22px;
+                                            height: auto;
+                                        }
+                                    }
+                                    input{
+                                        padding: .45rem 1rem;
+                                        border-radius: .4rem;
+										&.error{
+											border-color: theme('colors.vo-red');
+										}
+                                    }
+                                    .action{
+                                        button{
+                                            display: flex;
+                                            width: 40px;
+                                            height: 100%;
+                                            border-radius: 0.3rem;
+                                            align-items: center;
+                                            justify-content: center;
+											svg{
+												pointer-events: none;
+											}
+                                            &.delete{
+                                                background-color: theme('colors.vo-red');
+                                                svg{
+                                                    width: 22px;
+                                                    height: auto;
+                                                }
+                                            }
+                                            &.new{
+                                                background-color: theme('colors.vo-green');
+                                                svg{
+                                                    width: 26px;
+                                                    height: auto;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Benchmark;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
@@ -78,4 +79,22 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+	public function validateAvatar(Request $request){
+		$validator = Validator::make($request->all(), [
+            'avatar' => ['required','dimensions:max_width=248,max_height=248', 'max:400', 'mimes:jpg,jpeg,png,gif']
+        ],[
+			'avatar.mimes' => 'Formato invalido | Permitidos: jpg,jpeg,png,gif',
+			'avatar.dimensions' => 'las dimensiones máximas de la imagen son 248x248px',
+			'avatar.max' => 'El tamaño maxo es de 400kb'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'msg' => $validator->errors()->all()
+            ]);
+        }
+
+		return true;
+	}
 }

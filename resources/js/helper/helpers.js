@@ -91,4 +91,96 @@ function clearBodyScroll(){
     bdy.removeClass('noscroll');
 }
 
-export { dropZone, removeBodyScroll, clearBodyScroll };
+function validateEmail(email){
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(regex.test(email)){
+        return true;
+    }
+    return false;
+}
+
+const isUrl = urlString=> {
+	let urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
+	'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
+	'((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
+	'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
+	'(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
+	'(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
+	return !!urlPattern.test(urlString);
+}
+
+class Modalerts{
+    fire(opt){
+        let tis = '';
+        let icon;
+        let app = document.querySelector('#app');
+        let createAlert = document.createElement('div');
+        let createOverlay = document.createElement('div');
+        createOverlay.addClass('al-overlay');
+        createAlert.addClass('alertify');
+        if(opt.type == "error"){
+            createAlert.addClass(opt.type);
+            icon = "sin icono error";
+        }
+        if(opt.type == "warning"){
+            createAlert.addClass(opt.type);
+            icon = `
+                <svg aria-labelledby="errorIconTitle" color="#d62323" fill="none" height="48px" role="img" stroke="#d62323" stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" viewBox="0 0 24 24" width="48px" xmlns="http://www.w3.org/2000/svg"><title id="errorIconTitle"/><path d="M12 8L12 13"/><line x1="12" x2="12" y1="16" y2="16"/><circle cx="12" cy="12" r="10"/></svg>
+            `;
+        }
+        if(opt.type == "success"){
+            createAlert.addClass(opt.type);
+            icon = "sin icono success";
+        }
+        createAlert.innerHTML = `
+            <div class="md-icon">
+                ${icon}
+            </div>
+            <div class="md-content">
+                <h2>${opt.title}</h2>
+                <p>${opt.text}</p>
+            </div>
+            <div class="md-buttons">
+                ${(opt.confirmButtonText)? '<button class="botn confirm">'+opt.confirmButtonText+'</button>': '' }
+                <button class="botn cancel">${(opt.cancelButtonText)? opt.cancelButtonText : 'Close' }</button>
+            </div>
+        `;
+        app.append(createOverlay);
+        app.append(createAlert);
+
+        let alertify = document.querySelector('.alertify');
+        let over = document.querySelector('.al-overlay');
+
+        let buttonConfirm = document.querySelector('.alertify button.confirm');
+        let buttonCancel = document.querySelector('.alertify button.cancel');
+        tis = this;
+
+        return new Promise((resolve, reject) => {
+            if(buttonConfirm){
+                buttonConfirm.addEventListener('click', function(){
+                    resolve({confirmed: true});
+                });
+            }
+            if(buttonCancel){
+                buttonCancel.addEventListener('click', function(){
+                    tis.close(alertify, over);
+                });
+            }
+        })
+        
+    }
+    close(alert, over){
+        let element = alert;
+        let overlay = over;
+        element.addClass('closing');
+        overlay.addClass('closing');
+        setTimeout(function(){
+            element.remove();
+            overlay.remove();
+        }, 300);
+
+        clearTimeout();
+    }
+}
+
+export { dropZone, removeBodyScroll, clearBodyScroll, validateEmail, isUrl, Modalerts };

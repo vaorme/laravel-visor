@@ -9,6 +9,7 @@ use App\Http\Controllers\MangaTypeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RankController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TagController;
@@ -132,6 +133,8 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
         });
 
         Route::prefix('users')->group(function(){
+			Route::post('validate-avatar', [ProfileController::class, 'validateAvatar'])->middleware(['permission:users.store'])->name('validateAvatar.store');
+
             Route::get("/", [UserController::class, 'index'])->middleware(['permission:users.index'])->name('users.index');
             
             // Create

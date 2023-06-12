@@ -72,5 +72,4 @@ window.EditorJsSimpleImage = simpleImage;
 window.EditorJsWarning = warning;
 window.EditorJsColor = ColorPlugin;
 
-
 Alpine.start();

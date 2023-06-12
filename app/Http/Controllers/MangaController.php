@@ -88,7 +88,7 @@ class MangaController extends Controller{
         $imageFile = $request->file('featured_image');
         $mangaSlug = $request->slug;
         if($imageFile){
-            $featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover/', $request->file('featured_image'));
+            $featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover', $request->file('featured_image'));
         }
 
         // Fields
@@ -210,8 +210,8 @@ class MangaController extends Controller{
         $imageFile = $request->file('featured_image');
         $mangaSlug = $request->slug;
         if($imageFile){
-            Storage::disk('public')->deleteDirectory('manga/'.$mangaSlug.'/cover/');
-            $featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover/', $imageFile);
+            Storage::disk('public')->deleteDirectory('manga/'.$mangaSlug.'/cover');
+            $featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover', $imageFile);
             $manga->featured_image = $featuredImage;
         }
 
