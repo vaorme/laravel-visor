@@ -8,6 +8,7 @@ window._ = _;
  */
 
 import axios from 'axios';
+axios.defaults.baseURL = import.meta.env.APP_URL;
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

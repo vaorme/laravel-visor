@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RoleController extends Controller
-{
+class RoleController extends Controller{
     /**
      * Display a listing of the resource.
      *

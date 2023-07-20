@@ -1,7 +1,18 @@
 header.header{
+    padding: 1.5rem;
+    nav.navbar{
+        background-color: #1c1c1c;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        min-height: 80px;
+    }
     .logo{
         position: relative;
         padding-right: 1.5rem;
+        img{
+            display: block;
+            width: 62px;
+        }
         &::after{
             background-color: rgb(#fff, .2);
             position: absolute;
@@ -99,9 +110,6 @@ header.header{
     }
     .panel{
         .user{
-            background-color: rgb(#fff, .05);
-            padding: .5rem 1rem;
-            border-radius: .5rem;
             .name{
                 padding-right: 1.5rem;
                 h4{
@@ -120,6 +128,9 @@ header.header{
                 align-items: center;
                 img{
                     width: 40px;
+                    height: 40px;
+                    object-fit: cover;
+                    border-radius: 35px;
                 }
             }
         }

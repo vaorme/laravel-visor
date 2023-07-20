@@ -1,11 +1,11 @@
-import { Modalerts } from './helper/helpers';
+import { Modalerts } from './helpers/helpers';
 
 let nn = new Modalerts();
 
 // :DELETE PERMISSION
 
 document.addEventListener('click', function (e) {
-	if (!e.target.matches('.roleDelete')) return;
+	if (!e.target.matches('.permissionDelete')) return;
 
     e.preventDefault();
 
@@ -19,7 +19,7 @@ document.addEventListener('click', function (e) {
         cancelButtonText: "Cancelar"
     }).then(res => {
         if(res.confirmed){
-            axios.delete(route('roles.destroy', [id]), {
+            axios.delete(route('permissions.destroy', [id]), {
                 headers:{
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
@@ -38,7 +38,7 @@ document.addEventListener('click', function (e) {
                 nn.close(alertify, over);
 
                 setTimeout(() => {
-                    window.location.href = route('roles.index');
+                    window.location.href = route('permissions.index');
                 }, 1000);
             })
             .catch(function (error){
@@ -51,21 +51,3 @@ document.addEventListener('click', function (e) {
     })
 
 });
-
-let botonAdministarPermisos = document.querySelector('#administrarPermisos');
-let botonCerrarAdministrarPermisos = document.querySelector('#cerrarAdministrarPermisos');
-let mdAdministrarPermisos = document.querySelector('.group.permisos .md-permissions');
-if(botonAdministarPermisos){
-	botonAdministarPermisos.addEventListener('click', function(){
-		if(mdAdministrarPermisos){
-			mdAdministrarPermisos.style.display = "block";
-		}
-	});
-}
-if(botonCerrarAdministrarPermisos){
-	botonCerrarAdministrarPermisos.addEventListener('click', function(){
-		if(mdAdministrarPermisos){
-			mdAdministrarPermisos.style.display = "none";
-		}
-	});
-}

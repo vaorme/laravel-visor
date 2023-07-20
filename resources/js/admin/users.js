@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { dropZone, validateEmail, isUrl, Modalerts } from './helper/helpers';
+import { dropZone, validateEmail, isUrl, Modalerts } from './helpers/helpers';
 
 let nn = new Modalerts();
 
@@ -304,7 +304,6 @@ document.addEventListener('click', function (e) {
 
 	let val = $redes.addInput.value;
 	let id = Date.now();
-
 	if(val === ""){
 		errorAlert("Campo requerido");
 		$redes.addInput.focus();

@@ -1,4 +1,4 @@
-import { dropZone, removeBodyScroll, clearBodyScroll, Modalerts } from './helper/helpers';
+import { dropZone, removeBodyScroll, clearBodyScroll, Modalerts } from './helpers/helpers';
 
 let allowTypes = ['jpg', 'jpeg', 'png','webp','gif'];
 dropZone('.fm-manga .dropzone #choose', allowTypes);
@@ -1125,7 +1125,7 @@ document.addEventListener('click', function (e) {
                 }
                 if(rdo.value == "novel"){
 
-                    if(encodeData.blocks.length < 1){
+                    if(encodeData.blocks && encodeData.blocks.length < 1){
                         Toastify({
                             text: "Debes agregar contenido por lo menos.",
                             className: "error",

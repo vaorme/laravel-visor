@@ -15,6 +15,8 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use ManipulateImage;
+
 class MangaController extends Controller{
     /**
      * Display a listing of the resource.
@@ -88,14 +90,22 @@ class MangaController extends Controller{
         $imageFile = $request->file('featured_image');
         $mangaSlug = $request->slug;
         if($imageFile){
-            $featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover', $request->file('featured_image'));
+            Storage::disk('public')->makeDirectory('manga/'.$mangaSlug.'/cover');
+            //$img = ManipulateImage::make($imageFile)->fit(458, 646);
+            $img = ManipulateImage::make($imageFile)->resize(458, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->fit(458, 646);
+            $destinationPath = storage_path('app/public/manga/'.$mangaSlug.'/cover/');
+            $fileName = $imageFile->hashName();
+            $img->save($destinationPath.$fileName, 100);
+            //$featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover', $request->file('featured_image'));
         }
 
         // Fields
         $manga = new Manga;
         $manga->order = $count;
         if(!empty($imageFile)){
-            $manga->featured_image = $featuredImage;
+            $manga->featured_image = 'manga/'.$mangaSlug.'/cover/'.$fileName;
         }
         $manga->name = $request->name;
         $manga->alternative_name = $request->alternative_name;
@@ -211,8 +221,16 @@ class MangaController extends Controller{
         $mangaSlug = $request->slug;
         if($imageFile){
             Storage::disk('public')->deleteDirectory('manga/'.$mangaSlug.'/cover');
-            $featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover', $imageFile);
-            $manga->featured_image = $featuredImage;
+            Storage::disk('public')->makeDirectory('manga/'.$mangaSlug.'/cover');
+
+            $img = ManipulateImage::make($imageFile)->resize(458, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->fit(458, 646);
+            $destinationPath = storage_path('app/public/manga/'.$mangaSlug.'/cover/');
+            $fileName = $imageFile->hashName();
+            $img->save($destinationPath.$fileName, 100);
+            //$featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover', $imageFile);
+            $manga->featured_image = 'manga/'.$mangaSlug.'/cover/'.$fileName;
         }
 
         $manga->name = $request->name;

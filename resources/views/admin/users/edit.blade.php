@@ -104,6 +104,7 @@
 										<div class="item selected" id="avatar">
 											<div class="avatar">
 												<img src="{{ asset($user->avatar) }}" alt="avatar">
+                                                <input type="text" name="current_avatar" accept="image/jpg,image/png,image/jpeg,image/gif" hidden value="{{ $user->avatar }}">
 											</div>
 										</div>
 									@endif

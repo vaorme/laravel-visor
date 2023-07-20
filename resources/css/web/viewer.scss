@@ -1,0 +1,248 @@
+#viewer{
+    display: grid;
+    gap: 15px;
+    padding: 0 1.5rem;
+    .view__options{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .view__options .view__col{
+        width: 33.33%;
+    }
+    .view__options .view__left{
+        display: grid;
+        gap: 15px;
+    }
+    .view__options .view__left .view__title{
+        display: flex;
+        gap: 15px;
+        align-items: center;
+    }
+    .view__options .view__left .view__title h2{
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .view__options .view__left .view__title a.view__back{
+        background-color: #1c1c1c;
+        display: flex;
+        width: 42px;
+        height: 42px;
+        border-radius: 9px;
+        align-items: center;
+        justify-content: center;
+    }
+    .view__options .view__center{
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        justify-content: center;
+    }
+    .view__options .view__center .view__select,
+    .view__reader .view__paged .view__select{
+        width: 100%;
+        min-width: 200px;
+        max-width: 200px;
+    }
+    .view__reader .view__paged .view__select{
+        width: 100%;
+        min-width: 140px;
+        max-width: 140px;
+    }
+    .view__options .view__center .view__select select,
+    .view__reader .view__paged .view__select select{
+        display: none;
+    }
+    .view__options .view__center .view__select .ts-wrapper .ts-control,
+    .view__reader .view__paged .view__select .ts-wrapper .ts-control{
+        background-color: #1c1c1c;
+        padding: 18px 20px;
+        display: block;
+        border: 0;
+        border-radius: 10px;
+        padding-right: 50px !important;
+    }
+    .view__options .view__center .view__select .ts-wrapper .ts-control::after,
+    .view__reader .view__paged .view__select .ts-wrapper .ts-control::after{
+        background-image: url('../../../public/assets/arrow-select-chapters.svg');
+        background-repeat: no-repeat;
+        background-size: 28px;
+        background-position: center;
+        position: absolute;
+        opacity: .3;
+        right: 10px;
+        top: 50%;
+        content: "";
+        width: 28px;
+        height: 28px;
+        transform: translateY(-50%);
+    }
+    .view__options .view__center .view__select .ts-wrapper .ts-control .item,
+    .view__reader .view__paged .view__select .ts-wrapper .ts-control .item{
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .view__options .view__center .view__select .ts-wrapper .ts-control input,
+    .view__reader .view__paged .view__select .ts-wrapper .ts-control input{
+        display: none !important;
+    }
+    .view__options .view__center .view__select .ts-wrapper .ts-dropdown,
+    .view__reader .view__paged .view__select .ts-wrapper .ts-dropdown{
+        background-color: transparent;
+        top: calc(100% + 10px);
+        border: 0;
+        margin: 0;
+    }
+    .view__options .view__center .view__select .ts-wrapper .ts-dropdown .ts-dropdown-content,
+    .view__reader .view__paged .view__select .ts-wrapper .ts-dropdown .ts-dropdown-content{
+        background-color: #1c1c1c;
+        display: block;
+        padding: 14px;
+        max-height: 320px;
+        border-radius: 10px;
+        align-items: flex-start;
+    }
+    .view__options .view__center .view__select .ts-wrapper .ts-dropdown .ts-dropdown-content .option,
+    .view__reader .view__paged .view__select .ts-wrapper .ts-dropdown .ts-dropdown-content .option{
+        background-color: transparent;
+        color: #939393;
+        font-weight: 500;
+        font-size: 14px;
+        display: block;
+        border-radius: 10px;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        &:last-of-type{
+            margin-bottom: 0;
+        }
+        &:hover,
+        &.selected{
+            background-color: #232323;
+        }
+    }
+    .view__reader .view__paged .view__select .ts-wrapper .ts-dropdown .ts-dropdown-content .option{
+        margin-bottom: 5px;
+        &:last-of-type{
+            margin-bottom: 0;
+        }
+    }
+    .view__options .view__center .view__select.chapter__reader_type .ts-wrapper .ts-dropdown .ts-dropdown-content .option:first-of-type,
+    .view__options .view__center .view__select.chapter__reader_size .ts-wrapper .ts-dropdown .ts-dropdown-content .option:first-of-type,
+    .view__options .view__center .view__select.chapter__font_size .ts-wrapper .ts-dropdown .ts-dropdown-content .option:first-of-type,
+    .view__reader .view__paged .view__select .ts-wrapper .ts-dropdown .ts-dropdown-content .option:first-of-type{
+        display: none;
+    }
+    .view__options .view__right .view__buttons{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .view__options .view__right .view__buttons a{
+        background-color: #1c1c1c;
+        font-size: 16px;
+        display: inline-block;
+        width: 100%;
+        color: #fff;
+        font-weight: 500;
+        padding: 14px 30px;
+        text-align: center;
+        border-radius: 10px;
+        margin-right: 15px;
+        max-width: 160px;
+        transition: background .2s ease, color .2s ease;
+    }
+    .view__options .view__right .view__buttons a:last-of-type{
+        margin-right: 0;
+    }
+    .view__options .view__right .view__buttons a:hover{
+        background-color: theme('colors.vo-red');
+        color: #fff;
+    }
+    .view__reader .view__paged,
+    .view__reader .view__colors{
+        display: flex;
+        gap: 15px;
+        padding: 1.5rem 0;
+        align-items: center;
+        justify-content: center;
+    }
+    .view__reader .view__paged .paged__item{
+        background-color: #1c1c1c;
+        display: block;
+        font-size: 14px;
+        color: #fff;
+        font-weight: 500;
+        padding: 14px 30px;
+        text-align: center;
+        border-radius: 10px;
+        transition: background 0.2s ease, color 0.2s ease;
+        &:hover{
+            background-color: #313131;
+        }
+        &.paged__disabled{
+            opacity: .4;
+            pointer-events: none;
+        }
+    }
+    .view__reader .view__colors{
+
+    }
+    .view__reader .view__colors .color__item .color__field{
+
+    }
+    .view__reader .view__colors .color__item .color__field label{
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        display: block;
+        margin-bottom: 15px;
+    }
+    .view__reader .view__colors .color__item .color__field .clr-field{
+        width: 100%;
+        gap: 15px;
+        display: flex;
+        align-items: center;
+    }
+    .view__reader .view__colors .color__item .color__field .clr-field input{
+        background-color: #1c1c1c;
+        position: relative;
+        cursor: pointer;
+        outline: none;
+        padding: 10px 20px;
+        top: 0;
+        transform: none;
+        border-radius: 10px;
+    }
+    .view__reader .view__colors .color__item .color__field .clr-field button{
+        position: relative;
+        outline: none;
+        height: 30px;
+        width: 30px;
+        top: 0;
+        border-radius: 4px;
+        transform: none;
+    }
+    .view__reader .view__content{
+        max-width: 1200px;
+        margin: auto;
+    }
+    .view__reader .view__content.view__novel{
+        font-size: 16px;
+        padding: 2rem;
+    }
+    .view__reader .view__content.view__novel p{
+        margin: 1em 0;
+    }
+    
+    .view__reader .view__content.view__full{
+        max-width: 100%;
+    }
+    .view__reader .view__content .reader__item img{
+        display: block;
+        margin: auto;
+        max-width: 100%;
+    }
+    .view__reader .view__content.view__full .reader__item img{
+        width: 100%;
+    }
+}

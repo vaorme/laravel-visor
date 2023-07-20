@@ -1,32 +1,5 @@
-const hasClass = function(n){
-    if(this.classList.contains(n)){
-        return true;
-    }
-    return false;
-}
-const toggleClass = function(n){
-    let classes = n.split(' ');
-    classes.forEach(i => {
-        this.classList.toggle(i);
-    })
-}
-const addClass = function(n){
-    let classes = n.split(' ');
-    classes.forEach(i => {
-        this.classList.add(i)
-    })
-}
-const removeClass = function(n){
-    let classes = n.split(' ');
-    classes.forEach(i => {
-        this.classList.remove(i)
-    })
-}
 
-Object.prototype.hasClass = hasClass;
-Object.prototype.toggleClass = toggleClass;
-Object.prototype.addClass = addClass;
-Object.prototype.removeClass = removeClass;
+import '../../helpers/helpers';
 
 function dropZone(zone, allowed){
     const drop = document.querySelector(zone);
@@ -99,14 +72,19 @@ function validateEmail(email){
     return false;
 }
 
-const isUrl = urlString=> {
-	let urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate protocol
-	'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // validate domain name
-	'((\\d{1,3}\\.){3}\\d{1,3}))'+ // validate OR ip (v4) address
-	'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate port and path
-	'(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
-	'(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
-	return !!urlPattern.test(urlString);
+const isUrl = urlString => {
+	const pattern = new RegExp(
+        '^(https?:\\/\\/)?' + // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+          '(\\#[-a-z\\d_]*)?$', // fragment locator
+        'i'
+    );
+    const expression = /(http(s)?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    const regex = new RegExp(expression);
+    return urlString.match(regex);
 }
 
 class Modalerts{

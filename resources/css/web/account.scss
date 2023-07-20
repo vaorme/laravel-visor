@@ -1,0 +1,157 @@
+#app main.main .main__wrap.account{
+    padding-left: 1.5rem;
+    .account__box{
+        background-color: #1c1c1c;
+        display: grid;
+        gap: 40px;
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+    .account__goback{
+        a{
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            .goback__icon{
+                background-color: #2f2f2f;
+                display: flex;
+                width: 42px;
+                height: 42px;
+                border-radius: 9px;
+                align-items: center;
+                justify-content: center;
+            }
+            .goback__name{
+                font-size: 16px;
+                font-weight: 500;
+            }
+        }
+    }
+    .account__form{
+        display: grid;
+        gap: 15px 50px;
+        grid-template-columns: repeat(2, 1fr);
+        input, select{
+            color: #000;
+        }
+    }
+    .account__form .form__col,
+    .account__form .form__group{
+        display: grid;
+        gap: 25px;
+        grid-auto-rows: min-content;
+    }
+    .account__form .form__item{
+
+    }
+    .account__form .form__item label{
+        font-size: 1.1rem;
+        color: #7e7e7e;
+        display: block;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    .account__form .form__item input,
+    .account__form .form__item textarea,
+    .account__form .form__item select{
+        background-color: #141414;
+        padding: 0.6rem 1rem;
+        width: 100%;
+        outline: none;
+        color: #fff;
+        border-radius: 0.4rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .account__form .form__item .password__validation{
+        padding: 0 20px;
+        padding-top: 15px;
+        font-size: 14px;
+        color: #bdbdbd;
+    }
+    .account__form .form__group h2.group__title{
+        font-size: 20px;
+        font-weight: 500;
+    }
+    .account__form .form__group .form__item{
+        padding-left: 10px;
+    }
+    .account__form .form__profile_public{
+        .rdos{
+            label{
+                .rd-input{
+                    color: rgb(#fff, .4);
+                    padding: 1rem .5rem;
+                    cursor: pointer;
+                    font-weight: 500;
+                    text-align: center;
+                    border-radius: .4rem;
+                    border: 1px solid rgb(#fff, .1);
+                    transition: color .2s ease, border .2s ease;
+                }
+                input{
+                    display: none;
+                    &:checked ~ .rd-input{
+                        color: theme('colors.vo-orange');
+                        border-color: theme('colors.vo-orange');
+                    }
+                }
+            }
+        }
+    }
+    .account__form .form__redes{
+        .list{
+            .item{
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                .icon{
+                    background-color: rgb(#fff, .1);
+                    display: flex;
+                    width: 100%;
+                    max-width: 40px;
+                    border-radius: .3rem;
+                    align-items: center;
+                    justify-content: center;
+                    svg{
+                        width: 22px;
+                        height: auto;
+                    }
+                }
+                input{
+                    padding: .45rem 1rem;
+                    border-radius: .4rem;
+                    &.error{
+                        border-color: theme('colors.vo-red');
+                    }
+                }
+                .action{
+                    button{
+                        display: flex;
+                        width: 40px;
+                        height: 100%;
+                        border-radius: 0.3rem;
+                        align-items: center;
+                        justify-content: center;
+                        svg{
+                            pointer-events: none;
+                        }
+                        &.delete{
+                            background-color: theme('colors.vo-red');
+                            svg{
+                                width: 22px;
+                                height: auto;
+                            }
+                        }
+                        &.new{
+                            background-color: theme('colors.vo-green');
+                            svg{
+                                width: 26px;
+                                height: auto;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

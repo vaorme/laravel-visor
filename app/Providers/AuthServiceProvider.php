@@ -21,8 +21,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
+    public function boot(){
         $this->registerPolicies();
 
         // Implicitly grant "Super Admin" role all permission checks using can()

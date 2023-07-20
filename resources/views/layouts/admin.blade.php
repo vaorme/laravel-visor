@@ -7,7 +7,7 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Scripts -->
-        @vite(['resources/css/global.scss', 'resources/css/admin.scss', 'resources/js/library.js'])
+        @vite(['resources/css/global.scss', 'resources/css/admin/admin.scss', 'resources/js/admin/library.js'])
         
     </head>
     <body>
@@ -22,6 +22,6 @@
             </main>
             <x-footer/>
         </div>
-        @vite('resources/js/admin.js')
+        @vite('resources/js/admin/admin.js')
     </body>
 </html>

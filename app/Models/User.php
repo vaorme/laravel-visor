@@ -44,4 +44,13 @@ class User extends Authenticatable implements MustVerifyEmail{
     public function profile(){
         return $this->hasOne(Profile::class);
     }
+    public function followedMangas(){
+        return $this->belongsToMany(Manga::class, UserFollowManga::class);
+    }
+    public function favoriteMangas(){
+        return $this->belongsToMany(Manga::class, UserHasFavorite::class);
+    }
+    public function shortcutMangas(){
+        return $this->belongsToMany(Manga::class, UserShortcut::class);
+    }
 }

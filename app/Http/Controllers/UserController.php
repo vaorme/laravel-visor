@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Countries;
 use App\Models\Profile;
 use App\Models\User;
+use App\Models\UserFollowManga;
+use App\Models\UserHasFavorite;
 use App\Models\UserHasRole;
+use App\Models\UserViewChapter;
+use App\Models\UserViewManga;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -156,13 +161,13 @@ class UserController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-		//return response()->json($request->all());
+		// return response()->json($request->all());
 		$request->validate([
             'username' => ['string', 'regex:/^[_A-z0-9]*((-|\S)*[_A-z0-9])*$/','max:16'],
 			'avatar_file' => ['dimensions:max_width=248,max_height=248', 'max:400', 'mimes:jpg,jpeg,png,gif'],
             'email' => ['string', 'email', 'regex:/^.+@.+$/i','max:255']
 		]);
-
+        
         $user = User::find($id);
 		
         if($user->username !== $request->username){
@@ -199,13 +204,17 @@ class UserController extends Controller{
 		if(isset($request->default_avatar) && !empty($request->default_avatar)){
 			$profile->avatar = "storage/".$request->default_avatar;
 		}else{
-			if(isset($request->avatar_file)){
-				$avatarExtension = $request->file('avatar_file')->extension();
-				$pathAvatar = $request->file('avatar_file')->storeAs('public/images/users', $request->username.'-avatar.'.$avatarExtension);
-				$profile->avatar = 'storage/images/users/'.$request->username.'-avatar.'.$avatarExtension;
-			}else{
-				$profile->avatar = 'storage/avatares/avatar-'.rand(1, 10).'.png';
-			}
+			if(isset($request->current_avatar) && !empty($request->current_avatar)){
+                $profile->avatar = $request->current_avatar;
+            }else{
+                if(isset($request->avatar_file)){
+                    $avatarExtension = $request->file('avatar_file')->extension();
+                    $pathAvatar = $request->file('avatar_file')->storeAs('public/images/users', $request->username.'-avatar.'.$avatarExtension);
+                    $profile->avatar = 'storage/images/users/'.$request->username.'-avatar.'.$avatarExtension;
+                }else{
+                    $profile->avatar = 'storage/avatares/avatar-'.rand(1, 10).'.png';
+                }
+            }
 		}
 		if(isset($request->cover) && !empty($request->cover)){
 			$profile->cover = $request->cover;
@@ -244,15 +253,345 @@ class UserController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id){
         $delete = User::destroy($id);
         if($delete){
             $response['msg'] = "Usuario eliminado correctamente.";
         }else{
             $response['msg'] = "Ups, algo salio mal socio.";
         }
-
         return $response;
+    }
+
+    // :UN/FOLLOW
+
+    public function followManga(Request $request, $id){
+        $validator = Validator::make($request->params, [
+            'id' => ['required', 'numeric', 'exists:App\Models\Manga,id']
+        ],[
+			'id.required' => 'ID requerido',
+			'id.numeric' => 'El ID debe ser número',
+            'id.exists' => 'ID no existe'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'message' => $validator->errors()->all()
+            ]);
+        }
+        $user_id = Auth::id();
+
+        $exists = UserFollowManga::where('manga_id', '=', $id)->where('user_id', '=', $user_id)->exists();
+
+        if($exists){
+            return response()->json([
+                'status' => "error",
+                'message' => "Ya lo sigues"
+            ]);
+        }
+
+        $follow = new UserFollowManga;
+        $follow->manga_id = $id;
+        $follow->user_id = $user_id;
+        
+        if($follow->save()){
+            return response()->json([
+                'status' => "success",
+                'message' => "Siguiendo"
+            ]);
+        }
+
+        return response()->json([
+            'status' => "error",
+            'message' => "Ups, algo paso",
+        ]);
+    }
+
+    public function unfollowManga(Request $request, $id){
+        $validator = Validator::make($request->params, [
+            'id' => ['required', 'numeric', 'exists:App\Models\Manga,id']
+        ],[
+			'id.required' => 'ID requerido',
+			'id.numeric' => 'El ID debe ser número',
+            'id.exists' => 'ID no existe'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'message' => $validator->errors()->all()
+            ]);
+        }
+        $user_id = Auth::id();
+
+        $notExists = UserFollowManga::where('manga_id', '=', $id)->where('user_id', '=', $user_id)->doesntExist();
+
+        if($notExists){
+            return response()->json([
+                'status' => "error",
+                'message' => "No lo sigues"
+            ]);
+        }
+
+        $follow = UserFollowManga::where('manga_id', '=', $id)->where('user_id', '=', $user_id);
+        if($follow->delete()){
+            return response()->json([
+                'status' => "success",
+                'message' => "Lo dejaste de seguir"
+            ]);
+        }
+
+        return response()->json([
+            'status' => "error",
+            'message' => "Ups, algo paso",
+        ]);
+    }
+
+    // :VIEW / VIEWED
+
+    public function viewManga(Request $request, $id){
+        $validator = Validator::make($request->params, [
+            'id' => ['required', 'numeric', 'exists:App\Models\Manga,id']
+        ],[
+			'id.required' => 'ID requerido',
+			'id.numeric' => 'El ID debe ser número',
+            'id.exists' => 'ID no existe'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'message' => $validator->errors()->all()
+            ]);
+        }
+        $user_id = Auth::id();
+
+        $exists = UserViewManga::where('manga_id', '=', $id)->where('user_id', '=', $user_id)->exists();
+
+        if($exists){
+            return response()->json([
+                'status' => "error",
+                'message' => "Ya lo viste"
+            ]);
+        }
+
+        $follow = new UserViewManga;
+        $follow->manga_id = $id;
+        $follow->user_id = $user_id;
+        
+        if($follow->save()){
+            return response()->json([
+                'status' => "success",
+                'message' => "Viendo"
+            ]);
+        }
+
+        return response()->json([
+            'status' => "error",
+            'message' => "Ups, algo paso",
+        ]);
+    }
+
+    public function unviewManga(Request $request, $id){
+        $validator = Validator::make($request->params, [
+            'id' => ['required', 'numeric', 'exists:App\Models\Manga,id']
+        ],[
+			'id.required' => 'ID requerido',
+			'id.numeric' => 'El ID debe ser número',
+            'id.exists' => 'ID no existe'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'message' => $validator->errors()->all()
+            ]);
+        }
+        $user_id = Auth::id();
+
+        $notExists = UserViewManga::where('manga_id', '=', $id)->where('user_id', '=', $user_id)->doesntExist();
+
+        if($notExists){
+            return response()->json([
+                'status' => "error",
+                'message' => "No lo ves"
+            ]);
+        }
+
+        $follow = UserViewManga::where('manga_id', '=', $id)->where('user_id', '=', $user_id);
+        if($follow->delete()){
+            return response()->json([
+                'status' => "success",
+                'message' => "Lo dejaste de ver"
+            ]);
+        }
+
+        return response()->json([
+            'status' => "error",
+            'message' => "Ups, algo paso",
+        ]);
+    }
+
+    // :FAV / UNFAV
+
+    public function favManga(Request $request, $id){
+        $validator = Validator::make($request->params, [
+            'id' => ['required', 'numeric', 'exists:App\Models\Manga,id']
+        ],[
+			'id.required' => 'ID requerido',
+			'id.numeric' => 'El ID debe ser número',
+            'id.exists' => 'ID no existe'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'message' => $validator->errors()->all()
+            ]);
+        }
+        $user_id = Auth::id();
+
+        $exists = UserHasFavorite::where('manga_id', '=', $id)->where('user_id', '=', $user_id)->exists();
+
+        if($exists){
+            return response()->json([
+                'status' => "error",
+                'message' => "Ya es favorito"
+            ]);
+        }
+
+        $follow = new UserHasFavorite;
+        $follow->manga_id = $id;
+        $follow->user_id = $user_id;
+        
+        if($follow->save()){
+            return response()->json([
+                'status' => "success",
+                'message' => "Agregado a favoritos"
+            ]);
+        }
+
+        return response()->json([
+            'status' => "error",
+            'message' => "Ups, algo paso",
+        ]);
+    }
+
+    public function unfavManga(Request $request, $id){
+        $validator = Validator::make($request->params, [
+            'id' => ['required', 'numeric', 'exists:App\Models\Manga,id']
+        ],[
+			'id.required' => 'ID requerido',
+			'id.numeric' => 'El ID debe ser número',
+            'id.exists' => 'ID no existe'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'message' => $validator->errors()->all()
+            ]);
+        }
+        $user_id = Auth::id();
+
+        $notExists = UserHasFavorite::where('manga_id', '=', $id)->where('user_id', '=', $user_id)->doesntExist();
+
+        if($notExists){
+            return response()->json([
+                'status' => "error",
+                'message' => "No es favorito"
+            ]);
+        }
+
+        $follow = UserHasFavorite::where('manga_id', '=', $id)->where('user_id', '=', $user_id);
+        if($follow->delete()){
+            return response()->json([
+                'status' => "success",
+                'message' => "Ya no es favorito"
+            ]);
+        }
+
+        return response()->json([
+            'status' => "error",
+            'message' => "Ups, algo paso",
+        ]);
+    }
+
+    // :VIEW / VIEWED CHAPTER
+
+    public function viewChapter(Request $request, $id){
+        $validator = Validator::make($request->params, [
+            'id' => ['required', 'numeric', 'exists:App\Models\Chapter,id']
+        ],[
+			'id.required' => 'ID requerido',
+			'id.numeric' => 'El ID debe ser número',
+            'id.exists' => 'ID no existe'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'message' => $validator->errors()->all()
+            ]);
+        }
+        $user_id = Auth::id();
+
+        $exists = UserViewChapter::where('chapter_id', '=', $id)->where('user_id', '=', $user_id)->exists();
+
+        if($exists){
+            return response()->json([
+                'status' => "error",
+                'message' => "Ya lo viste"
+            ]);
+        }
+
+        $follow = new UserViewChapter;
+        $follow->chapter_id = $id;
+        $follow->user_id = $user_id;
+        
+        if($follow->save()){
+            return response()->json([
+                'status' => "success",
+                'message' => "Viendo"
+            ]);
+        }
+
+        return response()->json([
+            'status' => "error",
+            'message' => "Ups, algo paso",
+        ]);
+    }
+
+    public function unviewChapter(Request $request, $id){
+        $validator = Validator::make($request->params, [
+            'id' => ['required', 'numeric', 'exists:App\Models\Chapter,id']
+        ],[
+			'id.required' => 'ID requerido',
+			'id.numeric' => 'El ID debe ser número',
+            'id.exists' => 'ID no existe'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'message' => $validator->errors()->all()
+            ]);
+        }
+        $user_id = Auth::id();
+
+        $notExists = UserViewChapter::where('chapter_id', '=', $id)->where('user_id', '=', $user_id)->doesntExist();
+
+        if($notExists){
+            return response()->json([
+                'status' => "error",
+                'message' => "No lo ves"
+            ]);
+        }
+
+        $follow = UserViewChapter::where('chapter_id', '=', $id)->where('user_id', '=', $user_id);
+        if($follow->delete()){
+            return response()->json([
+                'status' => "success",
+                'message' => "Lo dejaste de ver"
+            ]);
+        }
+
+        return response()->json([
+            'status' => "error",
+            'message' => "Ups, algo paso",
+        ]);
     }
 }

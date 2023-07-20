@@ -3,20 +3,53 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Chapter;
+use App\Models\Countries;
+use App\Models\Manga;
 use App\Models\User;
+use App\Models\UserFollowManga;
+use App\Models\UserHasFavorite;
 use Illuminate\Http\Request;
-use Illuminate\Support\Benchmark;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
-    public function index($username){
-        $user = User::join('profiles', 'profiles.user_id', '=', 'users.id')->where('users.username', '=', $username);
+    public function index(Request $request){
+        $username = $request->username;
+        $user = User::firstWhere('users.username', '=', $username);
         if($user->exists()){
-            // Benchmark::dd(fn () => $user);
-            return view('profile.index', ['user' => $user->get()->toArray()]);
+            $profile = $user->profile;
+            $page = $request->page;
+            $viewData = [
+                'user' => $user
+            ];
+            
+            if(!isset($request->page) && Auth::check()){
+                $viewData['manga'] = $user->followedMangas;
+            }
+            if(isset($page) && $page == "atajos" && !Auth::check()){
+                abort(404);
+            }
+            switch ($page) {
+                case 'siguiendo':
+                    $viewData['manga'] = $user->followedMangas;
+                    break;
+                case 'favoritos':
+                    $viewData['manga'] = $user->favoriteMangas;
+                    break;
+                case 'atajos':
+                    $viewData['manga'] = $user->shortcutMangas;
+                    break;
+                default:
+                    $viewData['manga'] = $user->followedMangas;
+                    break;
+            }
+            $viewData['page'] = $page;
+            
+            return view('profile.index', $viewData);
         }else{
             return view('profile.index', [
                 'error' => true,
@@ -30,9 +63,12 @@ class ProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
-    public function edit(Request $request)
-    {
+    public function edit(Request $request){
+        $countries = Countries::get();
+        $avatares = Storage::disk('public')->files('/avatares');
         return view('profile.account.index', [
+            'countries' => $countries,
+            'avatares' => $avatares,
             'user' => $request->user(),
         ]);
     }
