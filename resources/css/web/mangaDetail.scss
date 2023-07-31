@@ -125,33 +125,7 @@
         display: block;
         border-radius: 16px;
     }
-    .manga__contain .manga__cover .manga__terms{
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        display: flex;
-    }
-    .manga__contain .manga__cover .manga__terms .manga__type,
-    .manga__contain .manga__cover .manga__terms .manga__demography{
-        width: 50%;
-    }
-    .manga__contain .manga__cover .manga__terms .manga__type a,
-    .manga__contain .manga__cover .manga__terms .manga__demography a{
-        display: block;
-        font-size: 14px;
-        font-weight: bold;
-        text-align: center;
-        padding: 12px 5px;
-    }
-    .manga__contain .manga__cover .manga__terms .manga__type a{
-        background-color: #0C6FE3;
-        border-radius: 0 0 0 14px;
-    }
-    .manga__contain .manga__cover .manga__terms .manga__demography a{
-        background-color: #F9C81D;
-        color: #000;
-        border-radius: 0 0 14px 0;
-    }
+    
     .manga__contain .manga__info{
         display: grid;
         gap: 20px;
@@ -302,6 +276,65 @@
         }
         &.ongoing::before{
             background-color: #dd4619;
+        }
+    }
+    .manga__rating{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding-top: 1rem;
+        .rating__group {
+            display: inline-flex;
+        }
+        .rating__count{
+            display: flex;
+            gap: 5px;
+            font-size: 16px;
+            color: #8f8f8f;
+            font-weight: 500;
+            align-items: center;
+            letter-spacing: 0.2px;
+            .count__users{
+                font-size: 14px;
+                opacity: .5;
+            }
+        }
+    
+        /* make hover effect work properly in IE */
+        .rating__icon {
+            pointer-events: none;
+        }
+    
+        /* hide radio inputs */
+        .rating__input {
+            display: none;
+        }
+    
+        /* set icon padding and size */
+        .rating__label {
+            cursor: pointer;
+            padding: 0 0.1em;
+            font-size: 18px;
+        }
+    
+        /* set default star color */
+        .rating__icon--star {
+            color: #f9c81d;
+        }
+    
+        /* if any input is checked, make its following siblings grey */
+        .rating__input:checked ~ .rating__label .rating__icon--star {
+            color: #434343;
+        }
+    
+        /* make all stars orange on rating group hover */
+        .rating__group:hover .rating__label .rating__icon--star {
+            color: #f9c81d;
+        }
+    
+        /* make hovered input's following siblings grey on hover */
+        .rating__input:hover ~ .rating__label .rating__icon--star {
+            color: #434343;
         }
     }
 }

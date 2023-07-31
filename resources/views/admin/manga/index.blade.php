@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-slot:title>Manga</x-slot>
     @php
         $status = request()->all('status');
     @endphp

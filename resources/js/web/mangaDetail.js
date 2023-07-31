@@ -1,7 +1,10 @@
 import SimpleBar from "simplebar";
 import 'simplebar/dist/simplebar.css';
 
-new SimpleBar(document.querySelector('.chapters__list'));
+const chaptersList = document.querySelector('.chapters__list');
+if(chaptersList){
+    new SimpleBar(chaptersList);
+}
 
 const divActions = document.querySelector('.manga__actions');
 
@@ -577,5 +580,100 @@ document.addEventListener('click', async function (e) {
             gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
         }).showToast();
+    });
+});
+
+// :RATE MANGA
+
+let avoidSpam = false;
+document.addEventListener('click', async function (e) {
+	if (!e.target.matches('.manga__detail .manga__rating .rating__label')) return;
+
+    const input = e.target.nextElementSibling;
+    const manga_id = input.getAttribute('data-manga-id');
+    const btn = e.target;
+    
+    const numbers = document.querySelector('.manga__detail .manga__rating .rating__count .count__users .users__num');
+
+    if(manga_id == ""){
+        Toastify({
+            text: "ID requerido",
+            className: "error",
+            duration: 5000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+        }).showToast();
+        return true;
+    }
+    if(input.value == ""){
+        Toastify({
+            text: "Valor requerido",
+            className: "error",
+            duration: 5000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+        }).showToast();
+        return true;
+    }
+    if(avoidSpam){
+        return true;
+    }
+    avoidSpam = true;
+
+    await axios.post(`/rate/${manga_id}`, {
+        headers:{
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        params: {
+            rating: input.value
+        }
+    }).then(function (response){
+        // console.log(response);
+        if(response.data.status == "success"){
+            Toastify({
+                text: response.data.message,
+                className: "success",
+                duration: 5000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "center",
+            }).showToast();
+
+            numbers.textContent = Number(numbers.textContent) + 1;
+        }
+        if(response.data.status == "error"){
+            Toastify({
+                text: response.data.message,
+                className: "error",
+                duration: 5000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "center",
+            }).showToast();
+        }
+        setTimeout(() => {
+            avoidSpam = false;
+        }, 5000);
+    }).catch(function (error){
+        // handle error
+        console.log(error);
+        Toastify({
+            text: error.response.data.message,
+            className: "error",
+            duration: 5000,
+            newWindow: true,
+            close: true,
+            gravity: "top",
+            position: "center",
+        }).showToast();
+        setTimeout(() => {
+            avoidSpam = false;
+        }, 5000);
     });
 });

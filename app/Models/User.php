@@ -53,4 +53,7 @@ class User extends Authenticatable implements MustVerifyEmail{
     public function shortcutMangas(){
         return $this->belongsToMany(Manga::class, UserShortcut::class);
     }
+    public function verifiedEmail(){
+        return ($this instanceof MustVerifyEmail);
+    }
 }

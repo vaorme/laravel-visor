@@ -1,11 +1,10 @@
 <x-app-layout>
-    @if (isset($error))
-        usuario no existe
-    @else
+    <x-slot:title>{{ $user->username }}</x-slot>
     @php
         $country = $user->profile->getCountry();
     @endphp
     <div class="main__wrap profile">
+        @if ($user->profile->public_profile || $user->id == Auth::id())
         <div class="profile__cover{{ (!isset($user->profile->cover))? ' no__cover': null }}">
             @if (isset($user->profile->cover))
                 <div class="cover__image" style="background-image: url('{{ asset($user->profile->cover) }}')"></div>
@@ -16,7 +15,7 @@
                 <div class="card__box">
                     <div class="card__content">
                         @if (isset($user->profile->coins))
-                            <div class="card__fly card__money">
+                            <div class="card__fly card__money" data-tippy-placement="top" data-tippy-content="Monedas">
                                 <div class="card__icon">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8 0.5C12.1423 0.5 15.5 3.85775 15.5 8C15.5 12.1423 12.1423 15.5 8 15.5C3.85775 15.5 0.5 12.1423 0.5 8C0.5 3.85775 3.85775 0.5 8 0.5ZM7.46975 5.348L5.348 7.46975C5.2074 7.6104 5.12841 7.80113 5.12841 8C5.12841 8.19887 5.2074 8.3896 5.348 8.53025L7.46975 10.652C7.6104 10.7926 7.80113 10.8716 8 10.8716C8.19887 10.8716 8.3896 10.7926 8.53025 10.652L10.652 8.53025C10.7926 8.3896 10.8716 8.19887 10.8716 8C10.8716 7.80113 10.7926 7.6104 10.652 7.46975L8.53025 5.348C8.3896 5.2074 8.19887 5.12841 8 5.12841C7.80113 5.12841 7.6104 5.2074 7.46975 5.348Z" fill="white" fill-opacity="0.5"/>
@@ -26,7 +25,7 @@
                             </div>
                         @endif
                         @if (isset($country))
-                            <div class="card__fly card__country">
+                            <div class="card__fly card__country" data-tippy-placement="top" data-tippy-content="{{ $country->name }}">
                                 <div class="card__icon">
                                     <svg width="15" height="19" viewBox="0 0 15 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M7.5 9.5C7.98125 9.5 8.39337 9.3285 8.73637 8.9855C9.07879 8.64308 9.25 8.23125 9.25 7.75C9.25 7.26875 9.07879 6.85663 8.73637 6.51363C8.39337 6.17121 7.98125 6 7.5 6C7.01875 6 6.60692 6.17121 6.2645 6.51363C5.9215 6.85663 5.75 7.26875 5.75 7.75C5.75 8.23125 5.9215 8.64308 6.2645 8.9855C6.60692 9.3285 7.01875 9.5 7.5 9.5ZM7.5 18.25C5.15208 16.2521 3.39858 14.3962 2.2395 12.6824C1.07983 10.9691 0.5 9.38333 0.5 7.925C0.5 5.7375 1.20379 3.99479 2.61138 2.69687C4.01838 1.39896 5.64792 0.75 7.5 0.75C9.35208 0.75 10.9816 1.39896 12.3886 2.69687C13.7962 3.99479 14.5 5.7375 14.5 7.925C14.5 9.38333 13.9205 10.9691 12.7614 12.6824C11.6017 14.3962 9.84792 16.2521 7.5 18.25Z" fill="white" fill-opacity="0.5"/>
@@ -138,12 +137,16 @@
                                                 <button class="shortcut__remove" data-manga-id="{{ $item->id }}" data-user-id="{{ $user->id }}">Remover</button>
                                             @else
                                             <div class="manga__terms">
-                                                <div class="manga__type">
-                                                    <a href="{{ $item->type->slug }}">{{ $item->type->name }}</a>
-                                                </div>
-                                                <div class="manga__demography">
-                                                    <a href="{{ $item->demography->slug }}">{{ $item->demography->name }}</a>
-                                                </div>
+                                                @if ($item->demography)
+                                                    <div class="manga__demography {{ $item->demography->slug }}">
+                                                        <a href="{{ $item->demography->slug }}">{{ $item->demography->name }}</a>
+                                                    </div>
+                                                @endif
+                                                @if ($item->type)
+                                                    <div class="manga__type {{ $item->type->slug }}">
+                                                        <a href="{{ $item->type->slug }}">{{ $item->type->name }}</a>
+                                                    </div>
+                                                @endif
                                             </div>
                                             @endif
                                         </div>
@@ -159,49 +162,63 @@
                     @endif
                 @else
                     @if (isset($manga) && $manga->isNotEmpty())
-                        <div class="new__chapters">
-                            @foreach ($manga as $item)
-                                @if (!isset($item->lastChapter))
-                                    @continue
-                                @endif
-                                <div class="new__chapters__item">
-                                    <a href="{{ $item->lastChapter->url() }}" class="new__chapters__link">
-                                        <figure class="new__chapters__image">
-                                            @php
-                                                $pathImage = 'storage/'.$item->featured_image;
-                                                $imageExtension = pathinfo($pathImage)["extension"];
-                                                $img = ManipulateImage::cache(function($image) use ($item) {
-                                                    return $image->make('storage/'.$item->featured_image)->fit(80, 68);
-                                                }, 10, true);
+                        @php
+                            $chaptersCount = 0;
+                        @endphp
+                        @if ($chaptersCount != 0)
+                            <div class="new__chapters">
+                                @foreach ($manga as $item)
+                                    @if (!isset($item->lastChapter))
+                                        @continue
+                                    @endif
+                                    @php
+                                        $chaptersCount += 1;
+                                    @endphp
+                                    <div class="new__chapters__item">
+                                        <a href="{{ $item->lastChapter->url() }}" class="new__chapters__link">
+                                            <figure class="new__chapters__image">
+                                                @php
+                                                    $pathImage = 'storage/'.$item->featured_image;
+                                                    $imageExtension = pathinfo($pathImage)["extension"];
+                                                    $img = ManipulateImage::cache(function($image) use ($item) {
+                                                        return $image->make('storage/'.$item->featured_image)->fit(80, 68);
+                                                    }, 10, true);
 
-                                                $img->response($imageExtension, 70);
-                                                $base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
-                                                
-                                            @endphp
-                                            <img src="{!! $base64 !!}" alt="{{ $item->name }}">
-                                        </figure>
-                                        <div class="new__chapters__group">
-                                            <div class="new__chapters__content">
-                                                <h6>{{ $item->name }}</h6>
-                                                <span class="new__chapters__chapter">{{ $item->lastChapter->name }}</span>
-                                                <span class="new__chapters__date">{{ Carbon\Carbon::parse($item->lastChapter->created_at)->diffForHumans()}}</span>
+                                                    $img->response($imageExtension, 70);
+                                                    $base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
+                                                    
+                                                @endphp
+                                                <img src="{!! $base64 !!}" alt="{{ $item->name }}">
+                                            </figure>
+                                            <div class="new__chapters__group">
+                                                <div class="new__chapters__content">
+                                                    <h6>{{ $item->name }}</h6>
+                                                    <span class="new__chapters__chapter">{{ $item->lastChapter->name }}</span>
+                                                    <span class="new__chapters__date">{{ Carbon\Carbon::parse($item->lastChapter->created_at)->diffForHumans()}}</span>
+                                                </div>
+                                                <div class="new__chapters__icon">
+                                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M19.9375 3.45899H15.0219C13.967 3.45899 12.9357 3.76191 12.0484 4.3334L11 5.00586L9.95156 4.3334C9.06514 3.76202 8.03274 3.45842 6.97812 3.45899H2.0625C1.68223 3.45899 1.375 3.76621 1.375 4.14649V16.3496C1.375 16.7299 1.68223 17.0371 2.0625 17.0371H6.97812C8.03301 17.0371 9.06426 17.34 9.95156 17.9115L10.9055 18.526C10.9334 18.5432 10.9656 18.5539 10.9979 18.5539C11.0301 18.5539 11.0623 18.5453 11.0902 18.526L12.0441 17.9115C12.9336 17.34 13.967 17.0371 15.0219 17.0371H19.9375C20.3178 17.0371 20.625 16.7299 20.625 16.3496V4.14649C20.625 3.76621 20.3178 3.45899 19.9375 3.45899ZM8.67969 11.8916C8.67969 11.9797 8.61094 12.0527 8.52715 12.0527H4.53535C4.45156 12.0527 4.38281 11.9797 4.38281 11.8916V10.9248C4.38281 10.8367 4.45156 10.7637 4.53535 10.7637H8.525C8.60879 10.7637 8.67754 10.8367 8.67754 10.9248V11.8916H8.67969ZM8.67969 8.88379C8.67969 8.97188 8.61094 9.04492 8.52715 9.04492H4.53535C4.45156 9.04492 4.38281 8.97188 4.38281 8.88379V7.91699C4.38281 7.82891 4.45156 7.75586 4.53535 7.75586H8.525C8.60879 7.75586 8.67754 7.82891 8.67754 7.91699V8.88379H8.67969ZM17.6172 11.8916C17.6172 11.9797 17.5484 12.0527 17.4646 12.0527H13.4729C13.3891 12.0527 13.3203 11.9797 13.3203 11.8916V10.9248C13.3203 10.8367 13.3891 10.7637 13.4729 10.7637H17.4625C17.5463 10.7637 17.615 10.8367 17.615 10.9248V11.8916H17.6172ZM17.6172 8.88379C17.6172 8.97188 17.5484 9.04492 17.4646 9.04492H13.4729C13.3891 9.04492 13.3203 8.97188 13.3203 8.88379V7.91699C13.3203 7.82891 13.3891 7.75586 13.4729 7.75586H17.4625C17.5463 7.75586 17.615 7.82891 17.615 7.91699V8.88379H17.6172Z"/>
+                                                    </svg>										
+                                                </div>
                                             </div>
-                                            <div class="new__chapters__icon">
-                                                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M19.9375 3.45899H15.0219C13.967 3.45899 12.9357 3.76191 12.0484 4.3334L11 5.00586L9.95156 4.3334C9.06514 3.76202 8.03274 3.45842 6.97812 3.45899H2.0625C1.68223 3.45899 1.375 3.76621 1.375 4.14649V16.3496C1.375 16.7299 1.68223 17.0371 2.0625 17.0371H6.97812C8.03301 17.0371 9.06426 17.34 9.95156 17.9115L10.9055 18.526C10.9334 18.5432 10.9656 18.5539 10.9979 18.5539C11.0301 18.5539 11.0623 18.5453 11.0902 18.526L12.0441 17.9115C12.9336 17.34 13.967 17.0371 15.0219 17.0371H19.9375C20.3178 17.0371 20.625 16.7299 20.625 16.3496V4.14649C20.625 3.76621 20.3178 3.45899 19.9375 3.45899ZM8.67969 11.8916C8.67969 11.9797 8.61094 12.0527 8.52715 12.0527H4.53535C4.45156 12.0527 4.38281 11.9797 4.38281 11.8916V10.9248C4.38281 10.8367 4.45156 10.7637 4.53535 10.7637H8.525C8.60879 10.7637 8.67754 10.8367 8.67754 10.9248V11.8916H8.67969ZM8.67969 8.88379C8.67969 8.97188 8.61094 9.04492 8.52715 9.04492H4.53535C4.45156 9.04492 4.38281 8.97188 4.38281 8.88379V7.91699C4.38281 7.82891 4.45156 7.75586 4.53535 7.75586H8.525C8.60879 7.75586 8.67754 7.82891 8.67754 7.91699V8.88379H8.67969ZM17.6172 11.8916C17.6172 11.9797 17.5484 12.0527 17.4646 12.0527H13.4729C13.3891 12.0527 13.3203 11.9797 13.3203 11.8916V10.9248C13.3203 10.8367 13.3891 10.7637 13.4729 10.7637H17.4625C17.5463 10.7637 17.615 10.8367 17.615 10.9248V11.8916H17.6172ZM17.6172 8.88379C17.6172 8.97188 17.5484 9.04492 17.4646 9.04492H13.4729C13.3891 9.04492 13.3203 8.97188 13.3203 8.88379V7.91699C13.3203 7.82891 13.3891 7.75586 13.4729 7.75586H17.4625C17.5463 7.75586 17.615 7.82891 17.615 7.91699V8.88379H17.6172Z"/>
-                                                </svg>										
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="empty">No hay elementos para mostrar</div>
+                                        </a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="empty">No hay elementos para mostrar</div>
+                        @endif
                     @endif
                 @endif
             </div>
         </div>
+        @else
+            <div class="private__profile">
+                <div class="profile__image">
+                    <img src="{{ asset('storage/images/private-profile.jpg') }}" alt="Perfil privado" />
+                </div>
+            </div>
+        @endif
     </div>
-    @endif
 </x-app-layout>

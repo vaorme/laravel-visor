@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-slot:title>Manga | Crear</x-slot>
     <x-admin.bar :backTo="route('manga.index')" />
     <div class="frmo fm-manga fm-create">
         <form action="{{ route('manga.store') }}" method="POST" enctype="multipart/form-data">

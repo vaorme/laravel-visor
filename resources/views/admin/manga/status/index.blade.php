@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-slot:title>Manga | Estados</x-slot>
     <x-admin.nav>
         <li class="{{ (request()->is('controller/manga/type')) ? 'active' : '' }}"><a href="{{ route('manga_types.index') }}">Tipos</a></li>
         <li class="{{ (request()->is('controller/manga/status')) ? 'active' : '' }}"><a href="{{ route('manga_book_status.index') }}">Estados</a></li>

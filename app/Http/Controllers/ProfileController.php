@@ -3,12 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\Chapter;
 use App\Models\Countries;
-use App\Models\Manga;
 use App\Models\User;
-use App\Models\UserFollowManga;
-use App\Models\UserHasFavorite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -20,41 +16,38 @@ class ProfileController extends Controller
     public function index(Request $request){
         $username = $request->username;
         $user = User::firstWhere('users.username', '=', $username);
-        if($user->exists()){
-            $profile = $user->profile;
+        if($user){
             $page = $request->page;
             $viewData = [
                 'user' => $user
             ];
-            
-            if(!isset($request->page) && Auth::check()){
-                $viewData['manga'] = $user->followedMangas;
-            }
-            if(isset($page) && $page == "atajos" && !Auth::check()){
-                abort(404);
-            }
-            switch ($page) {
-                case 'siguiendo':
+            if($user->profile->public_profile || Auth::id() == $user->id){
+                if(!isset($request->page) && Auth::check()){
                     $viewData['manga'] = $user->followedMangas;
-                    break;
-                case 'favoritos':
-                    $viewData['manga'] = $user->favoriteMangas;
-                    break;
-                case 'atajos':
-                    $viewData['manga'] = $user->shortcutMangas;
-                    break;
-                default:
-                    $viewData['manga'] = $user->followedMangas;
-                    break;
+                }
+                if(isset($page) && $page == "atajos" && !Auth::check()){
+                    abort(404);
+                }
+                switch ($page) {
+                    case 'siguiendo':
+                        $viewData['manga'] = $user->followedMangas;
+                        break;
+                    case 'favoritos':
+                        $viewData['manga'] = $user->favoriteMangas;
+                        break;
+                    case 'atajos':
+                        $viewData['manga'] = $user->shortcutMangas;
+                        break;
+                    default:
+                        $viewData['manga'] = $user->followedMangas;
+                        break;
+                }
+                $viewData['page'] = $page;
             }
-            $viewData['page'] = $page;
             
             return view('profile.index', $viewData);
         }else{
-            return view('profile.index', [
-                'error' => true,
-                'msg' => "Usuario $username no existe"
-            ]);
+            return abort(404);
         }
     }
     /**

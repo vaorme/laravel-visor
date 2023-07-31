@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-slot:title>Usuarios | Crear</x-slot>
     <x-admin.bar title="Crear usuario" :backTo="route('users.index')" />
     <div class="template-2">
         <div class="contain">

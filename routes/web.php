@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShortcutsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\web\ViewerChapter;
+use App\Http\Controllers\web\WebUserController;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,32 +27,43 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::patch('/u/account', [ProfileController::class, 'update'])->name('account.update');
     Route::delete('/u/account', [ProfileController::class, 'destroy'])->name('account.destroy');
 
+    // :USERS
+    Route::prefix('users')->group(function(){
+
+        // :VALIDATE USER AVATAR
+        Route::post('validate-avatar', [ProfileController::class, 'validateAvatar'])->name('validateUserAvatar');
+
+        // :UPDATE USER
+        Route::patch('{id}', [WebUserController::class, 'update'])->name('currentUser.update');
+    });
     // :USER SHORTCUTS
     Route::post('shortcut/add', [ShortcutsController::class, 'store'])->name('shortcut.store');
 
     // :USER UNFOLLOW/FOLLOW MANGA
-    Route::post('/u/follow/{mangaid}', [UserController::class, 'followManga'])->name('follow_manga.store');
-    Route::post('/u/unfollow/{mangaid}', [UserController::class, 'unfollowManga'])->name('unfollow_manga.store');
+    Route::post('/u/follow/{mangaid}', [WebUserController::class, 'followManga'])->name('follow_manga.store');
+    Route::post('/u/unfollow/{mangaid}', [WebUserController::class, 'unfollowManga'])->name('unfollow_manga.store');
 
     // :USER VIEW/UNVIEW MANGA
-    Route::post('/u/view/{mangaid}', [UserController::class, 'viewManga'])->name('view_manga.store');
-    Route::post('/u/unview/{mangaid}', [UserController::class, 'unviewManga'])->name('unview_manga.store');
+    Route::post('/u/view/{mangaid}', [WebUserController::class, 'viewManga'])->name('view_manga.store');
+    Route::post('/u/unview/{mangaid}', [WebUserController::class, 'unviewManga'])->name('unview_manga.store');
 
     // :USER FAV/UNFAV MANGA
-    Route::post('/u/fav/{mangaid}', [UserController::class, 'favManga'])->name('fav_manga.store');
-    Route::post('/u/unfav/{mangaid}', [UserController::class, 'unfavManga'])->name('unfav_manga.store');
+    Route::post('/u/fav/{mangaid}', [WebUserController::class, 'favManga'])->name('fav_manga.store');
+    Route::post('/u/unfav/{mangaid}', [WebUserController::class, 'unfavManga'])->name('unfav_manga.store');
 
     // :USER VIEW/UNVIEW CHAPTER
-    Route::post('/u/view_chapter/{mangaid}', [UserController::class, 'viewChapter'])->name('view_chapter.store');
-    Route::post('/u/unview_chapter/{mangaid}', [UserController::class, 'unviewChapter'])->name('unview_chapter.store');
+    Route::post('/u/view_chapter/{mangaid}', [WebUserController::class, 'viewChapter'])->name('view_chapter.store');
+    Route::post('/u/unview_chapter/{mangaid}', [WebUserController::class, 'unviewChapter'])->name('unview_chapter.store');
 
     // :SHORTCUTE REMOVE
     Route::post('/u/remove_shortcut', [ShortcutsController::class, 'destroy'])->name('shortcut.destroy');
     
 });
+Route::post('/rate/{manga_id}', [WebUserController::class, 'rateManga'])->name('rate_manga.store');
 
 // :USER PROFILE
 Route::get('/u/{username}/{page?}', [ProfileController::class, 'index'])->where(['page' => 'siguiendo|favoritos|atajos'])->name('profile.index');
+
 Route::get('/u/', function(){
     return redirect('/'); // Redirect home if user go to /u/
 });

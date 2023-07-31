@@ -12,6 +12,7 @@ header.header{
         img{
             display: block;
             width: 62px;
+            height: 53px;
         }
         &::after{
             background-color: rgb(#fff, .2);
@@ -109,6 +110,9 @@ header.header{
         }   
     }
     .panel{
+        display: flex;
+        gap: 15px;
+        align-items: center;
         .user{
             .name{
                 padding-right: 1.5rem;
@@ -129,8 +133,25 @@ header.header{
                 img{
                     width: 40px;
                     height: 40px;
-                    object-fit: cover;
                     border-radius: 35px;
+                }
+            }
+        }
+        .logout{
+            button{
+                display: block;
+                opacity: .3;
+                padding: 8px;
+                border-radius: 35px;
+                transition: background .2s ease, opacity .2s ease;
+                svg{
+                    path{
+                        stroke: #ddd;
+                    }
+                }
+                &:hover{
+                    background-color: theme('colors.vo-red');
+                    opacity: 1;
                 }
             }
         }

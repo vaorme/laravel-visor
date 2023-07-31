@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot:title>{{ $manga->name }}</x-slot>
 	<div class="main__wrap manga__detail">
         <aside class="manga__sidebar">
             <div class="manga__chapters">
@@ -57,12 +58,16 @@
                 <div class="manga__cover">
                     <img src="{{ asset('storage/'.$manga->featured_image) }}" alt="{{ $manga->name }}">
                     <div class="manga__terms">
-                        <div class="manga__type">
-                            <a href="{{ $manga->manga_demography_slug }}">{{ $manga->manga_demography_name }}</a>
-                        </div>
-                        <div class="manga__demography">
-                            <a href="{{ $manga->manga_type_slug }}">{{ $manga->manga_type_name }}</a>
-                        </div>
+                        @if ($manga->demography)
+                            <div class="manga__demography {{ $manga->demography->slug }}">
+                                <a href="{{ $manga->demography->slug }}">{{ $manga->demography->name }}</a>
+                            </div>
+                        @endif
+                        @if ($manga->type)
+                            <div class="manga__type {{ $manga->type->slug }}">
+                                <a href="{{ $manga->type->slug }}">{{ $manga->type->name }}</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="manga__info">
@@ -72,6 +77,30 @@
                             <span class="manga__year">({{ date('Y', strtotime($manga->release_date)); }})</span>
                         @endif</h2>
                         <h4>{{ $manga->alternative_name }}</h4>
+                        <div class="manga__rating">
+                            @php
+                                $rating = round($manga->rating->avg('rating'), 0, PHP_ROUND_HALF_DOWN);
+                            @endphp
+                            <div class="rating__group">
+                                <input disabled="" class="rating__input rating__input--none" name="rating" id="rating3-none" value="0" type="radio" {{ ($rating == 0)? 'checked': null }}>
+                                <label aria-label="1 star" class="rating__label" for="rating-1"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                <input class="rating__input" name="rating" id="rating-1" value="1" data-manga-id="{{ $manga->id }}" type="radio" {{ ($rating == 1)? 'checked': null }}>
+                                <label aria-label="2 stars" class="rating__label" for="rating-2"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                <input class="rating__input" name="rating" id="rating-2" value="2" data-manga-id="{{ $manga->id }}" type="radio" {{ ($rating == 2)? 'checked': null }}>
+                                <label aria-label="3 stars" class="rating__label" for="rating-3"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                <input class="rating__input" name="rating" id="rating-3" value="3" data-manga-id="{{ $manga->id }}" type="radio" {{ ($rating == 3)? 'checked': null }}>
+                                <label aria-label="4 stars" class="rating__label" for="rating-4"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                <input class="rating__input" name="rating" id="rating-4" value="4" data-manga-id="{{ $manga->id }}" type="radio" {{ ($rating == 4)? 'checked': null }}>
+                                <label aria-label="5 stars" class="rating__label" for="rating-5"><i class="rating__icon rating__icon--star fa fa-star"></i></label>
+                                <input class="rating__input" name="rating" id="rating-5" value="5" data-manga-id="{{ $manga->id }}" type="radio" {{ ($rating == 5)? 'checked': null }}>
+                            </div>
+                            <div class="rating__count">
+                                {{ $manga->rating->avg('rating') }}
+                                <div class="count__users">
+                                    (<span class="users__num">{{ count($manga->rating) }}</span>)
+                                </div>
+                            </div>
+                        </div>
                         @if (Auth::check())
                             <div class="manga__actions">
                                 @if ($manga->userFollowManga)
@@ -124,10 +153,12 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="manga__status">
-                            <h4>Estado:</h4>
-                            <span class="status__name{{ ($manga->mb_status_slug)? " ".$manga->mb_status_slug : null}}">{{ $manga->mb_status_name }}</span>
-                        </div>
+                        @if ($manga->bookStatus)
+                            <div class="manga__status">
+                                <h4>Estado:</h4>
+                                <span class="status__name{{ ($manga->bookStatus->slug)? " ".$manga->bookStatus->slug : null}}">{{ $manga->bookStatus->name }}</span>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </section>

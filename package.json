@@ -36,12 +36,12 @@
         "@editorjs/table": "^2.2.1",
         "@editorjs/underline": "^1.1.0",
         "@shopify/draggable": "^1.0.0-beta.8",
-        "@splidejs/splide": "^4.1.4",
         "air-datepicker": "^3.3.5",
         "choices.js": "^10.2.0",
         "sass": "^1.57.1",
         "simple-datatables": "^7.1.0",
         "simplebar": "^6.2.5",
+        "swiper": "^10.0.4",
         "tippy.js": "^6.3.7",
         "toastify-js": "^1.12.0"
     }

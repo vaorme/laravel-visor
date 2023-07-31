@@ -1,8 +1,9 @@
 <x-loreg-layout>
+    <x-slot:title>Verificar correo</x-slot>
     <div class="box login">
         <div class="frmo">
             <div class="title">
-                <h4 class="mb-2">Resetear contraseña</h4>
+                <h4 class="mb-2">Verificar correo</h4>
                 <p>{{ __('Gracias por registrarte! Antes de comenzar, ¿podría verificar su dirección de correo electrónico haciendo clic en el enlace que le acabamos de enviar? Si no recibiste el correo electrónico, con gusto te enviaremos otro.') }}</p>
             </div>
             @if (session('status') == 'verification-link-sent')

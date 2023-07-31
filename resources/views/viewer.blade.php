@@ -1,4 +1,5 @@
 <x-viewer-layout>
+    <x-slot:title>{{ $currentChapter->name }}</x-slot>
     @php
         $paginado = request()->route('reader_type');
     @endphp

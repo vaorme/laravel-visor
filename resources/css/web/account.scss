@@ -1,4 +1,6 @@
 #app main.main .main__wrap.account{
+    display: grid;
+    gap: 15px;
     padding-left: 1.5rem;
     .account__box{
         background-color: #1c1c1c;
@@ -27,7 +29,7 @@
             }
         }
     }
-    .account__form{
+    .form{
         display: grid;
         gap: 15px 50px;
         grid-template-columns: repeat(2, 1fr);
@@ -35,25 +37,22 @@
             color: #000;
         }
     }
-    .account__form .form__col,
-    .account__form .form__group{
+    .form .form__col,
+    .form .form__group{
         display: grid;
         gap: 25px;
         grid-auto-rows: min-content;
     }
-    .account__form .form__item{
-
-    }
-    .account__form .form__item label{
-        font-size: 1.1rem;
+    .form .form__item label{
+        font-size: 16px;
         color: #7e7e7e;
         display: block;
         font-weight: 600;
         margin-bottom: 1rem;
     }
-    .account__form .form__item input,
-    .account__form .form__item textarea,
-    .account__form .form__item select{
+    .form .form__item input,
+    .form .form__item textarea,
+    .form .form__item select{
         background-color: #141414;
         padding: 0.6rem 1rem;
         width: 100%;
@@ -62,20 +61,26 @@
         border-radius: 0.4rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .account__form .form__item .password__validation{
+    .form .form__item .password__validation{
         padding: 0 20px;
         padding-top: 15px;
         font-size: 14px;
         color: #bdbdbd;
     }
-    .account__form .form__group h2.group__title{
+    .form .form__item .password__validation .invalid{
+        color: #bf4141;
+    }
+    .form .form__item .password__validation .valid{
+        color: #3a9763;
+    }
+    .form .form__group h2.group__title{
         font-size: 20px;
         font-weight: 500;
     }
-    .account__form .form__group .form__item{
+    .form .form__group .form__item{
         padding-left: 10px;
     }
-    .account__form .form__profile_public{
+    .form .form__profile_public{
         .rdos{
             label{
                 .rd-input{
@@ -98,7 +103,7 @@
             }
         }
     }
-    .account__form .form__redes{
+    .form .form__redes{
         .list{
             .item{
                 display: flex;
@@ -151,6 +156,146 @@
                         }
                     }
                 }
+            }
+        }
+    }
+    .form .form__avatares{
+        .list{
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            .item{
+                width: 100%;
+                max-width: 80px;
+                border-radius: 100%;
+                label{
+                    cursor: pointer;
+                    margin: 0;
+                }
+                .avatar{
+                    pointer-events: none;
+                    border-radius: 100%;
+                    transition: box-shadow .2s ease;
+                    img{
+                        border-radius: 100%;
+                        display: block;
+                        pointer-events: none;
+                    }
+                }
+                input{
+                    display: none;
+                    &:checked ~ .avatar{
+                        box-shadow: 0 0 0 .4rem theme('colors.vo-orange');
+                    }
+                }
+            }
+            #avatar{
+                cursor: pointer;
+                &.selected{
+                    .avatar{
+                        box-shadow: 0 0 0 .4rem theme('colors.vo-orange');
+                    }
+                }
+            }
+            #userAvatar{
+                background-color: #353535;
+                border-radius: 100%;
+                order: 1;
+                transition: background .2s ease, box-shadow .2s ease;
+                &:hover{
+                    background-color: #3a3a3a;
+                }
+                #choose{
+                    display: flex;
+                    height: 100%;
+                    cursor: pointer;
+                    align-items: center;
+                    justify-content: center;
+                    .add{
+                        svg{
+                            pointer-events: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .form .form__cover .preview{
+        background-color: #252525;
+        margin-top: 1rem;
+        border-radius: 0.8rem;
+        overflow: hidden;
+    }
+    .form .form__cover .preview img{
+        min-height: 300px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+    }
+    .form .form__cover .preview img.show{
+        opacity: 1;
+        visibility: visible;
+    }
+    .account__delete .account__box{
+        gap: 15px;
+    }
+    .account__delete .account__title,
+    .account__change__password .account__title{
+        font-size: 18px;
+        color: #fff;
+        display: block;
+        font-weight: 600;
+    }
+    .account__delete form{
+        display: grid;
+        gap: 15px;
+        color: #7e7e7e;
+        grid-template-columns: initial;
+    }
+    .account__delete form input{
+        background-color: #141414;
+        padding: 0.6rem 1rem;
+        width: 100%;
+        outline: none;
+        color: #fff;
+        border-radius: 0.4rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .account__delete form > p,
+    .account__change__password form > p{
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+    .account__change__password .account__box{
+        gap: 15px;
+    }
+    .account__change__password .form__password{
+        color: #7e7e7e;
+        grid-template-columns: initial;
+    }
+    .alertas{
+        width: 100%;
+        border-radius: .4rem;
+        &.success{
+            text-align: center;
+            .box{
+                background-color: theme('colors.vo-green');
+            }
+        }
+        &.error{
+            text-align: center;
+            .box{
+                background-color: theme('colors.vo-red');
+            }
+        }
+        .box{
+            padding: 0.8rem;
+            border-radius: 0.4rem;
+            p{
+                margin: 0;
+                color: #fff;
+                font-size: 1rem;
             }
         }
     }

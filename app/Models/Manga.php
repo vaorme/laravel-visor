@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
@@ -35,7 +33,24 @@ class Manga extends Model{
     public function demography(){
         return $this->belongsTo(MangaDemography::class);
     }
+    public function bookStatus(){
+        return $this->belongsTo(MangaBookStatus::class);
+    }
     public function type(){
         return $this->belongsTo(MangaType::class);
+    }
+    public function rating(){
+        return $this->hasMany(UserRateManga::class, 'manga_id');
+    }
+    public function monthRating(){
+        $month = date('Y-m-d', strtotime("-1 month"));
+        return $this->hasMany(UserRateManga::class, 'manga_id')->where('manga_rating.created_at', '>=', $month);
+    }
+    public function viewCount(){
+        return $this->hasMany(ViewCount::class, 'manga_id');
+    }
+    public function viewsMonth(){
+        $month = date('Y-m-d', strtotime("-1 month"));
+        return $this->hasMany(ViewCount::class, 'manga_id')->where('view_count.created_at', '>=', $month);
     }
 }

@@ -1,4 +1,5 @@
 <x-loreg-layout>
+    <x-slot:title>Resetear contraseña</x-slot>
     <div class="box login">
         <div class="frmo">
             <div class="title">

@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-slot:title>Roles</x-slot>
 	<x-admin.nav>
         <li class="{{ (request()->is('controller/permissions')) ? 'active' : '' }}"><a href="{{ route('permissions.index') }}">Permissions</a></li>
 		<li class="{{ (request()->is('controller/roles')) ? 'active' : '' }}"><a href="{{ route('roles.index') }}">Roles</a></li>

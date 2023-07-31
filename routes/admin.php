@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RankController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\uploadChaptersController;
 use App\Http\Controllers\UserController;
@@ -225,5 +226,28 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
             Route::delete('{id}', [RankController::class, 'destroy'])->middleware(['permission:ranks.destroy'])->name('ranks.destroy');
         });
         
+        // :HOME SLIDE
+        Route::prefix('slider')->group(function(){
+            Route::get("/", [SliderController::class, 'index'])->middleware(['permission:slider.index'])->name('slider.index');
+            
+            // Create
+            Route::get('create', [SliderController::class, 'create'])->middleware(['permission:slider.create'])->name('slider.create');
+            Route::post('/', [SliderController::class, 'store'])->middleware(['permission:slider.create'])->name('slider.store');
+
+            //Edit
+            Route::get('{id}', [CategoryController::class, 'edit'])->middleware(['permission:slider.edit'])->name('slider.edit');
+            Route::patch('{id}', [SliderController::class, 'update'])->middleware(['permission:slider.edit'])->name('slider.update');
+
+            // Delete
+            Route::delete('{id}', [SliderController::class, 'destroy'])->middleware(['permission:slider.destroy'])->name('slider.destroy');
+        });
+
+        // :SETTINGS
+        Route::prefix('settings')->group(function(){
+            Route::get("/", [SliderController::class, 'index'])->middleware(['permission:slider.index'])->name('slider.index');
+
+            // :EDIT
+            Route::patch('{id}', [SliderController::class, 'update'])->middleware(['permission:slider.edit'])->name('slider.update');
+        });
     });
 });

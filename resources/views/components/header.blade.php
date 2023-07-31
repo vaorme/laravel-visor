@@ -42,10 +42,18 @@
                                 <h4>{{ $auth->username }}</h4>
                             </div>
                             <div class="avatar">
-                                <img src="{{ asset($profile->avatar) }}" alt="">
+                                <img src="{{ asset($profile->avatar) }}" alt="{{ $auth->username }}"/>
                             </div>
                         </div>
                     </a>
+                    <div class="logout">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit">
+                                <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 12L15 8M19 12L15 16M19 12H9" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/><path d="M14 21C9.02944 21 5 16.9706 5 12C5 7.02944 9.02944 3 14 3" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             @else
                 <div class="buttons grid grid-cols-2 gap-4">

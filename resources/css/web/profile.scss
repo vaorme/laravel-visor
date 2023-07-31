@@ -243,4 +243,10 @@
         font-size: 16px;
         color: #ddd;
     }
+    .private__profile .profile__image img{
+        display: block;
+        margin: auto;
+        max-width: 100%;
+        border-radius: 14px;
+    }
 }

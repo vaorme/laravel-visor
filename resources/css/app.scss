@@ -1,7 +1,9 @@
 body{
 	color: #fff;
 }
-
+img{
+	display: block;
+}
 // :TOASTIFY
 
 div.toastify{
@@ -26,16 +28,23 @@ div.toastify.error{
 	position: relative;
 	min-height: calc(100vh - 198px);
 }
-#app main.main section.section{
-	padding: 40px 1.5rem;
-}
 #app main.main section.section .section__title{
 	margin-bottom: 30px;
 }
 #app main.main section.section .section__title h2{
-	margin: 0;
-	font-size: 20px;
-	font-weight: bold;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    align-items: center;
+}
+#app main.main section.section .section__title h2 span{
+    background-color: theme('colors.vo-red');
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 5px;
+    text-transform: uppercase;
 }
 
 // :MAIN CONTENT
@@ -47,7 +56,11 @@ div.toastify.error{
 }
 #app main.main .main__wrap.main__home{
 	display: grid;
+	padding-left: 1.5rem;
 	grid-template-columns: calc(100% - 406px) 406px;
+}
+#app main.main .main__wrap.main__home .main__content{
+	padding-right: 1.5rem;
 }
 #app main.main .main__wrap.main__home aside.main__sidebar{
 	display: grid;
@@ -57,17 +70,15 @@ div.toastify.error{
 }
 #app main.main .main__wrap.main__home aside.main__sidebar h2.sidebar__title{
 	position: relative;
+	display: flex;
 	font-size: 16px;
 	color: #fff;
+	gap: 15px;
 	font-weight: 600;
-	padding-left: 75px;
 }
-#app main.main .main__wrap.main__home aside.main__sidebar h2.sidebar__title::before{
+#app main.main .main__wrap.main__home aside.main__sidebar h2.sidebar__title span{
     background-color: theme('colors.vo-red');
-    position: absolute;
     padding: 5px 10px;
-    content: "Semana";
-    left: 0;
     font-size: 10px;
     border-radius: 5px;
     text-transform: uppercase;
@@ -93,6 +104,91 @@ div.toastify.error{
 	font-size: 12px;
 	font-weight: bold;
 	text-transform: uppercase;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops{
+	background-color: transparent;
+	display: grid;
+	gap: 1.5rem;
+	padding: 0;
+	border-radius: 0;
+	padding-top: 2rem;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list{
+	display: grid;
+	gap: 10px;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item a{
+	background-color: #1c1c1c;
+	display: flex;
+	gap: 15px;
+	padding: 12px 16px;
+	border-radius: 8px;
+	align-items: center;
+	transition: background .2s ease;
+	&:hover{
+		background-color: #252525;
+	}
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item figure.item__image{
+	position: relative;
+    width: 100%;
+    max-width: 60px;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item figure.item__image img{
+	opacity: .5;
+	width: 100%;
+    height: 54px;
+    object-fit: cover;
+	border-radius: 12px;
+    object-position: center;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item a .item__count{
+	background-color: #313131;
+    position: absolute;
+    padding: 5px 10px;
+    left: 50%;
+    top: 50%;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transform: translate(-50%, -50%);
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item:nth-child(1) a .item__count{
+	background-color: #FFD700;
+	color: #000;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item:nth-child(2) a .item__count{
+	background-color: #C0C0C0;
+	color: #000;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item:nth-child(3) a .item__count{
+	background-color: #CD7F32;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item a .item__info{
+	display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item a .item__info .item__name{
+	font-size: 14px;
+	font-weight: 600;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item a .item__info .item__rate{
+    display: flex;
+    gap: 5px;
+    padding: 4px 8px;
+    align-items: center;
+    border-radius: 6px;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item a .item__info .item__rate i{
+	font-size: 14px;
+	color: #f9c81d;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item a .item__info .item__rate span.rate__count{
+	font-size: 14px;
+	font-weight: 600;
 }
 #app main.main .main__shortcuts{
 	background-color: #1c1c1c;
@@ -274,23 +370,21 @@ div.toastify.error{
 // :HOME SLIDER
 
 #app main.main .section.home__slider{
-	padding-top: 0;
-}
-#app main.main .section.home__slider .splide{
 	position: relative;
 }
-#app main.main .section.home__slider .splide .splide__track{
-
-}
-#app main.main .section.home__slider .splide .splide__track ul.splide__list{
-
-}
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide{
-	position: relative;
-	overflow: hidden;
+#app main.main .section.home__slider .slide__box{
+    background-color: #1c1c1c;
+    overflow: hidden;
     border-radius: 22px;
+	max-height: 680px;
 }
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide .splide__image{
+#app main.main .section.home__slider .slide__box .swiper .swiper-slide{
+	opacity: 0;
+}
+#app main.main .section.home__slider .slide__box .swiper .swiper-slide.swiper-slide-active{
+	opacity: 1;
+}
+#app main.main .section.home__slider .slide__image{
 	background-size: cover;
 	background-position: right;
 	position: absolute;
@@ -302,7 +396,7 @@ div.toastify.error{
 	display: block;
 	object-fit: cover;
 }
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide .splide__image::before{
+#app main.main .section.home__slider .slide__image::before{
     background: linear-gradient(to right, rgb(0 0 0 / 90%) 40%, transparent 100%);
     position: absolute;
     content: "";
@@ -311,82 +405,169 @@ div.toastify.error{
     width: 70%;
     height: 100%;
 }
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide .splide__content{
-	display: grid;
-	gap: 25px;
-	padding: 100px 50px;
+#app main.main .section.home__slider .slide__content{
+	min-height: 680px;
+	padding: 50px;
 }
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide .splide__content .splide__logo{
-	
+#app main.main .section.home__slider .slide__content .content__box{
+	background-color: #1c1c1c;
+	position: relative;
+	opacity: 0;
+    padding: 3rem;
+    max-width: 760px;
+	visibility: hidden;
+    border-radius: 22px;
+	animation-name: outBoxSlide;
+	animation-delay: .4s;
+	animation-duration: .5s;
+	animation-fill-mode: forwards;
+	transform: translateY(-15px);
 }
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide .splide__content .splide__logo img{
+#app main.main .section.home__slider .slide__logo{
+	padding-bottom: 15px;
+}
+#app main.main .section.home__slider .slide__logo img{
 	display: inline-block;
-	max-width: 300px;
+	max-width: 260px;
 }
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide .splide__content .splide__description{
+#app main.main .section.home__slider .slide__logo .slide__name{
+	color: #fff;
+	font-size: 24px;
+	font-weight: 800;
+}
+#app main.main .section.home__slider .manga__rating{
+	position: absolute;
+	right: 2em;
+	top: 2em;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	padding-bottom: 25px;
+	.rating__group {
+		display: inline-flex;
+	}
+	.rating__count{
+		display: flex;
+		gap: 5px;
+		font-size: 16px;
+		color: #8f8f8f;
+		font-weight: 500;
+		align-items: center;
+		letter-spacing: 0.2px;
+		.count__users{
+			font-size: 14px;
+			opacity: .5;
+		}
+	}
+	.rating__icon {
+		pointer-events: none;
+	}
+	.rating__input {
+		display: none;
+	}
+	.rating__label {
+		cursor: default;
+		padding: 0 0.1em;
+		font-size: 18px;
+	}
+	.rating__icon--star {
+		color: #f9c81d;
+	}
+	.rating__input:checked ~ .rating__label .rating__icon--star {
+		color: #434343;
+	}
+}
+#app main.main .section.home__slider .slide__description{
 	max-width: 700px;
+	padding-bottom: 40px;
 }
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide .splide__content .splide__buttons{
-	
+#app main.main .section.home__slider .slide__description p{
+	font-size: 14px;
+	opacity: .7;
+    font-weight: 300;
+    letter-spacing: .5px;
 }
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide .splide__content .splide__buttons a{
-	background-color: transparent;
+#app main.main .section.home__slider .slide__buttons a{
+	background-color: theme('colors.vo-red');
     font-size: 14px;
-    padding: 10px 30px;
+    padding: 12px 30px;
     display: inline-block;
     border-radius: 35px;
     font-weight: 600;
     min-width: 200px;
     text-align: center;
     text-transform: uppercase;
-    border: 2px solid #fff;
 	transition: background .2s ease, color .2s ease;
 }
-#app main.main .section.home__slider .splide .splide__track .splide__list li.splide__slide .splide__content .splide__buttons a:hover{
+#app main.main .section.home__slider .slide__buttons a:hover{
+	background-color: theme('colors.vo-red-over');
+}
+#app main.main .section.home__slider .swiper-slide.swiper-slide-active .slide__content .content__box{
+	animation-name: inBoxSlide;
+}
+@keyframes inBoxSlide{
+	from{
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(-15px);
+	}
+	to{
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0px);
+	}
+}
+@keyframes outBoxSlide{
+	from{
+		opacity: 1;
+		visibility: visible;
+	}
+	to{
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+#app main.main .section.home__slider .swiper-button-prev,
+#app main.main .section.home__slider .swiper-button-next{
+	background-color: #1c1c1c;
+    position: absolute;
+    top: initial;
+    bottom: 20px;
+	width: 48px;
+	height: 48px;
+    left: initial;
+    right: 20px;
+    margin: 0;
+	color: #fff;
+	font-size: 16px;
+	transform: none;
+	border-radius: 35px;
+	transition: background .2s ease;
+	&:hover{
+		background-color: #262626;
+	}
+}
+#app main.main .section.home__slider .swiper-button-prev::after,
+#app main.main .section.home__slider .swiper-button-next::after{
+	display: none;
+}
+#app main.main .section.home__slider .swiper-button-prev{
+	right: 80px;
+}
+#app main.main .section.home__slider .swiper-pagination{
+	bottom: 20px;
+}
+#app main.main .section.home__slider .swiper-pagination .swiper-pagination-bullet{
 	background-color: #fff;
-	color: #000;
+	opacity: .6;
+	width: 14px;
+	height: 14px;
+	border-radius: 35px;
+	transition: width .4s ease;
 }
-#app main.main .section.home__slider .splide .splide__arrows,
-#app main.main .section.home__slider .splide .splide__pagination{
-	position: absolute;
-	left: 0;
-}
-#app main.main .section.home__slider .splide .splide__arrows{
-	position: absolute;
-	top: 50%;
-    width: 100%;
-	transform: translateY(-50%);
-}
-#app main.main .section.home__slider .splide .splide__pagination{
-	display: flex;
-	bottom: 30px;
-	gap: 15px;
-	left: 50px;
-	align-items: flex-end;
-}
-#app main.main .section.home__slider .splide .splide__pagination li button.splide__pagination__page{
-    background-color: #fff;
-    outline: none;
-    display: block;
-    width: 32px;
-    height: 5px;
-    opacity: 0.2;
-    transition: opacity .2s ease, height .2s ease;
-}
-#app main.main .section.home__slider .splide .splide__pagination li button.splide__pagination__page.is-active{
+#app main.main .section.home__slider .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active{
 	opacity: 1;
-	height: 10px;
-}
-#app main.main .section.home__slider .splide .splide__progress{
-	position: absolute;
-	width: 100%;
-	left: 0;
-	bottom: 0;
-	height: 3px;
-}
-#app main.main .section.home__slider .splide .splide__progress .splide__progress__bar{
-	background-color: theme('colors.vo-red');
-	height: 4px;
+	width: 28px;
 }
 
 // :HOME POPULAR
@@ -398,14 +579,14 @@ div.toastify.error{
 	display: flex;
 	gap: 0;
 }
-#app main.main .section.home__popular .manga .splide .splide__arrows{
+#app main.main .section.home__popular .manga .slide__arrows{
     position: absolute;
 	display: flex;
     bottom: calc(100% + 26px);
     right: 0;
 	gap: 20px;
 }
-#app main.main .section.home__popular .manga .splide .splide__arrows button.splide__arrow{
+#app main.main .section.home__popular .manga .slide__arrows button.slide__arrow{
     display: flex;
     opacity: 0.2;
     width: 40px;
@@ -417,31 +598,72 @@ div.toastify.error{
     border-radius: 35px;
 	transition: opacity .2s ease;
 }
-#app main.main .section.home__popular .manga .splide .splide__arrows button.splide__arrow svg{
+#app main.main .section.home__popular .manga .slide__arrows button.slide__arrow svg{
 	fill: #fff;
 	width: 16px;
 }
-#app main.main .section.home__popular .manga .splide .splide__arrows button.splide__arrow.splide__arrow--prev svg{
+#app main.main .section.home__popular .manga .slide__arrows button.slide__arrow.slide__arrow--prev svg{
 	transform: rotate(180deg);
 }
-#app main.main .section.home__popular .manga .splide .splide__arrows button.splide__arrow:hover{
+#app main.main .section.home__popular .manga .slide__arrows button.slide__arrow:hover{
 	opacity: .7;
+}
+
+// :MOST VIEWED
+#app main.main .section.home__slider + .section.most__viewed{
+	padding-top: 40px;
+}
+#app main.main .section.most__viewed{
+	padding-bottom: 40px;
+}
+
+// :SECTION CATEGORIES
+#app main.main .home__categories{
+	display: grid;
+	gap: 40px;
+}
+#app main.main .section.section__cat{
+    background-color: #1c1c1c;
+	padding: 30px 40px;
+    border-radius: 22px;
+}
+#app main.main .section.section__cat .manga .manga__list .manga__item{
+	z-index: 1;
+}
+#app main.main .section.section__cat .manga .manga__list .manga__item::before{
+	background-color: #272727;
 }
 
 // :MANGA STYLES
 
-#app main.main .manga{
-
-}
 #app main.main .manga .manga__list{
 	display: grid;
-	gap: 34px;
-	grid-template-columns: repeat(6, 1fr);
+	gap: 20px;
+	grid-template-columns: repeat(8, 1fr);
 }
 @media (min-width: 1920px){
 	#app main.main .manga .manga__list{
 		grid-template-columns: repeat(8, 1fr);
 	}
+}
+#app main.main .manga .manga__list .manga__item{
+	position: relative;
+}
+#app main.main .manga .manga__list .manga__item::before{
+    background-color: #1c1c1c;
+    position: absolute;
+    opacity: 0;
+    content: "";
+    top: -15px;
+    left: -10px;
+    z-index: -1;
+    border-radius: 18px;
+    width: calc(100% + 20px);
+    height: calc(100% + 30px);
+    transition: opacity 0.2s ease;
+}
+#app main.main .manga .manga__list .manga__item:hover::before{
+	opacity: 1;
 }
 #app main.main .manga .manga__list .manga__item .manga__cover{
 	position: relative;
@@ -457,20 +679,36 @@ div.toastify.error{
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__image img{
 	width: 100%;
 	display: block;
+	aspect-ratio: 2 / 2.82;
 }
-#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms{
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms,
+#app main.main .manga__detail .manga__contain .manga__cover .manga__terms{
 	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+	padding: 0 5px;
+	padding-bottom: 10px;
 }
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__type,
-#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography{
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography,
+#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__type,
+#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography{
+	width: 50%;
+	padding: 0 5px;
+}
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography:last-of-type,
+#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography:last-of-type{
+	width: 100%;
+}
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography + .manga__type,
+#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography + .manga__type{
 	width: 50%;
 }
-#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms a{
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms a,
+#app main.main .manga__detail .manga__contain .manga__cover .manga__terms a{
 	padding: 10px 10px;
 	width: 100%;
 	display: block;
@@ -478,15 +716,62 @@ div.toastify.error{
 	color: #fff;
 	font-weight: bold;
 	text-align: center;
+	border-radius: 10px;
 }
-#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__type a{
-	background-color: #0C6FE3;
-	border-radius: 0 0 0 18px;
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__type a,
+#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__type a{
+	background-color: #272727;
 }
-#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography a{
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography a,
+#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography a{
 	background-color: #F9C81D;
-	border-radius: 0 0 18px 0;
 	color: #000;
+}
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography,
+#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography{
+	&.seinen a{
+		background-color: #A52422;
+		color: #fff;
+	}
+	
+	&.josei a{
+		background-color: #952b95;
+		color: #fff;
+	}
+	
+	&.kodomo a{
+		background-color: #1ebb7f;
+		color: #000;
+	}
+	
+	&.shounen a{
+		background-color: #f9c91f;
+	}
+	
+	&.shojo a{
+		background-color: #bd5f6f;
+		color: #fff;
+	}
+}
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__ratings{
+    background-color: #000;
+    position: absolute;
+    display: flex;
+    gap: 4px;
+    top: 10px;
+    right: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+}
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__ratings i{
+	color: #F0BF12;
+	font-size: 14px;
+}
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__ratings .rating__avg{
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1;
+    align-self: end;
 }
 #app main.main .manga .manga__list .manga__item h4.manga__title{
 	color: #fff;
@@ -567,10 +852,10 @@ div.toastify.error{
 	min-height: 69px;
 	align-items: center;
 }
-#app main.main .new__chapters .new__chapters__item a.new__chapters__link .new__chapters__icon svg{
-	fill: #949494;
-	transition: fill .2s ease;
+#app main.main .new__chapters .new__chapters__item a.new__chapters__link .new__chapters__icon i{
+	color: #949494;
+	transition: color .2s ease;
 }
-#app main.main .new__chapters .new__chapters__item:hover a.new__chapters__link .new__chapters__icon svg{
-	fill: theme('colors.vo-red');
+#app main.main .new__chapters .new__chapters__item:hover a.new__chapters__link .new__chapters__icon i{
+	color: theme('colors.vo-red');
 }

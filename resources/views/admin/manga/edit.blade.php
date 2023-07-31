@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-slot:title>Editar | {{ $manga->name }}</x-slot>
     <x-admin.bar :title="$manga->name" :backTo="route('manga.index')" />
     <div class="frmo fm-manga">
         <form action="{{ route('manga.update', ['id' => $manga->id]) }}" method="POST" enctype="multipart/form-data">

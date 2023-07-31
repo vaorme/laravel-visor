@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-slot:title>Usuarios | {{ $user->username }}</x-slot>
     <x-admin.bar title="Editar usuario" :backTo="route('users.index')" />
     <div class="template-2">
         <div class="contain">

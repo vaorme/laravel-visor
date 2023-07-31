@@ -1,7 +1,19 @@
 @use './tailwind.scss';
+@use 'swiper/css';
+@use 'swiper/css/effect-fade';
+@use 'swiper/css/navigation';
+@use 'swiper/css/pagination';
+
+@use "toastify-js/src/toastify.css";
+@use 'tippy.js/dist/tippy.css';
+
 @use '../fonts/inter/inter.scss';
+@use '../fonts/icons.scss';
+
+@use './app.scss';
 @use './components/header.scss';
 @use './components/footer.scss';
+
 
 body{
     background-color: theme('colors.vo-black');

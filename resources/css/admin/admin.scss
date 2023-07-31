@@ -121,6 +121,9 @@ div.toastify{
     &.success{
         background-color: theme('colors.vo-green');
     }
+    &.cancel{
+        background-color: theme('colors.vo-red');
+    }
 }
 main.main{
     border-style: solid;
@@ -1206,7 +1209,7 @@ main.main{
                 }
             }
         }
-        .template-1{
+        .template-1, .template-3{
             .contain{
                 border-right: 1px solid rgb(#fff, .1);
             }

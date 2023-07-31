@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-slot:title>Tags</x-slot>
     <x-admin.bar title="Tags"/>
     <div class="template-1 flex flex-wrap">
         <div class="contain w-3/5">

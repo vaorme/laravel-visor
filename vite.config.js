@@ -11,6 +11,15 @@ export default defineConfig({
                 'resources/js/admin/library.js',
                 'resources/js/admin/admin.js',
                 'resources/css/admin/admin.scss',
+                'resources/js/admin/slider.js',
+                'resources/css/admin/slider.scss',
+
+                // LOGIN / REGISTER
+                'resources/css/loreg.scss',
+
+                // TOM SELECT
+                'resources/css/web/tom-select.css',
+                'resources/js/web/tom-select.js',
 
                 // WEB
                 'resources/js/web/app.js',
