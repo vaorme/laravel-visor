@@ -14,17 +14,6 @@
             </a>
         </li>
         <div class="divider"></div>
-        <li class="m-item">
-            <a href="#" class="m-link">
-                <div class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-box-multiple" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <rect x="7" y="3" width="14" height="14" rx="2" />
-                        <path d="M17 17v2a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h2" />
-                    </svg>
-                </div>
-            </a>
-        </li>
         <li class="m-item {{ (request()->is('controller/slider*')) ? 'active' : '' }}">
             <a href="{{ route('slider.index') }}" class="m-link">
                 <div class="icon">
@@ -103,8 +92,8 @@
             </a>
         </li>
         <div class="divider"></div>
-        <li class="m-item m-item-dropdown">
-            <a href="#" class="m-link">
+        <li class="m-item m-item-dropdown{{ (request()->is('controller/settings*')) ? ' active' : '' }}">
+            <a href="{{ route('settings.index') }}" class="m-link">
                 <div class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>

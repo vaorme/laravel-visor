@@ -12,7 +12,7 @@ return new class extends Migration{
         Schema::create('view_count', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('manga_id');
-            $table->foreign('manga_id')->references('id')->on('manga');
+            $table->foreign('manga_id')->references('id')->on('manga')->onDelete('cascade');
             $table->timestamps();
         });
     }

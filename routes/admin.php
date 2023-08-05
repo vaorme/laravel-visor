@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RankController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\uploadChaptersController;
@@ -244,10 +245,19 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 
         // :SETTINGS
         Route::prefix('settings')->group(function(){
-            Route::get("/", [SliderController::class, 'index'])->middleware(['permission:slider.index'])->name('slider.index');
+            Route::get("/", [SettingsController::class, 'index'])->middleware(['permission:settings.index'])->name('settings.index');
+            // :UPDATE
+            Route::patch('/', [SettingsController::class, 'update'])->middleware(['permission:settings.edit'])->name('settings.update');
 
-            // :EDIT
-            Route::patch('{id}', [SliderController::class, 'update'])->middleware(['permission:slider.edit'])->name('slider.update');
+            // :ADS
+            Route::get("/ads", [SettingsController::class, 'ads'])->middleware(['permission:settings.ads.index'])->name('settings.ads.index');
+            Route::post("/ads", [SettingsController::class, 'adsStore'])->middleware(['permission:settings.ads.index'])->name('settings.ads.store');
+            Route::patch("/ads", [SettingsController::class, 'adsUpdate'])->middleware(['permission:settings.ads.update'])->name('settings.ads.update');
+
+            // :SEO
+            Route::get("/seo", [SettingsController::class, 'seo'])->middleware(['permission:settings.seo.index'])->name('settings.seo.index');
+            Route::post("/seo", [SettingsController::class, 'seoStore'])->middleware(['permission:settings.seo.index'])->name('settings.seo.store');
+            Route::patch("/seo", [SettingsController::class, 'seoUpdate'])->middleware(['permission:settings.seo.update'])->name('settings.seo.update');
         });
     });
 });

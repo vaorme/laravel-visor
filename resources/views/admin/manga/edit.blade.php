@@ -56,24 +56,61 @@
                     <div class="buttons">
                         <a href="#" id="ct-chapter">
                             Crear capítulo
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <line x1="12" y1="5" x2="12" y2="19" />
-                                <line x1="5" y1="12" x2="19" y2="12" />
-                            </svg>
+                            <i class="fa-solid fa-plus"></i>
                         </a>
+                        <a href="#" id="popup-chapter">
+                            Subir capítulo/s
+                            <i class="fa-solid fa-plus"></i>
+                        </a>
+                    </div>
+                    <div class="chapter__upload">
                         <div class="upload">
+                            <div class="group upload">
+                                <label>Subir a</label>
+                                <div class="disks rdos">
+                                    <label for="cup-1">
+                                        <input type="radio" name="disk" value="public" id="cup-1" checked>
+                                        <div class="rdo">
+                                            <div class="inpt"></div>
+                                            <div class="name">Local</div>
+                                        </div>
+                                    </label>
+                                    @if (env('FTP_HOST') && env('FTP_HOST') != "")
+                                        <label for="cup-2">
+                                            <input type="radio" name="disk" value="ftp" id="cup-2">
+                                            <div class="rdo">
+                                                <div class="inpt"></div>
+                                                <div class="name">FTP</div>
+                                            </div>
+                                        </label>
+                                    @endif
+                                    @if (env('SFTP_HOST') && env('SFTP_HOST') != "")
+                                    <label for="cup-3">
+                                        <input type="radio" name="disk" value="sftp" id="cup-3">
+                                        <div class="rdo">
+                                            <div class="inpt"></div>
+                                            <div class="name">FTP</div>
+                                        </div>
+                                    </label>
+                                    @endif
+                                    @if (env('S3_HOST') && env('S3_HOST') != "")
+                                        <label for="cup-4">
+                                            <input type="radio" name="disk" value="s3" id="cup-4">
+                                            <div class="rdo">
+                                                <div class="inpt"></div>
+                                                <div class="name">Amazon S3</div>
+                                            </div>
+                                        </label>
+                                    @endif
+                                </div>
+                            </div>
                             <div id="upload-chapter">
                                 <div class="preview">
                                     <img src="" alt="" class="image-preview">
                                 </div>
                                 <a id="up-chapter">
-                                    Subir capítulo
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                        <line x1="12" y1="5" x2="12" y2="19" />
-                                        <line x1="5" y1="12" x2="19" y2="12" />
-                                    </svg>
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    Selecionar archivo/s
                                 </a>
                             </div>
                             <input type="file" name="upload_chapter" id="inpt-chapter" data-id="{{ $manga->id }}" accept="zip" hidden>
@@ -85,7 +122,10 @@
                                 <div class="item" id="m-{{ $item->id }}">
                                     <div class="name">{{ $item->name }}</div>
                                     <div class="actions">
-                                        <a href="#" data-id="{{ $item->id }}" class="botn view" onclick="test()">
+                                        <a href="{{ URL::route('chapter_viewer.index', [
+                                            'manga_slug' => $manga->slug,
+                                            'chapter_slug' => $item->slug
+                                        ]); }}" data-id="{{ $item->id }}" class="botn view" target="_blank">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                                 <path d="M7 4v16l13 -8z" />
@@ -123,9 +163,9 @@
                 <div class="module options grid grid-cols-5 gap-4">
                     <div class="item col-span-3">
                         <select name="status">
-                            <option value="published" selected>Publicado</option>
-                            <option value="draft">Borrador</option>
-                            <option value="private">Privado</option>
+                            <option value="published" {{ ($manga->status == "published")? 'selected': null }}>Publicado</option>
+                            <option value="draft" {{ ($manga->status == "draft")? 'selected': null }}>Borrador</option>
+                            <option value="private" {{ ($manga->status == "private")? 'selected': null }}>Privado</option>
                         </select>
                     </div>
                     <div class="item delete col-span-2">
@@ -139,7 +179,7 @@
                     <div class="dropzone">
                         <div id="choose">
                             <div class="preview">
-                                <img src="{{ asset('storage/'.$manga->featured_image) }}" alt="" class="image-preview added">
+                                <img src="{{ $manga->cover() }}" alt="" class="image-preview added">
                             </div>
                             <p class="text-drop">Elegir portada</p>
                         </div>
@@ -253,21 +293,63 @@
                     <label>Price</label>
                     <input type="number" name="price" id="ct-range">
                 </div>
-                <div class="group radios">
-                    <label for="type-1">
-                        <input type="radio" name="chaptertype" value="manga" id="type-1" checked>
-                        <div class="rdo">
-                            <div class="inpt"></div>
-                            <div class="name">Manga</div>
-                        </div>
-                    </label>
-                    <label for="type-0">
-                        <input type="radio" name="chaptertype" value="novel" id="type-0">
-                        <div class="rdo">
-                            <div class="inpt"></div>
-                            <div class="name">Novela</div>
-                        </div>
-                    </label>
+                <div class="group type">
+                    <label>Tipo</label>
+                    <div class="radios rdos">
+                        <label for="type-1">
+                            <input type="radio" name="chaptertype" value="manga" id="type-1" checked>
+                            <div class="rdo">
+                                <div class="inpt"></div>
+                                <div class="name">Manga</div>
+                            </div>
+                        </label>
+                        <label for="type-0">
+                            <input type="radio" name="chaptertype" value="novel" id="type-0">
+                            <div class="rdo">
+                                <div class="inpt"></div>
+                                <div class="name">Novela</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                <div class="group upload">
+                    <label>Subir a</label>
+                    <div class="disks rdos">
+                        <label for="rdo-1">
+                            <input type="radio" name="disk" value="public" id="rdo-1" checked>
+                            <div class="rdo">
+                                <div class="inpt"></div>
+                                <div class="name">Local</div>
+                            </div>
+                        </label>
+                        @if (env('FTP_HOST') && env('FTP_HOST') != "")
+                            <label for="rdo-2">
+                                <input type="radio" name="disk" value="ftp" id="rdo-2">
+                                <div class="rdo">
+                                    <div class="inpt"></div>
+                                    <div class="name">FTP</div>
+                                </div>
+                            </label>
+                        @endif
+                        @if (env('SFTP_HOST') && env('SFTP_HOST') != "")
+                        <label for="rdo-3">
+                            <input type="radio" name="disk" value="sftp" id="rdo-3">
+                            <div class="rdo">
+                                <div class="inpt"></div>
+                                <div class="name">FTP</div>
+                            </div>
+                        </label>
+                        @endif
+                        @if (env('S3_HOST') && env('S3_HOST') != "")
+                            <label for="rdo-4">
+                                <input type="radio" name="disk" value="s3" id="rdo-4">
+                                <div class="rdo">
+                                    <div class="inpt"></div>
+                                    <div class="name">Amazon S3</div>
+                                </div>
+                            </label>
+                        @endif
+                    </div>
                 </div>
                 <div class="group hidden" id="t-novel">
                     <label for="ct-content">Contenido</label>

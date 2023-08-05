@@ -4,6 +4,7 @@ use App\Http\Controllers\MangaDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShortcutsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\web\LibraryController;
 use App\Http\Controllers\web\ViewerChapter;
 use App\Http\Controllers\web\WebUserController;
 use App\Http\Controllers\WebController;
@@ -68,11 +69,17 @@ Route::get('/u/', function(){
     return redirect('/'); // Redirect home if user go to /u/
 });
 
-// :MANGA URLs
+// :MANGA DETAIL
 
-Route::prefix('m')->group(function(){
+Route::prefix('library')->group(function(){
+    Route::get('/', [LibraryController::class, 'index'])->name('library.index');
+});
+
+// :MANGA DETAIL
+
+Route::prefix('l')->group(function(){
     Route::get('/', function(){
-        return redirect('/'); // Redirect home if user go to /u/
+        return redirect('/library'); // Redirect home if user go to /u/
     });
     Route::get('{slug}', [MangaDetailController::class, 'index'])->name('manga_detail.index');
 });

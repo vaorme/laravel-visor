@@ -18,8 +18,8 @@ return new class extends Migration
             $table->tinyInteger('rating');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('manga_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('manga_id')->references('id')->on('manga');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('manga_id')->references('id')->on('manga')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

@@ -1,6 +1,7 @@
 @if (Auth::check())
     @php
         $auth = Auth::user();
+        $controllerRoles = ['administrador', 'developer', 'moderador'];
     @endphp
 @endif
 
@@ -9,10 +10,10 @@
         <div class="lft col-span-4 flex items-center gap-8">
             <div class="logo">
                 <a href="{{ URL::to('/') }}"class="block">
-                    <img src="{{ asset('storage/images/logo-nartag.png') }}" alt="">
+                    <img src="{{ config('app.logo')? asset('storage/'.config('app.logo')) : asset('storage/images/logo-site.png') }}" alt="">
                 </a>            
             </div>
-            <div class="search">
+            <div class="search hidden">
                 <form action="" method="GET">
                     <input type="text" name="s" class="outline-none text-white pl-12 text-base" placeholder="Buscar...">
                     <button class="flex items-center justify-center">
@@ -26,6 +27,11 @@
                     <li><a href="#" class="block font-medium">Novelas</a></li>
                     <li><a href="#" class="block font-medium">Telegram</a></li>
                     <li><a href="#" class="block font-medium">Discord</a></li>
+                    @if (Auth::check() && in_array($auth->profile->getRole(), $controllerRoles))
+                        <li>
+                            <a href="{{ URL::to('/controller') }}" class="block font-medium">Controller</a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -42,7 +48,7 @@
                                 <h4>{{ $auth->username }}</h4>
                             </div>
                             <div class="avatar">
-                                <img src="{{ asset($profile->avatar) }}" alt="{{ $auth->username }}"/>
+                                <img src="{{ asset('storage/'.$profile->avatar) }}" alt="{{ $auth->username }}"/>
                             </div>
                         </div>
                     </a>

@@ -13,19 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_unicode_ci';
+        Schema::create('settings', function (Blueprint $table){
             $table->id();
-            $table->string('title', 24)->nullable();
-            $table->string('logo')->nullable();
-            $table->string('favicon')->nullable();
+            $table->string('title', 60)->nullable();
+            $table->text('logo')->nullable();
+            $table->text('favicon')->nullable();
             $table->string('email', 60)->nullable();
             $table->string('chat_id', 50)->nullable();
             $table->string('global_message', 240)->nullable();
-            $table->tinyInteger('maintenance_mode')->default(0);
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
+            $table->boolean('maintenance')->default(false);
+            $table->boolean('allow_new_users')->default(true);
+            $table->string('disk')->default('public');
+            $table->timestamps();
         });
     }
 

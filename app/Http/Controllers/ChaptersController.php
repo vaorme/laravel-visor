@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Config;
 use App\Models\Chapter;
 use App\Models\Manga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class ChaptersController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+class ChaptersController extends Controller{
 
     public function index()
     {
@@ -38,7 +33,7 @@ class ChaptersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $mangaid){
-        // return response()->json($request->all());
+
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'max:50'],
             'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
@@ -56,7 +51,7 @@ class ChaptersController extends Controller
         $count = "";
         
         // Get manga slug
-        $mangaSlug = Manga::firstWhere('id', $mangaid)->get();
+        $mangaSlug = Manga::firstWhere('id', '=', $mangaid);
 
         $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $request->slug)->exists();
         if($chapterExists){
@@ -87,8 +82,8 @@ class ChaptersController extends Controller
                     continue;
                 }
                 // $images[] = $file->store("manga/".$mangaSlug[0]->slug."/".$request->slug, 'public');
-                Storage::disk('public')->putFileAs("manga/".$mangaSlug[0]->slug."/".$request->slug, $file, $originalName);
-                $images[] = "manga/".$mangaSlug[0]->slug."/".$request->slug."/".$originalName;
+                Storage::disk($request->disk)->putFileAs("manga/".$mangaSlug->slug."/".$request->slug, $file, $originalName);
+                $images[] = "manga/".$mangaSlug->slug."/".$request->slug."/".$originalName;
             }
         }
 
@@ -98,6 +93,7 @@ class ChaptersController extends Controller
         $chapter->name = $request->name;
         $chapter->slug = $request->slug;
         $chapter->type = $request->chaptertype;
+        $chapter->disk = $request->disk;
         if(!empty($request->price)){
             $chapter->price = $request->price;
         }
@@ -112,8 +108,9 @@ class ChaptersController extends Controller
         if($chapter->save()){
             $response = [
                 "status" => "success",
-                "msg" => "Chapter $chapter->name created",
-                "item" => $chapter
+                "msg" => "Capítulo $chapter->name creado",
+                "item" => $chapter,
+                "manga_slug" => $mangaSlug->slug
             ];
             return $response;
         }
@@ -180,6 +177,7 @@ class ChaptersController extends Controller
         $response = [];
 
         $chapter->name = $request->name;
+        $mangaSlug = Manga::where('id', $chapter->manga_id)->get()->first();
         if($chapter->slug != $request->slug){
             $slugExists = Chapter::where([
                 ['manga_id', '=', $chapter->manga_id],
@@ -196,11 +194,10 @@ class ChaptersController extends Controller
 
             $changeImagesSlug = str_replace($chapter->slug, $request->slug, $chapter->images);
             $chapter->images = $changeImagesSlug;
-            $mangaSlug = Manga::where('id', $chapter->manga_id)->get()->first();
             
-            Storage::disk('public')->allFiles("/manga/$mangaSlug->slug/$chapter->slug");
+            Storage::disk($request->disk)->allFiles("/manga/$mangaSlug->slug/$chapter->slug");
 
-            Storage::disk('public')->move("/manga/$mangaSlug->slug/$chapter->slug", "manga/$mangaSlug->slug/$request->slug");
+            Storage::disk($request->disk)->move("/manga/$mangaSlug->slug/$chapter->slug", "manga/$mangaSlug->slug/$request->slug");
 
             $chapter->slug = $request->slug;
         }
@@ -211,12 +208,14 @@ class ChaptersController extends Controller
         if(!empty($request->content)){
             $chapter->content = $request->content;
         }
+        $chapter->disk = $request->disk;
 
         if($chapter->save()){
             $response = [
                 "status" => "success",
-                "msg" => "Chapter $chapter->name actualizado",
-                "item" => $chapter
+                "msg" => "Capítulo $chapter->name actualizado",
+                "item" => $chapter,
+                "manga_slug" => $mangaSlug->slug
             ];
             return $response;
         }
@@ -242,8 +241,7 @@ class ChaptersController extends Controller
                 $folder = explode('/', $image);
                 $removeFileName = array_pop($folder);
                 $folder = implode('/', $folder);
-                Storage::disk('public')->deleteDirectory($folder);
-                //Storage::disk('public')->delete($image);
+                Storage::disk($chapter->disk)->deleteDirectory($folder);
             }
         }
 

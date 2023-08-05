@@ -628,23 +628,118 @@ main.main{
                                     cursor: pointer;
                                     font-weight: 600;
                                     display: flex;
+                                    gap: 15px;
                                     align-items: center;
                                     border-radius: 0.3rem;
                                     justify-content: center;
                                     transition: background .2s ease;
-                                    svg{
-                                        margin-left: .5rem;
-                                    }
                                     &#ct-chapter{
                                         background-color: theme('colors.vo-green');
                                         &:hover{
                                             background-color: theme('colors.vo-green-over');
                                         }
                                     }
-                                    &#up-chapter{
+                                    &#popup-chapter{
                                         background-color: #225796;
                                         &:hover{
                                             background-color: #3069ad;
+                                        }
+                                    }
+                                }
+                            }
+                            .chapter__upload{
+                                background-color: #1c1c1c;
+                                padding: 30px;
+                                left: 50%;
+                                top: 50%;
+                                z-index: 10;
+                                width: 100%;
+                                display: none;
+                                max-width: 600px;
+                                border-radius: 12px;
+                                .upload{
+                                    display: grid;
+                                    gap: 25px;
+                                }
+                                #upload-chapter{
+                                    position: relative;
+                                    width: 100%;
+                                    cursor: pointer;
+                                    display: flex;
+                                    min-height: 120px;
+                                    color: #6a6a6a;
+                                    margin: auto;
+                                    font-size: 0.9rem;
+                                    border-radius: 1rem;
+                                    font-weight: 600;
+                                    overflow: hidden;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    flex-direction: column;
+                                    justify-content: center;
+                                    text-transform: uppercase;
+                                    border: 3px dashed rgba(255, 255, 255, 0.1);
+                                    transition: color 0.2s ease, border 0.2s ease;
+                                    &:hover{
+                                        color: #fff;
+                                    }
+                                }
+                            }
+                            .group label{
+                                display: block;
+                                font-size: 1rem;
+                                color: #676767;
+                                font-weight: 500;
+                            }
+                            .rdos{
+                                display: flex;
+                                gap: 15px;
+                                label{
+                                    position: relative;
+                                    cursor: pointer;
+                                    margin: 0;
+                                    display: inline-block;
+                                    & > input{
+                                        position: absolute;
+                                        width: auto;
+                                        top: 0;
+                                        left: 0;
+                                        opacity: 0;
+                                        z-index: -1;
+                                    }
+                                    .rdo{
+                                        display: flex;
+                                        padding: .8rem 1.2rem;
+                                        align-items: center;
+                                        border-radius: .5rem;
+                                        border: 1px solid rgb(#fff, .1);
+                                        transition: border .2s ease;
+                                        .inpt{
+                                            position: relative;
+                                            display: block;
+                                            width: 16px;
+                                            height: 16px;
+                                            border-radius: 35rem;
+                                            margin-right: 15px;
+                                            border: 1px solid rgb(#fff, .15);
+                                            &::before{
+                                                position: absolute;
+                                                content: "";
+                                                left: 50%;
+                                                top: 50%;
+                                                width: 10px;
+                                                height: 10px;
+                                                transform: translate(-50%, -50%);
+                                            }
+                                        }
+                                    }
+                                    & > input:checked ~ .rdo{
+                                        border-color: theme('colors.vo-orange');
+                                        .inpt{
+                                            border-color: theme('colors.vo-orange');
+                                        }
+                                        .name{
+                                            color: #fff;
                                         }
                                     }
                                 }
@@ -1059,10 +1154,10 @@ main.main{
                                 border-color: #cb2d2d;
                             }
                         }
-                        &.radios, &.range{
+                        &.type, &.range, &.upload{
                             grid-column: 1/3;
                         }
-                        &.radios{
+                        .rdos{
                             display: grid;
                             gap: 1rem;
                             grid-template-columns: repeat(2, 1fr);
@@ -1125,6 +1220,14 @@ main.main{
                             background-color: #fff;
                             padding: 2.5rem;
                             border-radius: 1rem;
+                        }
+                        #chapterContent{
+                            .codex-editor .ce-inline-toolbar .ce-inline-toolbar__toggler-and-button-wrapper{
+                                color: #000;
+                            }
+                            .codex-editor .codex-editor__redactor .ce-block__content{
+                                color: #000;
+                            }
                         }
                         #t-preview, #u-preview{
                             display: grid;

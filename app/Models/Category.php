@@ -15,6 +15,6 @@ class Category extends Model{
         return $this->belongsTo(Manga::class);
     }
     public function mangas(){
-        return $this->belongsToMany(Manga::class, 'manga_has_categories', 'category_id')->take(8);
+        return $this->belongsToMany(Manga::class, 'manga_has_categories', 'category_id')->where('status', '=', 'published')->take(8);
     }
 }

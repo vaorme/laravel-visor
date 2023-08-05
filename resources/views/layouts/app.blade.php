@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>{{ $title ?? 'Nartag | Traducciones amistosas' }}</title>
+        <title>{{ $title ?? config('app.title') }}</title>
+        <link rel="shortcut icon" href="{{ config('app.favicon') ? asset('storage/'.config('app.favicon')): asset('storage/images/favicon.png') }}" type="image/png">
         <link href="{{ Vite::asset('resources/css/global.scss') }}" rel="stylesheet">
         <!-- Stles -->
         <link href="{{ Vite::asset('resources/css/web/tom-select.css') }}" rel="stylesheet">
@@ -15,7 +16,6 @@
             'resources/css/global.scss',
             'resources/css/app.scss'
         ]) --}}
-        
         @if (Route::is(['manga_detail.index']))
             <link href="{{ Vite::asset('resources/css/web/mangaDetail.scss') }}" rel="stylesheet">
         @endif
@@ -27,13 +27,17 @@
         @if (Route::is(['account.index']))
             <link href="{{ Vite::asset('resources/css/web/account.scss') }}" rel="stylesheet">
         @endif
+
+        @if (Route::is(['library.index']))
+            <link href="{{ Vite::asset('resources/css/web/library.scss') }}" rel="stylesheet">
+        @endif
     </head>
     <body>
         <div id="app">
             <x-header />
             <main class="main">
                 {{ $slot }}
-				<x-main-shortcuts/>
+				<x-main-shortcuts />
             </main>
             <x-footer/>
         </div>
@@ -50,6 +54,9 @@
         @endif
         @if (Route::is(['account.index']))
             <script type="module" src="{{ Vite::asset('resources/js/web/account.js') }}"></script>
+        @endif
+        @if (Route::is(['library.index']))
+            <script type="module" src="{{ Vite::asset('resources/js/web/library.js') }}"></script>
         @endif
     </body>
 </html>

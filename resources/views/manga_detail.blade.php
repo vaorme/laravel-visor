@@ -56,7 +56,7 @@
         <section class="manga__contain">
             <section class="manga__card">
                 <div class="manga__cover">
-                    <img src="{{ asset('storage/'.$manga->featured_image) }}" alt="{{ $manga->name }}">
+                    <img src="{{ asset('storage/'.$manga->featured_image) }}" alt="{{ $manga->name }}" />
                     <div class="manga__terms">
                         @if ($manga->demography)
                             <div class="manga__demography {{ $manga->demography->slug }}">

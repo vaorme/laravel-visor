@@ -1,3 +1,4 @@
+@import 'simplebar/dist/simplebar.css';
 #app main.main .manga__detail{
     display: grid;
     gap: 1.5rem;
@@ -123,7 +124,10 @@
     .manga__contain .manga__cover img{
         width: 100%;
         display: block;
+        min-height: 366px;
+        max-height: 366px;
         border-radius: 16px;
+        object-fit: cover;
     }
     
     .manga__contain .manga__info{

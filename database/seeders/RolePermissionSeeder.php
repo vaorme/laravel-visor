@@ -112,8 +112,15 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'orders.destroy']);
 
         // Settings
+        Permission::create(['name' => 'settings.index']);
         Permission::create(['name' => 'settings.edit']);
+
+        Permission::create(['name' => 'settings.ads.index']);
+        Permission::create(['name' => 'settings.ads.store']);
         Permission::create(['name' => 'settings.ads.edit']);
+
+        Permission::create(['name' => 'settings.seo.index']);
+        Permission::create(['name' => 'settings.seo.store']);
         Permission::create(['name' => 'settings.seo.edit']);
 
         // Administrative roles
@@ -141,7 +148,7 @@ class RolePermissionSeeder extends Seeder
 
         $profile = new Profile();
         $profile->user_id = $user['id'];
-        $profile->avatar = 'storage/avatares/avatar-'.rand(1, 10).'.png';
+        $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
         $profile->save();
     }
 }

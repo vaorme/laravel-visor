@@ -176,7 +176,7 @@
                         @if(isset($images) && !empty($images))
                             @foreach ($images as $image)
                                 <div class="reader__item">
-                                    <img src="{{ asset('storage/'.$image) }}">
+                                    <img src="{{ Storage::disk($currentChapter->disk)->url($image) }}">
                                 </div>
                             @endforeach
                         @endif    

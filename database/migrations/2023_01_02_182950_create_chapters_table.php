@@ -25,6 +25,7 @@ return new class extends Migration
             $table->longText('content')->nullable();
             $table->unsignedBigInteger('manga_id');
             $table->enum('type', ['manga', 'novel']);
+            $table->string('disk')->default('public');
             $table->foreign('manga_id')->references('id')->on('manga')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();

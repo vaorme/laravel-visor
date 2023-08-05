@@ -60,7 +60,7 @@
                     </div>
                     <div class="form__item">
                         <label>Mensaje</label>
-                        <textarea name="message" cols="30" rows="4"></textarea>
+                        <textarea name="message" cols="30" rows="4">{{ $user->profile->message }}</textarea>
                     </div>
                     <div class="form__item form__redes">
                         <label>Redes</label>
@@ -125,7 +125,7 @@
                             @foreach ($avatares as $key => $item)
                                 <div class="item">
                                     <label for="av-{{ $key }}">
-                                        <input type="radio" name="default_avatar" id="av-{{ $key }}" value="{{ $item }}" @if ("storage/".$item === $user->profile->avatar)
+                                        <input type="radio" name="default_avatar" id="av-{{ $key }}" value="{{ $item }}" @if ($item === $user->profile->avatar)
                                             checked
                                         @endif>
                                         <div class="avatar">
@@ -148,7 +148,7 @@
                             @if (!includesAvatares($avatares, $nameAvatar))
                                 <div class="item selected" id="avatar">
                                     <div class="avatar">
-                                        <img src="{{ asset($user->profile->avatar) }}" alt="avatar">
+                                        <img src="{{ asset("storage/".$user->profile->avatar) }}" alt="avatar">
                                         <input type="text" name="current_avatar" accept="image/jpg,image/png,image/jpeg,image/gif" hidden value="{{ $user->profile->avatar }}">
                                     </div>
                                 </div>

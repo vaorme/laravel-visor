@@ -23,7 +23,7 @@ class MainShortcuts extends Component
      * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string{
-        $mangas = Manga::get();
+        $mangas = Manga::where('manga.status', '=', 'published')->get();
         $user = Auth::user();
         $viewData = [
             'mangas' => $mangas,

@@ -13,9 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('settings_seo', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_unicode_ci';
+        Schema::create('settings_seo', function (Blueprint $table){
             $table->id();
             $table->string('seo_title')->nullable();
             $table->string('seo_description')->nullable();
@@ -23,8 +21,7 @@ return new class extends Migration
             $table->string('seo_author')->nullable();
             $table->string('seo_subject')->nullable();
             $table->string('seo_robots')->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 

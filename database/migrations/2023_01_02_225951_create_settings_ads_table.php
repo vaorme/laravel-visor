@@ -13,9 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('settings_ads', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_unicode_ci';
+        Schema::create('settings_ads', function (Blueprint $table){
             $table->id();
             $table->text('ads_1')->nullable();
             $table->text('ads_2')->nullable();
@@ -27,8 +25,7 @@ return new class extends Migration
             $table->text('ads_8')->nullable();
             $table->text('ads_9')->nullable();
             $table->text('ads_10')->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
+            $table->timestamps();
         });
     }
 

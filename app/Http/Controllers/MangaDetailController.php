@@ -19,6 +19,9 @@ class MangaDetailController extends Controller{
         if(!$manga->exists()){
             return redirect()->route('web.index');
         }
+        if($manga->status != "published"){
+            return abort(404);
+        }
         $count = new ViewCount;
         $manga->viewCount()->save($count);
 

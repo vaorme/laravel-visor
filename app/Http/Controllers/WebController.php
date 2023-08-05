@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Manga;
 use App\Models\Chapter;
 use App\Models\Slider;
+use Illuminate\Support\Facades\Storage;
 
 class WebController extends Controller{
     public function index(){
@@ -14,10 +15,10 @@ class WebController extends Controller{
 		$oneMonth = date('Y-m-d', strtotime("-1 month"));
 		// $newManga = Manga::where('manga.created_at', '>=', $oneMonth)->limit(12)->get();
 
-		$mostViewed = Manga::with(['rating', 'viewsMonth'])->has('viewsMonth')->limit(16)->get()->sortByDesc('viewsMonth');
+		$mostViewed = Manga::where('status', '=', 'published')->with(['rating', 'viewsMonth'])->has('viewsMonth')->limit(16)->get()->sortByDesc('viewsMonth');
 		$newChapters = Chapter::where('chapters.created_at', '>=', $oneWeek)->orderBy('chapters.id', 'desc')
-		->limit(12)->get()->unique('manga_id')->groupBy('type');
-		$topMonthly = Manga::select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->get();
+		->limit(12)->has('manga')->get()->unique('manga_id')->groupBy('type');
+		$topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->get();
 
 		$slider = Slider::get();
 		$categories = Category::has('mangas')->inRandomOrder()->limit(3)->get();

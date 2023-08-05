@@ -80,8 +80,13 @@
         object-fit: cover;
         object-position: center;
     }
+    .profile__card .card__content .card__user .user__titles{
+        display: grid;
+        gap: 15px;
+    }
     .profile__card .card__content .card__user h2.user__name,
     .profile__card .card__content .card__user h4.user__username{
+        line-height: 1;
         text-align: center;
     }
     .profile__card .card__content .card__user h2.user__name{
@@ -93,6 +98,17 @@
         color: #ffffff80;
         font-size: 16px;
         font-weight: 500;
+    }
+    .profile__card .card__content .card__user .user__message{
+        background-color: #252525;
+        padding: 15px;
+        text-align: center;
+        border-radius: 8px;
+        p{
+            font-size: 14px;
+            color: #a5a5a5;
+            font-weight: 500;
+        }
     }
     .profile__card .card__content .card__user .user__role{
         background-color: #2b2b2b;

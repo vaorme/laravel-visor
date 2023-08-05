@@ -20,11 +20,11 @@ use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $disk;
+
+    public function __construct(){
+        $this->disk = config('app.disk');
+    }
     public function index(){
         $users = User::get();
         return view('admin.users.index', ['loop' => $users]);
@@ -37,7 +37,7 @@ class UserController extends Controller{
      */
     public function create(){
         $countries = Countries::get();
-        $avatares = Storage::disk('public')->files('/avatares');
+        $avatares = Storage::disk($this->disk)->files('/avatares');
 		$roles = Role::get();
         return view('admin.users.create', [
             'countries' => $countries,
@@ -86,10 +86,10 @@ class UserController extends Controller{
 		}else{
 			if(isset($request->avatar_file)){
 				$avatarExtension = $request->file('avatar_file')->extension();
-				$pathAvatar = $request->file('avatar_file')->storeAs('public/images/users', $request->username.'-avatar.'.$avatarExtension);
-				$profile->avatar = 'storage/images/users/'.$request->username.'-avatar.'.$avatarExtension;
+				$pathAvatar = $request->file('avatar_file')->storeAs('images/users', $request->username.'-avatar.'.$avatarExtension, $this->disk);
+				$profile->avatar = 'images/users/'.$request->username.'-avatar.'.$avatarExtension;
 			}else{
-				$profile->avatar = 'storage/avatares/avatar-'.rand(1, 10).'.png';
+				$profile->avatar = 'avatares/avatar-'.rand(1, 10).'.png';
 			}
 		}
 		if(isset($request->cover) && !empty($request->cover)){
@@ -142,7 +142,7 @@ class UserController extends Controller{
     public function edit($id){
         $user = User::join('profiles', 'users.id', '=', 'profiles.user_id')->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')->where('users.id', $id)->get(['users.*', 'profiles.*', 'model_has_roles.role_id'])->first();
 		$countries = Countries::get();
-        $avatares = Storage::disk('public')->files('/avatares');
+        $avatares = Storage::disk($this->disk)->files('/avatares');
 		$roles = Role::get();
 
         return view('admin.users.edit', [
@@ -161,7 +161,7 @@ class UserController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-		// return response()->json($request->all());
+		//return response()->json($request->all());
 		$request->validate([
             'username' => ['string', 'regex:/^[_A-z0-9]*((-|\S)*[_A-z0-9])*$/','max:16'],
 			'avatar_file' => ['dimensions:max_width=248,max_height=248', 'max:400', 'mimes:jpg,jpeg,png,gif'],
@@ -209,10 +209,10 @@ class UserController extends Controller{
             }else{
                 if(isset($request->avatar_file)){
                     $avatarExtension = $request->file('avatar_file')->extension();
-                    $pathAvatar = $request->file('avatar_file')->storeAs('public/images/users', $request->username.'-avatar.'.$avatarExtension);
-                    $profile->avatar = 'storage/images/users/'.$request->username.'-avatar.'.$avatarExtension;
+                    $pathAvatar = $request->file('avatar_file')->storeAs('images/users', $request->username.'-avatar.'.$avatarExtension, $this->disk);
+                    $profile->avatar = 'images/users/'.$request->username.'-avatar.'.$avatarExtension;
                 }else{
-                    $profile->avatar = 'storage/avatares/avatar-'.rand(1, 10).'.png';
+                    $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.png';
                 }
             }
 		}

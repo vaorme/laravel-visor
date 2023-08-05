@@ -1,0 +1,178 @@
+@import 'simplebar/dist/simplebar.css';
+main.main{
+    display: grid;
+    gap: 2rem;
+    padding-left: 1.5rem;
+    padding-right: calc(102px + 1.5rem);
+	grid-template-columns: 406px calc(100% - 406px);
+}
+aside.filter form.filter__form{
+    display: grid;
+    gap: 25px;
+}
+aside.filter form.filter__form .filter__widget{
+    background-color: #1c1c1c;
+    right: 1.5rem;
+    padding: 2rem;
+    border-radius: 12px;
+}
+aside.filter form.filter__form button.filter__button{
+    background-color: theme('colors.vo-green');
+    padding: .8rem;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background .2s ease;
+    &:hover{
+        background-color: theme('colors.vo-green-over');
+    }
+}
+aside.filter form.filter__form .filter__widget .widget__title{
+    font-size: 1rem;
+    color: #bfbfbf;
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+}
+aside.filter form.filter__form .filter__widget .widget__content{
+    display: grid;
+    gap: 15px;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control{
+    background-color: #333333;
+    position: relative;
+    border: 0;
+    border-radius: 6px;
+    padding: 0.8rem 1.2rem;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control::before{
+    position: absolute;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f078";
+    font-size: 14px;
+    color: #858585;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control .item{
+    background-color: #454545;
+    color: #d9d9d9;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control .item + input{
+    display: none !important;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control .clear-button{
+    padding: 12px 8px 16px 8px;
+    right: 40px;
+    color: #858585;
+    font-size: 20px;
+    line-height: 0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease;
+    &:hover{
+        background-color: #dddddd26 !important;
+        color: #fff;
+    }
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control .item ~ .clear-button{
+    opacity: 1;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control input{
+    color: #d9d9d9;
+    &::placeholder{
+        color: #d9d9d9;
+        opacity: 1;
+    }
+      
+    &:-ms-input-placeholder{
+        color: #d9d9d9;
+    }
+      
+    &::-ms-input-placeholder{
+        color: #d9d9d9;
+    }
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-dropdown{
+    background-color: #333333;
+    border: 0;
+    margin: 0;
+    margin-top: 15px;
+    border-radius: 8px;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-dropdown .ts-dropdown-content{
+    padding: 1rem;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-dropdown .ts-dropdown-content .option{
+    display: block;
+    color: #c3c3c3dd;
+    padding: .8rem 1rem;
+    border-radius: 8px;
+    &:hover, &.active, &.selected{
+        background-color: #494949;
+        color: #fff;
+    }
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content .widget__scl{
+    max-height: 400px;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content .widget__scl .simplebar-track.simplebar-vertical .simplebar-scrollbar::before{
+    background-color: #393939;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content .widget__scl .simplebar-track.simplebar-vertical .simplebar-scrollbar.simplebar-hover::before{
+    opacity: 1;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label{
+    cursor: pointer;
+    display: block;
+    margin-bottom: 10px;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label:last-of-type{
+    margin-bottom: 0;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label input{
+    display: none;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label .checkbox{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label .checkbox .check__field{
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    border: 1px solid #4b4b4b;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label .checkbox .check__field::before{
+    background-color: theme('colors.vo-red');
+    position: absolute;
+    content: "";
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    transform: translate(-50%, -50%);
+    transition: opacity .2s ease;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label .checkbox .check__name{
+    font-size: 14px;
+    color: #bfbfbf;
+    font-weight: 500;
+    transition: color .2s ease;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label:hover .checkbox .check__name,
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label input:checked + .checkbox .check__name{
+    color: #fff;
+}
+aside.filter form.filter__form .filter__widget.filter__categories .widget__content label input:checked + .checkbox .check__field::before{
+    opacity: 1;
+}

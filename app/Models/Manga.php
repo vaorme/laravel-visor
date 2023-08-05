@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class Manga extends Model{
@@ -52,5 +53,11 @@ class Manga extends Model{
     public function viewsMonth(){
         $month = date('Y-m-d', strtotime("-1 month"));
         return $this->hasMany(ViewCount::class, 'manga_id')->where('view_count.created_at', '>=', $month);
+    }
+    public function cover(){
+        $disk = config('app.disk');
+        $image = $this->featured_image;
+        $url = Storage::disk($disk)->url($image);
+        return $url;
     }
 }

@@ -12,17 +12,19 @@ use App\Models\MangaHasCategory;
 use App\Models\MangaHasTag;
 use App\Models\User;
 use App\Models\Tag;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use ManipulateImage;
 
 class MangaController extends Controller{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $disk;
+
+    public function __construct(){
+        $this->disk = config('app.disk');
+    }
+
     public function index(Request $request){
         $request->validate([
             'status' => ['max:60', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
@@ -89,16 +91,15 @@ class MangaController extends Controller{
 
         $imageFile = $request->file('featured_image');
         $mangaSlug = $request->slug;
+        $fileName = $imageFile->hashName();
         if($imageFile){
-            Storage::disk('public')->makeDirectory('manga/'.$mangaSlug.'/cover');
-            //$img = ManipulateImage::make($imageFile)->fit(458, 646);
-            $img = ManipulateImage::make($imageFile)->resize(458, null, function ($constraint) {
+            Storage::disk($this->disk)->makeDirectory('manga/'.$mangaSlug.'/cover');
+
+            $img = ManipulateImage::make($imageFile->path())->resize(458, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->fit(458, 646);
-            $destinationPath = storage_path('app/public/manga/'.$mangaSlug.'/cover/');
-            $fileName = $imageFile->hashName();
-            $img->save($destinationPath.$fileName, 100);
-            //$featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover', $request->file('featured_image'));
+            $stored = Storage::disk($this->disk)->put('manga/'.$mangaSlug.'/cover/'.$fileName, $img->stream()->__toString());
+            //$stored = Storage::disk($this->disk)->putFile('manga/'.$mangaSlug.'/cover', new File($img->stream()));    
         }
 
         // Fields
@@ -220,16 +221,15 @@ class MangaController extends Controller{
         $imageFile = $request->file('featured_image');
         $mangaSlug = $request->slug;
         if($imageFile){
-            Storage::disk('public')->deleteDirectory('manga/'.$mangaSlug.'/cover');
-            Storage::disk('public')->makeDirectory('manga/'.$mangaSlug.'/cover');
+            Storage::disk($this->disk)->deleteDirectory('manga/'.$mangaSlug.'/cover');
+            Storage::disk($this->disk)->makeDirectory('manga/'.$mangaSlug.'/cover');
 
-            $img = ManipulateImage::make($imageFile)->resize(458, null, function ($constraint) {
+            $img = ManipulateImage::make($imageFile->path())->resize(458, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->fit(458, 646);
-            $destinationPath = storage_path('app/public/manga/'.$mangaSlug.'/cover/');
             $fileName = $imageFile->hashName();
-            $img->save($destinationPath.$fileName, 100);
-            //$featuredImage = Storage::disk('public')->putFile('manga/'.$mangaSlug.'/cover', $imageFile);
+            Storage::disk($this->disk)->put('manga/'.$mangaSlug.'/cover/'.$fileName, $img->stream()->__toString());
+
             $manga->featured_image = 'manga/'.$mangaSlug.'/cover/'.$fileName;
         }
 
@@ -299,7 +299,7 @@ class MangaController extends Controller{
         $path = "/manga/$manga->slug";
         $delete = Manga::destroy($id);
         if($delete){
-            Storage::disk('public')->deleteDirectory($path);
+            Storage::disk($this->disk)->deleteDirectory($path);
             return response()->json([
                 'status' => "success",
                 'msg' => "Eliminado correctamente"

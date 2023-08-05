@@ -17,8 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('manga_id');
             $table->unsignedBigInteger('category_id');
             $table->primary(['manga_id', 'category_id']);
-            $table->foreign('manga_id')->references('id')->on('manga')->cascadeOnDelete();
-            $table->foreign('category_id')->references('id')->on('categories')->cascadeOnDelete();
+            $table->foreign('manga_id')->references('id')->on('manga')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

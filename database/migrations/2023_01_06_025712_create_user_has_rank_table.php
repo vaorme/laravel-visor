@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('rank_id');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('rank_id')->references('id')->on('ranks');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('rank_id')->references('id')->on('ranks')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });

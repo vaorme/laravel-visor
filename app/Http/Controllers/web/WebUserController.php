@@ -12,12 +12,18 @@ use App\Models\UserViewChapter;
 use App\Models\UserViewManga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class WebUserController extends Controller{
+    private $disk;
 
-    // :UPDATE
+    public function __construct(){
+        $this->disk = config('app.disk');
+    }
+
     public function update(Request $request, $id){
+        // return response()->json($request->all());
         if($id != Auth::id()){
             return redirect()->route('account.index')->with('error', 'Hey, no puedes hacer eso.');
         }
@@ -28,7 +34,6 @@ class WebUserController extends Controller{
 		]);
         
         $user = User::find($id);
-        $userSaved = $user->save();
 		
         $profile = Profile::find($id);
 		$profile->name = $request->name;
@@ -37,17 +42,19 @@ class WebUserController extends Controller{
 			$profile->country_id = $request->country;
 		}
 		if(isset($request->default_avatar) && !empty($request->default_avatar)){
-			$profile->avatar = "storage/".$request->default_avatar;
+			$profile->avatar = $request->default_avatar;
 		}else{
 			if(isset($request->current_avatar) && !empty($request->current_avatar)){
                 $profile->avatar = $request->current_avatar;
             }else{
                 if(isset($request->avatar_file)){
+                    Storage::disk($this->disk)->deleteDirectory('images/users/'.$user->username);
+                    Storage::disk($this->disk)->makeDirectory('images/users/'.$user->username);
                     $avatarExtension = $request->file('avatar_file')->extension();
-                    $pathAvatar = $request->file('avatar_file')->storeAs('public/images/users', $request->username.'-avatar.'.$avatarExtension);
-                    $profile->avatar = 'storage/images/users/'.$request->username.'-avatar.'.$avatarExtension;
+                    $pathAvatar = $request->file('avatar_file')->storeAs('images/users/'.$user->username,'avatar.'.$avatarExtension, $this->disk);
+                    $profile->avatar = 'images/users/'.$user->username.'/avatar.'.$avatarExtension;
                 }else{
-                    $profile->avatar = 'storage/avatares/avatar-'.rand(1, 10).'.png';
+                    $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
                 }
             }
 		}
@@ -63,7 +70,7 @@ class WebUserController extends Controller{
 		}
         $profileSaved = $profile->save();
 
-        if($userSaved && $profileSaved){
+        if($profileSaved){
             return redirect()->route('account.index')->with('success', 'Perfil actualizado correctamente');
         }
         return redirect()->route('account.index')->with('error', 'Ups, se complico la cosa');

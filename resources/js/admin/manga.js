@@ -1,4 +1,5 @@
 import { dropZone, removeBodyScroll, clearBodyScroll, Modalerts } from './helpers/helpers';
+import '../helpers/helpers';
 
 let allowTypes = ['jpg', 'jpeg', 'png','webp','gif'];
 dropZone('.fm-manga .dropzone #choose', allowTypes);
@@ -144,7 +145,7 @@ if(createChapter){
         clearBodyScroll();
     })
     let previewBox = document.querySelector('#t-preview');
-    let inputRdos = document.querySelectorAll('main.main .box #modalChapter .md-content form .group.radios label input');
+    let inputRdos = document.querySelectorAll('main.main .box #modalChapter .md-content form .group .radios label input');
     let tManga = document.querySelector('#t-manga');
     let tNovel = document.querySelector('#t-novel');
     
@@ -331,6 +332,8 @@ if(createChapter){
         let fieldToken = formData.get('_token')
         let fieldName = formData.get('name');
         let fieldSlug = formData.get('slug');
+        let fieldDisk = formData.get('disk');
+
         let fieldType = formData.get('chaptertype');
         let fieldPrice = formData.get('price');
 
@@ -382,6 +385,7 @@ if(createChapter){
             name: fieldName,
             slug: fieldSlug,
             price: fieldPrice,
+            disk: fieldDisk,
             chaptertype: fieldType,
             content: fieldContent,
             images: previewFiles
@@ -418,6 +422,7 @@ if(createChapter){
                     position: "center", // `left`, `center` or `right`
                 }).showToast();
                 let item = response.data.item;
+                let manga_slug = response.data.manga_slug;
                 let divItem = document.createElement('div');
                 divItem.classList.add('item');
                 divItem.setAttribute('id', 'm-'+item.id)
@@ -426,7 +431,7 @@ if(createChapter){
                         ${item.name}
                     </div>
                     <div class="actions">
-                        <a href="#" data-id="${item.id}" class="botn view">
+                        <a href="${route('chapter_viewer.index', {manga_slug,chapter_slug: item.slug})}" data-id="${item.id}" class="botn view" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <path d="M7 4v16l13 -8z" />
@@ -455,6 +460,7 @@ if(createChapter){
                 setTimeout(function(){
                     previewFiles = [];
                     limpiarPreview();
+                    removeBodyScroll();
                     chapterForm.reset();
                     createChapter.removeClass('opn');
                 }, 1000)
@@ -522,6 +528,19 @@ function limpiarPreview(){
 
 
 // ? Upload chapter
+
+
+// :OPEN
+const openPopButton = document.querySelector('.frmo.fm-manga .main .section.chapters .buttons a#popup-chapter');
+if(openPopButton){
+    const divPop = document.querySelector('.frmo.fm-manga .main .section.chapters .chapter__upload');
+    openPopButton.addEventListener('click', function(e){
+        e.preventDefault();
+        slideToggle(divPop);
+    });
+    
+}
+
 let fileAllow = ['zip'];
 dropButton('.fm-manga .upload #upload-chapter', fileAllow);
 
@@ -562,7 +581,9 @@ function dropButtonFile(file, allowed){
     let dataForm = new FormData();
 
     let listChapters = document.querySelector('.fm-manga form .chapters .list .simplebar-content');
+    let disk = document.querySelector('.frmo.fm-manga .main .section.chapters .chapter__upload .disks input:checked');
 
+    dataForm.set('disk', disk.value);
     dataForm.append("chapters", inputUpload.files[0]);
 
     axios.post(route('uploadChapter.store', [mangaId]), dataForm, {
@@ -602,7 +623,7 @@ function dropButtonFile(file, allowed){
             });
             created.forEach(element => {
                 let item = element.item;
-                console.log(item);
+                let manga_slug = element.manga_slug;
                 let divItem = document.createElement('div');
                 divItem.classList.add('item');
                 divItem.setAttribute('id', 'm-'+item.id);
@@ -611,7 +632,7 @@ function dropButtonFile(file, allowed){
                         ${item.name}
                     </div>
                     <div class="actions">
-                        <a href="#" data-id="${item.id}" class="botn view">
+                        <a href="${route('chapter_viewer.index', {manga_slug,chapter_slug: item.slug})}" data-id="${item.id}" class="botn view" target="_blank">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                 <path d="M7 4v16l13 -8z" />
@@ -785,11 +806,11 @@ document.addEventListener('click', function (e) {
         }
     }).then(function (response){
         if(response.status == 200){
-            removeBodyScroll();
             let { chapter } = response.data;
             let siteUrl = window.location.origin;
             let box = document.querySelector('.main.main .box');
             let divChapter = document.createElement('div');
+            const disk = chapter.disk;
 
             let images = [];
             if(chapter.images){
@@ -805,6 +826,24 @@ document.addEventListener('click', function (e) {
             }
             divChapter.setAttribute('id', 'updateChapter');
             divChapter.addClass('modal-chapter opn');
+
+            let url;
+            switch (disk) {
+                case "ftp":
+                    url = import.meta.env.VITE_FTP_URL;
+                    break;
+                case "sftp":
+                    url = import.meta.env.VITE_SFTP_URL;
+                    break;
+                case "s3":
+                    url = import.meta.env.VITE_S3_URL;
+                    break;
+            
+                default:
+                    url = import.meta.env.VITE_STORAGE_LOCAL;
+                    break;
+            }
+
             divChapter.innerHTML = `
                 <div class="md-title">
                     <h4>Actualizar capítulo</h4>
@@ -827,21 +866,69 @@ document.addEventListener('click', function (e) {
                             <label>Price</label>
                             <input type="number" name="price" id="ct-range" value="${chapter.price ? Number(chapter.price) : ''}">
                         </div>
-                        <div class="group radios">
-                            <label for="rd-1">
-                                <input type="radio" name="chaptertype" value="manga" id="rd-1" ${chapter.type == 'manga'? 'checked': ''}>
-                                <div class="rdo">
-                                    <div class="inpt"></div>
-                                    <div class="name">Manga</div>
-                                </div>
-                            </label>
-                            <label for="rd-0">
-                                <input type="radio" name="chaptertype" value="novel" id="rd-0" ${chapter.type == 'novel'? 'checked': ''}>
-                                <div class="rdo">
-                                    <div class="inpt"></div>
-                                    <div class="name">Novela</div>
-                                </div>
-                            </label>
+                        <div class="group type">
+                            <label>Tipo</label>
+                            <div class="radios rdos">
+                                <label for="rd-1">
+                                    <input type="radio" name="chaptertype" value="manga" id="rd-1" ${chapter.type == 'manga'? 'checked': ''}>
+                                    <div class="rdo">
+                                        <div class="inpt"></div>
+                                        <div class="name">Manga</div>
+                                    </div>
+                                </label>
+                                <label for="rd-0">
+                                    <input type="radio" name="chaptertype" value="novel" id="rd-0" ${chapter.type == 'novel'? 'checked': ''}>
+                                    <div class="rdo">
+                                        <div class="inpt"></div>
+                                        <div class="name">Novela</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="group upload">
+                            <label>Subir a</label>
+                            <div class="disks rdos">
+                                <label for="erdo-1">
+                                    <input type="radio" name="disk" value="public" id="erdo-1" ${chapter.disk == 'public'? 'checked': ''}>
+                                    <div class="rdo">
+                                        <div class="inpt"></div>
+                                        <div class="name">Local</div>
+                                    </div>
+                                </label>
+                                ${(import.meta.env.VITE_FTP_HOST && import.meta.env.VITE_FTP_HOST != "")?
+                                `
+                                    <label for="erdo-2">
+                                        <input type="radio" name="disk" value="ftp" id="erdo-2" ${chapter.disk == 'ftp'? 'checked': ''}>
+                                        <div class="rdo">
+                                            <div class="inpt"></div>
+                                            <div class="name">FTP</div>
+                                        </div>
+                                    </label>
+                                `
+                                : ''}
+                                ${(import.meta.env.VITE_SFTP_HOST && import.meta.env.VITE_SFTP_HOST != "")?
+                                `
+                                    <label for="erdo-3">
+                                        <input type="radio" name="disk" value="sftp" id="erdo-3" ${chapter.disk == 'sftp'? 'checked': ''}>
+                                        <div class="rdo">
+                                            <div class="inpt"></div>
+                                            <div class="name">FTP</div>
+                                        </div>
+                                    </label>
+                                `
+                                : ''}
+                                ${(import.meta.env.VITE_S3_HOST && import.meta.env.VITE_S3_HOST != "")?
+                                `
+                                    <label for="erdo-4">
+                                        <input type="radio" name="disk" value="s3" id="erdo-4" ${chapter.disk == 's3'? 'checked': ''}>
+                                        <div class="rdo">
+                                            <div class="inpt"></div>
+                                            <div class="name">Amazon S3</div>
+                                        </div>
+                                    </label>
+                                `
+                                : ''}
+                            </div>
                         </div>
                         <div class="group ${chapter.type == 'novel'? '': 'hidden'}" id="u-novel">
                             <label for="ct-content">Contenido</label>
@@ -856,7 +943,7 @@ document.addEventListener('click', function (e) {
                                 </div>
                                 ${chapter.images ? images.map((item, index) => `
                                     <div class="item" id="image-${cuentaItemIndex + index}" index="${cuentaItemIndex + index}">
-                                        <img src="${siteUrl + '/storage/' +item}" alt="preview" />
+                                        <img src="${url+item}" alt="preview" />
                                         <div class="u-remove" data-index="${cuentaItemIndex + index}">
                                             <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                         </div>
@@ -874,9 +961,6 @@ document.addEventListener('click', function (e) {
             box.append(divChapter);
 
             const contentEditor = new EditorJS({
-                /**
-                 * Id of Element that should contain Editor instance
-                 */
                 holder: 'chapterContent',
                 tools: toolsConfig,
             });
@@ -996,6 +1080,7 @@ document.addEventListener('click', function (e) {
             });
 
             const eliminarImagen = function(files, index, chapterid){
+
                 axios.post(route('eliminarChapter.imagenes', [chapterid]), {
                     index
                 },{
@@ -1003,6 +1088,7 @@ document.addEventListener('click', function (e) {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     }
                 }).then(function (response){
+                    console.log(response);
                     let clearInput = document.querySelector('#updateChapter #ct-images');
                     previewImages = [];
                     clearInput.value = "";
@@ -1021,13 +1107,13 @@ document.addEventListener('click', function (e) {
                 });
 
                 let itemDelete = document.querySelector('#updateChapter #u-preview #image-'+index);
-                itemDelete.remove();
+                itemDelete?.remove();
                 let items = document.querySelectorAll('#updateChapter .md-content form .group #u-preview .item');
                 files.splice(index, 1);
                 for (let i = 0; i < files.length; i++) {
-                    items[i].setAttribute('id', 'image-'+i);
-                    items[i].setAttribute('index', i);
-                    items[i].children[1].setAttribute('data-index', i);
+                    items[i]?.setAttribute('id', 'image-'+i);
+                    items[i]?.setAttribute('index', i);
+                    items[i]?.children[1].setAttribute('data-index', i);
                 }
                 return files;
             }    
@@ -1042,11 +1128,13 @@ document.addEventListener('click', function (e) {
             document.addEventListener('click', function(e){
                 if (!e.target.matches('#updateChapter .md-close')) return;
                 e.preventDefault();
-                contentEditor.destroy();
+                if(contentEditor){
+                    contentEditor.destroy();
+                }
                 closeUpdateModal()
             })
             document.addEventListener('click', function(e){
-                if (!e.target.matches('#updateChapter .md-content form .group.radios label input')) return;
+                if (!e.target.matches('#updateChapter .md-content form .radios label input')) return;
             
                 let uManga = document.querySelector('#u-manga');
                 let uNovel = document.querySelector('#u-novel');
@@ -1152,6 +1240,7 @@ document.addEventListener('click', function (e) {
                 let fieldSlug = formData.get('slug');
                 let fieldType = formData.get('chaptertype');
                 let fieldPrice = formData.get('price');
+                let fieldDisk = formData.get('disk');
 
                 
                 formData.append('content', JSON.stringify(encodeData));
@@ -1162,6 +1251,7 @@ document.addEventListener('click', function (e) {
                     slug: fieldSlug,
                     price: fieldPrice,
                     type: fieldType,
+                    disk: fieldDisk,
                     content: fieldContent
                 },{
                     headers:{
@@ -1240,9 +1330,13 @@ function closeUpdateModal(){
 
 function subirGenerarImagenes(images, mangaid, chapterid){
     limpiarPreview();
+
+    let disk = document.querySelector('#updateChapter.modal-chapter .md-content form .upload input:checked').value;
+
     axios.post(route('subirChapter.imagenes', [mangaid]), {
         images,
-        chapterid
+        chapterid,
+        disk
     }, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -1250,6 +1344,15 @@ function subirGenerarImagenes(images, mangaid, chapterid){
         }
     }).then(function (response){
         console.log(response);
+        Toastify({
+            text: response.data.msg,
+            className: "success",
+            duration: 5000,
+            newWindow: true,
+            close: true,
+            gravity: "top",
+            position: "center",
+        }).showToast();
     })
     .catch(function (error){
         console.log('error: ',error);

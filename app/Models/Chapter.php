@@ -12,7 +12,7 @@ class Chapter extends Model{
     use HasFactory;
     
     public function manga(): BelongsTo{
-        return $this->belongsTo(Manga::class);
+        return $this->belongsTo(Manga::class)->where('status', '=', 'published');
     }
     public function url(){
         return URL::route('chapter_viewer.index', [

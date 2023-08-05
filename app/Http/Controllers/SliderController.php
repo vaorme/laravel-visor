@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller{
+    private $disk;
+
+    public function __construct(){
+        $this->disk = config('app.disk');
+    }
+
     public function index(Request $request){
         $loop = Slider::get();
         $mangas = Manga::get();
@@ -35,12 +41,12 @@ class SliderController extends Controller{
         $manga = Manga::find($request->manga_id);
         if(isset($request->logo)){
             $extension = $originalName = $request->file('logo')->extension();
-            $pathAvatar = $request->file('logo')->storeAs('public/images/slider', $manga->slug.'-logo.'.$extension);
+            $pathAvatar = $request->file('logo')->storeAs('images/slider', $manga->slug.'-logo.'.$extension, $this->disk);
 			$store->logo = 'images/slider/'.$manga->slug.'-logo.'.$extension;
         }
         if(isset($request->background)){
             $extension = $originalName = $request->file('background')->extension();
-            $pathAvatar = $request->file('background')->storeAs('public/images/slider', $manga->slug.'-bg.'.$extension);
+            $pathAvatar = $request->file('background')->storeAs('images/slider', $manga->slug.'-bg.'.$extension, $this->disk);
 			$store->background = 'images/slider/'.$manga->slug.'-bg.'.$extension;
         }
 
@@ -70,7 +76,7 @@ class SliderController extends Controller{
                 Storage::delete($update->logo);
             }
             $extension = $originalName = $request->file('logo')->extension();
-            $pathAvatar = $request->file('logo')->storeAs('public/images/slider', $manga->slug.'-logo.'.$extension);
+            $pathAvatar = $request->file('logo')->storeAs('images/slider', $manga->slug.'-logo.'.$extension, $this->disk);
 			$update->logo = 'images/slider/'.$manga->slug.'-logo.'.$extension;
         }
         if(isset($request->background)){
@@ -78,7 +84,7 @@ class SliderController extends Controller{
                 Storage::delete($update->background);
             }
             $extension = $originalName = $request->file('background')->extension();
-            $pathAvatar = $request->file('background')->storeAs('public/images/slider', $manga->slug.'-bg.'.$extension);
+            $pathAvatar = $request->file('background')->storeAs('images/slider', $manga->slug.'-bg.'.$extension, $this->disk);
 			$update->background = 'images/slider/'.$manga->slug.'-bg.'.$extension;
         }
 
@@ -90,10 +96,10 @@ class SliderController extends Controller{
     public function destroy($id){
         $delete = Slider::find($id);
         if(!empty($delete->background)){
-            Storage::disk('public')->delete($delete->background);
+            Storage::disk($this->disk)->delete($delete->background);
         }
         if(!empty($delete->logo)){
-            Storage::disk('public')->delete($delete->logo);
+            Storage::disk($this->disk)->delete($delete->logo);
         }
         if($delete->delete()){
             $response['msg'] = "Elemento eliminada correctamente.";

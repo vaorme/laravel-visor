@@ -1,5 +1,4 @@
 import SimpleBar from "simplebar";
-import 'simplebar/dist/simplebar.css';
 
 const chaptersList = document.querySelector('.chapters__list');
 if(chaptersList){
@@ -10,6 +9,7 @@ const divActions = document.querySelector('.manga__actions');
 
 // :FOLLOW/UNFOLLOW MANGA
 
+let followSpam = false;
 document.addEventListener('click', async function (e) {
 
 	// If the clicked element does not have the .click-me class, ignore it
@@ -31,6 +31,12 @@ document.addEventListener('click', async function (e) {
 
         return true;
     }
+
+    if(followSpam){
+        return true;
+    }
+    followSpam = true;
+
     const follow = await axios.post(`/u/follow/${id}`, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -61,8 +67,10 @@ document.addEventListener('click', async function (e) {
                 position: "center",
             }).showToast();
         }
-    })
-    .catch(function (error){
+        setTimeout(() => {
+            followSpam = false;
+        }, 5000);
+    }).catch(function (error){
         // handle error
         console.log(error);
         Toastify({
@@ -74,10 +82,14 @@ document.addEventListener('click', async function (e) {
             gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
         }).showToast();
+        setTimeout(() => {
+            followSpam = false;
+        }, 5000);
     });
 
 });
 
+let unfollowSpam = false;
 document.addEventListener('click', async function (e) {
 
 	// If the clicked element does not have the .click-me class, ignore it
@@ -99,6 +111,12 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         return true;
     }
+
+    if(unfollowSpam){
+        return true;
+    }
+    unfollowSpam = true;
+
     const follow = await axios.post(`/u/unfollow/${id}`, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -129,6 +147,9 @@ document.addEventListener('click', async function (e) {
                 position: "center",
             }).showToast();
         }
+        setTimeout(() => {
+            unfollowSpam = false;
+        }, 5000);
     })
     .catch(function (error){
         // handle error
@@ -139,15 +160,19 @@ document.addEventListener('click', async function (e) {
             duration: 5000,
             newWindow: true,
             close: true,
-            gravity: "top", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
+            gravity: "top",
+            position: "center",
         }).showToast();
+        setTimeout(() => {
+            unfollowSpam = false;
+        }, 5000);
     });
 
 });
 
 // :VIEW/UNVIEW MANGA
 
+let viewMangaSpam = false;
 document.addEventListener('click', async function (e) {
 	if (!e.target.matches('.manga__actions .action__view.view')) return;
     e.preventDefault();
@@ -167,6 +192,12 @@ document.addEventListener('click', async function (e) {
 
         return true;
     }
+    
+    if(viewMangaSpam){
+        return true;
+    }
+    viewMangaSpam = true;
+
     const follow = await axios.post(`/u/view/${id}`, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -204,6 +235,9 @@ document.addEventListener('click', async function (e) {
                 position: "center",
             }).showToast();
         }
+        setTimeout(() => {
+            viewMangaSpam = false;
+        }, 5000);
     })
     .catch(function (error){
         // handle error
@@ -217,10 +251,14 @@ document.addEventListener('click', async function (e) {
             gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
         }).showToast();
+        setTimeout(() => {
+            viewMangaSpam = false;
+        }, 5000);
     });
 
 });
 
+let unviewMangaSpam = false;
 document.addEventListener('click', async function (e) {
 	if (!e.target.matches('.manga__actions .action__view.unview')) return;
     e.preventDefault();
@@ -240,6 +278,12 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         return true;
     }
+
+    if(unviewMangaSpam){
+        return true;
+    }
+    unviewMangaSpam = true;
+
     const follow = await axios.post(`/u/unview/${id}`, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -277,6 +321,9 @@ document.addEventListener('click', async function (e) {
                 position: "center",
             }).showToast();
         }
+        setTimeout(() => {
+            unviewMangaSpam = false;
+        }, 5000);
     })
     .catch(function (error){
         // handle error
@@ -290,11 +337,15 @@ document.addEventListener('click', async function (e) {
             gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
         }).showToast();
+        setTimeout(() => {
+            unviewMangaSpam = false;
+        }, 5000);
     });
 });
 
 // :FAV/UNFAV MANGA
 
+let favSpam = false;
 document.addEventListener('click', async function (e) {
 	if (!e.target.matches('.manga__actions .action__fav.fav')) return;
     e.preventDefault();
@@ -314,6 +365,12 @@ document.addEventListener('click', async function (e) {
 
         return true;
     }
+
+    if(favSpam){
+        return true;
+    }
+    favSpam = true;
+
     const follow = await axios.post(`/u/fav/${id}`, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -351,6 +408,9 @@ document.addEventListener('click', async function (e) {
                 position: "center",
             }).showToast();
         }
+        setTimeout(() => {
+            favSpam = false;
+        }, 5000);
     })
     .catch(function (error){
         // handle error
@@ -364,10 +424,15 @@ document.addEventListener('click', async function (e) {
             gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
         }).showToast();
+        setTimeout(() => {
+            favSpam = false;
+        }, 5000);
     });
 
 });
 
+
+let unfavSpam = false;
 document.addEventListener('click', async function (e) {
 	if (!e.target.matches('.manga__actions .action__fav.unfav')) return;
     e.preventDefault();
@@ -387,6 +452,12 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         return true;
     }
+
+    if(unfavSpam){
+        return true;
+    }
+    unfavSpam = true;
+
     const follow = await axios.post(`/u/unfav/${id}`, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -424,6 +495,9 @@ document.addEventListener('click', async function (e) {
                 position: "center",
             }).showToast();
         }
+        setTimeout(() => {
+            unfavSpam = false;
+        }, 5000);
     })
     .catch(function (error){
         // handle error
@@ -437,11 +511,15 @@ document.addEventListener('click', async function (e) {
             gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
         }).showToast();
+        setTimeout(() => {
+            unfavSpam = false;
+        }, 5000);
     });
 });
 
 // :VIEW/UNVIEW CHAPTER
 
+let viewSpam = false;
 document.addEventListener('click', async function (e) {
 	if (!e.target.matches('.chapter__actions .action__view.view')) return;
     e.preventDefault();
@@ -461,6 +539,12 @@ document.addEventListener('click', async function (e) {
 
         return true;
     }
+
+    if(viewSpam){
+        return true;
+    }
+    viewSpam = true;
+
     const follow = await axios.post(`/u/view_chapter/${id}`, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -495,6 +579,9 @@ document.addEventListener('click', async function (e) {
                 position: "center",
             }).showToast();
         }
+        setTimeout(() => {
+            viewSpam = false;
+        }, 5000);
     })
     .catch(function (error){
         // handle error
@@ -508,10 +595,14 @@ document.addEventListener('click', async function (e) {
             gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
         }).showToast();
+        setTimeout(() => {
+            viewSpam = false;
+        }, 5000);
     });
 
 });
 
+let unviewSpam = false;
 document.addEventListener('click', async function (e) {
 	if (!e.target.matches('.chapter__actions .action__view.unview')) return;
     e.preventDefault();
@@ -531,6 +622,12 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         return true;
     }
+
+    if(unviewSpam){
+        return true;
+    }
+    unviewSpam = true;
+
     const follow = await axios.post(`/u/unview_chapter/${id}`, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -567,6 +664,9 @@ document.addEventListener('click', async function (e) {
                 position: "center",
             }).showToast();
         }
+        setTimeout(() => {
+            unviewSpam = false;
+        }, 5000);
     })
     .catch(function (error){
         // handle error
@@ -580,12 +680,15 @@ document.addEventListener('click', async function (e) {
             gravity: "top", // `top` or `bottom`
             position: "center", // `left`, `center` or `right`
         }).showToast();
+        setTimeout(() => {
+            unviewSpam = false;
+        }, 5000);
     });
 });
 
 // :RATE MANGA
 
-let avoidSpam = false;
+let rateSpam = false;
 document.addEventListener('click', async function (e) {
 	if (!e.target.matches('.manga__detail .manga__rating .rating__label')) return;
 
@@ -619,10 +722,10 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         return true;
     }
-    if(avoidSpam){
+    if(rateSpam){
         return true;
     }
-    avoidSpam = true;
+    rateSpam = true;
 
     await axios.post(`/rate/${manga_id}`, {
         headers:{
@@ -658,7 +761,7 @@ document.addEventListener('click', async function (e) {
             }).showToast();
         }
         setTimeout(() => {
-            avoidSpam = false;
+            rateSpam = false;
         }, 5000);
     }).catch(function (error){
         // handle error
@@ -673,7 +776,7 @@ document.addEventListener('click', async function (e) {
             position: "center",
         }).showToast();
         setTimeout(() => {
-            avoidSpam = false;
+            rateSpam = false;
         }, 5000);
     });
 });

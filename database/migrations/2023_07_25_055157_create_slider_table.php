@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('background')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('manga_id');
-            $table->foreign('manga_id')->references('id')->on('manga');
+            $table->foreign('manga_id')->references('id')->on('manga')->onDelete('cascade');
             $table->timestamps();
         });
     }

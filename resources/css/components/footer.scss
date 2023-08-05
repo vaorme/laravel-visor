@@ -1,0 +1,13 @@
+footer.footer{
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+    .footer__copy{
+        text-align: center;
+    }
+    .footer__copy p{
+        font-size: 16px;
+        margin: 0;
+        color: #777;
+        font-weight: 500;
+    }
+}
