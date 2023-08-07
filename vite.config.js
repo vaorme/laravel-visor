@@ -34,6 +34,10 @@ export default defineConfig({
                 'resources/js/web/library.js',
                 'resources/css/web/library.scss',
 
+                // :SETTINGS
+                'resources/css/admin/settings.scss',
+                'resources/js/admin/settings.js',
+
                 // :MANGA DETAIL
                 'resources/js/web/mangaDetail.js',
                 'resources/css/web/mangaDetail.scss',
