@@ -1,5 +1,6 @@
 <x-admin-layout>
-    <x-slot:title>Usuarios | {{ $user->username }}</x-slot>
+    
+    <x-slot:title>Usuarios | {{ ($user->username)?? null }}</x-slot>
     <x-admin.bar title="Editar usuario" :backTo="route('users.index')" />
     <div class="template-2">
         <div class="contain">
@@ -30,7 +31,7 @@
                 </script>
             @endif
             <div class="frmo update">
-                <form action="{{ route('users.update', ['id' => $user->id]) }}" method="POST" id="formUser" enctype="multipart/form-data">
+                <form action="{{ route('users.update', ['id' => $user->user_id]) }}" method="POST" id="formUser" enctype="multipart/form-data">
                     @csrf
 					@method('PATCH')
                     <div class="row grid grid-cols-2 gap-10">
