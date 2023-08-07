@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Manga;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller{
@@ -22,8 +23,13 @@ class SliderController extends Controller{
             'mangas' => $mangas
         ];
         if(isset($request->id)){
-            $edit = Slider::find($request->id);
-            $viewData['edit'] = $edit;
+            $user = Auth::user();
+            if($user->can('tags.edit')){
+                $edit = Slider::find($request->id);
+                $viewData['edit'] = $edit;
+            }else{
+                return abort(404);
+            }
         }
         return view('admin.slider.index', $viewData);
     }

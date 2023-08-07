@@ -363,7 +363,7 @@ main.main{
                                 font-size: .9rem;
                             }
                             select{
-                                background-image: url('../../public/assets/nav-arrow-down.svg');
+                                background-image: url('../../assets/nav-arrow-down.svg');
                                 background-size: 18px;
                                 background-repeat: no-repeat;
                                 background-position: calc(100% - 10px) center;
@@ -575,7 +575,7 @@ main.main{
                         margin-bottom: 2rem;
                         border-radius: .6rem;
                         border: 1px solid rgb(#fff, .1);
-                        &.head, &.description{
+                        &.cols{
                             display: flex;
                             .item{
                                 width: 100%;
@@ -615,6 +615,18 @@ main.main{
                                     font-weight: 500;
                                 }
                             }
+                        }
+                        &.dates .item{
+                            width: 50%;
+                        }
+                        &.dates .item .dates__select{
+                            padding: 0 2rem;
+                        }
+                        &.dates .item .dates__select select{
+                            display: block;
+                            height: 100%;
+                            padding: 0.6rem;
+                            border-radius: 6px;
                         }
                         &.chapters{
                             border: 0;
@@ -1221,7 +1233,7 @@ main.main{
                             padding: 2.5rem;
                             border-radius: 1rem;
                         }
-                        #chapterContent{
+                        #chapterContent, #createChapterContent{
                             .codex-editor .ce-inline-toolbar .ce-inline-toolbar__toggler-and-button-wrapper{
                                 color: #000;
                             }
@@ -1315,6 +1327,15 @@ main.main{
         .template-1, .template-3{
             .contain{
                 border-right: 1px solid rgb(#fff, .1);
+            }
+            .contain .empty{
+                padding: 2rem;
+                text-align: center;
+            }
+            .contain .empty p{
+                color: #838383;
+                font-size: 16px;
+                font-weight: 500;
             }
             aside.side{
                 h2{

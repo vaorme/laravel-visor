@@ -111,6 +111,12 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'orders.edit']);
         Permission::create(['name' => 'orders.destroy']);
 
+        // :SLIDER
+        Permission::create(['name' => 'slider.index']);
+        Permission::create(['name' => 'slider.create']);
+        Permission::create(['name' => 'slider.edit']);
+        Permission::create(['name' => 'slider.destroy']);
+
         // Settings
         Permission::create(['name' => 'settings.index']);
         Permission::create(['name' => 'settings.edit']);
@@ -124,8 +130,42 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'settings.seo.edit']);
 
         // Administrative roles
-        Role::create(['name' => 'administrador']);
-        Role::create(['name' => 'moderador']);
+        $administrator = Role::create(['name' => 'administrador']);
+        $moderador = Role::create(['name' => 'moderador']);
+        $moderador->givePermissionTo([
+            'slider.index',
+            'slider.create',
+            'slider.edit',
+            'slider.destroy',
+            'manga.index',
+            'manga.create',
+            'manga.edit',
+            'manga.destroy',
+            'manga_demography.index',
+            'manga_demography.create',
+            'manga_demography.edit',
+            'manga_demography.destroy',
+            'manga_types.index',
+            'manga_types.create',
+            'manga_types.edit',
+            'manga_types.destroy',
+            'manga_book_status.index',
+            'manga_book_status.create',
+            'manga_book_status.edit',
+            'manga_book_status.destroy',
+            'chapters.index',
+            'chapters.create',
+            'chapters.edit',
+            'chapters.destroy',
+            'categories.index',
+            'categories.create',
+            'categories.edit',
+            'categories.destroy',
+            'tags.index',
+            'tags.create',
+            'tags.edit',
+            'tags.destroy'
+        ]);
 
         // Lector Role
         Role::create(['name' => 'lector']);

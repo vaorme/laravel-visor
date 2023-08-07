@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class TagController extends Controller{
@@ -18,8 +19,13 @@ class TagController extends Controller{
             'loop' => $loop,
         ];
         if(isset($request->id)){
-            $edit = Tag::find($request->id);
-            $data['edit'] = $edit;
+            $user = Auth::user();
+            if($user->can('tags.edit')){
+                $edit = Tag::find($request->id);
+                $data['edit'] = $edit;
+            }else{
+                return abort(404);
+            }
         }
         return view('admin.tags.index', $data);
     }

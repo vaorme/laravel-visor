@@ -7,11 +7,23 @@
         display: flex;
         gap: 15px;
     }
-    form.form .group > label{
+    form.form .group .group__label{
+        width: 100%;
+        max-width: 220px;
+        p{
+            color: #676767;
+            a{
+                color: #3fb3e1;
+                text-decoration: underline;
+            }
+        }
+    }
+    form.form .group > label,
+    form.form .group .group__label label{
         width: 100%;
         display: block;
         font-size: 1rem;
-        color: #676767;
+        color: #9f9f9f;
         font-weight: 500;
         max-width: 220px;
         margin-bottom: 0.8rem;

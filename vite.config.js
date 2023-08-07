@@ -16,10 +16,15 @@ export default defineConfig({
 
                 // LOGIN / REGISTER
                 'resources/css/loreg.scss',
+                'resources/js/loreg.js',
 
                 // TOM SELECT
                 'resources/css/web/tom-select.css',
-                'resources/js/web/tom-select.js',
+                // 'resources/js/web/tom-select.js',
+
+                // COLORIS
+                'resources/css/web/coloris.css',
+                'resources/js/web/coloris.js',
 
                 // WEB
                 'resources/js/web/app.js',

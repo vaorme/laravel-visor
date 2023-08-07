@@ -164,6 +164,18 @@
                             @endif
                         </div>
                     </div>
+                    <div class="group">
+                        <label>Head</label>
+                        <textarea name="insert_head" cols="30" rows="8">{{ isset($setting)? old('insert_head', $setting->insert_head) : '' }}</textarea>
+                    </div>
+                    <div class="group">
+                        <label>Body</label>
+                        <textarea name="insert_body" cols="30" rows="8">{{ isset($setting)? old('insert_body', $setting->insert_body) : '' }}</textarea>
+                    </div>
+                    <div class="group">
+                        <label>Footer</label>
+                        <textarea name="insert_footer" cols="30" rows="8">{{ isset($setting)? old('insert_footer', $setting->insert_footer) : '' }}</textarea>
+                    </div>
                     {{-- @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror --}}

@@ -58,6 +58,14 @@
 					</div>
 				</section>
 			@endif
+			@php
+				$ad_2 = config('app.ads_2');
+			@endphp
+			@if ($ad_2)
+				<div class="vealo">
+					{!! $ad_2 !!}
+				</div>
+			@endif
 			<section class="section most__viewed">
 				<div class="section__title">
 					<h2><span>mes</span> Más vistos</h2>
@@ -179,6 +187,14 @@
 					</div>
 				</section>
 			@endif
+			@php
+				$ad_1 = config('app.ads_1');
+			@endphp
+			@if ($ad_1)
+				<div class="vealo">
+					{!! $ad_1 !!}
+				</div>
+			@endif
 			@if ($topmonth->isNotEmpty())
 				<section class="section tops">
 					<h2 class="sidebar__title"><span>TOP</span> Mensual</h2>
@@ -220,6 +236,14 @@
 						</ul>
 					</div>
 				</section>
+			@endif
+			@php
+				$ad_3 = config('app.ads_3');
+			@endphp
+			@if ($ad_3)
+				<div class="vealo">
+					{!! $ad_3 !!}
+				</div>
 			@endif
 		</aside>
 	</div>

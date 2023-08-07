@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -18,8 +19,13 @@ class PermissionController extends Controller
             'loop' => $loop,
         ];
         if(isset($request->id)){
-            $edit = Permission::find($request->id);
-            $data['edit'] = $edit;
+            $user = Auth::user();
+            if($user->can('tags.edit')){
+                $edit = Permission::find($request->id);
+                $data['edit'] = $edit;
+            }else{
+                return abort(404);
+            }
         }
         return view('admin.permissions.index', $data);
     }

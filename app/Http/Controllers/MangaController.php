@@ -118,6 +118,8 @@ class MangaController extends Controller{
         $manga->type_id = $request->type_id;
         $manga->book_status_id = $request->book_status_id;
         $manga->demography_id = $request->demography_id;
+        $manga->new_chapters_time = $request->new_chapters_time;
+        $manga->new_chapters_date = $request->new_chapters_date;
 
         if($manga->save()){
             if(isset($request->categories)){
@@ -243,6 +245,8 @@ class MangaController extends Controller{
         $manga->type_id = $request->type_id;
         $manga->book_status_id = $request->book_status_id;
         $manga->demography_id = $request->demography_id;
+        $manga->new_chapters_time = $request->new_chapters_time;
+        $manga->new_chapters_date = $request->new_chapters_date;
 
         if(isset($request->categories)){
             // Removemos las categorias antiguas por el manga id

@@ -83,6 +83,14 @@
                         </div>
                     </div>
                 </div>
+                @php
+                    $ad_7 = config('app.ads_7');
+                @endphp
+                @if ($ad_7)
+                    <div class="vealo">
+                        {!! $ad_7 !!}
+                    </div>
+                @endif
             </div>
             <div class="profile__content manga">
                 <div class="profile__navbar">
@@ -126,6 +134,14 @@
                         @endif
                     </ul>
                 </div>
+                @php
+                    $ad_8 = config('app.ads_8');
+                @endphp
+                @if ($ad_8)
+                    <div class="vealo">
+                        {!! $ad_8 !!}
+                    </div>
+                @endif
                 @if (isset($page) || !Auth::check())
                     @if (!isset($page) || $page == "siguiendo" || $page == "favoritos" || ($page == "atajos" && Auth::check()))
                         @if (isset($manga) && $manga->isNotEmpty())

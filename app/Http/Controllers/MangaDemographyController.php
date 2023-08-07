@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MangaDemography;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class MangaDemographyController extends Controller
@@ -19,8 +20,13 @@ class MangaDemographyController extends Controller
             'loop' => $loop,
         ];
         if(isset($request->id)){
-            $edit = MangaDemography::find($request->id);
-            $data['edit'] = $edit;
+            $user = Auth::user();
+            if($user->can('tags.edit')){
+                $edit = MangaDemography::find($request->id);
+                $data['edit'] = $edit;
+            }else{
+                return abort(404);
+            }
         }
         return view('admin.manga.demography.index', $data);
     }

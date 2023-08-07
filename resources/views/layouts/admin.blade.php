@@ -12,7 +12,7 @@
         <script type="module" src="{{ Vite::asset('resources/js/admin/library.js') }}"></script>
         @vite(['resources/css/global.scss', 'resources/css/admin/admin.scss'])
         
-        <script src="{{ Vite::asset('resources/js/web/tom-select.js') }}"></script>
+        <script src="{{ asset('storage/assets/js/tom-select.js') }}"></script>
         @if (Route::is(['slider.index']))
             <script type="module" src="{{ Vite::asset('resources/js/admin/slider.js') }}"></script>
             <link href="{{ Vite::asset('resources/css/admin/slider.scss') }}" rel="stylesheet">

@@ -126,6 +126,15 @@ document.addEventListener('click', function (e) {
             .catch(function (error){
                 // handle error
                 console.log(error);
+                Toastify({
+                    text: error.response.data.message,
+                    className: "error",
+                    duration: 4000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "center", // `left`, `center` or `right`
+                }).showToast();
             });
         }
     }).catch(err => {

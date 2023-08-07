@@ -41,6 +41,15 @@
     .manga__sidebar .manga__chapters .chapters__head .chapters__next h4{
         font-weight: 600;
     }
+    .manga__sidebar .manga__chapters .chapter_alert{
+        background-color: #252525;
+        color: #9b9b9b;
+        font-size: 14px;
+        text-align: center;
+        padding: 1rem;
+        font-weight: 500;
+        border-radius: 6px;
+    }
     .manga__sidebar .manga__chapters .chapters__list{
         background-color: #1c1c1c;
         border-radius: 14px;

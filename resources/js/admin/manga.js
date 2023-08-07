@@ -460,7 +460,7 @@ if(createChapter){
                 setTimeout(function(){
                     previewFiles = [];
                     limpiarPreview();
-                    removeBodyScroll();
+                    clearBodyScroll();
                     chapterForm.reset();
                     createChapter.removeClass('opn');
                 }, 1000)
@@ -805,6 +805,7 @@ document.addEventListener('click', function (e) {
             'X-CSRF-TOKEN': csrf
         }
     }).then(function (response){
+        removeBodyScroll();
         if(response.status == 200){
             let { chapter } = response.data;
             let siteUrl = window.location.origin;
@@ -1394,6 +1395,14 @@ if(mangaForm){
             e.preventDefault();
         }
     });
+
+    let chapterDateInput = document.querySelector('#ch-date');
+    if(chapterDateInput){
+        new AirDatepicker(chapterDateInput,{
+            locale: localeEs,
+            dateFormat: "yyyy-MM-dd"
+        });
+    }
 }
 
 function validarFormulario(){

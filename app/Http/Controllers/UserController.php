@@ -82,14 +82,14 @@ class UserController extends Controller{
 		$profile->message = $request->message;
         $profile->user_id = $user->id;
 		if(isset($request->default_avatar) && !empty($request->default_avatar)){
-			$profile->avatar = "storage/".$request->default_avatar;
+			$profile->avatar = $request->default_avatar;
 		}else{
 			if(isset($request->avatar_file)){
 				$avatarExtension = $request->file('avatar_file')->extension();
 				$pathAvatar = $request->file('avatar_file')->storeAs('images/users', $request->username.'-avatar.'.$avatarExtension, $this->disk);
 				$profile->avatar = 'images/users/'.$request->username.'-avatar.'.$avatarExtension;
 			}else{
-				$profile->avatar = 'avatares/avatar-'.rand(1, 10).'.png';
+				$profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
 			}
 		}
 		if(isset($request->cover) && !empty($request->cover)){
@@ -202,7 +202,7 @@ class UserController extends Controller{
 			$profile->country_id = $request->country;
 		}
 		if(isset($request->default_avatar) && !empty($request->default_avatar)){
-			$profile->avatar = "storage/".$request->default_avatar;
+			$profile->avatar = $request->default_avatar;
 		}else{
 			if(isset($request->current_avatar) && !empty($request->current_avatar)){
                 $profile->avatar = $request->current_avatar;
@@ -212,7 +212,7 @@ class UserController extends Controller{
                     $pathAvatar = $request->file('avatar_file')->storeAs('images/users', $request->username.'-avatar.'.$avatarExtension, $this->disk);
                     $profile->avatar = 'images/users/'.$request->username.'-avatar.'.$avatarExtension;
                 }else{
-                    $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.png';
+                    $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
                 }
             }
 		}

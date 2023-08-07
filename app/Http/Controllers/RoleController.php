@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -20,9 +21,14 @@ class RoleController extends Controller{
 			'permissions' => $permissions
         ];
         if(isset($request->id)){
-            $edit = Role::find($request->id);
-            $data['edit'] = $edit;
-			$data['currentPermissions'] = $edit->permissions;
+            $user = Auth::user();
+            if($user->can('tags.edit')){
+                $edit = Role::find($request->id);
+                $data['edit'] = $edit;
+                $data['currentPermissions'] = $edit->permissions;
+            }else{
+                return abort(404);
+            }
         }
         return view('admin.roles.index', $data);
     }

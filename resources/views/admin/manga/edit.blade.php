@@ -32,7 +32,7 @@
                 </script>
             @endif
             <div class="main">
-                <div class="section head">
+                <div class="section cols head">
                     <div class="item name">
                         <label for="m-name">Name</label>
                         <input type="text" name="name" id="m-name" value="{{ old('name', $manga['name']) }}">
@@ -46,10 +46,27 @@
                         <input type="text" name="alternative_name" id="m-altname" value="{{ old('alternative_name', $manga['alternative_name']) }}">
                     </div>
                 </div>
-                <div class="section description">
+                <div class="section cols description">
                     <div class="item">
                         <label>Description</label>
                         <textarea name="description" id="" cols="30" rows="5">{{ old('description', $manga['description']) }}</textarea>
+                    </div>
+                </div>
+                <div class="section cols dates">
+                    <div class="item">
+                        <label>Capítulo nuevo</label>
+                        <div class="dates__select">
+                            <select name="new_chapters_time" id="ch-chapter-time">
+                                <option value="">Seleccionar</option>
+                                <option value="day" {{ ($manga->new_chapters_time == "day")? 'selected': null }}>Diario</option>
+                                <option value="week" {{ ($manga->new_chapters_time == "week")? 'selected': null }}>Semanal</option>
+                                <option value="month" {{ ($manga->new_chapters_time == "month")? 'selected': null }}>Mensual</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <label for="ch-date">Fecha</label>
+                        <input type="text" name="new_chapters_date" id="ch-date" autocomplete="off" value="{{ old('description', $manga['new_chapters_date']) }}">
                     </div>
                 </div>
                 <div class="section chapters">
@@ -231,7 +248,7 @@
                 <div class="module release_date">
                     <div class="group">
                         <label class="group-label">Fecha de lanzamiento</label>
-                        <input type="text" name="release_date" id="field-date" value="{{ $manga->release_date }}">
+                        <input type="text" name="release_date" id="field-date" value="{{ $manga->release_date }}" autocomplete="off">
                     </div>
                 </div>
                 <div class="module manga_type">

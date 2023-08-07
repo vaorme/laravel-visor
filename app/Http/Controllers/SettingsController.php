@@ -41,6 +41,9 @@ class SettingsController extends Controller{
         $update->maintenance = $request->maintenance;
         $update->allow_new_users = $request->allow_new_users;
         $update->disk = $request->disk;
+        $update->insert_head = $request->insert_head;
+        $update->insert_body = $request->insert_body;
+        $update->insert_footer = $request->insert_footer;
         $logo = $request->file('logo');
         if($logo){
             Storage::disk($this->disk)->deleteDirectory('images/site/logo');

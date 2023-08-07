@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller{
@@ -18,8 +19,13 @@ class CategoryController extends Controller{
             'loop' => $loop,
         ];
         if(isset($request->id)){
-            $edit = Category::find($request->id);
-            $data['edit'] = $edit;
+            $user = Auth::user();
+            if($user->can('tags.edit')){
+                $edit = Category::find($request->id);
+                $data['edit'] = $edit;
+            }else{
+                return abort(404);
+            }
         }
         return view('admin.categories.index', $data);
     }

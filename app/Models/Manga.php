@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -59,5 +60,26 @@ class Manga extends Model{
         $image = $this->featured_image;
         $url = Storage::disk($disk)->url($image);
         return $url;
+    }
+    public function newChapter(){
+        $date = null;
+        if($this->new_chapters_date){
+            $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+            $date = Carbon::parse($this->new_chapters_date);
+            $mes = $meses[($date->format('n')) - 1];
+            switch ($this->new_chapters_time) {
+                case 'day':
+                    $date->addDay();
+                    break;
+                case 'week':
+                    $date->addWeek();
+                    break;
+                case 'month':
+                    $date->addMonth();
+                    break;
+            }
+            $date = $mes .' '.$date->format('d'). ' de ' . $date->format('Y');;
+        }
+        return $date;
     }
 }

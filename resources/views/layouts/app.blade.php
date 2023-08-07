@@ -5,12 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ $title ?? config('app.title') }}</title>
+        <x-seo/>
         <link rel="shortcut icon" href="{{ config('app.favicon') ? asset('storage/'.config('app.favicon')): asset('storage/images/favicon.png') }}" type="image/png">
         <link href="{{ Vite::asset('resources/css/global.scss') }}" rel="stylesheet">
         <!-- Stles -->
         <link href="{{ Vite::asset('resources/css/web/tom-select.css') }}" rel="stylesheet">
         <!-- Scripts -->
-        <script src="{{ Vite::asset('resources/js/web/tom-select.js') }}"></script>
+        <script src="{{ asset('storage/assets/js/tom-select.js') }}"></script>
         
         {{-- @vite([
             'resources/css/global.scss',
@@ -31,8 +32,20 @@
         @if (Route::is(['library.index']))
             <link href="{{ Vite::asset('resources/css/web/library.scss') }}" rel="stylesheet">
         @endif
+        @php
+            $insertHead = config('app.head');
+        @endphp
+        @if ($insertHead)
+            {!! $insertHead !!}
+        @endif
     </head>
     <body>
+        @php
+            $insertBody = config('app.body');
+        @endphp
+        @if ($insertBody)
+            {!! $insertBody !!}
+        @endif
         <div id="app">
             <x-header />
             <main class="main">

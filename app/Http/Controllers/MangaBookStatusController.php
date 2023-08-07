@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MangaBookStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class MangaBookStatusController extends Controller
@@ -19,8 +20,13 @@ class MangaBookStatusController extends Controller
             'loop' => $loop,
         ];
         if(isset($request->id)){
-            $edit = MangaBookStatus::find($request->id);
-            $data['edit'] = $edit;
+            $user = Auth::user();
+            if($user->can('tags.edit')){
+                $edit = MangaBookStatus::find($request->id);
+                $data['edit'] = $edit;
+            }else{
+                return abort(404);
+            }
         }
         return view('admin.manga.status.index', $data);
     }

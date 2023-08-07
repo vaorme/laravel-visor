@@ -105,6 +105,7 @@
 		const tom = new TomSelect('#tom-select-it',settings);
 		const modal = document.querySelector('.shortcuts__modal');
 		const bdy = document.querySelector('body');
+		
 
 		modal.addEventListener('click', function(e){
 			e.stopPropagation();

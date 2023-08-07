@@ -1,5 +1,13 @@
 <x-app-layout>
     <x-slot:title>{{ $manga->name }}</x-slot>
+    @php
+        $ad_5 = config('app.ads_5');
+    @endphp
+    @if ($ad_5)
+        <div class="vealo">
+            {!! $ad_5 !!}
+        </div>
+    @endif
 	<div class="main__wrap manga__detail">
         <aside class="manga__sidebar">
             <div class="manga__chapters">
@@ -7,17 +15,19 @@
                     <div class="chapters__title">
                         <h3>Capítulos</h3>
                     </div>
-                    <div class="chapters__next">
-                        <span>Proximo capítulo</span>
-                        <h4>24 de Junio, 2023</h4>
-                    </div>
+                    @if ($manga->newChapter())
+                        <div class="chapters__next">
+                            <span>Proximo capítulo</span>
+                            <h4>{{ $manga->newChapter() }}</h4>
+                        </div>
+                    @endif
                 </div>
                 @if ($manga->chapters->isNotEmpty())
                     <div class="chapters__list">
                         @foreach ($manga->chapters as $chapter)
                             <div class="chapter__item">
                                 <div class="chapter__name">
-                                    <span class="chapter__date">{{ Carbon\Carbon::parse($chapter->created_at)->diffForHumans()}}</span>
+                                    <span class="chapter__date">{{ Carbon\Carbon::parse($chapter->created_at)->diffForHumans() }}</span>
                                     <h4 class="chapter__title">{{ Str::limit($chapter->name, 35); }}</h4>
                                 </div>
                                 <div class="chapter__actions">
@@ -34,11 +44,11 @@
                                             @endif
                                         </button>
                                     @endif
-                                    <a href="#" class="action_download" data-tippy-content="Descargar capítulo">
+                                    {{-- <a href="#" class="action_download" data-tippy-content="Descargar capítulo">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M9.00008 1.41666V10.625M9.00008 10.625L12.2501 7.37499M9.00008 10.625L5.75008 7.37499M1.41675 12.25V14.4167C1.41675 14.9913 1.64502 15.5424 2.05135 15.9487C2.45768 16.3551 3.00878 16.5833 3.58341 16.5833H14.4167C14.9914 16.5833 15.5425 16.3551 15.9488 15.9487C16.3551 15.5424 16.5834 14.9913 16.5834 14.4167V12.25" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
-                                    </a>
+                                    </a> --}}
                                     <a href="{{ $chapter->url() }}" class="action__viewer" data-tippy-content="Ver capítulo">
                                         <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1.875 14.4164V2.58362C1.87494 2.38567 1.92711 2.19121 2.02625 2.01987C2.12538 1.84854 2.26797 1.70639 2.43961 1.60779C2.61125 1.50919 2.80587 1.45762 3.00382 1.45829C3.20177 1.45896 3.39603 1.51185 3.567 1.61162L13.7089 7.52912C13.8786 7.62823 14.0193 7.77007 14.1172 7.9405C14.215 8.11094 14.2665 8.30403 14.2665 8.50055C14.2665 8.69707 14.215 8.89016 14.1172 9.0606C14.0193 9.23104 13.8786 9.37288 13.7089 9.47199L3.567 15.3884C3.39603 15.4881 3.20177 15.541 3.00382 15.5417C2.80587 15.5424 2.61125 15.4908 2.43961 15.3922C2.26797 15.2936 2.12538 15.1514 2.02625 14.9801C1.92711 14.8088 1.87494 14.6143 1.875 14.4164Z" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -49,7 +59,7 @@
                         @endforeach
                     </div>      
                 @else
-                    <div class="chapter_alert warning">no tiene capitulos</div>
+                    <div class="chapter_alert warning">No hay capítulos</div>
                 @endif
             </div>
         </aside>
@@ -160,8 +170,24 @@
                             </div>
                         @endif
                     </div>
+                    @php
+				        $ad_6 = config('app.ads_6');
+                    @endphp
+                    @if ($ad_6)
+                        <div class="vealo">
+                            {!! $ad_6 !!}
+                        </div>
+                    @endif
                 </div>
             </section>
+            @php
+				$ad_4 = config('app.ads_4');
+			@endphp
+			@if ($ad_4)
+				<div class="vealo">
+					{!! $ad_4 !!}
+				</div>
+			@endif
             <section class="manga__comments">
                 
             </section>

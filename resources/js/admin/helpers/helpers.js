@@ -57,7 +57,7 @@ function sanitizeText(text){
 
 function removeBodyScroll(){
     let bdy = document.querySelector('body');
-    bdy.removeClass('noscroll');
+    bdy.addClass('noscroll');
 }
 function clearBodyScroll(){
     let bdy = document.querySelector('body');

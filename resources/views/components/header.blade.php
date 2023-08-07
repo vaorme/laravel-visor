@@ -23,10 +23,8 @@
             </div>
             <div class="menu">
                 <ul class="flex flex-wrap gap-6">
-                    <li class="active"><a href="#" class="block font-medium">Manga</a></li>
-                    <li><a href="#" class="block font-medium">Novelas</a></li>
-                    <li><a href="#" class="block font-medium">Telegram</a></li>
-                    <li><a href="#" class="block font-medium">Discord</a></li>
+                    <li><a href="https://discord.com/invite/Q56zq4MfHd" target="_blank" class="block font-medium">Discord</a></li>
+                    <li><a href="https://nartag.com/donacione/" target="_blank" class="block font-medium">Donar</a></li>
                     @if (Auth::check() && in_array($auth->profile->getRole(), $controllerRoles))
                         <li>
                             <a href="{{ URL::to('/controller') }}" class="block font-medium">Controller</a>
@@ -62,9 +60,11 @@
                     </div>
                 </div>
             @else
-                <div class="buttons grid grid-cols-2 gap-4">
+                <div class="buttons flex gap-4">
                     <a href="{{ route('login') }}" class="botn log bg-neutral-800 py-3 text-white px-8 rounded-lg text-center hover:bg-neutral-700 transition-colors">Iniciar sesion</a>
-                    <a href="{{ route('register') }}" class="botn reg bg-vo-red py-3 px-8 text-white rounded-lg text-center hover:bg-vo-red-over transition-colors">Registrate</a>
+                    @if (config('app.allow_new_users'))
+                        <a href="{{ route('register') }}" class="botn reg bg-vo-red py-3 px-8 text-white rounded-lg text-center hover:bg-vo-red-over transition-colors">Registrate</a>
+                    @endif
                 </div>
             @endif
         </div>

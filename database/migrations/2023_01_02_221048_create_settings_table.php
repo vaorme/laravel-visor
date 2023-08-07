@@ -24,6 +24,9 @@ return new class extends Migration
             $table->boolean('maintenance')->default(false);
             $table->boolean('allow_new_users')->default(true);
             $table->string('disk')->default('public');
+            $table->text('insert_head')->nullable();
+            $table->text('insert_body')->nullable();
+            $table->text('insert_footer')->nullable();
             $table->timestamps();
         });
     }

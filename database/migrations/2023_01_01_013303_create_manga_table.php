@@ -25,6 +25,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->enum('status', ['published', 'draft', 'private'])->default('published');
             $table->date('release_date')->nullable();
+            $table->string('new_chapters_time')->nullable();
+            $table->date('new_chapters_date')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('type_id')->nullable();
             $table->unsignedBigInteger('book_status_id')->nullable();

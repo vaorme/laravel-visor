@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MangaType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class MangaTypeController extends Controller
@@ -19,8 +20,13 @@ class MangaTypeController extends Controller
             'loop' => $loop,
         ];
         if(isset($request->id)){
-            $edit = MangaType::find($request->id);
-            $data['edit'] = $edit;
+            $user = Auth::user();
+            if($user->can('tags.edit')){
+                $edit = MangaType::find($request->id);
+                $data['edit'] = $edit;
+            }else{
+                return abort(404);
+            }
         }
         return view('admin.manga.type.index', $data);
     }

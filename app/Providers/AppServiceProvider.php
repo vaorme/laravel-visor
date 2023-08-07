@@ -37,7 +37,10 @@ class AppServiceProvider extends ServiceProvider
             'global_message as app.global_message',
             'maintenance as app.maintenance',
             'allow_new_users as app.allow_new_users',
-            'disk as app.disk'
+            'disk as app.disk',
+            'insert_head as app.head',
+            'insert_body as app.body',
+            'insert_footer as app.footer',
         ])->first();
         $settingSeo = SettingSeo::get([
             'seo_title as app.seo_title',
@@ -58,6 +61,11 @@ class AppServiceProvider extends ServiceProvider
             'ads_8 as app.ads_8',
             'ads_9 as app.ads_9',
             'ads_10 as app.ads_10',
+            'ads_11 as app.ads_11',
+            'ads_12 as app.ads_12',
+            'ads_13 as app.ads_13',
+            'ads_14 as app.ads_14',
+            'ads_15 as app.ads_15',
         ])->first();
         
         if($settingSeo){

@@ -25,6 +25,11 @@ return new class extends Migration
             $table->text('ads_8')->nullable();
             $table->text('ads_9')->nullable();
             $table->text('ads_10')->nullable();
+            $table->text('ads_11')->nullable();
+            $table->text('ads_12')->nullable();
+            $table->text('ads_13')->nullable();
+            $table->text('ads_14')->nullable();
+            $table->text('ads_15')->nullable();
             $table->timestamps();
         });
     }
