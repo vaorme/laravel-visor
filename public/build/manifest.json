@@ -1,0 +1,306 @@
+{
+  "__commonjsHelpers-725317a4.js": {
+    "file": "assets/_commonjsHelpers-725317a4.js"
+  },
+  "_axios-4a70c6fc.js": {
+    "file": "assets/axios-4a70c6fc.js"
+  },
+  "_bundle-41cc055a.js": {
+    "css": [
+      "assets/bundle-0488b58f.css"
+    ],
+    "file": "assets/bundle-41cc055a.js",
+    "imports": [
+      "__commonjsHelpers-725317a4.js"
+    ]
+  },
+  "_helpers-33874dd9.js": {
+    "file": "assets/helpers-33874dd9.js"
+  },
+  "_helpers-403e1058.js": {
+    "file": "assets/helpers-403e1058.js",
+    "imports": [
+      "_helpers-33874dd9.js"
+    ]
+  },
+  "_index-a8aa5ca2.js": {
+    "file": "assets/index-a8aa5ca2.js",
+    "imports": [
+      "__commonjsHelpers-725317a4.js"
+    ]
+  },
+  "_tippy.esm-0e655d3f.js": {
+    "file": "assets/tippy.esm-0e655d3f.js"
+  },
+  "_toastify-f9ee0e47.js": {
+    "file": "assets/toastify-f9ee0e47.js",
+    "imports": [
+      "__commonjsHelpers-725317a4.js",
+      "_axios-4a70c6fc.js"
+    ]
+  },
+  "bundle.css": {
+    "file": "assets/bundle-0488b58f.css",
+    "src": "bundle.css"
+  },
+  "public/assets/arrow-select-chapters.svg": {
+    "file": "assets/arrow-select-chapters-16ce1aa4.svg",
+    "src": "public/assets/arrow-select-chapters.svg"
+  },
+  "public/assets/portada-2.jpg": {
+    "file": "assets/portada-2-63950af2.jpg",
+    "src": "public/assets/portada-2.jpg"
+  },
+  "resources/css/admin/admin.scss": {
+    "file": "assets/admin-200e1001.css",
+    "isEntry": true,
+    "src": "resources/css/admin/admin.scss"
+  },
+  "resources/css/admin/settings.scss": {
+    "file": "assets/settings-4a4d91d5.css",
+    "isEntry": true,
+    "src": "resources/css/admin/settings.scss"
+  },
+  "resources/css/admin/slider.scss": {
+    "file": "assets/slider-888d9594.css",
+    "isEntry": true,
+    "src": "resources/css/admin/slider.scss"
+  },
+  "resources/css/app.scss": {
+    "file": "assets/app-d6264bc7.css",
+    "isEntry": true,
+    "src": "resources/css/app.scss"
+  },
+  "resources/css/global.scss": {
+    "file": "assets/global-9a544970.css",
+    "isEntry": true,
+    "src": "resources/css/global.scss"
+  },
+  "resources/css/loreg.scss": {
+    "file": "assets/loreg-39766008.css",
+    "isEntry": true,
+    "src": "resources/css/loreg.scss"
+  },
+  "resources/css/web/account.scss": {
+    "file": "assets/account-d4aff096.css",
+    "isEntry": true,
+    "src": "resources/css/web/account.scss"
+  },
+  "resources/css/web/coloris.css": {
+    "file": "assets/coloris-0e61bf46.css",
+    "isEntry": true,
+    "src": "resources/css/web/coloris.css"
+  },
+  "resources/css/web/library.scss": {
+    "file": "assets/library-a8a6907c.css",
+    "isEntry": true,
+    "src": "resources/css/web/library.scss"
+  },
+  "resources/css/web/mangaDetail.scss": {
+    "file": "assets/mangaDetail-8465ed7d.css",
+    "isEntry": true,
+    "src": "resources/css/web/mangaDetail.scss"
+  },
+  "resources/css/web/profile.scss": {
+    "file": "assets/profile-3da548b5.css",
+    "isEntry": true,
+    "src": "resources/css/web/profile.scss"
+  },
+  "resources/css/web/tom-select.css": {
+    "file": "assets/tom-select-ff3904b5.css",
+    "isEntry": true,
+    "src": "resources/css/web/tom-select.css"
+  },
+  "resources/css/web/viewer.scss": {
+    "file": "assets/viewer-6ffd2f0a.css",
+    "isEntry": true,
+    "src": "resources/css/web/viewer.scss"
+  },
+  "resources/fonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-20c4a58b.ttf",
+    "src": "resources/fonts/fa-brands-400.ttf"
+  },
+  "resources/fonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-74833209.woff2",
+    "src": "resources/fonts/fa-brands-400.woff2"
+  },
+  "resources/fonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-528d022d.ttf",
+    "src": "resources/fonts/fa-regular-400.ttf"
+  },
+  "resources/fonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-8e7e5ea1.woff2",
+    "src": "resources/fonts/fa-regular-400.woff2"
+  },
+  "resources/fonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-67a65763.ttf",
+    "src": "resources/fonts/fa-solid-900.ttf"
+  },
+  "resources/fonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-7152a693.woff2",
+    "src": "resources/fonts/fa-solid-900.woff2"
+  },
+  "resources/fonts/inter/Inter-Black.ttf": {
+    "file": "assets/Inter-Black-3afb2b05.ttf",
+    "src": "resources/fonts/inter/Inter-Black.ttf"
+  },
+  "resources/fonts/inter/Inter-Bold.ttf": {
+    "file": "assets/Inter-Bold-790c108b.ttf",
+    "src": "resources/fonts/inter/Inter-Bold.ttf"
+  },
+  "resources/fonts/inter/Inter-ExtraBold.ttf": {
+    "file": "assets/Inter-ExtraBold-4e2473b9.ttf",
+    "src": "resources/fonts/inter/Inter-ExtraBold.ttf"
+  },
+  "resources/fonts/inter/Inter-ExtraLight.ttf": {
+    "file": "assets/Inter-ExtraLight-edba5be0.ttf",
+    "src": "resources/fonts/inter/Inter-ExtraLight.ttf"
+  },
+  "resources/fonts/inter/Inter-Light.ttf": {
+    "file": "assets/Inter-Light-c44ff7a5.ttf",
+    "src": "resources/fonts/inter/Inter-Light.ttf"
+  },
+  "resources/fonts/inter/Inter-Medium.ttf": {
+    "file": "assets/Inter-Medium-10d48331.ttf",
+    "src": "resources/fonts/inter/Inter-Medium.ttf"
+  },
+  "resources/fonts/inter/Inter-Regular.ttf": {
+    "file": "assets/Inter-Regular-41ab0f70.ttf",
+    "src": "resources/fonts/inter/Inter-Regular.ttf"
+  },
+  "resources/fonts/inter/Inter-SemiBold.ttf": {
+    "file": "assets/Inter-SemiBold-e8cbc2b8.ttf",
+    "src": "resources/fonts/inter/Inter-SemiBold.ttf"
+  },
+  "resources/fonts/inter/Inter-Thin.ttf": {
+    "file": "assets/Inter-Thin-b778a52b.ttf",
+    "src": "resources/fonts/inter/Inter-Thin.ttf"
+  },
+  "resources/js/admin/admin.css": {
+    "file": "assets/admin-66f765c1.css",
+    "src": "resources/js/admin/admin.css"
+  },
+  "resources/js/admin/admin.js": {
+    "css": [
+      "assets/admin-66f765c1.css"
+    ],
+    "file": "assets/admin-fd90525f.js",
+    "imports": [
+      "_toastify-f9ee0e47.js",
+      "_bundle-41cc055a.js",
+      "_index-a8aa5ca2.js",
+      "_helpers-403e1058.js",
+      "_helpers-33874dd9.js",
+      "_axios-4a70c6fc.js",
+      "__commonjsHelpers-725317a4.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/admin/admin.js"
+  },
+  "resources/js/admin/library.js": {
+    "file": "assets/library-615ce6b5.js",
+    "imports": [
+      "_toastify-f9ee0e47.js",
+      "_bundle-41cc055a.js",
+      "__commonjsHelpers-725317a4.js",
+      "_axios-4a70c6fc.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/admin/library.js"
+  },
+  "resources/js/admin/settings.js": {
+    "file": "assets/settings-f639f7dc.js",
+    "imports": [
+      "_helpers-403e1058.js",
+      "_helpers-33874dd9.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/admin/settings.js"
+  },
+  "resources/js/admin/slider.js": {
+    "file": "assets/slider-cede87ff.js",
+    "imports": [
+      "_helpers-403e1058.js",
+      "_helpers-33874dd9.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/admin/slider.js"
+  },
+  "resources/js/library.js": {
+    "file": "assets/library-7074875d.js",
+    "imports": [
+      "_toastify-f9ee0e47.js",
+      "_helpers-33874dd9.js",
+      "_tippy.esm-0e655d3f.js",
+      "__commonjsHelpers-725317a4.js",
+      "_axios-4a70c6fc.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/library.js"
+  },
+  "resources/js/loreg.js": {
+    "file": "assets/loreg-4ed993c7.js",
+    "isEntry": true,
+    "src": "resources/js/loreg.js"
+  },
+  "resources/js/web/account.js": {
+    "file": "assets/account-6d683be1.js",
+    "imports": [
+      "_axios-4a70c6fc.js",
+      "_helpers-403e1058.js",
+      "_helpers-33874dd9.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/web/account.js"
+  },
+  "resources/js/web/app.js": {
+    "file": "assets/app-ce519964.js",
+    "imports": [
+      "_toastify-f9ee0e47.js",
+      "_helpers-33874dd9.js",
+      "_tippy.esm-0e655d3f.js",
+      "__commonjsHelpers-725317a4.js",
+      "_axios-4a70c6fc.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/web/app.js"
+  },
+  "resources/js/web/coloris.js": {
+    "file": "assets/coloris-24ddd3aa.js",
+    "isEntry": true,
+    "src": "resources/js/web/coloris.js"
+  },
+  "resources/js/web/home.js": {
+    "file": "assets/home-3fdc6104.js",
+    "isEntry": true,
+    "src": "resources/js/web/home.js"
+  },
+  "resources/js/web/library.js": {
+    "file": "assets/library-32ecc2a2.js",
+    "imports": [
+      "_index-a8aa5ca2.js",
+      "__commonjsHelpers-725317a4.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/web/library.js"
+  },
+  "resources/js/web/mangaDetail.js": {
+    "file": "assets/mangaDetail-c4f84409.js",
+    "imports": [
+      "_index-a8aa5ca2.js",
+      "__commonjsHelpers-725317a4.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/web/mangaDetail.js"
+  },
+  "resources/js/web/profile.js": {
+    "file": "assets/profile-34c5e098.js",
+    "isEntry": true,
+    "src": "resources/js/web/profile.js"
+  },
+  "resources/js/web/viewer.js": {
+    "file": "assets/viewer-a99bb8b8.js",
+    "isEntry": true,
+    "src": "resources/js/web/viewer.js"
+  }
+}
