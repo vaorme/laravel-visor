@@ -152,7 +152,7 @@ class uploadChaptersController extends Controller{
         }
         if($isMultiple){
             $scandir = Storage::allDirectories($tmp_path);
-            sort($scandir);
+            sort($scandir, SORT_NATURAL);
             foreach($scandir as $dir){
                 if(basename($dir) === '__MACOSX' ){
                     continue;
