@@ -82,7 +82,7 @@
                                     @foreach ($avatares as $key => $item)
                                         <div class="item">
                                             <label for="av-{{ $key }}">
-                                                <input type="radio" name="default_avatar" id="av-{{ $key }}" value="{{ $item }}" @if ("storage/".$item === $user->avatar)
+                                                <input type="radio" name="default_avatar" id="av-{{ $key }}" value="{{ $item }}" @if ($item === $user->avatar)
 													checked
 												@endif>
                                                 <div class="avatar">
