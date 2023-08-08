@@ -34,7 +34,7 @@ class SliderController extends Controller{
         return view('admin.slider.index', $viewData);
     }
     public function store(Request $request){
-        return response()->json($request->all());
+        //return response()->json($request->all());
         $request->validate([
             'manga_id' => ['required', 'unique:slider'],
             'logo' => ['dimensions:max_width=512', 'max:400', 'mimes:webp,jpg,jpeg,png,gif'],

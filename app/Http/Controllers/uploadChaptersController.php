@@ -166,6 +166,7 @@ class uploadChaptersController extends Controller{
                 if(!in_array($dirSlug, $currentChapters) && !$chapterExists){
                     if(is_dir($storagePath.$dirSlug)){
                         $files = Storage::files($tmp_path.$dirSlug);
+                        natcasesort($files);
                         
                         foreach($files as $file){
                             $baseFile = basename($file);
@@ -245,6 +246,7 @@ class uploadChaptersController extends Controller{
             $newName = basename($storeFile);
             $dbImages[] = "manga/$manga->slug/$chapter->slug/$newName";
         }
+
         $chapter->images = json_encode($dbImages);
 
         if($chapter->save()){

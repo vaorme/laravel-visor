@@ -209,7 +209,7 @@
     "src": "resources/js/admin/library.js"
   },
   "resources/js/admin/manga.js": {
-    "file": "assets/manga-50cc212a.js",
+    "file": "assets/manga-885ed563.js",
     "imports": [
       "_helpers-c1bfa4e6.js",
       "_helpers-557a48c5.js"
