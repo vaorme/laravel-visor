@@ -129,6 +129,7 @@ class uploadChaptersController extends Controller{
             if(!in_array($simpleChapterSlug, $currentChapters) && !$chapterExists){
                 $files = Storage::files($tmp_path);
                 $collectImages = [];
+                natcasesort($files);
                 foreach($files as $file){
                     $baseFile = basename($file);
                     $collectImages[] = "manga/$manga->slug/$simpleChapterSlug/$baseFile";
@@ -151,6 +152,7 @@ class uploadChaptersController extends Controller{
         }
         if($isMultiple){
             $scandir = Storage::allDirectories($tmp_path);
+            sort($scandir);
             foreach($scandir as $dir){
                 if(basename($dir) === '__MACOSX' ){
                     continue;
