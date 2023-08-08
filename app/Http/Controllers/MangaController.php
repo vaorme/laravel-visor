@@ -292,7 +292,9 @@ class MangaController extends Controller{
         $path = "/manga/$manga->slug";
         $delete = Manga::destroy($id);
         if($delete){
-            Storage::disk($this->disk)->deleteDirectory($path);
+            if(Storage::disk($this->disk)->exists($path)){
+                Storage::disk($this->disk)->deleteDirectory($path);
+            }
             return response()->json([
                 'status' => "success",
                 'msg' => "Eliminado correctamente"

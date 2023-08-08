@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use App\Models\Chapter;
 use App\Models\Manga;
@@ -241,10 +242,16 @@ class uploadChaptersController extends Controller{
 
         $dbImages = json_decode($chapter->images);
 
-        Storage::disk($request->disk)->makeDirectory("manga/$manga->slug/$chapter->slug");
+        //Storage::disk($request->disk)->makeDirectory("manga/$manga->slug/$chapter->slug");
         foreach($request->images as $file){
+            $originalName = $file->getClientOriginalName();
             $path = "manga/$manga->slug/$chapter->slug";
-            $storeFile = $file->store($path, $request->disk);
+            // $storeFile = $file->store($path, $request->disk);
+            if (Storage::disk($chapter->disk)->exists($path.'/'.$originalName)) {
+                $storeFile = Storage::disk($chapter->disk)->putFileAs($path, $file, time().'-'.$originalName);
+            }else{
+                $storeFile = Storage::disk($chapter->disk)->putFileAs($path, $file, $originalName);
+            }
             $newName = basename($storeFile);
             $dbImages[] = "manga/$manga->slug/$chapter->slug/$newName";
         }
