@@ -589,12 +589,23 @@ function dropButtonFile(file, allowed){
     dataForm.set('disk', disk.value);
     dataForm.append("chapters", file);
 
+    let uploadBar = document.querySelector('.fm-manga .u__bar');
+    let progressBar = document.querySelector('.fm-manga .u__bar .u__progress')
+
     axios.post(route('uploadChapter.store', [mangaId]), dataForm, {
         headers:{
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
+        },
+        onUploadProgress: (progressEvent) =>{
+            const progress = (progressEvent.loaded / progressEvent.total) * 100;
+            uploadBar.style.display = "block";
+            progressBar.style.width = progress + "%";
+        } 
     }).then(function (response){
-        // handle success
+        
+        uploadBar.style.display = "none";
+        progressBar.style.width = 0;
+
         console.log(response);
         let data = response.data;
         if(data['excluded']){

@@ -202,7 +202,7 @@
 						<ul class="tops__list">
 							@foreach ($topmonth as $key => $item)
 								@php
-									$count = ($key > 9)? $key : "0".($key + 1);
+									$count = ($key > 9)? $key : ($key + 1);
 								@endphp
 								<li class="list__item">
 									<a href="{{ $item->url() }}">

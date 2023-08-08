@@ -143,6 +143,9 @@
                             </div>
                             <input type="file" name="upload_chapter" id="inpt-chapter" data-id="{{ $manga->id }}" accept="zip" hidden>
                         </div>
+                        <div class="u__bar">
+                            <div class="u__progress"></div>
+                        </div>
                     </div>
                     <div class="list" data-simplebar data-simplebar-auto-hide="false">
                         @if ($chapters->isNotEmpty())
