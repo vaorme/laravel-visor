@@ -20,7 +20,7 @@ class Manga extends Model{
         ]);
     }
     public function chapters(){
-        return $this->hasMany(Chapter::class)->latest();
+        return $this->hasMany(Chapter::class)->orderBy('id', 'DESC');
     }
     public function lastChapter(){
         $week = date('Y-m-d', strtotime("-6 day"));
