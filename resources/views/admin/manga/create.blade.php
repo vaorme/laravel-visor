@@ -4,8 +4,8 @@
     <div class="frmo fm-manga fm-create">
         <form action="{{ route('manga.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="errores">
-                @if ($errors->any())
+            @if ($errors->any())
+                <div class="errores">
                     <div class="alert alert-danger">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -13,8 +13,8 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
-            </div>
+                </div>
+            @endif
             <div class="main">
                 <div class="section cols head">
                     <div class="item name">

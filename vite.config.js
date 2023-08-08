@@ -5,14 +5,16 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                // GLOBAL
-
-                // ADMIN
+                // :ADMIN
                 'resources/js/admin/library.js',
                 'resources/js/admin/admin.js',
                 'resources/css/admin/admin.scss',
                 'resources/js/admin/slider.js',
                 'resources/css/admin/slider.scss',
+                // :MANGA
+                'resources/js/admin/manga.js',
+
+                // :WEB
 
                 // LOGIN / REGISTER
                 'resources/css/loreg.scss',

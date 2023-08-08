@@ -1,6 +1,5 @@
 import { dropZone, removeBodyScroll, clearBodyScroll, Modalerts } from './helpers/helpers';
-import '../helpers/helpers';
-
+import { sluggify } from '../helpers/helpers';
 let allowTypes = ['jpg', 'jpeg', 'png','webp','gif'];
 dropZone('.fm-manga .dropzone #choose', allowTypes);
 
@@ -90,10 +89,6 @@ if(dateInput){
     });
 }
 
-// Global
-
-let ctRegex = /[^a-zA-Z0-9]+/g;
-
 // Create manga
 
 let fmCreate = document.querySelector('.fm-create');
@@ -102,14 +97,24 @@ if(fmCreate){
     let inputFmSlug = document.querySelector('#m-slug');
 
     inputFmName.addEventListener('input', function(e){
-        let str = e.target.value;
-        inputFmSlug.value = str.replace(ctRegex, '-').toLowerCase();
+        inputFmSlug.value = sluggify(e.target.value);
     });
     inputFmSlug.addEventListener('input', function(e){
-        let str = e.target.value;
-        inputFmSlug.value = str.replace(ctRegex, '-').toLowerCase();
+        inputFmSlug.value = sluggify(e.target.value);
     });
 }
+
+// Update manga
+
+let fmUpdate = document.querySelector('.fm-update');
+if(fmUpdate){
+    let inputFmSlug = document.querySelector('#m-slug');
+    inputFmSlug.addEventListener('input', function(e){
+        inputFmSlug.value = sluggify(e.target.value);
+    });
+}
+
+
 
 // Modal: Create Chapter
 let createChapter = document.getElementById('modalChapter');
@@ -164,15 +169,12 @@ if(createChapter){
 
     // ? Create chapter
     let chapterForm = document.querySelector('#modalChapter form');
-    let ctRegex = /[^a-zA-Z0-9]+/g;
 
     inputCtName.addEventListener('input', function(e){
-        let str = e.target.value;
-        inputCtSlug.value = str.replace(ctRegex, '-').toLowerCase();
+        inputCtSlug.value = sluggify(e.target.value);
     });
     inputCtSlug.addEventListener('input', function(e){
-        let str = e.target.value;
-        inputCtSlug.value = str.replace(ctRegex, '-').toLowerCase();
+        inputCtSlug.value = sluggify(e.target.value);
     });
 
     let previewFiles = [];
@@ -560,6 +562,7 @@ function dropButton(zone, allowed){
         });
         drop.addEventListener('drop', (e) => {
             e.preventDefault();
+            console.log(e.dataTransfer.files);
             const file = e.dataTransfer.files[0];
             dropButtonFile(file, allowed);
         });
@@ -584,7 +587,7 @@ function dropButtonFile(file, allowed){
     let disk = document.querySelector('.frmo.fm-manga .main .section.chapters .chapter__upload .disks input:checked');
 
     dataForm.set('disk', disk.value);
-    dataForm.append("chapters", inputUpload.files[0]);
+    dataForm.append("chapters", file);
 
     axios.post(route('uploadChapter.store', [mangaId]), dataForm, {
         headers:{
@@ -976,8 +979,7 @@ document.addEventListener('click', function (e) {
             let inputCtSlug = document.querySelector('#updateChapter #ct-slug');
 
             inputCtSlug.addEventListener('input', function(e){
-                let str = e.target.value;
-                inputCtSlug.value = str.replace(ctRegex, '-').toLowerCase();
+                inputCtSlug.value = sluggify(e.target.value);
             });
 
             let previewImages = [];
@@ -1385,7 +1387,7 @@ function subirGenerarImagenes(images, mangaid, chapterid){
     }
 }
 
-// :VALIDATE Update & Create Chapter
+// :VALIDATE Update & Create Manga
 
 const mangaForm = document.querySelector('.fm-manga > form');
 if(mangaForm){

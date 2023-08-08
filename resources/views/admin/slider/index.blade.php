@@ -86,6 +86,17 @@
                     @if (isset($edit))
                         @method('PATCH')
                     @endif
+                    @if ($errors->any())
+                        <div class="errores">
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    @endif
                     <div class="group logo">
                         <label>Logo</label>
                         <div class="dropzone">
@@ -96,6 +107,12 @@
                                 <p class="text-drop">Elegir imagen</p>
                             </div>
                             <input type="file" name="logo" id="image" accept="image/*" hidden>
+                        </div>
+                        <div class="field__info">
+                            <ul>
+                                <li>Ancho maximo: <b>512px</b></li>
+                                <li>Peso maximo: <b>400kb</b></li>
+                            </ul>
                         </div>
                     </div>
                     <div class="group background">
@@ -108,6 +125,12 @@
                                 <p class="text-drop">Elegir imagen</p>
                             </div>
                             <input type="file" name="background" id="image" accept="image/*" hidden>
+                        </div>
+                        <div class="field__info">
+                            <ul>
+                                <li>Ancho maximo: <b>1920px</b></li>
+                                <li>Peso maximo: <b>680kb</b></li>
+                            </ul>
                         </div>
                     </div>
                     <div class="group">
@@ -135,20 +158,6 @@
 								@endforeach
 							@endif
 						</select>
-                    </div>
-                    {{-- @error('title')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror --}}
-                    <div class="errores">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
                     </div>
                     <button type="submit" class="botn success">{{ isset($edit)? "Actualizar" : 'Crear' }}</button>
                 </form>

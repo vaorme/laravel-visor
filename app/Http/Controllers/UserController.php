@@ -119,7 +119,7 @@ class UserController extends Controller{
             ];
         }
 
-        return $response;
+        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente');
     }
 
     /**

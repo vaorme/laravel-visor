@@ -135,6 +135,12 @@
 										class="show"	
 									@endif>
 								</div>
+                                <div class="field__info">
+                                    <ul>
+                                        <li>Ancho maximo: <b>1920px</b></li>
+                                        <li>Alto maximo: <b>548px</b></li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="group">
                                 <label>Mensaje</label>

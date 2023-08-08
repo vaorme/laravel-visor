@@ -87,6 +87,13 @@ let slideToggle = (target, duration = 500) => {
     return slideUp(target, duration);
     }
 }
+function sluggify(str){
+    let ctRegex = /[^a-zA-Z0-9]+/g;
+    let strNoAccents = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    let removeSc = strNoAccents.replace(ctRegex, ' ');
+    let strNoSpaces = removeSc.trim();
+    return strNoSpaces.replace(ctRegex, '-').toLowerCase();
+} 
 
 Object.prototype.hasClass = hasClass;
 Object.prototype.toggleClass = toggleClass;
@@ -95,3 +102,7 @@ Object.prototype.removeClass = removeClass;
 Object.prototype.slideDown = slideDown;
 Object.prototype.slideUp = slideUp;
 Object.prototype.slideToggle = slideToggle;
+
+export {
+    sluggify
+}

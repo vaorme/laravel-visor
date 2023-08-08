@@ -23,6 +23,7 @@ function dropZone(zone, allowed){
         drop.addEventListener('drop', (e) => {
             e.preventDefault();
             const file = e.dataTransfer.files[0];
+            inputElement.files = e.dataTransfer.files;
             dropFile(file, img, allowed);
         });
     }

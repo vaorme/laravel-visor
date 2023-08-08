@@ -70,14 +70,22 @@
                     @foreach ($loop as $m)
                             <td>{{ $m->name }}</td>
                             <td>{{ $m->alternative_name }}</td>
-                            <td>{{ $m->type }}</td>
                             <td>
-                                <div class="user">
-                                    <div class="avatar">
-                                        <img src="{{ asset('storage/'.$m->avatar) }}" alt="" width="22px">
+                                @if ($m->type)
+                                    {{ $m->type->name }}
+                                @endif
+                            </td>
+                            <td>
+                                @if ($m->author)
+                                    <div class="user">
+                                        @if ($m->author->profile)
+                                            <div class="avatar">
+                                                <img src="{{ asset('storage/'.$m->author->profile->avatar) }}" alt="" width="22px">
+                                            </div>
+                                        @endif
+                                        {{ $m->author->username }}
                                     </div>
-                                    {{ $m->username }}
-                                </div>
+                                @endif
                             </td>
                             <td>
                                 <div class="buttons">

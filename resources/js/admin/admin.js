@@ -7,9 +7,6 @@ import 'simplebar/dist/simplebar.css';
 // :DATATABLE
 import { DataTable } from "simple-datatables";
 
-// :MANGA
-import './manga'
-
 // :USERS
 import './users'
 

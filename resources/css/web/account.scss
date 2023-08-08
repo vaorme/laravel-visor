@@ -2,6 +2,17 @@
     display: grid;
     gap: 15px;
     padding-left: 1.5rem;
+    .field__info{
+        margin-top: 15px;
+        padding: 1rem;
+        border-radius: 8px;
+        padding-top: 20px;
+        background-color: #252525;
+    }
+    .field__info ul li{
+        font-size: 14px;
+        color: #9d9d9d;
+    }
     .account__box{
         background-color: #1c1c1c;
         display: grid;

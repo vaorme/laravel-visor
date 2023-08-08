@@ -6,6 +6,32 @@
     </x-admin.nav>
     <x-admin.bar title="Usuarios" :buttonTo="route('users.create')" buttonText="Crear usuario"/>
     <div class="contain">
+        @if (Session::has('success'))
+            <div class="alertas success">
+                <div class="box">
+                    <p>{!! \Session::get('success') !!}</p>
+                </div>
+            </div>
+            <script>
+                let alerta = document.querySelector('.alertas');
+                setTimeout(() => {
+                    alerta.remove();
+                }, 2000);
+            </script>
+        @endif
+        @if (Session::has('error'))
+            <div class="alertas error">
+                <div class="box">
+                    <p>{!! \Session::get('error') !!}</p>
+                </div>
+            </div>
+            <script>
+                let alerta = document.querySelector('.alertas');
+                setTimeout(() => {
+                    alerta.remove();
+                }, 2000);
+            </script>
+        @endif
         @if ($loop->isNotEmpty())
         <div class="table">
             <table id="tablr">

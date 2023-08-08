@@ -169,6 +169,12 @@
                                 <input type="file" name="choose_avatar" accept="image/jpg,image/png,image/jpeg,image/gif" hidden>
                             </div>
                         </div>
+                        <div class="field__info">
+                            <ul>
+                                <li>Tamaño maximo: <b>248 x 248px</b></li>
+                                <li>Peso maximo: <b>400kb</b></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="form__item form__cover">
                         <label>URL Portada</label>
@@ -177,6 +183,12 @@
                             <img src="{{ old('cover', $user->profile->cover) }}" alt="cover-preview" @if (!empty($user->profile->cover))
                                 class="show"	
                             @endif>
+                        </div>
+                        <div class="field__info">
+                            <ul>
+                                <li>Ancho maximo: <b>1920px</b></li>
+                                <li>Alto maximo: <b>548px</b></li>
+                            </ul>
                         </div>
                     </div>
                     <div class="form__item form__profile_public">

@@ -12,7 +12,6 @@ import Choices from 'choices.js';
 
 import localeEs from 'air-datepicker/locale/es';
 import AirDatepicker from 'air-datepicker';
-import 'air-datepicker/air-datepicker.css';
 
 // :TOASTIFY
 

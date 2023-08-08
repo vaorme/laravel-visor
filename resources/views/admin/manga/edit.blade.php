@@ -1,10 +1,21 @@
 <x-admin-layout>
     <x-slot:title>Editar | {{ $manga->name }}</x-slot>
     <x-admin.bar :title="$manga->name" :backTo="route('manga.index')" />
-    <div class="frmo fm-manga">
+    <div class="frmo fm-manga fm-update">
         <form action="{{ route('manga.update', ['id' => $manga->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
+            @if ($errors->any())
+                <div class="errores">
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
             @if (Session::has('success'))
                 <div class="alertas success">
                     <div class="box">
@@ -66,7 +77,7 @@
                     </div>
                     <div class="item">
                         <label for="ch-date">Fecha</label>
-                        <input type="text" name="new_chapters_date" id="ch-date" autocomplete="off" value="{{ old('description', $manga['new_chapters_date']) }}">
+                        <input type="text" name="new_chapters_date" id="ch-date" autocomplete="off" value="{{ old('new_chapters_date', $manga['new_chapters_date']) }}">
                     </div>
                 </div>
                 <div class="section chapters">
@@ -171,10 +182,6 @@
                         @endif
                     </div>
                 </div>
-                {{-- @error('title')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror --}}
-                
             </div>
             <div class="sidebar">
                 <div class="module options grid grid-cols-5 gap-4">

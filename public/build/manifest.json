@@ -5,22 +5,22 @@
   "_axios-4a70c6fc.js": {
     "file": "assets/axios-4a70c6fc.js"
   },
-  "_bundle-41cc055a.js": {
+  "_bundle-f83c28e3.js": {
     "css": [
-      "assets/bundle-0488b58f.css"
+      "assets/bundle-a461d729.css"
     ],
-    "file": "assets/bundle-41cc055a.js",
+    "file": "assets/bundle-f83c28e3.js",
     "imports": [
       "__commonjsHelpers-725317a4.js"
     ]
   },
-  "_helpers-33874dd9.js": {
-    "file": "assets/helpers-33874dd9.js"
+  "_helpers-557a48c5.js": {
+    "file": "assets/helpers-557a48c5.js"
   },
-  "_helpers-403e1058.js": {
-    "file": "assets/helpers-403e1058.js",
+  "_helpers-c1bfa4e6.js": {
+    "file": "assets/helpers-c1bfa4e6.js",
     "imports": [
-      "_helpers-33874dd9.js"
+      "_helpers-557a48c5.js"
     ]
   },
   "_index-a8aa5ca2.js": {
@@ -40,7 +40,7 @@
     ]
   },
   "bundle.css": {
-    "file": "assets/bundle-0488b58f.css",
+    "file": "assets/bundle-a461d729.css",
     "src": "bundle.css"
   },
   "public/assets/arrow-select-chapters.svg": {
@@ -52,7 +52,7 @@
     "src": "public/assets/portada-2.jpg"
   },
   "resources/css/admin/admin.scss": {
-    "file": "assets/admin-200e1001.css",
+    "file": "assets/admin-5a9acbcf.css",
     "isEntry": true,
     "src": "resources/css/admin/admin.scss"
   },
@@ -82,7 +82,7 @@
     "src": "resources/css/loreg.scss"
   },
   "resources/css/web/account.scss": {
-    "file": "assets/account-d4aff096.css",
+    "file": "assets/account-8b27e233.css",
     "isEntry": true,
     "src": "resources/css/web/account.scss"
   },
@@ -184,53 +184,62 @@
     "css": [
       "assets/admin-66f765c1.css"
     ],
-    "file": "assets/admin-fd90525f.js",
+    "file": "assets/admin-ae475ec2.js",
     "imports": [
       "_toastify-f9ee0e47.js",
-      "_bundle-41cc055a.js",
+      "_bundle-f83c28e3.js",
       "_index-a8aa5ca2.js",
-      "_helpers-403e1058.js",
-      "_helpers-33874dd9.js",
       "_axios-4a70c6fc.js",
-      "__commonjsHelpers-725317a4.js"
+      "_helpers-c1bfa4e6.js",
+      "__commonjsHelpers-725317a4.js",
+      "_helpers-557a48c5.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/admin.js"
   },
   "resources/js/admin/library.js": {
-    "file": "assets/library-615ce6b5.js",
+    "file": "assets/library-f6ba267f.js",
     "imports": [
       "_toastify-f9ee0e47.js",
-      "_bundle-41cc055a.js",
+      "_bundle-f83c28e3.js",
       "__commonjsHelpers-725317a4.js",
       "_axios-4a70c6fc.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/library.js"
   },
-  "resources/js/admin/settings.js": {
-    "file": "assets/settings-f639f7dc.js",
+  "resources/js/admin/manga.js": {
+    "file": "assets/manga-885ed563.js",
     "imports": [
-      "_helpers-403e1058.js",
-      "_helpers-33874dd9.js"
+      "_helpers-c1bfa4e6.js",
+      "_helpers-557a48c5.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/admin/manga.js"
+  },
+  "resources/js/admin/settings.js": {
+    "file": "assets/settings-651568cf.js",
+    "imports": [
+      "_helpers-c1bfa4e6.js",
+      "_helpers-557a48c5.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/settings.js"
   },
   "resources/js/admin/slider.js": {
-    "file": "assets/slider-cede87ff.js",
+    "file": "assets/slider-b50e81f1.js",
     "imports": [
-      "_helpers-403e1058.js",
-      "_helpers-33874dd9.js"
+      "_helpers-c1bfa4e6.js",
+      "_helpers-557a48c5.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/slider.js"
   },
   "resources/js/library.js": {
-    "file": "assets/library-7074875d.js",
+    "file": "assets/library-bc00649e.js",
     "imports": [
       "_toastify-f9ee0e47.js",
-      "_helpers-33874dd9.js",
+      "_helpers-557a48c5.js",
       "_tippy.esm-0e655d3f.js",
       "__commonjsHelpers-725317a4.js",
       "_axios-4a70c6fc.js"
@@ -244,20 +253,20 @@
     "src": "resources/js/loreg.js"
   },
   "resources/js/web/account.js": {
-    "file": "assets/account-6d683be1.js",
+    "file": "assets/account-d9c9f3ce.js",
     "imports": [
       "_axios-4a70c6fc.js",
-      "_helpers-403e1058.js",
-      "_helpers-33874dd9.js"
+      "_helpers-c1bfa4e6.js",
+      "_helpers-557a48c5.js"
     ],
     "isEntry": true,
     "src": "resources/js/web/account.js"
   },
   "resources/js/web/app.js": {
-    "file": "assets/app-ce519964.js",
+    "file": "assets/app-7c61b70d.js",
     "imports": [
       "_toastify-f9ee0e47.js",
-      "_helpers-33874dd9.js",
+      "_helpers-557a48c5.js",
       "_tippy.esm-0e655d3f.js",
       "__commonjsHelpers-725317a4.js",
       "_axios-4a70c6fc.js"

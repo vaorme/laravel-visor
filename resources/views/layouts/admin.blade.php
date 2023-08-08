@@ -17,6 +17,9 @@
             <script type="module" src="{{ Vite::asset('resources/js/admin/slider.js') }}"></script>
             <link href="{{ Vite::asset('resources/css/admin/slider.scss') }}" rel="stylesheet">
         @endif
+        @if (Route::is(['manga.index', 'manga.create', 'manga.edit']))
+            <script type="module" src="{{ Vite::asset('resources/js/admin/manga.js') }}"></script>
+        @endif
         @if (Route::is(['settings.index']) || Route::is(['settings.ads.index']) || Route::is(['settings.seo.index']))
             <link href="{{ Vite::asset('resources/css/admin/settings.scss') }}" rel="stylesheet">
         @endif

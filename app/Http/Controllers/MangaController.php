@@ -30,18 +30,7 @@ class MangaController extends Controller{
             'status' => ['max:60', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
         ]);
         $status = ($request->status == null)? 'published': $request->status;
-        $loop = Manga::where('status', '=', $status)
-            ->join('users', 'manga.user_id', '=', 'users.id')
-            ->join('profiles', 'users.id', '=', 'profiles.id')
-            ->leftJoin('manga_type', 'manga.type_id', '=', 'manga_type.id')
-            ->orderBy('id', 'desc')->get([
-                'manga.id',
-                'manga.name',
-                'manga.alternative_name',
-                'users.username',
-                'profiles.avatar',
-                'manga_type.name as type'
-            ]);
+        $loop = Manga::where('status', '=', $status)->get();
         return view('admin.manga.index', ['loop' => $loop]);
     }
 
@@ -158,7 +147,7 @@ class MangaController extends Controller{
                 }
             }
 
-            return redirect()->route('manga.edit', ['id' => $manga->id])->with('manga_success', 'Manga creado correctamente');
+            return redirect()->route('manga.edit', ['id' => $manga->id])->with('success', 'Manga creado correctamente');
         }
         
     }
@@ -288,7 +277,7 @@ class MangaController extends Controller{
         }
 
         if($manga->save()){
-            return redirect()->route('manga.edit', ['id' => $manga->id])->with('manga_success', 'Manga actualizado correctamente');
+            return redirect()->route('manga.edit', ['id' => $manga->id])->with('success', 'Manga actualizado correctamente');
         }
     }
 

@@ -1,3 +1,4 @@
+@import 'air-datepicker/air-datepicker.css';
 div.toastify{
     box-shadow: 0 0 0 0;
     &.error{
@@ -129,6 +130,17 @@ main.main{
     border-style: solid;
     border-width: 1px 0 1px 0;
     border-color: rgb(255 255 255 / 10%);
+    .field__info{
+        margin-top: -4px;
+        padding: 1rem;
+        border-radius: 8px;
+        padding-top: 20px;
+        background-color: #1a1a1a;
+    }
+    .field__info ul li{
+        font-size: 14px;
+        color: #9d9d9d;
+    }
     aside.aside{
         max-width: 100px;
         border-right: 1px solid rgb(255 255 255 / 10%);
@@ -568,6 +580,25 @@ main.main{
                 form{
                     display: flex;
                     flex-wrap: wrap;
+                }
+                form .errores{
+                    background-color: #452929;
+                    width: 100%;
+                    padding: 2rem;
+                    border-radius: 8px;
+                    margin-bottom: 2rem;
+                }
+                form .errores ul{
+                    display: block;
+                }
+                form .errores ul li{
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #d9d9d9;
+                    margin-bottom: 10px;
+                }
+                form .errores ul li:last-of-type{
+                    margin-bottom: 0;
                 }
                 .main{
                     width: 80%;
@@ -1325,6 +1356,25 @@ main.main{
             }
         }
         .template-1, .template-3{
+            .errores{
+                background-color: #452929;
+                width: 100%;
+                padding: 2rem;
+                border-radius: 8px;
+                margin-bottom: 2rem;
+            }
+            .errores ul{
+                display: block;
+            }
+            .errores ul li{
+                font-size: 16px;
+                font-weight: 500;
+                color: #d9d9d9;
+                margin-bottom: 10px;
+            }
+            .errores ul li:last-of-type{
+                margin-bottom: 0;
+            }
             .contain{
                 border-right: 1px solid rgb(#fff, .1);
             }

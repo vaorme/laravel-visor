@@ -41,6 +41,9 @@ class Manga extends Model{
     public function type(){
         return $this->belongsTo(MangaType::class);
     }
+    public function author(){
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
     public function rating(){
         return $this->hasMany(UserRateManga::class, 'manga_id');
     }
