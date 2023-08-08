@@ -235,16 +235,10 @@ class ChaptersController extends Controller{
      */
     public function destroy($id){
         $chapter = Chapter::where('id', $id)->get()->first();
-        if($chapter->images){
-            $images = json_decode($chapter->images);
-            foreach($images as $image){
-                $folder = explode('/', $image);
-                $removeFileName = array_pop($folder);
-                $folder = implode('/', $folder);
-                Storage::disk($chapter->disk)->deleteDirectory($folder);
-            }
+        $folder = 'manga/'.$chapter->manga->slug.'/'.$chapter->slug;
+        if(Storage::disk($chapter->disk)->exists($folder)){
+            Storage::disk($chapter->disk)->deleteDirectory($folder);
         }
-
         $delete = Chapter::destroy($id);
         if(!$delete){
             return response()->json([
