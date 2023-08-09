@@ -603,16 +603,11 @@ function dropButtonFile(file, allowed){
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         onUploadProgress: (progressEvent) =>{
-            const progress = (progressEvent.loaded / progressEvent.total) * 100;
+            const progress = (progressEvent.loaded / progressEvent.total) * 95;
             uploadBar.style.display = "block";
             progressBar.style.width = progress + "%";
         } 
     }).then(function (response){
-        
-        uploadBar.style.display = "none";
-        progressBar.style.width = 0;
-
-        console.log(response);
         let data = response.data;
         if(data['excluded']){
             let excluded = data['excluded'];
@@ -696,6 +691,11 @@ function dropButtonFile(file, allowed){
             }
         }
         document.querySelector('#inpt-chapter').value = "";
+        progressBar.style.width = "100%";
+        setTimeout(() =>{
+            uploadBar.style.display = "none";
+            progressBar.style.width = 0;
+        }, 300);
     })
     .catch(function (error){
         // handle error
