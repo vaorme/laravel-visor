@@ -1,158 +1,159 @@
 header.header{
     padding: 1.5rem;
-    nav.navbar{
-        background-color: #1c1c1c;
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        min-height: 80px;
+}
+header.header nav.navbar{
+    background-color: #1c1c1c;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    min-height: 80px;
+}
+
+header.header nav.navbar .logo{
+    position: relative;
+    padding-right: 1.5rem;
+    img{
+        display: block;
+        width: 62px;
+        height: 53px;
     }
-    .logo{
-        position: relative;
-        padding-right: 1.5rem;
-        img{
-            display: block;
-            width: 62px;
-            height: 53px;
-        }
-        &::after{
-            background-color: rgb(#fff, .2);
-            position: absolute;
-            content: "";
-            right: 0;
-            top: 50%;
-            width: 1px;
-            height: 15px;
-            transform: translateY(-50%);
-        }
+    &::after{
+        background-color: rgb(#fff, .2);
+        position: absolute;
+        content: "";
+        right: 0;
+        top: 50%;
+        width: 1px;
+        height: 15px;
+        transform: translateY(-50%);
     }
-    .search{
-        position: relative;
-        form{
-            transition: top .4s ease, width .4s ease, visibility .4s ease, opacity .4s ease;
-            input{
-                background-color: rgb(#fff, .1);
-                width: 100%;
-                color: #fff;
-                border-radius: 10px;
-                padding: 11px 20px;
+}
+header.header nav.navbar .search{
+    position: relative;
+    form{
+        transition: top .4s ease, width .4s ease, visibility .4s ease, opacity .4s ease;
+        input{
+            background-color: rgb(#fff, .1);
+            width: 100%;
+            color: #fff;
+            border-radius: 10px;
+            padding: 11px 20px;
+            letter-spacing: .02rem;
+            &::-webkit-input-placeholder { /* Edge */
+                color: #afafaf;
                 letter-spacing: .02rem;
-                &::-webkit-input-placeholder { /* Edge */
-                    color: #afafaf;
-                    letter-spacing: .02rem;
-                }
-                
-                &:-ms-input-placeholder { /* Internet Explorer 10-11 */
-                    color: #afafaf;
-                    letter-spacing: .02rem;
-                }
-                
-                &::placeholder {
-                    color: #afafaf;
-                    letter-spacing: .02rem;
-                }
             }
-            button{
-                position: absolute;
-                cursor: pointer;
-                right: 1rem;
-                top: 50%;
-                transform: translateY(-50%);
-                svg{
-                    width: 20px;
-                }
+            
+            &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                color: #afafaf;
+                letter-spacing: .02rem;
+            }
+            
+            &::placeholder {
+                color: #afafaf;
+                letter-spacing: .02rem;
+            }
+        }
+        button{
+            position: absolute;
+            cursor: pointer;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            svg{
+                width: 20px;
             }
         }
     }
-    .menu{
-        ul{
-            li{
-                a{
-                    position: relative;
-                    color: rgb(#fff, .6);
-                    padding-bottom: 10px;
-                    transition: color .2s ease;
-                    &::after{
-                        background-color: #fff;
-                        position: absolute;
-                        content: "";
-                        left: 50%;
-                        bottom: 0;
-                        width: 15px;
-                        height: 4px;
-                        opacity: 0;
-                        visibility: hidden;
-                        border-radius: 35px;
-                        transform: translateX(-50%);
-                        transition: opacity .2s ease, visibility .2s ease;
-                    }
-                }
-                &.active, &:hover{
-                    a{
-                        color: #fff;
-                    }
-                }
-                &.active{
-                    a{
-                        &::after{
-                            background-color: theme('colors.vo-red');
-                            opacity: 1;
-                            visibility: visible;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .buttons{
-        a.botn{
-            font-weight: 600;
-            display: block;
-        }   
-    }
-    .panel{
-        display: flex;
-        gap: 15px;
-        align-items: center;
-        .user{
-            .name{
-                padding-right: 1.5rem;
-                h4{
-                    color: #fff;
-                    font-weight: 600;
-                    font-size: 1.2rem;
-                    line-height: 1;
-                }
-                span{
-                    color: rgb(#fff, .3);
-                    font-size: 1rem;
-                }
-            }
-            .avatar{
-                display: flex;
-                align-items: center;
-                img{
-                    width: 40px;
-                    height: 40px;
+}
+header.header nav.navbar .menu{
+    ul{
+        li{
+            a{
+                position: relative;
+                color: rgb(#fff, .6);
+                padding-bottom: 10px;
+                transition: color .2s ease;
+                &::after{
+                    background-color: #fff;
+                    position: absolute;
+                    content: "";
+                    left: 50%;
+                    bottom: 0;
+                    width: 15px;
+                    height: 4px;
+                    opacity: 0;
+                    visibility: hidden;
                     border-radius: 35px;
+                    transform: translateX(-50%);
+                    transition: opacity .2s ease, visibility .2s ease;
+                }
+            }
+            &.active, &:hover{
+                a{
+                    color: #fff;
+                }
+            }
+            &.active{
+                a{
+                    &::after{
+                        background-color: theme('colors.vo-red');
+                        opacity: 1;
+                        visibility: visible;
+                    }
                 }
             }
         }
-        .logout{
-            button{
-                display: block;
-                opacity: .3;
-                padding: 8px;
+    }
+}
+header.header nav.navbar .buttons{
+    a.botn{
+        font-weight: 600;
+        display: block;
+    }
+}
+header.header nav.navbar .panel{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    .user{
+        .name{
+            padding-right: 1.5rem;
+            h4{
+                color: #fff;
+                font-weight: 600;
+                font-size: 1.2rem;
+                line-height: 1;
+            }
+            span{
+                color: rgb(#fff, .3);
+                font-size: 1rem;
+            }
+        }
+        .avatar{
+            display: flex;
+            align-items: center;
+            img{
+                width: 40px;
+                height: 40px;
                 border-radius: 35px;
-                transition: background .2s ease, opacity .2s ease;
-                svg{
-                    path{
-                        stroke: #ddd;
-                    }
+            }
+        }
+    }
+    .logout{
+        button{
+            display: block;
+            opacity: .3;
+            padding: 8px;
+            border-radius: 35px;
+            transition: background .2s ease, opacity .2s ease;
+            svg{
+                path{
+                    stroke: #ddd;
                 }
-                &:hover{
-                    background-color: theme('colors.vo-red');
-                    opacity: 1;
-                }
+            }
+            &:hover{
+                background-color: theme('colors.vo-red');
+                opacity: 1;
             }
         }
     }

@@ -10,10 +10,9 @@ use Illuminate\Support\Facades\Validator;
 class ShortcutsController extends Controller{
     public function store(Request $request){
         $validator = Validator::make($request->all(), [
-            'manga_id' => ['required', 'regex:/^[0-9]+$/', 'unique:'. Shortcut::class]
+            'manga_id' => ['required', 'regex:/^[0-9]+$/']
         ],[
-			'manga_id.required' => 'Manga requerido',
-            'manga_id.unique' => 'El atajo ya existe'
+			'manga_id.required' => 'Manga requerido'
 		]);
 		if ($validator->fails()) {
             return response()->json([
@@ -23,6 +22,15 @@ class ShortcutsController extends Controller{
         }
 
         $id = Auth::id();
+
+        $exists = Shortcut::where('manga_id', '=', $request->manga_id)->where('user_id', '=', $id)->exists();
+        if($exists){
+            return response()->json([
+                'status' => "error",
+                'msg' => "El atajo ya existe"
+            ]);
+        }
+
         $store = new Shortcut;
 
         $store->user_id = $id;

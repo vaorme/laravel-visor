@@ -464,6 +464,12 @@ if(createChapter){
                     limpiarPreview();
                     clearBodyScroll();
                     chapterForm.reset();
+
+                    createContentEditor.destroy();
+
+                    tManga.removeClass('hidden');
+                    tNovel.addClass('hidden');
+
                     createChapter.removeClass('opn');
                 }, 1000)
             }else{

@@ -641,11 +641,6 @@ div.toastify.error{
 	gap: 20px;
 	grid-template-columns: repeat(8, 1fr);
 }
-@media (min-width: 1920px){
-	#app main.main .manga .manga__list{
-		grid-template-columns: repeat(8, 1fr);
-	}
-}
 #app main.main .manga .manga__list .manga__item{
 	position: relative;
 }
@@ -858,4 +853,18 @@ div.toastify.error{
 }
 #app main.main .new__chapters .new__chapters__item:hover a.new__chapters__link .new__chapters__icon i{
 	color: theme('colors.vo-red');
+}
+
+@media (max-width: 1920px){
+	#app main.main .manga .manga__list{
+		grid-template-columns: repeat(6, 1fr);
+	}
+}
+@media (max-width: 1620px){
+	#app main.main .manga .manga__list{
+		grid-template-columns: repeat(5, 1fr);
+	}
+	#app main.main .main__wrap.main__home{
+		grid-template-columns: calc(100% - 340px) 340px;
+	}
 }

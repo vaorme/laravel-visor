@@ -52,7 +52,7 @@
     "src": "public/assets/portada-2.jpg"
   },
   "resources/css/admin/admin.scss": {
-    "file": "assets/admin-5a9acbcf.css",
+    "file": "assets/admin-9df2f5eb.css",
     "isEntry": true,
     "src": "resources/css/admin/admin.scss"
   },
@@ -67,12 +67,12 @@
     "src": "resources/css/admin/slider.scss"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-d6264bc7.css",
+    "file": "assets/app-2eaf44ec.css",
     "isEntry": true,
     "src": "resources/css/app.scss"
   },
   "resources/css/global.scss": {
-    "file": "assets/global-9a544970.css",
+    "file": "assets/global-441a5b37.css",
     "isEntry": true,
     "src": "resources/css/global.scss"
   },
@@ -176,15 +176,8 @@
     "file": "assets/Inter-Thin-b778a52b.ttf",
     "src": "resources/fonts/inter/Inter-Thin.ttf"
   },
-  "resources/js/admin/admin.css": {
-    "file": "assets/admin-66f765c1.css",
-    "src": "resources/js/admin/admin.css"
-  },
   "resources/js/admin/admin.js": {
-    "css": [
-      "assets/admin-66f765c1.css"
-    ],
-    "file": "assets/admin-ae475ec2.js",
+    "file": "assets/admin-584229e0.js",
     "imports": [
       "_toastify-f9ee0e47.js",
       "_bundle-f83c28e3.js",
@@ -209,7 +202,7 @@
     "src": "resources/js/admin/library.js"
   },
   "resources/js/admin/manga.js": {
-    "file": "assets/manga-885ed563.js",
+    "file": "assets/manga-d721a33d.js",
     "imports": [
       "_helpers-c1bfa4e6.js",
       "_helpers-557a48c5.js"

@@ -2,7 +2,6 @@ import './library';
 
 // :SIMPLE BAR
 import 'simplebar';
-import 'simplebar/dist/simplebar.css';
 
 // :DATATABLE
 import { DataTable } from "simple-datatables";

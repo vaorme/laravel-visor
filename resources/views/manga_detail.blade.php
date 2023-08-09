@@ -105,7 +105,7 @@
                                 <input class="rating__input" name="rating" id="rating-5" value="5" data-manga-id="{{ $manga->id }}" type="radio" {{ ($rating == 5)? 'checked': null }}>
                             </div>
                             <div class="rating__count">
-                                {{ $manga->rating->avg('rating') }}
+                                {{ round($manga->rating->avg('rating'), 1, PHP_ROUND_HALF_DOWN) }}
                                 <div class="count__users">
                                     (<span class="users__num">{{ count($manga->rating) }}</span>)
                                 </div>

@@ -125,6 +125,7 @@
 			modal.removeClass('active');
 			tom.clear();
 		}
+		let shortcutSpam = false;
 		async function addShortcut(e){
 			e.preventDefault();
 
@@ -148,6 +149,11 @@
 				}
 				return true;
 			}
+
+			if(shortcutSpam){
+				return true;
+			}
+			shortcutSpam = true;
 
 			const shortcutList = document.querySelector('.shortcuts__list');
 			const form = document.querySelector('.shortcuts__modal form');
@@ -206,10 +212,16 @@
 						},
 					}).showToast();
 				}
+				setTimeout(() => {
+					shortcutSpam = false;
+				}, 1000);
 			})
 			.catch(function (error){
 				// handle error
 				console.log('error: ',error);
+				setTimeout(() => {
+					shortcutSpam = false;
+				}, 1000);
 			});
 		}
 	</script>	
