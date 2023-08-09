@@ -868,3 +868,55 @@ div.toastify.error{
 		grid-template-columns: calc(100% - 340px) 340px;
 	}
 }
+
+// :MOVIL - TABLET
+
+@media (max-width: 1024px){
+	#app main.main{
+		display: flex;
+		gap: 1.5rem;
+		padding: 0 1rem;
+		flex-direction: column;
+	}
+	#app main.main .main__wrap.main__home,
+	#app main.main .manga__detail{
+		padding: 0;
+	}
+	#app main.main .main__wrap.main__home{
+		grid-template-columns: 100%;
+	}
+	#app main.main .main__wrap.main__home .main__content{
+		padding-right: 0;
+	}
+	#app main.main .manga .manga__list{
+		grid-template-columns: repeat(4, 1fr);
+	}
+	#app main.main .main__wrap{
+		padding-right: 1.5rem;
+	}
+	#app main.main .main__shortcuts{
+		position: relative;
+		padding: 1.5rem;
+		display: grid;
+		gap: 15px;
+		order: -1;
+		right: 0;
+		width: 100%;
+		grid-template-columns: 45px calc(100% - 45px);
+	}
+	#app main.main .main__shortcuts .shortcuts__list{
+		max-width: 100%;
+		display: flex;
+		padding: 0;
+	}
+	#app main.main .main__shortcuts .shortcuts__add .shortcuts__modal{
+		right: initial;
+		left: 0;
+		top: calc(100% + 20px);
+		width: calc(100vw - 65px);
+		transition: visibility .4s ease, opacity .4s ease, top .4s ease;
+	}
+	#app main.main .main__shortcuts .shortcuts__add .shortcuts__modal.active{
+    	top: calc(100% + 42px);
+	}
+}

@@ -73,7 +73,7 @@ return [
             'host' => env('FTP_HOST'),
             'username' => env('FTP_USERNAME'),
             'password' => env('FTP_PASSWORD'),
-            'url' => 'https://efetp.hlo21.com/',
+            'url' => 'https://s3-1.imgs-knight.xyz/i',
             // Optional FTP Settings...
             'port' => env('FTP_PORT', 21),
             'root' => "/",

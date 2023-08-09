@@ -16,8 +16,9 @@ class WebController extends Controller{
 		// $newManga = Manga::where('manga.created_at', '>=', $oneMonth)->limit(12)->get();
 
 		$mostViewed = Manga::where('status', '=', 'published')->with(['rating', 'viewsMonth'])->has('viewsMonth')->limit(16)->get()->sortByDesc('viewsMonth');
-		$newChapters = Chapter::where('chapters.created_at', '>=', $oneWeek)->orderBy('chapters.id', 'desc')
-		->limit(12)->has('manga')->get()->unique('manga_id')->groupBy('type');
+
+		$newChapters = Chapter::where('chapters.created_at', '>=', $oneWeek)->orderBy('chapters.id', 'desc')->limit(12)->has('manga')->get()->unique('manga_id')->groupBy('type');
+
 		$topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->get();
 
 		$slider = Slider::get();
