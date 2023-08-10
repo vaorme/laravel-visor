@@ -2,6 +2,10 @@
     display: grid;
     gap: 15px;
     padding: 0 1.5rem;
+    & > .vealo{
+        padding: 1.5rem 0;
+        text-align: center;
+    }
     .view__options{
         display: flex;
         align-items: center;

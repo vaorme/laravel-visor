@@ -56,8 +56,8 @@
 		@endif
 	</div>
 	@if (Auth::check())
-		<div class="shortcuts__list">
-			@if (isset($shortcuts))
+		@if (isset($shortcuts))
+			<div class="shortcuts__list">
 				@foreach ($shortcuts as $item)
 					<div class="shortcuts__item" id="shortcut-{{ $item->id }}" data-tippy-placement="left" data-tippy-content="{{ $item->name }}">
 						<a href="{{ $item->url() }}" class="shortcuts__link">
@@ -76,8 +76,8 @@
 						</a>
 					</div>
 				@endforeach
-			@endif
-		</div>
+			</div>
+		@endif
 	@endif
 </div>
 @if (Auth::check())

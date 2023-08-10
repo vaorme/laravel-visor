@@ -32,6 +32,10 @@
         position: relative;
         margin-top: -80px;
     }
+    .profile__card > .vealo{
+        padding: 1.5rem 0;
+        text-align: center;
+    }
     .profile__card .card__box{
         background-color: #1E1E1E;
         border-radius: 22px;
@@ -183,6 +187,9 @@
         padding-top: 2rem;
         flex-direction: column;
     }
+    .profile__content > .vealo{
+        text-align: center;
+    }
     .profile__content .profile__navbar{
         background-color: #1E1E1E;
         border-radius: 10px;
@@ -260,4 +267,5 @@
         max-width: 100%;
         border-radius: 14px;
     }
+    
 }
