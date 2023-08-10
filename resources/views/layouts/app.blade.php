@@ -40,12 +40,14 @@
         @endif
     </head>
     <body>
-        @php
-            $insertBody = config('app.body');
-        @endphp
-        @if ($insertBody)
-            {!! $insertBody !!}
-        @endif
+        <div class="bdy vealo">
+            @php
+                $insertBody = config('app.body');
+            @endphp
+            @if ($insertBody)
+                {!! $insertBody !!}
+            @endif
+        </div>
         <div id="app">
             <x-header />
             <main class="main">
@@ -71,5 +73,6 @@
         @if (Route::is(['library.index']))
             <script type="module" src="{{ Vite::asset('resources/js/web/library.js') }}"></script>
         @endif
+        <script id="dsq-count-scr" src="//new-nartag.disqus.com/count.js" async></script>
     </body>
 </html>

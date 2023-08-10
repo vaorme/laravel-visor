@@ -4,8 +4,15 @@ body{
 img{
 	display: block;
 }
-// :TOASTIFY
 
+// :ADS
+.bdy.vealo,
+#app main.main .main__wrap.main__home .main__content > .vealo{
+	padding: 1.5rem 0;
+	text-align: center;
+}
+
+// :TOASTIFY
 div.toastify{
 	background: initial;
 	border-radius: 35px;
@@ -85,7 +92,7 @@ div.toastify.error{
 }
 #app main.main .main__wrap.main__home aside.main__sidebar .section{
     background-color: #1c1c1c;
-    padding: 30px;
+    padding: 0;
     border-radius: 18px;
 }
 #app main.main .main__wrap.main__home aside.main__sidebar .section:last-of-type{
@@ -93,6 +100,8 @@ div.toastify.error{
 }
 #app main.main .main__wrap.main__home aside.main__sidebar .section .section__title{
 	display: flex;
+	padding: 30px;
+	padding-bottom: 0;
 	margin-bottom: 25px;
 	justify-content: space-between;
 }
@@ -104,6 +113,18 @@ div.toastify.error{
 	font-size: 12px;
 	font-weight: bold;
 	text-transform: uppercase;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section .section__content{
+	padding-bottom: 30px;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section .simplebar-track.simplebar-horizontal {
+	display: none;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section .simplebar-track.simplebar-vertical .simplebar-scrollbar::before{
+	background-color: #393939;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section .simplebar-track.simplebar-vertical .simplebar-scrollbar.simplebar-hover::before{
+	opacity: 1;
 }
 #app main.main .main__wrap.main__home aside.main__sidebar .section.tops{
 	background-color: transparent;
@@ -190,13 +211,27 @@ div.toastify.error{
 	font-size: 14px;
 	font-weight: 600;
 }
+#app main.main .main__wrap.main__home aside.main__sidebar .section.tops button.tops__viewmore{
+	background-color: #393939;
+    position: absolute;
+    display: none;
+    font-size: 14px;
+	outline: none;
+    z-index: 1;
+    left: 50%;
+    bottom: 1rem;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 6px;
+    transform: translateX(-50%);
+}
 #app main.main .main__shortcuts{
 	background-color: #1c1c1c;
     position: absolute;
     top: 0;
     right: 1.5rem;
     width: 78px;
-    height: 100%;
+    height: auto;
     padding: 20px 0;
     border-radius: 12px;
 }
@@ -775,36 +810,34 @@ div.toastify.error{
 	margin-top: 12px;
 }
 
-// :CHAPTERS new__chapters
+// :NEW CHAPTERS
 
 #app main.main .new__chapters{
-	display: grid;
-	gap: 28px;
+	max-height: 620px;
+}
+#app main.main .new__chapters .simplebar-content{
+	display: flex;
+	flex-direction: column;
 }
 #app main.main .new__chapters .new__chapters__item{
 	position: relative;
+	padding: 0 1rem;
 }
-#app main.main .new__chapters .new__chapters__item::before{
-	background-color: transparent;
-	position: absolute;
-	content: "";
-	left: -15px;
-	top: -15px;
-	z-index: 1;
-	border-radius: 18px;
-	width: calc(100% + 30px);
-	height: calc(100% + 30px);
-	transition: background .2s ease;
-}
-#app main.main .new__chapters .new__chapters__item:hover::before{
-	background-color: #252525;
+#app main.main .new__chapters .new__chapters__item:last-of-type{
+	margin-bottom: 0;
 }
 #app main.main .new__chapters .new__chapters__item a.new__chapters__link{
 	position: relative;
 	display: flex;
 	gap: 18px;
 	z-index: 1;
+	padding: 14px;
+	border-radius: 12px;
 	align-items: flex-start;
+	transition: background .2s ease;
+	&:hover{
+		background-color: #252525;
+	}
 }
 #app main.main .new__chapters .new__chapters__item a.new__chapters__link figure.new__chapters__image{
     width: 100%;
@@ -817,6 +850,11 @@ div.toastify.error{
 	height: 68px;
 	object-fit: cover;
 	object-position: center;
+}
+#app main.main .new__chapters .new__chapters__item a.new__chapters__link .new__chapters__group{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 #app main.main .new__chapters .new__chapters__item a.new__chapters__link .new__chapters__content{
 	width: 100%;
@@ -869,6 +907,23 @@ div.toastify.error{
 	}
 }
 
+// :DESKTOP (1366)
+
+@media (max-width: 1366px){
+	#app main.main .manga .manga__list{
+		grid-template-columns: repeat(4, 1fr);
+	}
+	#app main.main .new__chapters .new__chapters__item a.new__chapters__link figure.new__chapters__image,
+	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item figure.item__image{
+		max-width: 50px;
+		border-radius: 8px;
+	}
+	#app main.main .new__chapters .new__chapters__item a.new__chapters__link figure.new__chapters__image img,
+	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item figure.item__image img{
+		height: 50px;
+	}
+}
+
 // :MOVIL - TABLET
 
 @media (max-width: 1024px){
@@ -894,6 +949,12 @@ div.toastify.error{
 	#app main.main .main__wrap{
 		padding-right: 1.5rem;
 	}
+	#app main.main .section.section__cat{
+		padding: 25px;
+	}
+	#app main.main .home__categories{
+		gap: 1rem;
+	}
 	#app main.main .main__shortcuts{
 		position: relative;
 		padding: 1.5rem;
@@ -910,13 +971,53 @@ div.toastify.error{
 		padding: 0;
 	}
 	#app main.main .main__shortcuts .shortcuts__add .shortcuts__modal{
+		position: fixed;
+		top: .8rem;
+		left: 50%;
 		right: initial;
-		left: 0;
-		top: calc(100% + 20px);
-		width: calc(100vw - 65px);
+		width: calc(100% - 1.5rem);
+		height: auto;
+		transform: translateX(-50%);
 		transition: visibility .4s ease, opacity .4s ease, top .4s ease;
 	}
 	#app main.main .main__shortcuts .shortcuts__add .shortcuts__modal.active{
-    	top: calc(100% + 42px);
+		right: initial;
+	}
+	#app main.main .main__wrap.main__home{
+		display: flex;
+		flex-direction: column;
+	}
+	#app main.main .main__wrap.main__home aside.main__sidebar{
+		order: -1;
+		min-height: auto;
+		margin-bottom: 1.5rem;
+	}
+	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops{
+		position: relative;
+	}
+	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list{
+		position: relative;
+		height: 330px;
+		overflow: hidden;
+	}
+	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list.more{
+		height: auto;
+	}
+	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list::before{
+		background: linear-gradient(0deg, #141414, transparent);
+		position: absolute;
+		content: "";
+		z-index: 1;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: 200px;
+	}
+	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops button.tops__viewmore{
+		display: block;
+	}
+	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list.more::before,
+	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list.more + button.tops__viewmore{
+		visibility: hidden;
 	}
 }

@@ -14,6 +14,9 @@
       "__commonjsHelpers-725317a4.js"
     ]
   },
+  "_effect-fade-d2b31aec.js": {
+    "file": "assets/effect-fade-d2b31aec.js"
+  },
   "_helpers-557a48c5.js": {
     "file": "assets/helpers-557a48c5.js"
   },
@@ -67,12 +70,12 @@
     "src": "resources/css/admin/slider.scss"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-2eaf44ec.css",
+    "file": "assets/app-56820820.css",
     "isEntry": true,
     "src": "resources/css/app.scss"
   },
   "resources/css/global.scss": {
-    "file": "assets/global-441a5b37.css",
+    "file": "assets/global-52bc0f85.css",
     "isEntry": true,
     "src": "resources/css/global.scss"
   },
@@ -97,12 +100,12 @@
     "src": "resources/css/web/library.scss"
   },
   "resources/css/web/mangaDetail.scss": {
-    "file": "assets/mangaDetail-8465ed7d.css",
+    "file": "assets/mangaDetail-64e2173c.css",
     "isEntry": true,
     "src": "resources/css/web/mangaDetail.scss"
   },
   "resources/css/web/profile.scss": {
-    "file": "assets/profile-3da548b5.css",
+    "file": "assets/profile-c35ef444.css",
     "isEntry": true,
     "src": "resources/css/web/profile.scss"
   },
@@ -202,7 +205,7 @@
     "src": "resources/js/admin/library.js"
   },
   "resources/js/admin/manga.js": {
-    "file": "assets/manga-d721a33d.js",
+    "file": "assets/manga-4c673dcf.js",
     "imports": [
       "_helpers-c1bfa4e6.js",
       "_helpers-557a48c5.js"
@@ -229,7 +232,7 @@
     "src": "resources/js/admin/slider.js"
   },
   "resources/js/library.js": {
-    "file": "assets/library-bc00649e.js",
+    "file": "assets/library-0b55fc60.js",
     "imports": [
       "_toastify-f9ee0e47.js",
       "_helpers-557a48c5.js",
@@ -256,11 +259,12 @@
     "src": "resources/js/web/account.js"
   },
   "resources/js/web/app.js": {
-    "file": "assets/app-7c61b70d.js",
+    "file": "assets/app-5e26fd1c.js",
     "imports": [
       "_toastify-f9ee0e47.js",
       "_helpers-557a48c5.js",
       "_tippy.esm-0e655d3f.js",
+      "_effect-fade-d2b31aec.js",
       "__commonjsHelpers-725317a4.js",
       "_axios-4a70c6fc.js"
     ],
@@ -273,7 +277,12 @@
     "src": "resources/js/web/coloris.js"
   },
   "resources/js/web/home.js": {
-    "file": "assets/home-3fdc6104.js",
+    "file": "assets/home-63ef1f07.js",
+    "imports": [
+      "_effect-fade-d2b31aec.js",
+      "_index-a8aa5ca2.js",
+      "__commonjsHelpers-725317a4.js"
+    ],
     "isEntry": true,
     "src": "resources/js/web/home.js"
   },

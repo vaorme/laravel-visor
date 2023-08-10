@@ -173,6 +173,7 @@
 					'Content-Type': 'multipart/form-data'
 				}
 			}).then(function (response){
+				console.log(response);
 				if(response.data.status == "success"){
 					// Creamos el DIV
 					let divShortcut = document.createElement('div');

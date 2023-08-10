@@ -106,17 +106,17 @@
 			@endif
 		</div>
 		<aside class="main__sidebar">
-			@if (!$newChapters->isEmpty() && (isset($newChapters['manga']) || isset($newChapters['novel'])))
+			@if ($newChapterManga->isNotEmpty() || $newChapterNovel->isNotEmpty())
 				<h2 class="sidebar__title"><span>Semana</span> Nuevos capítulos</h2>
 			@endif
-			@if (!$newChapters->isEmpty() && isset($newChapters['manga']))
+			@if ($newChapterManga->isNotEmpty())
 				<section class="section new_manga">
 					<div class="section__title">
 						<div class="section__type">Manga</div>
 					</div>
 					<div class="section__content">
 						<div class="new__chapters">
-							@foreach ($newChapters['manga'] as $item)
+							@foreach ($newChapterManga as $item)
 								<div class="new__chapters__item">
 									<a href="{{ $item->url() }}" class="new__chapters__link">
 										<figure class="new__chapters__image">
@@ -133,13 +133,15 @@
 											@endphp
 											<img src="{!! $base64 !!}" alt="{{ $item->manga->name }}">
 										</figure>
-										<div class="new__chapters__content">
-											<h6>{{ $item->name }}</h6>
-											<span class="new__chapters__chapter">{{ $item->manga->name }}</span>
-											<span class="new__chapters__date">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
-										</div>
-										<div class="new__chapters__icon">
-											<i class="fa-solid fa-book-open"></i>
+										<div class="new__chapters__group">
+											<div class="new__chapters__content">
+												<h6>{{ $item->name }}</h6>
+												<span class="new__chapters__chapter">{{ $item->manga->name }}</span>
+												<span class="new__chapters__date">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
+											</div>
+											<div class="new__chapters__icon">
+												<i class="fa-solid fa-book-open"></i>
+											</div>
 										</div>
 									</a>
 								</div>
@@ -148,14 +150,14 @@
 					</div>
 				</section>
 			@endif
-			@if ($newChapters->isNotEmpty() && isset($newChapters['novel']))
+			@if ($newChapterNovel->isNotEmpty())
 				<section class="section new_novels">
 					<div class="section__title">
 						<div class="section__type">Novelas</div>
 					</div>
 					<div class="section__content">
 						<div class="new__chapters">
-							@foreach ($newChapters['novel'] as $item)
+							@foreach ($newChapterNovel as $item)
 								<div class="new__chapters__item">
 									<a href="{{ $item->url() }}" class="new__chapters__link">
 										<figure class="new__chapters__image">
@@ -172,13 +174,15 @@
 											@endphp
 											<img src="{!! $base64 !!}" alt="{{ $item->manga->name }}">
 										</figure>
-										<div class="new__chapters__content">
-											<h6>{{ $item->name }}</h6>
-											<span class="new__chapters__chapter">{{ $item->manga->name }}</span>
-											<span class="new__chapters__date">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
-										</div>
-										<div class="new__chapters__icon">
-											<i class="fa-solid fa-book-open"></i>
+										<div class="new__chapters__group">
+											<div class="new__chapters__content">
+												<h6>{{ $item->name }}</h6>
+												<span class="new__chapters__chapter">{{ $item->manga->name }}</span>
+												<span class="new__chapters__date">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
+											</div>
+											<div class="new__chapters__icon">
+												<i class="fa-solid fa-book-open"></i>
+											</div>
 										</div>
 									</a>
 								</div>
@@ -234,6 +238,7 @@
 								</li>
 							@endforeach
 						</ul>
+						<button class="tops__viewmore">Ver más</button>
 					</div>
 				</section>
 			@endif

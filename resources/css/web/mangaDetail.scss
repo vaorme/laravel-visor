@@ -1,4 +1,7 @@
-@import 'simplebar/dist/simplebar.css';
+#app main.main > .vealo{
+    text-align: center;
+    padding-bottom: 1.5rem;
+}
 #app main.main .manga__detail{
     display: grid;
     gap: 1.5rem;
@@ -246,11 +249,12 @@
         margin-bottom: 15px;
     }
     .manga__contain .manga__info .manga__extra .manga__categories{
-        
+        max-width: 400px;
     }
     .manga__contain .manga__info .manga__extra .manga__categories .categories__list{
         display: flex;
-        gap: 15px;
+        gap: 10px;
+        flex-wrap: wrap;
     }
     .manga__contain .manga__info .manga__extra .manga__categories .categories__list .category__item{
 

@@ -30,6 +30,13 @@ class ShortcutsController extends Controller{
                 'msg' => "El atajo ya existe"
             ]);
         }
+        $count = Shortcut::where('user_id', '=', $id)->count();
+        if($count >= 16){
+            return response()->json([
+                'status' => "error",
+                'msg' => "Limite de atajos alcanzado"
+            ]);
+        }
 
         $store = new Shortcut;
 
