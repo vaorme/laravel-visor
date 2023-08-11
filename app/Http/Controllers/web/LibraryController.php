@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class LibraryController extends Controller{
     public function index(Request $request){
-        $list = Manga::get();
+        $list = Manga::paginate(5);
         $types = MangaType::get();
         $demographics = MangaDemography::get();
         $bookStatus = MangaBookStatus::get();

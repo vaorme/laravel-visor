@@ -81,6 +81,7 @@
                         <x-manga-loop-item :item="$item" />
                     @endforeach
                 </div>
+                {{ $list->links() }}
             @else
                 <div class="empty">No hay elementos para mostrar</div>
             @endif

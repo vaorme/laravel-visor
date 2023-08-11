@@ -24,7 +24,7 @@ class Manga extends Model{
     }
     public function lastChapter(){
         $week = date('Y-m-d', strtotime("-6 day"));
-        return $this->hasOne(Chapter::class)->where('chapters.created_at', '>=', $week);
+        return $this->hasOne(Chapter::class)->where('chapters.created_at', '>=', $week)->orderBy('id', 'DESC');
     }
     public function categories(){
         return $this->belongsToMany(Category::class, 'manga_has_categories', 'manga_id');

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 class MangaDetailController extends Controller{
     public function index(Request $request){
         $manga = Manga::firstWhere('manga.slug', '=',$request->slug);
-        if(!$manga->exists()){
+        if(!$manga){
             return redirect()->route('web.index');
         }
         if($manga->status != "published"){
