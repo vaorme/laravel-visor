@@ -42,5 +42,27 @@
             </main>
             <x-footer/>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.4/dist/lazyload.min.js"></script>
+        <script>
+            (function() {
+                function logElementEvent(eventName, element) {
+                    console.log("Error cargando imagen:", eventName);
+                }
+                var callback_loaded = function(element) {
+                    element.style.padding = "0";
+                };
+                var callback_error = function(element) {
+                    logElementEvent("💀 ERROR", element);
+                    element.src = "https://via.placeholder.com/440x560/?text=Error+Loading+Image";
+                };
+    
+                ll = new LazyLoad({
+                    elements_selector: ".lazy",
+                    thresholds:"600%",
+                    callback_loaded: callback_loaded,
+                    callback_error: callback_error,
+                });
+            })();
+        </script>
     </body>
 </html>

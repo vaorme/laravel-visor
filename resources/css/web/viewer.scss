@@ -253,7 +253,24 @@
     .view__reader .view__content .reader__item img{
         display: block;
         margin: auto;
+        border: 0;
+        min-height: 150px;
+        min-width: 150px;
         max-width: 100%;
+    }
+    .view__reader .view__content .reader__item img.lazy {
+        opacity: 0;
+    }
+    .view__reader .view__content .reader__item img:not(.initial) {
+        transition: opacity 1s;
+    }
+    .view__reader .view__content .reader__item img.initial,
+    .view__reader .view__content .reader__item img.loaded,
+    .view__reader .view__content .reader__item img.error {
+        opacity: 1;
+    }
+    .view__reader .view__content .reader__item img:not([src]) {
+        visibility: hidden;
     }
     .view__reader .view__content.view__full .reader__item img{
         width: 100%;

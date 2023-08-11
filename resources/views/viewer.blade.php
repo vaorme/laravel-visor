@@ -155,6 +155,7 @@
                     </div>
                 @endif
             @endif
+            {{-- CONTENT --}}
             <div class="view__content{{ ($currentChapter->type == "novel")? ' view__novel' : null}}">
                 @switch($currentChapter->type)
                     @case("novel")
@@ -162,9 +163,9 @@
                     @break
                     @case("manga")
                         @if(isset($images) && !empty($images))
-                            @foreach ($images as $image)
+                            @foreach ($images as $index => $image)
                                 <div class="reader__item">
-                                    <img src="{{ Storage::disk($currentChapter->disk)->url($image) }}">
+                                    <img data-src="{{ Storage::disk($currentChapter->disk)->url($image) }}" class="lazy" oncontextmenu="return false;" style="padding: 500px 0">
                                 </div>
                             @endforeach
                         @endif    
@@ -173,6 +174,7 @@
                         
                 @endswitch
             </div>
+            {{-- END CONTENT --}}
             @if ($currentChapter->type == "novel")
                 <div class="view__colors">
                     <div class="color__item">

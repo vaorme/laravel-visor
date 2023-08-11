@@ -457,6 +457,17 @@ div.toastify.error{
 	display: block;
 	object-fit: cover;
 }
+#app main.main .section.home__slider .slide__image.lazy {
+	opacity: 0;
+}
+#app main.main .section.home__slider .slide__image:not(.initial) {
+	transition: opacity 1s;
+}
+#app main.main .section.home__slider .slide__image.initial,
+#app main.main .section.home__slider .slide__image.loaded,
+#app main.main .section.home__slider .slide__image.error {
+	opacity: 1;
+}
 #app main.main .section.home__slider .slide__image::before{
     background: linear-gradient(to right, rgb(0 0 0 / 90%) 40%, transparent 100%);
     position: absolute;
@@ -737,6 +748,20 @@ div.toastify.error{
 	display: block;
 	aspect-ratio: 2 / 2.82;
 }
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__image img.lazy {
+	opacity: 0;
+}
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__image img:not(.initial) {
+	transition: opacity 1s;
+}
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__image img.initial,
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__image img.loaded,
+#app main.main .manga .manga__list .manga__item .manga__cover .manga__image img.error {
+	opacity: 1;
+}
+.view__reader .view__content .reader__item img:not([src]) {
+	visibility: hidden;
+}
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms,
 #app main.main .manga__detail .manga__cover .manga__terms{
 	position: absolute;
@@ -838,9 +863,13 @@ div.toastify.error{
 
 // :NEW CHAPTERS
 
-#app main.main .new__chapters{
+#app main.main .main__wrap.main__home aside.main__sidebar .section.new_manga .section__content,
+#app main.main .main__wrap.main__home aside.main__sidebar .section.new_novels .section__content{
 	max-height: 620px;
 	overflow: hidden;
+}
+#app main.main .new__chapters{
+	max-height: 620px;
 }
 #app main.main .new__chapters .simplebar-content{
 	display: flex;

@@ -226,6 +226,20 @@
         border-radius: 16px;
         object-fit: cover;
     }
+    .manga__cover img.lazy {
+        opacity: 0;
+    }
+    .manga__cover img:not(.initial) {
+        transition: opacity 1s;
+    }
+    .manga__cover img.initial,
+    .manga__cover img.loaded,
+    .manga__cover img.error {
+        opacity: 1;
+    }
+    .manga__cover img:not([src]) {
+        visibility: hidden;
+    }
     
     .manga__info{
         display: grid;

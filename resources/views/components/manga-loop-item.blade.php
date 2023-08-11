@@ -2,7 +2,7 @@
     <div class="manga__cover">
         <a href="{{ $item->url() }}" class="manga__link">
             <figure class="manga__image">
-                <img src="{{ $item->cover() }}" alt="{{ $item->manga_name }}">
+                <img data-src="{{ $item->cover() }}" alt="{{ $item->manga_name }}" class="lazy">
             </figure>
         </a>
         @if ($item->rating->avg('rating'))

@@ -24,7 +24,7 @@
 										$rating = round($item->manga->rating->avg('rating'), 0, PHP_ROUND_HALF_DOWN);
 									@endphp
 									<div class="swiper-slide">
-										<div class="slide__image" style="background-image: url({{ asset('storage/'.$item->background) }})"></div>
+										<div class="slide__image lazy" data-bg="{{ asset('storage/'.$item->background) }}"></div>
 										<div class="slide__content">
 											<div class="content__box">
 												<div class="slide__logo">

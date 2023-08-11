@@ -7,7 +7,7 @@
         @if ($user->profile->public_profile || $user->id == Auth::id())
         <div class="profile__cover{{ (!isset($user->profile->cover))? ' no__cover': null }}">
             @if (isset($user->profile->cover))
-                <div class="cover__image" style="background-image: url('{{ asset($user->profile->cover) }}')"></div>
+                <div class="cover__image lazy" data-bg="{{ asset($user->profile->cover) }}"></div>
             @endif
         </div>
         <div class="profile__wrap">
@@ -151,7 +151,7 @@
                                         <div class="manga__cover">
                                             <a href="{{ $item->url() }}" class="manga__link">
                                                 <figure class="manga__image">
-                                                    <img src="{{ $item->cover() }}" alt="{{ $item->manga_name }}">
+                                                    <img data-src="{{ $item->cover() }}" alt="{{ $item->manga_name }}" class="lazy">
                                                 </figure>
                                             </a>
                                             @if ($page == "atajos")

@@ -28,6 +28,17 @@
         top: 0;
         left: 0;
     }
+    .profile__cover .cover__image.lazy {
+        opacity: 0;
+    }
+    .profile__cover .cover__image:not(.initial) {
+        transition: opacity 1s;
+    }
+    .profile__cover .cover__image.initial,
+    .profile__cover .cover__image.loaded,
+    .profile__cover .cover__image.error {
+        opacity: 1;
+    }
     .profile__card{
         position: relative;
         margin-top: -80px;

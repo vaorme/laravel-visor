@@ -6,8 +6,10 @@ import SimpleBar from "simplebar";
 // :NEW CHAPTERS SIMPLEBAR
 const newChaptersList = document.querySelector('.new_manga .new__chapters');
 if(newChaptersList){
-    new SimpleBar(newChaptersList, {
-        autoHide: false
+    document.addEventListener('DOMContentLoaded', function(){
+        new SimpleBar(newChaptersList, {
+            autoHide: false
+        });
     });
 }
 
