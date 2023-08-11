@@ -39,6 +39,14 @@
                             <span class="item__text">Donar</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="https://novelas.nartag.com/" target="_blank" class="block font-medium">
+                            <div class="item__icon">
+                                <i class="fa-solid fa-book"></i>
+                            </div>
+                            <span class="item__text">Novelas</span>
+                        </a>
+                    </li>
                     @if (Auth::check() && in_array($auth->profile->getRole(), $controllerRoles))
                         <li>
                             <a href="{{ URL::to('/controller') }}" class="block font-medium">
