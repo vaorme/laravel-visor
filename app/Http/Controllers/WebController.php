@@ -21,23 +21,23 @@ class WebController extends Controller{
 		// ->map(function($deal) {
 		// 	return $deal->take(8);
 		// });
-		$newChapterNovel = Chapter::where('created_at', '>=', $oneWeek)->limit(50)->orderBy('id', 'desc')->withWhereHas('manga.type', function($query) {
+		$newChapterNovel = Chapter::where('created_at', '>=', $oneWeek)->orderBy('id', 'desc')->withWhereHas('manga.type', function($query) {
             $query->where('slug', '=','novela');
         })->get()->unique('manga_id');
 
-		$newChapterManga = Chapter::where('created_at', '>=', $oneWeek)->limit(50)->orderBy('id', 'desc')->withWhereHas('manga.type', function($query) {
+		$newChapterManga = Chapter::where('created_at', '>=', $oneWeek)->orderBy('id', 'desc')->withWhereHas('manga.type', function($query) {
             $query->where('slug', '!=','novela');
         })->get()->unique('manga_id');
 
-		$topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->get();
+		$topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->limit(10)->get();
 
 		$slider = Slider::get();
 		$categories = Category::has('mangas')->inRandomOrder()->limit(3)->get();
 		$viewData = [
 			'categories' => $categories,
 			'mostViewed' => $mostViewed,
-			'newChapterManga' => $newChapterManga,
-			'newChapterNovel' => $newChapterNovel,
+			'newChapterManga' => $newChapterManga->slice(0, 15),
+			'newChapterNovel' => $newChapterNovel->slice(0, 15),
 			'topmonth' => $topMonthly,
 			'slider' => $slider
 		];
