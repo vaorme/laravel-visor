@@ -1,6 +1,6 @@
 body{
 	color: #fff;
-	//overflow-x: hidden;
+	overflow-x: hidden;
 }
 img{
 	display: block;
@@ -840,6 +840,7 @@ div.toastify.error{
 
 #app main.main .new__chapters{
 	max-height: 620px;
+	overflow: hidden;
 }
 #app main.main .new__chapters .simplebar-content{
 	display: flex;
@@ -938,6 +939,9 @@ div.toastify.error{
 	#app main.main .manga .manga__list{
 		grid-template-columns: repeat(4, 1fr);
 	}
+	#app main.main .section.home__slider .slide__content{
+		padding: 30px;
+	}
 }
 
 // :DESKTOP (1366)
@@ -954,6 +958,12 @@ div.toastify.error{
 	#app main.main .new__chapters .new__chapters__item a.new__chapters__link figure.new__chapters__image img,
 	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list li.list__item figure.item__image img{
 		height: 50px;
+	}
+	#app main.main .section.home__slider .slide__logo .slide__name{
+		font-size: 20px;
+	}
+	#app main.main .section.home__slider .slide__buttons a{
+		font-size: 12px;
 	}
 }
 
@@ -1060,6 +1070,18 @@ div.toastify.error{
 	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list.more::before,
 	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list.more + button.tops__viewmore{
 		visibility: hidden;
+	}
+	#app main.main .section.home__slider .slide__content{
+		padding: 20px;
+	}
+	#app main.main .section.home__slider .slide__content .content__box{
+		padding-left: 30px;
+		padding-top: 80px;
+		padding-right: 30px;
+		padding-bottom: 30px;
+	}
+	#app main.main .section.home__slider .slide__image{
+		background-position: center;
 	}
 }
 @media (max-width: 768px){
