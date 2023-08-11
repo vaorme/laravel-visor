@@ -3,11 +3,11 @@
         <p>&copy; 2023 - Nartag</p>
     </div>
 </footer>
-<div class="fto vealo">
-    @php
-        $insertFooter = config('app.footer');
-    @endphp
-    @if ($insertFooter)
+@php
+    $insertFooter = config('app.footer');
+@endphp
+@if ($insertFooter)
+    <div class="fto vealo">
         {!! $insertFooter !!}
-    @endif
-</div>
+    </div>
+@endif

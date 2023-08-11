@@ -22,7 +22,9 @@
             $insertBody = config('app.body');
         @endphp
         @if ($insertBody)
-            {!! $insertBody !!}
+            <div class="bdy vealo">
+                {!! $insertBody !!}
+            </div>
         @endif
         <div id="app">
             <div class="loreg">

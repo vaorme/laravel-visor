@@ -1,8 +1,19 @@
 body{
 	color: #fff;
+	//overflow-x: hidden;
 }
 img{
 	display: block;
+}
+
+// :ERROR
+
+.errors.four .image{
+	text-align: center;
+}
+.errors.four .image img{
+	max-width: 100%;
+	display: inline-block;
 }
 
 // :ADS
@@ -10,6 +21,21 @@ img{
 #app main.main .main__wrap.main__home .main__content > .vealo{
 	padding: 1.5rem 0;
 	text-align: center;
+}
+
+// :LOGIN ALERT
+
+.log__alert{
+	padding: 1.5rem;
+    padding-top: 0;
+	padding-right: calc(102px + 1.5rem);
+}
+.log__alert .box{
+	background-color: theme('colors.vo-green');
+	padding: 1rem;
+	font-size: 18px;
+	text-align: center;
+	border-radius: 12px;
 }
 
 // :TOASTIFY
@@ -231,7 +257,7 @@ div.toastify.error{
     top: 0;
     right: 1.5rem;
     width: 78px;
-    height: auto;
+    height: 100%;
     padding: 20px 0;
     border-radius: 12px;
 }
@@ -712,7 +738,7 @@ div.toastify.error{
 	aspect-ratio: 2 / 2.82;
 }
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms,
-#app main.main .manga__detail .manga__contain .manga__cover .manga__terms{
+#app main.main .manga__detail .manga__cover .manga__terms{
 	position: absolute;
     bottom: 0;
     left: 0;
@@ -724,21 +750,21 @@ div.toastify.error{
 }
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__type,
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography,
-#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__type,
-#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography{
+#app main.main .manga__detail .manga__cover .manga__terms .manga__type,
+#app main.main .manga__detail .manga__cover .manga__terms .manga__demography{
 	width: 50%;
 	padding: 0 5px;
 }
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography:last-of-type,
-#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography:last-of-type{
+#app main.main .manga__detail .manga__cover .manga__terms .manga__demography:last-of-type{
 	width: 100%;
 }
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography + .manga__type,
-#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography + .manga__type{
+#app main.main .manga__detail .manga__cover .manga__terms .manga__demography + .manga__type{
 	width: 50%;
 }
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms a,
-#app main.main .manga__detail .manga__contain .manga__cover .manga__terms a{
+#app main.main .manga__detail .manga__cover .manga__terms a{
 	padding: 10px 10px;
 	width: 100%;
 	display: block;
@@ -749,16 +775,16 @@ div.toastify.error{
 	border-radius: 10px;
 }
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__type a,
-#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__type a{
+#app main.main .manga__detail .manga__cover .manga__terms .manga__type a{
 	background-color: #272727;
 }
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography a,
-#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography a{
+#app main.main .manga__detail .manga__cover .manga__terms .manga__demography a{
 	background-color: #F9C81D;
 	color: #000;
 }
 #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography,
-#app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography{
+#app main.main .manga__detail .manga__cover .manga__terms .manga__demography{
 	&.seinen a{
 		background-color: #A52422;
 		color: #fff;
@@ -907,6 +933,13 @@ div.toastify.error{
 	}
 }
 
+// :DESKTOP (1440)
+@media (max-width: 1440px){
+	#app main.main .manga .manga__list{
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
 // :DESKTOP (1366)
 
 @media (max-width: 1366px){
@@ -927,6 +960,12 @@ div.toastify.error{
 // :MOVIL - TABLET
 
 @media (max-width: 1024px){
+	.log__alert{
+		padding: 0;
+	}
+	.log__alert .box{
+		font-size: 16px;
+	}
 	#app main.main{
 		display: flex;
 		gap: 1.5rem;
@@ -969,6 +1008,7 @@ div.toastify.error{
 		max-width: 100%;
 		display: flex;
 		padding: 0;
+		flex-wrap: wrap;
 	}
 	#app main.main .main__shortcuts .shortcuts__add .shortcuts__modal{
 		position: fixed;
@@ -991,6 +1031,7 @@ div.toastify.error{
 		order: -1;
 		min-height: auto;
 		margin-bottom: 1.5rem;
+		grid-template-columns: 100%;
 	}
 	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops{
 		position: relative;
@@ -1019,5 +1060,74 @@ div.toastify.error{
 	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list.more::before,
 	#app main.main .main__wrap.main__home aside.main__sidebar .section.tops ul.tops__list.more + button.tops__viewmore{
 		visibility: hidden;
+	}
+}
+@media (max-width: 768px){
+	#app main.main .manga .manga__list{
+		grid-template-columns: repeat(3, 1fr);
+	}
+	#app main.main .manga .manga__list .manga__item h4.manga__title{
+		font-size: 14px;
+	}
+	#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms a, #app main.main .manga__detail .manga__contain .manga__cover .manga__terms a{
+		font-size: 10px;
+		padding: 8px;
+		border-radius: 6px;
+	}
+	#app main.main section.section .section__title h2{
+		font-size: 16px;
+	}
+	#app main.main section.section .section__title h2 span{
+		font-size: 10px;
+	}
+	#app main.main .section.section__cat{
+		padding: 20px;
+		border-radius: 12px;
+	}
+}
+@media (max-width: 620px){
+	#app main.main .manga .manga__list{
+		grid-template-columns: repeat(2, 1fr);
+	}
+	#app main.main .main__shortcuts{
+		gap: 12px;
+	}
+	#app main.main .main__shortcuts .shortcuts__list{
+		gap: 12px;
+	}
+	#app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__type, #app main.main .manga .manga__list .manga__item .manga__cover .manga__terms .manga__demography, #app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__type, #app main.main .manga__detail .manga__contain .manga__cover .manga__terms .manga__demography{
+		padding: 0 3px;
+	}
+}
+@media (max-width: 520px){
+	#app main.main .main__shortcuts{
+		display: grid;
+		padding: 1rem;
+		gap: 15px;
+		grid-template-columns: 100%;
+	}
+	#app main.main .main__shortcuts .shortcuts__add > button{
+		width: 100%;
+	}
+	#app main.main .main__shortcuts .shortcuts__list{
+		display: grid;
+		gap: 10px;
+		grid-template-columns: repeat(8, 1fr);
+	}
+}
+@media (max-width: 480px){
+	#app main.main .main__shortcuts .shortcuts__list{
+		grid-template-columns: repeat(7, 1fr);
+	}
+}
+@media (max-width: 420px){
+	#app main.main .main__shortcuts .shortcuts__list{
+		grid-template-columns: repeat(6, 1fr);
+	}
+}
+@media (max-width: 380px){
+	#app main.main .main__shortcuts .shortcuts__list{
+		gap: 15px;
+		grid-template-columns: repeat(5, 1fr);
 	}
 }

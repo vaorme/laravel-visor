@@ -40,14 +40,14 @@
         @endif
     </head>
     <body>
-        <div class="bdy vealo">
-            @php
-                $insertBody = config('app.body');
-            @endphp
-            @if ($insertBody)
+        @php
+            $insertBody = config('app.body');
+        @endphp
+        @if ($insertBody)
+            <div class="bdy vealo">
                 {!! $insertBody !!}
-            @endif
-        </div>
+            </div>
+        @endif
         <div id="app">
             <x-header />
             <main class="main">

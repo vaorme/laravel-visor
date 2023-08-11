@@ -87,6 +87,12 @@ header.header nav.navbar .menu{
                     transition: opacity .2s ease, visibility .2s ease;
                 }
             }
+            a .item__icon{
+                display: none;
+            }
+            a .item__text{
+                display: block;
+            }
             &.active, &:hover{
                 a{
                     color: #fff;
@@ -160,5 +166,82 @@ header.header nav.navbar .panel{
 @media (max-width: 1024px){
     header.header{
         padding: 1rem;
+    }
+    header.header nav.navbar{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    header.header nav.navbar .logo img{
+        width: 52px;
+        height: 44px;
+    }
+    header.header nav.navbar .menu ul li a{
+        font-size: 20px;
+    }
+    header.header nav.navbar .menu ul li a .item__icon{
+        display: block;
+    }
+    header.header nav.navbar .menu ul li a .item__text{
+        display: none;
+    }
+    header.header nav.navbar .panel .user .name span{
+        font-size: 14px;
+    }
+    header.header nav.navbar .panel .user .name h4{
+        font-size: 16px;
+    }
+    header.header nav.navbar .buttons a.botn{
+        display: block;
+        font-size: 12px;
+        border-radius: 7px;
+        padding: 12px 16px;
+    }
+}
+@media (max-width: 620px){
+    header.header nav.navbar .logo img{
+        width: 44px;
+        height: 37px;
+    }
+    header.header nav.navbar .menu ul li a{
+        font-size: 16px;
+    }
+}
+@media (max-width: 520px){
+    header.header nav.navbar{
+        padding: 1rem;
+    }
+    header.header nav.navbar .buttons{
+        gap: 10px;
+    }
+    header.header nav.navbar .buttons a.botn{
+        font-size: 10px;
+        padding: 12px;
+    }
+    header.header nav.navbar .lft{
+        gap: 1rem;
+    }
+    header.header nav.navbar .logo{
+        padding-right: 1rem;
+    }
+    header.header nav.navbar .menu ul{
+        gap: 15px;
+    }
+    header.header nav.navbar .panel{
+        gap: 10px;
+    }
+    header.header nav.navbar .panel .user .name{
+        display: none;
+    }
+    header.header nav.navbar .panel .user .avatar img{
+        width: 34px;
+        height: 34px;
+    }
+    header.header nav.navbar .panel .logout button{
+        padding: 6px;
+    }
+    header.header nav.navbar .panel .logout button svg{
+        width: 20px;
+        height: auto;
     }
 }

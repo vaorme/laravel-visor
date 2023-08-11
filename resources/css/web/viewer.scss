@@ -27,6 +27,11 @@
         font-size: 18px;
         font-weight: 700;
     }
+    .view__options .view__left .view__title h4{
+        font-size: 16px;
+        font-weight: 500;
+        color: #757575;
+    }
     .view__options .view__left .view__title a.view__back{
         background-color: #9b2e2e;
         display: flex;
@@ -142,7 +147,7 @@
         justify-content: flex-end;
     }
     .view__options .view__right .view__buttons a{
-        background-color: #1c1c1c;
+        background-color: #313131;
         font-size: 16px;
         display: inline-block;
         width: 100%;
@@ -156,11 +161,15 @@
         transition: background .2s ease, color .2s ease;
     }
     .view__options .view__right .view__buttons a:last-of-type{
+        background-color: theme('colors.vo-red');
         margin-right: 0;
     }
     .view__options .view__right .view__buttons a:hover{
-        background-color: theme('colors.vo-red');
+        background-color: #393939;
         color: #fff;
+    }
+    .view__options .view__right .view__buttons a:last-of-type:hover{
+        background-color: theme('colors.vo-red-over');
     }
     .view__reader .view__paged,
     .view__reader .view__colors{
@@ -248,5 +257,78 @@
     }
     .view__reader .view__content.view__full .reader__item img{
         width: 100%;
+    }
+}
+@media (max-width: 1920px){
+    #viewer .view__options .view__left .view__title h2{
+        max-width: 400px;
+    }
+}
+@media (max-width: 1440px){
+    #viewer .view__options{
+        flex-wrap: wrap;
+        gap: 1.5rem
+    }
+    #viewer .view__options .view__col{
+        width: auto;
+    }
+    #viewer .view__options .view__left{
+        width: 100%;
+    }
+    #viewer .view__options .view__left .view__title h2{
+        max-width: 100%;
+    }
+}
+@media (max-width: 1024px){
+    #viewer{
+        padding: 0;
+    }
+    #viewer .view__options{
+        flex-direction: column;
+    }
+    #viewer .view__options .view__center{
+        order: 1;
+    }
+    #viewer .view__options .view__right .view__buttons{
+        justify-content: center;
+    }
+    #viewer .view__options.bottom .view__left{
+        order: 2;
+    }
+    #viewer .view__options.bottom .view__center{
+        order: -1;
+    }
+}
+@media (max-width: 768px){
+    #viewer .view__options .view__center{
+        width: 100%;
+        flex-direction: column;
+    }
+    #viewer .view__options .view__center .view__select,
+    #viewer .view__reader .view__paged .view__select{
+        max-width: 100%;
+    }
+    #viewer .view__options .view__left .view__title h2{
+        font-size: 16px;
+    }
+    #viewer .view__options .view__left .view__title h4{
+        font-size: 14px;
+    }
+    #viewer .view__options .view__left .view__title{
+        display: grid;
+        grid-template-columns: 45px auto;
+    }
+    #viewer .view__reader .view__paged,
+    #viewer .view__reader .view__colors{
+        flex-direction: column;
+    }
+    #viewer .view__reader .view__paged .paged__item,
+    #viewer .view__options .view__right,
+    #viewer .view__options .view__right .view__buttons{
+        width: 100%;
+    }
+    #viewer .view__options .view__right .view__buttons a{
+        width: 100%;
+        max-width: 100%;
     }
 }

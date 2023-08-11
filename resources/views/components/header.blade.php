@@ -23,11 +23,30 @@
             </div>
             <div class="menu">
                 <ul class="flex flex-wrap gap-6">
-                    <li><a href="https://discord.com/invite/Q56zq4MfHd" target="_blank" class="block font-medium">Discord</a></li>
-                    <li><a href="https://nartag.com/donacione/" target="_blank" class="block font-medium">Donar</a></li>
+                    <li>
+                        <a href="https://discord.com/invite/Q56zq4MfHd" target="_blank" class="block font-medium">
+                        <div class="item__icon">
+                            <i class="fa-brands fa-discord"></i>
+                        </div>
+                        <span class="item__text">Discord</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://nartag.com/donacione/" target="_blank" class="block font-medium">
+                            <div class="item__icon">
+                                <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                            </div>
+                            <span class="item__text">Donar</span>
+                        </a>
+                    </li>
                     @if (Auth::check() && in_array($auth->profile->getRole(), $controllerRoles))
                         <li>
-                            <a href="{{ URL::to('/controller') }}" class="block font-medium">Controller</a>
+                            <a href="{{ URL::to('/controller') }}" class="block font-medium">
+                                <div class="item__icon">
+                                    <i class="fa-solid fa-user-secret"></i>
+                                </div>
+                                <span class="item__text">Controller</span>
+                            </a>
                         </li>
                     @endif
                 </ul>

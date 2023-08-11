@@ -1,4 +1,17 @@
 <x-app-layout>
+	@if (Session::has('success'))
+		<div class="log__alert success">
+			<div class="box">
+				<p>{!! \Session::get('success') !!}</p>
+			</div>
+		</div>
+		<script>
+			let alerta = document.querySelector('.log__alert');
+			setTimeout(() => {
+				alerta.remove();
+			}, 6000);
+		</script>
+	@endif
 	<div class="main__wrap main__home">
 		<div class="main__content">
 			@if ($slider->isNotEmpty())

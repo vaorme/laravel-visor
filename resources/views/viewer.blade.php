@@ -12,7 +12,10 @@
                             <path d="M13.6668 6.16671H3.52516L8.1835 1.50837L7.00016 0.333374L0.333496 7.00004L7.00016 13.6667L8.17516 12.4917L3.52516 7.83337H13.6668V6.16671Z" fill="white"/>
                         </svg>
                     </a>
-                    <h2>{{ $manga->name }}: {{ $currentChapter->name }}</h2>
+                    <div class="view__text">
+                        <h2>{{ $currentChapter->name }}</h2>
+                        <h4>{{ $manga->name }}</h4>
+                    </div>
                 </div>
             </div>
             <div class="view__col view__center">
@@ -23,7 +26,7 @@
                             <option value="{{ $chapter->slug }}" {{ ($chapter_slug == $chapter->slug)? 'selected' : null }} data-url="{{ route('chapter_viewer.index', [
                                 'manga_slug' => $manga->slug,
                                 'chapter_slug' => $chapter->slug
-                            ]) }}">{{ Str::limit($chapter->name, 18); }}</option>
+                            ]) }}">{{ Str::limit($chapter->name, 14); }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -248,7 +251,10 @@
                             <path d="M13.6668 6.16671H3.52516L8.1835 1.50837L7.00016 0.333374L0.333496 7.00004L7.00016 13.6667L8.17516 12.4917L3.52516 7.83337H13.6668V6.16671Z" fill="white"/>
                         </svg>
                     </a>
-                    <h2>{{ $manga->name }}: {{ $currentChapter->name }}</h2>
+                    <div class="view__text">
+                        <h2>{{ $currentChapter->name }}</h2>
+                        <h4>{{ $manga->name }}</h4>
+                    </div>
                 </div>
             </div>
             <div class="view__col view__center">
@@ -259,7 +265,7 @@
                             <option value="{{ $chapter->slug }}" {{ ($chapter_slug == $chapter->slug)? 'selected' : null }} data-url="{{ route('chapter_viewer.index', [
                                 'manga_slug' => $manga->slug,
                                 'chapter_slug' => $chapter->slug
-                            ]) }}">{{ Str::limit($chapter->name, 18); }}</option>
+                            ]) }}">{{ Str::limit($chapter->name, 14); }}</option>
                         @endforeach
                     </select>
                 </div>

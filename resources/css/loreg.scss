@@ -130,7 +130,35 @@
                 background-image: url('../../public/assets/portada-2.jpg');
                 background-size: cover;
                 min-height: 700px;
+                background-position: center;
             }
         }
+    }
+}
+@media (max-width: 1024px){
+    #app{
+        padding: 2rem;
+    }
+    #app .loreg .box{
+        grid-template-columns: 100%;
+    }
+    #app .loreg .box .banner{
+        min-height: 400px;
+    }
+}
+@media (max-width: 768px){
+    #app .loreg .box .banner{
+        min-height: 300px;
+    }
+    #app .loreg .box .frmo{
+        padding: 2rem;
+    }
+    #app .loreg .box .frmo form .group.buttons{
+        gap: 1.5rem;
+        margin-bottom: 0;
+        flex-direction: column;
+    }
+    #app .loreg .box .frmo form .group.buttons button{
+        width: 100%;
     }
 }

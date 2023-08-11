@@ -8,9 +8,9 @@
     }
     .profile__cover{
         position: relative;
-        min-height: 548px;
         border-radius: 22px;
         overflow: hidden;
+        padding-bottom: 30%;
         &.no__cover{
             background: radial-gradient(circle at top left,transparent 9%, #6e1717 10% ,#6e1717 15% , transparent 16%) , radial-gradient(circle at bottom left,transparent 9%, #6e1717 10% ,#6e1717 15% , transparent 16%), radial-gradient(circle at top right ,transparent 9%, #6e1717 10% ,#6e1717 15% , transparent 16%) , radial-gradient(circle at bottom right,transparent 9%, #6e1717 10% ,#6e1717 15% , transparent 16%),radial-gradient(circle, transparent 25%, #8d3636  26%),linear-gradient(45deg, transparent 46%, #6e1717 47%, #6e1717 52%, transparent 53%), linear-gradient(135deg, transparent 46%, #6e1717 47%, #6e1717 52%, transparent 53%);
             background-size: 3em 3em;
@@ -223,11 +223,17 @@
         border-radius: 35px;
     }
     .profile__content .new__chapters{
+        display: grid;
+        gap: 1rem;
         grid-template-columns: repeat(4, 1fr);
+    }
+    .profile__content .new__chapters .new__chapters__item{
+        padding: 0;
     }
     .profile__content .new__chapters .new__chapters__item a.new__chapters__link {
         background-color: #1e1e1e;
         padding: 1rem;
+        height: 100%;
         border-radius: 12px;
         transition: background .2s ease;
         &:hover{
@@ -268,4 +274,63 @@
         border-radius: 14px;
     }
     
+}
+@media (max-width: 2100px){
+    #app main.main .main__wrap.profile .profile__content .new__chapters{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 1680px){
+    #app main.main .main__wrap.profile .profile__content .new__chapters{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 1440px){
+    #app main.main .main__wrap.profile .profile__wrap{
+        padding-left: 2rem;
+    }
+    #app main.main .main__wrap.profile .profile__content .new__chapters{
+        grid-template-columns: 100%;
+    }
+    #app main.main .main__wrap.profile .profile__content .profile__navbar ul.navbar__list{
+        gap: 0;
+    }
+    #app main.main .main__wrap.profile .profile__content .profile__navbar ul.navbar__list li.navbar__item{
+        width: 50%;
+        padding: .5rem;
+    }
+    #app main.main .new__chapters .new__chapters__item{
+        padding: 0;
+    }
+}
+@media (max-width: 1366px){
+    #app main.main .main__wrap.profile .profile__cover{
+        padding: 0;
+        min-height: 360px;
+    }
+}
+@media (max-width: 1024px){
+    #app main.main .main__wrap.profile .profile__wrap{
+        grid-template-columns: 100%;
+        padding-left: 0;
+    }
+    #app main.main .main__wrap.profile .profile__card{
+        max-width: 440px;
+        margin: auto;
+        margin-top: -180px;
+    }
+    #app main.main .main__wrap.profile .profile__content .profile__navbar ul.navbar__list{
+        flex-direction: column;
+    }
+    #app main.main .main__wrap.profile .profile__content .profile__navbar ul.navbar__list li.navbar__item{
+        width: 100%;
+    }
+    #app main.main .main__wrap.profile{
+        padding: 0;
+    }
+}
+@media (max-width: 580px){
+    #app main.main .main__wrap.profile .profile__card{
+        max-width: 380px;
+    }
 }
