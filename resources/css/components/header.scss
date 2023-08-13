@@ -17,6 +17,9 @@ header.header nav.navbar .movil{
     display: none;
     align-items: center;
 }
+header.header > .buttons{
+    display: none;
+}
 header.header nav.navbar .burger{
     cursor: pointer;
 }
@@ -254,9 +257,9 @@ header.header nav.navbar .panel{
     }
     header.header nav.navbar .buttons a.botn{
         display: block;
-        font-size: 12px;
+        font-size: 14px;
         border-radius: 7px;
-        padding: 12px 16px;
+        padding: 12px 18px;
     }
     header.header nav.navbar > .movil,
     header.header nav.navbar > .lft,
@@ -307,6 +310,14 @@ header.header nav.navbar .panel{
         flex-direction: column;
     }
 }
+@media (max-width: 870px){
+    header.header nav.navbar > .movil, header.header nav.navbar > .rth{
+        width: 40%;
+    }
+    header.header nav.navbar > .lft{
+        width: 20%;
+    }
+}
 @media (max-width: 768px){
     header.header nav.navbar .panel{
         gap: 10px;
@@ -324,35 +335,37 @@ header.header nav.navbar .panel{
     header.header nav.navbar .panel .logout button svg{
         width: 20px;
         height: auto;
+    }header.header nav.navbar .buttons{
+        display: none;
+    }
+    header.header > .buttons{
+        display: flex;
+    }
+    header.header > .buttons a{
+        width: 50%;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        justify-content: center;
     }
 }
 @media (max-width: 620px){
-    header.header nav.navbar .logo img{
-        width: 44px;
-        height: 37px;
-    }
     header.header nav.navbar .menu ul li a{
         font-size: 16px;
     }
 }
 @media (max-width: 520px){
-    header.header nav.navbar{
-        padding: 1rem;
-    }
-    header.header nav.navbar .buttons{
-        gap: 10px;
-    }
-    header.header nav.navbar .buttons a.botn{
-        font-size: 10px;
-        padding: 12px;
-    }
-    header.header nav.navbar .lft{
-        gap: 1rem;
-    }
     header.header nav.navbar .logo{
         padding-right: 1rem;
     }
     header.header nav.navbar .menu ul{
         gap: 15px;
+    }
+}
+@media (max-width: 480px){
+    header.header nav.navbar > .movil,
+    header.header nav.navbar > .lft,
+    header.header nav.navbar > .rth{
+        width: 33.33%;
     }
 }

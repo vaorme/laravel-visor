@@ -100,6 +100,7 @@ div.toastify.error{
 	gap: 1.5rem;
 	grid-auto-rows: min-content;
 	min-height: calc(100vh - 108px);
+	grid-template-columns: 100%;
 }
 #app main.main .main__wrap.main__home aside.main__sidebar h2.sidebar__title{
 	position: relative;

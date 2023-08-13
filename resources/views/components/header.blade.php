@@ -105,6 +105,14 @@
             </div>
         </div>
     </nav>
+    @if (!Auth::check())
+        <div class="buttons flex gap-4">
+            <a href="{{ route('login') }}" class="botn log bg-neutral-800 py-3 text-white px-8 rounded-lg text-center hover:bg-neutral-700 transition-colors"><i class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar sesion</a>
+            @if (config('app.allow_new_users'))
+                <a href="{{ route('register') }}" class="botn reg bg-vo-red py-3 px-8 text-white rounded-lg text-center hover:bg-vo-red-over transition-colors"><i class="fa-solid fa-user-plus"></i> Registrate</a>
+            @endif
+        </div>
+    @endif
     <div class="search__bar">
         <form action="{{ (Route::is('library.index'))? url()->full() : url('/library'); }}" method="GET">
             <input type="text" name="s" class="outline-none text-white pl-12 text-base" placeholder="Buscar..." value="{{ (isset(request()->s) && !empty(request()->s))? request()->s : null }}">
