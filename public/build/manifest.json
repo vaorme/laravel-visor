@@ -14,9 +14,6 @@
       "__commonjsHelpers-725317a4.js"
     ]
   },
-  "_effect-fade-d2b31aec.js": {
-    "file": "assets/effect-fade-d2b31aec.js"
-  },
   "_helpers-557a48c5.js": {
     "file": "assets/helpers-557a48c5.js"
   },
@@ -50,9 +47,9 @@
     "file": "assets/arrow-select-chapters-16ce1aa4.svg",
     "src": "public/assets/arrow-select-chapters.svg"
   },
-  "public/assets/portada-2.jpg": {
-    "file": "assets/portada-2-63950af2.jpg",
-    "src": "public/assets/portada-2.jpg"
+  "public/assets/banner-loreg.jpg": {
+    "file": "assets/banner-loreg-f1ffcd14.jpg",
+    "src": "public/assets/banner-loreg.jpg"
   },
   "resources/css/admin/admin.scss": {
     "file": "assets/admin-9df2f5eb.css",
@@ -70,17 +67,17 @@
     "src": "resources/css/admin/slider.scss"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-56820820.css",
+    "file": "assets/app-a9267317.css",
     "isEntry": true,
     "src": "resources/css/app.scss"
   },
   "resources/css/global.scss": {
-    "file": "assets/global-52bc0f85.css",
+    "file": "assets/global-2b1350ae.css",
     "isEntry": true,
     "src": "resources/css/global.scss"
   },
   "resources/css/loreg.scss": {
-    "file": "assets/loreg-39766008.css",
+    "file": "assets/loreg-ad65a59b.css",
     "isEntry": true,
     "src": "resources/css/loreg.scss"
   },
@@ -100,12 +97,12 @@
     "src": "resources/css/web/library.scss"
   },
   "resources/css/web/mangaDetail.scss": {
-    "file": "assets/mangaDetail-64e2173c.css",
+    "file": "assets/mangaDetail-26ff090c.css",
     "isEntry": true,
     "src": "resources/css/web/mangaDetail.scss"
   },
   "resources/css/web/profile.scss": {
-    "file": "assets/profile-c35ef444.css",
+    "file": "assets/profile-84a3c148.css",
     "isEntry": true,
     "src": "resources/css/web/profile.scss"
   },
@@ -115,7 +112,7 @@
     "src": "resources/css/web/tom-select.css"
   },
   "resources/css/web/viewer.scss": {
-    "file": "assets/viewer-6ffd2f0a.css",
+    "file": "assets/viewer-f82ca09f.css",
     "isEntry": true,
     "src": "resources/css/web/viewer.scss"
   },
@@ -259,12 +256,11 @@
     "src": "resources/js/web/account.js"
   },
   "resources/js/web/app.js": {
-    "file": "assets/app-5e26fd1c.js",
+    "file": "assets/app-bdedd29f.js",
     "imports": [
       "_toastify-f9ee0e47.js",
       "_helpers-557a48c5.js",
       "_tippy.esm-0e655d3f.js",
-      "_effect-fade-d2b31aec.js",
       "__commonjsHelpers-725317a4.js",
       "_axios-4a70c6fc.js"
     ],
@@ -277,9 +273,8 @@
     "src": "resources/js/web/coloris.js"
   },
   "resources/js/web/home.js": {
-    "file": "assets/home-63ef1f07.js",
+    "file": "assets/home-bef0db26.js",
     "imports": [
-      "_effect-fade-d2b31aec.js",
       "_index-a8aa5ca2.js",
       "__commonjsHelpers-725317a4.js"
     ],

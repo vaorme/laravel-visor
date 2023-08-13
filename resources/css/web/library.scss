@@ -4,7 +4,10 @@ main.main{
     gap: 2rem;
     padding-left: 1.5rem;
     padding-right: calc(102px + 1.5rem);
-	grid-template-columns: 406px calc(100% - 406px);
+	grid-template-columns: 406px auto;
+}
+aside.filter{
+    position: relative;
 }
 aside.filter form.filter__form{
     display: grid;
@@ -12,7 +15,6 @@ aside.filter form.filter__form{
 }
 aside.filter form.filter__form .filter__widget{
     background-color: #1c1c1c;
-    right: 1.5rem;
     padding: 2rem;
     border-radius: 12px;
 }
@@ -20,6 +22,7 @@ aside.filter form.filter__form button.filter__button{
     background-color: theme('colors.vo-green');
     padding: .8rem;
     width: 100%;
+    outline: none;
     font-size: 16px;
     font-weight: 500;
     border-radius: 8px;
@@ -38,12 +41,25 @@ aside.filter form.filter__form .filter__widget .widget__content{
     display: grid;
     gap: 15px;
 }
+aside.filter form.filter__form .filter__widget .widget__content select,
 aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control{
     background-color: #333333;
     position: relative;
+    width: 100%;
     border: 0;
+    outline: none;
     border-radius: 6px;
     padding: 0.8rem 1.2rem;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper.focus{
+    z-index: 2;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control{
+    min-height: 44px;
+    overflow: initial;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper.focus .ts-control{
+    border-radius: 8px 8px 0 0;
 }
 aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control::before{
     position: absolute;
@@ -73,6 +89,7 @@ aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-
     line-height: 0;
     border-radius: 4px;
     display: flex;
+    visibility: hidden;
     align-items: center;
     justify-content: center;
     transition: background .2s ease;
@@ -83,6 +100,24 @@ aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-
 }
 aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control .item ~ .clear-button{
     opacity: 1;
+    visibility: visible;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper.dropdown-active .ts-control > input {
+    background-color: #414141 !important;
+    position: absolute;
+    display: none !important;
+    padding: 0 10px !important;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    margin: 0 !important;
+    display: block !important;
+    border-top: 1px solid #515151 !important;
+    border-bottom: 1px solid #515151 !important;
+}
+aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper.dropdown-active .ts-control > input {
+    display: block !important;
 }
 aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-control input{
     color: #d9d9d9;
@@ -101,10 +136,11 @@ aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-
 }
 aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-dropdown{
     background-color: #333333;
+    top: calc(100% + 40px);
     border: 0;
     margin: 0;
-    margin-top: 15px;
-    border-radius: 8px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 0 0 0;
 }
 aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-dropdown .ts-dropdown-content{
     padding: 1rem;
@@ -112,67 +148,117 @@ aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-
 aside.filter form.filter__form .filter__widget .widget__content .ts-wrapper .ts-dropdown .ts-dropdown-content .option{
     display: block;
     color: #c3c3c3dd;
-    padding: .8rem 1rem;
+    padding: .6rem .8rem;
     border-radius: 8px;
+    margin-bottom: 5px;
     &:hover, &.active, &.selected{
         background-color: #494949;
         color: #fff;
     }
 }
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content .widget__scl{
-    max-height: 400px;
+aside.filter form.filter__form .filter__widget .widget__content .widget__item.select__categories .ts-wrapper .ts-control{
+    padding-right: 4.5rem !important;
 }
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content .widget__scl .simplebar-track.simplebar-vertical .simplebar-scrollbar::before{
-    background-color: #393939;
+
+// :LIST
+
+section.library button.button__filter i{
+    margin-right: 10px;
 }
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content .widget__scl .simplebar-track.simplebar-vertical .simplebar-scrollbar.simplebar-hover::before{
-    opacity: 1;
+section.library button.button__filter:hover{
+    background-color: theme('colors.vo-red-over');
 }
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label{
-    cursor: pointer;
-    display: block;
-    margin-bottom: 10px;
+section.library .manga{
+    display: grid;
+    gap: 40px;
+    grid-template-columns: 100%;   
 }
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label:last-of-type{
-    margin-bottom: 0;
+section.library .manga .empty{
+    background-color: #1c1c1c;
+    color: #919191;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 12px;
 }
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label input{
-    display: none;
+
+// :PAGINATOR
+section.library .paginator{
+    display: grid;
+    border-radius: 12px;
+    grid-template-columns: repeat(3, 33.33%);
+    justify-content: space-between;
 }
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label .checkbox{
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label .checkbox .check__field{
-    position: relative;
-    width: 18px;
-    height: 18px;
-    border-radius: 2px;
-    border: 1px solid #4b4b4b;
-}
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label .checkbox .check__field::before{
-    background-color: theme('colors.vo-red');
-    position: absolute;
-    content: "";
-    opacity: 0;
-    top: 50%;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    transform: translate(-50%, -50%);
-    transition: opacity .2s ease;
-}
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label .checkbox .check__name{
+section.library .paginator .paginator__results{
     font-size: 14px;
-    color: #bfbfbf;
-    font-weight: 500;
-    transition: color .2s ease;
+    color: #939393;
 }
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label:hover .checkbox .check__name,
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label input:checked + .checkbox .check__name{
+section.library .paginator .paginator__links,
+section.library .paginator .paginator__links ul.pagination{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+section.library .paginator .paginator__links{
+    gap: 15px;
+}
+section.library .paginator .paginator__links ul.pagination .page__link{
+    background-color: #292929;
     color: #fff;
+    font-size: 14px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    outline: none;
+    border-radius: 4px;
+    align-items: center;
+    font-weight: 500;
+    justify-content: center;
+    transition: background .2s ease;
 }
-aside.filter form.filter__form .filter__widget.filter__categories .widget__content label input:checked + .checkbox .check__field::before{
-    opacity: 1;
+section.library .paginator .paginator__links ul.pagination .page__link:hover{
+    background-color: #313030;
+}
+section.library .paginator .paginator__links ul.pagination .page__link.active{
+    background-color: theme('colors.vo-red');
+}
+section.library .paginator .paginator__links .link__navigation .page__link{
+    background-color: #292929;
+    display: flex;
+    font-weight: 500;
+    height: 100%;
+    padding: 5px 26px;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease;
+}
+section.library .paginator .paginator__links .link__navigation .page__link:hover{
+    background-color: theme('colors.vo-red');
+}
+@media (max-width: 1440px){
+    section.library .paginator{
+        grid-template-columns: 100%;
+        gap: 1.5rem;
+        text-align: center;
+    }
+}
+@media (max-width: 1366px){
+    #app main.main{
+        grid-template-columns: 340px auto;
+    }
+}
+@media (max-width: 1024px){
+    aside.filter form.filter__form .filter__widget{
+        padding: 1.5rem;
+    }
+    section.library .paginator .paginator__links{
+        flex-direction: column;
+    }
+    section.library .paginator .paginator__links .link__navigation .page__link{
+        width: 100%;
+        padding: 1rem;
+    }
+    section.library .paginator .paginator__links ul.pagination{
+        flex-wrap: wrap;
+    }
 }

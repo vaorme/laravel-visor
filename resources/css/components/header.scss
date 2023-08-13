@@ -1,13 +1,57 @@
 header.header{
+    display: grid;
+    gap: 1.5rem;
     padding: 1.5rem;
+    grid-template-columns: 100%;
 }
 header.header nav.navbar{
     background-color: #1c1c1c;
     padding: 1rem 1.5rem;
     border-radius: 12px;
     min-height: 80px;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 100px auto;
 }
-
+header.header nav.navbar .movil{
+    display: none;
+    align-items: center;
+}
+header.header nav.navbar .burger{
+    cursor: pointer;
+}
+header.header nav.navbar .burger span{
+    background-color: #b9b9b9;
+    display: block;
+    width: 28px;
+    height: 3px;
+    margin: 4px 0;
+    border-radius: 10px;
+    transition: transform .2s ease, opacity .2s ease;
+}
+header.header nav.navbar .burger.active span{
+    color: #fff;
+}
+header.header nav.navbar .burger.active span:nth-child(1){
+    transform: translate(0px, 8px) rotate(45deg);
+}
+header.header nav.navbar .burger.active span:nth-child(2){
+    opacity: 0;
+    transform: scale(0);
+}
+header.header nav.navbar .burger.active span:nth-child(3){
+    transform: translate(0px, -6px) rotate(-45deg);
+}
+header.header nav.navbar .lft{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+header.header nav.navbar .rth{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 header.header nav.navbar .logo{
     position: relative;
     padding-right: 1.5rem;
@@ -27,7 +71,7 @@ header.header nav.navbar .logo{
         transform: translateY(-50%);
     }
 }
-header.header nav.navbar .search{
+header.header .search__bar{
     position: relative;
     form{
         transition: top .4s ease, width .4s ease, visibility .4s ease, opacity .4s ease;
@@ -36,7 +80,7 @@ header.header nav.navbar .search{
             width: 100%;
             color: #fff;
             border-radius: 10px;
-            padding: 11px 20px;
+            padding: 16px 20px;
             letter-spacing: .02rem;
             &::-webkit-input-placeholder { /* Edge */
                 color: #afafaf;
@@ -165,25 +209,42 @@ header.header nav.navbar .panel{
 }
 @media (max-width: 1024px){
     header.header{
+        gap: 1rem;
         padding: 1rem;
     }
     header.header nav.navbar{
         width: 100%;
         display: flex;
+        align-items: center;
         justify-content: space-between;
     }
     header.header nav.navbar .logo img{
         width: 52px;
         height: 44px;
     }
+    header.header nav.navbar .menu ul{
+        padding: 1rem;
+        gap: .8rem;
+    }
     header.header nav.navbar .menu ul li a{
-        font-size: 20px;
+        background-color: #2f2f2f;
+        display: flex;
+        gap: 10px;
+        font-size: 16px;
+        border-radius: 6px;
+        padding: 12px 14px;
+        align-items: center;
+    }
+    header.header nav.navbar .menu ul li a::after{
+        top: 50%;
+        left: initial;
+        right: 1rem;
+        transform: translateY(-50%);
     }
     header.header nav.navbar .menu ul li a .item__icon{
         display: block;
-    }
-    header.header nav.navbar .menu ul li a .item__text{
-        display: none;
+        width: 24px;
+        text-align: center;
     }
     header.header nav.navbar .panel .user .name span{
         font-size: 14px;
@@ -196,6 +257,73 @@ header.header nav.navbar .panel{
         font-size: 12px;
         border-radius: 7px;
         padding: 12px 16px;
+    }
+    header.header nav.navbar > .movil,
+    header.header nav.navbar > .lft,
+    header.header nav.navbar > .rth{
+        width: 33.33%;
+    }
+    header.header nav.navbar > .lft{
+        justify-content: center;
+    }
+    header.header nav.navbar > .rth{
+        justify-content: flex-end;
+    }
+    header.header nav.navbar .logo{
+        padding: 0;
+    }
+    header.header nav.navbar .logo::after{
+        display: none;
+    }
+    header.header nav.navbar .movil{
+        display: flex;
+    }
+    header.header nav.navbar .burger{
+        display: inline-block;
+    }
+    .mnu__overlay{
+        background-color: #0000009e;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 9;
+    }
+    header.header nav.navbar .menu{
+        background-color: #232323;
+        position: fixed;
+        width: 320px;
+        top: 0;
+        left: -320px;
+        height: 100%;
+        z-index: 10;
+        transition: left .4s ease;
+    }
+    header.header nav.navbar .menu.open{
+        left: 0;
+    }
+    header.header nav.navbar .menu ul{
+        flex-direction: column;
+    }
+}
+@media (max-width: 768px){
+    header.header nav.navbar .panel{
+        gap: 10px;
+    }
+    header.header nav.navbar .panel .user .name{
+        display: none;
+    }
+    header.header nav.navbar .panel .user .avatar img{
+        width: 34px;
+        height: 34px;
+    }
+    header.header nav.navbar .panel .logout button{
+        padding: 6px;
+    }
+    header.header nav.navbar .panel .logout button svg{
+        width: 20px;
+        height: auto;
     }
 }
 @media (max-width: 620px){
@@ -226,22 +354,5 @@ header.header nav.navbar .panel{
     }
     header.header nav.navbar .menu ul{
         gap: 15px;
-    }
-    header.header nav.navbar .panel{
-        gap: 10px;
-    }
-    header.header nav.navbar .panel .user .name{
-        display: none;
-    }
-    header.header nav.navbar .panel .user .avatar img{
-        width: 34px;
-        height: 34px;
-    }
-    header.header nav.navbar .panel .logout button{
-        padding: 6px;
-    }
-    header.header nav.navbar .panel .logout button svg{
-        width: 20px;
-        height: auto;
     }
 }

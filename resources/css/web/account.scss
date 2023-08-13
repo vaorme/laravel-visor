@@ -220,6 +220,7 @@
                 #choose{
                     display: flex;
                     height: 100%;
+                    min-height: 80px;
                     cursor: pointer;
                     align-items: center;
                     justify-content: center;
@@ -239,9 +240,11 @@
         overflow: hidden;
     }
     .form .form__cover .preview img{
+        object-fit: cover;
         min-height: 300px;
         opacity: 0;
         visibility: hidden;
+        object-position: center;
         transition: opacity 0.2s ease, visibility 0.2s ease;
     }
     .form .form__cover .preview img.show{
@@ -309,5 +312,13 @@
                 font-size: 1rem;
             }
         }
+    }
+}
+@media (max-width: 1024px){
+    #app main.main .main__wrap.account{
+        padding: 0;
+    }
+    #app main.main .main__wrap.account .form{
+        grid-template-columns: 100%;
     }
 }
