@@ -11,13 +11,15 @@ use Illuminate\Http\Request;
 class ViewerChapter extends Controller{
     public function index(Request $request){
         $manga = Manga::where('slug', '=', $request->manga_slug)->get()->first();
-
         if($manga->status != "published"){
             return abort(404);
         }
 
         $chapters = Chapter::where('manga_id', '=', $manga->id)->orderBy('id', 'desc')->get();
         $currentChapter = Chapter::where('slug', '=', $request->chapter_slug)->where('manga_id', '=', $manga->id)->get()->first();
+        if(!$currentChapter){
+            return abort(404);
+        }
 
         $count = new ViewCount;
         $manga->viewCount()->save($count);
