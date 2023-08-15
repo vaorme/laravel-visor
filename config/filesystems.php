@@ -73,7 +73,7 @@ return [
             'host' => env('FTP_HOST'),
             'username' => env('FTP_USERNAME'),
             'password' => env('FTP_PASSWORD'),
-            'url' => 'https://s3-1.imgs-knight.xyz/i',
+            'url' => 'https://s3.imgs-knight.xyz/',
             // Optional FTP Settings...
             'port' => env('FTP_PORT', 21),
             'root' => "/",

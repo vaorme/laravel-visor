@@ -3,12 +3,14 @@
 use App\Http\Controllers\MangaDetailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShortcutsController;
+use App\Http\Controllers\uploadChaptersController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\web\LibraryController;
 use App\Http\Controllers\web\ViewerChapter;
 use App\Http\Controllers\web\WebUserController;
 use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,7 +95,6 @@ Route::prefix('v')->group(function(){
     ->where(['reader_type' => 'paginado', 'current_page' => '[0-9]+'])
     ->name('chapter_viewer.index'); 
 });
-
 
 require __DIR__.'/admin.php';
 

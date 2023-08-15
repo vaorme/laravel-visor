@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Config;
 use App\Models\Chapter;
 use App\Models\Manga;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -252,5 +252,72 @@ class ChaptersController extends Controller{
             'msg' => "Eliminado correctamente",
             'id' => $id
         ]);
+    }
+    public function createChapter(Request $request, $mangaid){
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'max:50'],
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
+            'images.*' => 'mimes:jpg,jpeg,png,gif'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'msg' => $validator->errors()->all()
+            ]);
+        }
+        
+        $response = [];
+        $images = [];
+        $count = "";
+        
+        // Get manga slug
+        $mangaSlug = Manga::firstWhere('id', '=', $mangaid);
+
+        $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $request->slug)->exists();
+        if($chapterExists){
+            $response = [
+                "status" => "error",
+                "msg" => "Ups, ya existe un capitulo con el slug $request->slug"
+            ];
+            return $response;
+        }
+
+        $orderChapters = Chapter::where('manga_id', $mangaid)->orderBy('id', 'DESC')->first();
+        if($orderChapters){
+            $count = $orderChapters->order + 1;
+        }else{
+            $count = 1;
+        }
+
+        $chapter = new Chapter;
+
+        $chapter->order = $count;
+        $chapter->name = $request->name;
+        $chapter->slug = $request->slug;
+        $chapter->type = $request->chaptertype;
+        $chapter->disk = $request->disk;
+        if(!empty($request->price)){
+            $chapter->price = $request->price;
+        }
+        if(!empty($request->content)){
+            $chapter->content = $request->content;
+        }
+        $chapter->manga_id = $mangaid;
+
+        if($chapter->save()){
+            $response = [
+                "status" => "success",
+                "msg" => "Capítulo $chapter->name creado",
+                "item" => $chapter,
+                "manga_slug" => $mangaSlug->slug
+            ];
+            return $response;
+        }
+        $response = [
+            "status" => "error",
+            "msg" => "Ups, algo paso",
+            "item" => $chapter
+        ];
+        return $response;
     }
 }

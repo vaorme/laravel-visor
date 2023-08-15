@@ -13,7 +13,7 @@ import './users'
 import './permissions'
 
 // :ROLES
-import './roles'
+import './roles';
 
 let tabla = document.querySelector('.table');
 if(tabla){

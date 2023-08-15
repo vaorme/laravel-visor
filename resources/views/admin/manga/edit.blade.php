@@ -308,6 +308,7 @@
         <div class="md-content">
             <form action="{{ route('chapters.store', ['mangaid' => $manga->id]) }}" method="post" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="manga_id" value="{{ $manga->id }}">
                 <div class="group">
                     <label for="ct-name">Name</label>
                     <input type="text" name="name" id="ct-name">

@@ -8,6 +8,7 @@ use App\Models\Chapter;
 use App\Models\Manga;
 use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class uploadChaptersController extends Controller{
 
@@ -299,11 +300,6 @@ class uploadChaptersController extends Controller{
                     'data' => $eliminado
                 ]);
             }
-        }else{
-            return response()->json([
-                'msg' => "No se encontro archivo o no pudo ser eliminado",
-                'data' => $exists
-            ]);
         }
 
         array_splice($imagenes, $request->index, 1);
@@ -363,6 +359,51 @@ class uploadChaptersController extends Controller{
                 "msg" => $e->getMessage()
             ];
         }
+    }
+    public function uploadSingleImage(Request $request){
+        $validator = Validator::make($request->all(), [
+            'image' => 'mimes:jpg,jpeg,png,gif'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'msg' => $validator->errors()->all()
+            ]);
+        }
+        $chapter = Chapter::find($request->chapter_id);
+        $mangaSlug = Manga::firstWhere('id', '=', $chapter->manga_id);
+
+        $dbImages = json_decode($chapter->images);
+
+        if($request->has('image')){
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $file = $request->file('image');
+            $originalName = $file->getClientOriginalName();
+            $extensionFile = $file->getClientOriginalExtension();
+            $check = in_array($extensionFile, $allowedExtensions);
+            if($check){
+                Storage::disk($request->disk)->putFileAs("manga/".$mangaSlug->slug."/".$chapter->slug, $file, $originalName);
+                $dbImages[] = "manga/".$mangaSlug->slug."/".$chapter->slug."/".$originalName; 
+            }
+            $response['excluded'][] = "$originalName fue excluido, solo puedes subir jpg, jpeg, png, gif";
+        }
+        $chapter->images = json_encode($dbImages);
+
+        if($chapter->save()){
+            return response()->json([
+                'msg' => 'Subida completada',
+                "status" => "success",
+                'data' => $dbImages
+            ]);
+        }else{
+            return response()->json([
+                'error' => "algo paso"
+            ]);
+        }
+        return response()->json([
+            "status" => "success",
+            "msg" => "Imagen subida",
+        ]);
     }
 
     /**

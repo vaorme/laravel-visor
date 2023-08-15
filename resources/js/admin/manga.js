@@ -332,6 +332,7 @@ if(createChapter){
         let formData = new FormData(chapterForm);
 
         let fieldToken = formData.get('_token')
+        let fieldMangaId = formData.get('manga_id');
         let fieldName = formData.get('name');
         let fieldSlug = formData.get('slug');
         let fieldDisk = formData.get('disk');
@@ -381,23 +382,21 @@ if(createChapter){
 
         formData.append('content', JSON.stringify(createEncodeData));
         let fieldContent = formData.get('content');
-
-        await axios.post(chapterForm.action, {
+        
+        await axios.post(route('createChapter.store', [fieldMangaId]), {
             _token: fieldToken,
             name: fieldName,
             slug: fieldSlug,
             price: fieldPrice,
             disk: fieldDisk,
             chaptertype: fieldType,
-            content: fieldContent,
-            images: previewFiles
+            content: fieldContent
         }, {
             headers:{
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 'Content-Type': 'multipart/form-data'
             }
         }).then(function (response){
-            // handle success
             let data = response.data;
             if(data['excluded']){
                 let excluded = data['excluded'];
@@ -414,64 +413,105 @@ if(createChapter){
                 })
             }
             if(response.data.status == "success"){
-                Toastify({
-                    text: response.data.msg,
-                    className: "success",
-                    duration: 5000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "center", // `left`, `center` or `right`
-                }).showToast();
-                let item = response.data.item;
-                let manga_slug = response.data.manga_slug;
-                let divItem = document.createElement('div');
-                divItem.classList.add('item');
-                divItem.setAttribute('id', 'm-'+item.id)
-                divItem.innerHTML = `
-                    <div class="name">
-                        ${item.name}
-                    </div>
-                    <div class="actions">
-                        <a href="${route('chapter_viewer.index', {manga_slug,chapter_slug: item.slug})}" data-id="${item.id}" class="botn view" target="_blank">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M7 4v16l13 -8z" />
-                            </svg>
-                        </a>
-                        <a href="#" data-id="${item.id}" class="botn edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
-                                <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
-                            </svg>
-                        </a>
-                        <a href="#" data-id="${item.id}" class="botn delete">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <line x1="4" y1="7" x2="20" y2="7" />
-                                <line x1="10" y1="11" x2="10" y2="17" />
-                                <line x1="14" y1="11" x2="14" y2="17" />
-                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                            </svg>
-                        </a>
-                    </div>
-                `;
-                listChapters.append(divItem);
-                setTimeout(function(){
-                    previewFiles = [];
-                    limpiarPreview();
-                    clearBodyScroll();
-                    chapterForm.reset();
+                const { id, manga_id } = response.data.item;
+                let res = new Promise(async (resolve, reject) => {
+                    const arrayImages = Object.values(previewFiles);
+                    if(arrayImages.length > 0){
+                        let count = 0;
+                        for(const item of arrayImages){
+                            const imageStatus = document.querySelector('#image-'+ count);
+                            imageStatus.children[1].addClass('spin');
+                            await axios.post(route('uploadSingle.store'), {
+                                chapter_id: id,
+                                manga_id,
+                                disk: fieldDisk,
+                                image: item
+                            }, {
+                                headers:{
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            }).then(function (response){
+                                console.log(response);
+                                if(response.data.status == "success"){
+                                    imageStatus.children[1].addClass('uploaded');
+                                    imageStatus.children[1].innerHTML = '<i class="fa-solid fa-check"></i>';
+                                }
+                            })
+                            .catch(function (error){
+                                // handle error
+                                console.log('error: ',error);
+                            });
+                            console.log(count);
+                            if(count === arrayImages.length -1){
+                                resolve()
+                            }
+                            count++;
+                        }
+                    }else{
+                        resolve()
+                    }
+                });
+                res.then(() => {
+                    Toastify({
+                        text: response.data.msg,
+                        className: "success",
+                        duration: 5000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                    }).showToast();
+                    let item = response.data.item;
+                    let manga_slug = response.data.manga_slug;
+                    let divItem = document.createElement('div');
+                    divItem.classList.add('item');
+                    divItem.setAttribute('id', 'm-'+item.id)
+                    divItem.innerHTML = `
+                        <div class="name">
+                            ${item.name}
+                        </div>
+                        <div class="actions">
+                            <a href="${route('chapter_viewer.index', {manga_slug,chapter_slug: item.slug})}" data-id="${item.id}" class="botn view" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M7 4v16l13 -8z" />
+                                </svg>
+                            </a>
+                            <a href="#" data-id="${item.id}" class="botn edit">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+                                    <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+                                </svg>
+                            </a>
+                            <a href="#" data-id="${item.id}" class="botn delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <line x1="4" y1="7" x2="20" y2="7" />
+                                    <line x1="10" y1="11" x2="10" y2="17" />
+                                    <line x1="14" y1="11" x2="14" y2="17" />
+                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                </svg>
+                            </a>
+                        </div>
+                    `;
+                    listChapters.append(divItem);
+                    setTimeout(function(){
+                        previewFiles = [];
+                        limpiarPreview();
+                        clearBodyScroll();
+                        chapterForm.reset();
 
-                    createContentEditor.destroy();
+                        createContentEditor.destroy();
 
-                    tManga.removeClass('hidden');
-                    tNovel.addClass('hidden');
+                        tManga.removeClass('hidden');
+                        tNovel.addClass('hidden');
 
-                    createChapter.removeClass('opn');
-                }, 1000)
+                        createChapter.removeClass('opn');
+                    }, 1000)
+                });
             }else{
                 let error = response.data.status;
                 if(error == "error"){
@@ -486,17 +526,13 @@ if(createChapter){
                     }).showToast();
                 }
             }
-            console.log(response);
         })
         .catch(function (error){
             // handle error
             console.log('error: ',error);
         });
-    });   
+    });
 }
-
-
-
 function generarImagenesPreview(images){
     limpiarPreview();
     let previewBox = document.querySelector('#t-preview');
@@ -516,6 +552,9 @@ function generarImagenesPreview(images){
         imageDiv.setAttribute('index', cuentaFinal);
         imageDiv.innerHTML = `
             <img src="${imageUrl}" alt="preview" />
+            <div class="up-status">
+                <i class="fa-solid fa-circle-notch"></i>
+            </div>
             <div class="c-remove" data-index="${cuentaFinal}">
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </div>
@@ -875,6 +914,7 @@ document.addEventListener('click', function (e) {
                 <div class="md-content">
                     <form action="${route('chapters.update', [chapter.id])}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="${csrf}">
+                        <input type="hidden" name="manga_id" value="${chapter.manga_id}">
                         <div class="group">
                             <label for="ct-name">Name</label>
                             <input type="text" name="name" id="ct-name" value="${chapter.name}">
@@ -1348,36 +1388,10 @@ function closeUpdateModal(){
     clearBodyScroll();
 }
 
-function subirGenerarImagenes(images, mangaid, chapterid){
+async function subirGenerarImagenes(images, mangaid, chapterid){
     limpiarPreview();
 
     let disk = document.querySelector('#updateChapter.modal-chapter .md-content form .upload input:checked').value;
-
-    axios.post(route('subirChapter.imagenes', [mangaid]), {
-        images,
-        chapterid,
-        disk
-    }, {
-        headers:{
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-            'Content-Type': 'multipart/form-data'
-        }
-    }).then(function (response){
-        console.log(response);
-        Toastify({
-            text: response.data.msg,
-            className: "success",
-            duration: 5000,
-            newWindow: true,
-            close: true,
-            gravity: "top",
-            position: "center",
-        }).showToast();
-    })
-    .catch(function (error){
-        console.log('error: ',error);
-    });
-    
     let previewBox = document.querySelector('#u-preview');
     let lastItem = document.querySelector('#u-preview .item:last-of-type');
     let cuentaIndex;
@@ -1395,6 +1409,9 @@ function subirGenerarImagenes(images, mangaid, chapterid){
         imageDiv.setAttribute('index', cuentaFinal);
         imageDiv.innerHTML = `
             <img src="${imageUrl}" alt="preview" />
+            <div class="up-status">
+                <i class="fa-solid fa-circle-notch"></i>
+            </div>
             <div class="u-remove" data-index="${cuentaFinal}">
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </div>
@@ -1402,6 +1419,56 @@ function subirGenerarImagenes(images, mangaid, chapterid){
 
         previewBox.append(imageDiv);
     }
+    let res = new Promise(async (resolve, reject) => {
+        const arrayImages = Object.values(images);
+        let count = 0;
+        let altCount = 0;
+        if(lastItem){
+            count = Number(lastItem.getAttribute('index')) + 1;
+        }
+        for(const item of arrayImages){
+            const imageStatus = document.querySelector('#image-'+ count);
+            imageStatus.children[1].addClass('spin');
+            await axios.post(route('uploadSingle.store'), {
+                chapter_id: chapterid,
+                manga_id: mangaid,
+                disk,
+                image: item
+            }, {
+                headers:{
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(function (response){
+                console.log(response);
+                if(response.data.status == "success"){
+                    imageStatus.children[1].addClass('uploaded');
+                    imageStatus.children[1].innerHTML = '<i class="fa-solid fa-check"></i>';
+                }
+            })
+            .catch(function (error){
+                // handle error
+                console.log('error: ',error);
+            });
+            console.log(altCount, arrayImages.length);
+            if(altCount === arrayImages.length -1){
+                resolve()
+            }
+            altCount++;
+            count++;
+        }
+    });
+    res.then(() => {
+        Toastify({
+            text: "Imagenes agregadas",
+            className: "success",
+            duration: 5000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+        }).showToast();
+    });
 }
 
 // :VALIDATE Update & Create Manga

@@ -87,6 +87,9 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 
         /* MANGA CHAPTERS */
         Route::prefix('chapters')->group(function(){
+            Route::post('/create-chapter/{mangaid}', [ChaptersController::class, 'createChapter'])->middleware(['permission:chapters.create'])->name('createChapter.store');
+            Route::post('/upload-single-image', [uploadChaptersController::class, 'uploadSingleImage'])->middleware(['permission:chapters.create'])->name('uploadSingle.store');
+
             Route::post('uploadChapter/{mangaid}', [uploadChaptersController::class, 'store'])->middleware(['permission:chapters.store'])->name('uploadChapter.store');
 
             Route::post('getChapter/{mangaid}', [ChaptersController::class, 'show'])->middleware(['permission:chapters.index'])->name('chapters.show');
