@@ -5,7 +5,7 @@
 		<li class="{{ (request()->is('controller/roles')) ? 'active' : '' }}"><a href="{{ route('roles.index') }}">Roles</a></li>
     </x-admin.nav>
     <x-admin.bar title="Usuarios" :buttonTo="route('users.create')" buttonText="Crear usuario"/>
-    <div class="contain">
+    <div class="contain d__users">
         @if (Session::has('success'))
             <div class="alertas success">
                 <div class="box">
@@ -33,6 +33,9 @@
             </script>
         @endif
         @if ($loop->isNotEmpty())
+        @php
+            $other = $loop->links('vendor.pagination.default');
+        @endphp
         <div class="table">
             <table id="tablr">
                 <thead>
@@ -73,6 +76,8 @@
                     @endforeach
                 </tbody>
             </table>
+            {{ $other }}
+            
         </div>
         @else
             <div class="empty">

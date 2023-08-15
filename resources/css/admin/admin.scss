@@ -1788,3 +1788,82 @@ main.main{
         }
     }
 }
+
+main.main .box .contain.d__users .table .datatable-wrapper .datatable-bottom{
+    display: none !important;
+}
+
+// :PAGINATOR
+main.main .box .contain .paginator{
+    display: grid;
+    padding: 2rem;
+    border-radius: 12px;
+    grid-template-columns: repeat(3, 33.33%);
+    justify-content: space-between;
+}
+main.main .box .contain .paginator .paginator__results{
+    font-size: 14px;
+    color: #939393;
+}
+main.main .box .contain .paginator .paginator__links,
+main.main .box .contain .paginator .paginator__links ul.pagination{
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+main.main .box .contain .paginator .paginator__links{
+    gap: 15px;
+}
+main.main .box .contain .paginator .paginator__links ul.pagination .page__link{
+    background-color: #292929;
+    color: #fff;
+    font-size: 14px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    outline: none;
+    border-radius: 4px;
+    align-items: center;
+    font-weight: 500;
+    justify-content: center;
+    transition: background .2s ease;
+}
+main.main .box .contain .paginator .paginator__links ul.pagination .page__link:hover{
+    background-color: #313030;
+}
+main.main .box .contain .paginator .paginator__links ul.pagination .page__link.active{
+    background-color: theme('colors.vo-red');
+}
+main.main .box .contain .paginator .paginator__links .link__navigation .page__link{
+    background-color: #292929;
+    display: flex;
+    font-weight: 500;
+    height: 100%;
+    padding: 5px 26px;
+    border-radius: 6px;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease;
+}
+main.main .box .contain .paginator .paginator__links .link__navigation .page__link:hover{
+    background-color: theme('colors.vo-red');
+}
+@media (max-width: 1440px){
+    main.main .box .contain .paginator{
+        grid-template-columns: 100%;
+        gap: 1.5rem;
+        text-align: center;
+    }
+}
+@media (max-width: 1024px){
+    main.main .box .contain .paginator .paginator__links{
+        flex-direction: column;
+    }
+    main.main .box .contain .paginator .paginator__links .link__navigation .page__link{
+        width: 100%;
+        padding: 1rem;
+    }
+    main.main .box .contain .paginator .paginator__links ul.pagination{
+        flex-wrap: wrap;
+    }
+}

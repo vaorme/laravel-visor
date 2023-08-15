@@ -26,7 +26,7 @@ class UserController extends Controller{
         $this->disk = config('app.disk');
     }
     public function index(){
-        $users = User::get();
+        $users = User::paginate(15);
         return view('admin.users.index', ['loop' => $users]);
     }
 
