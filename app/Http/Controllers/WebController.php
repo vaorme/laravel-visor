@@ -49,19 +49,20 @@ class WebController extends Controller{
 			$topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->limit(10)->get();
 			Cache::put('top_month', $topMonthly, Carbon::now()->endOfWeek());
 		}
-		if (Cache::has('home_slider')) {
-			$slider = Cache::get('home_slider');
-		} else {
-			$slider = Slider::get();
-			Cache::put('home_slider', $slider, Carbon::now()->endOfMonth());
-		}
-
-		if (Cache::has('categories_home')) {
-			$categories = Cache::get('categories_home');
-		} else {
-			$categories = Category::has('mangas')->inRandomOrder()->limit(4)->get();
-			Cache::put('categories_home', $categories, Carbon::now()->endOfMonth());
-		}
+		// if (Cache::has('home_slider')) {
+		// 	$slider = Cache::get('home_slider');
+		// } else {
+		// 	$slider = Slider::get();
+		// 	Cache::put('home_slider', $slider, Carbon::now()->endOfMonth());
+		// }
+		$slider = Slider::get();
+		$categories = Category::has('mangas')->inRandomOrder()->limit(4)->get();
+		// if (Cache::has('categories_home')) {
+		// 	$categories = Cache::get('categories_home');
+		// } else {
+		// 	$categories = Category::has('mangas')->inRandomOrder()->limit(4)->get();
+		// 	Cache::put('categories_home', $categories, Carbon::now()->endOfMonth());
+		// }
 
 		$viewData = [
 			'categories' => $categories,
