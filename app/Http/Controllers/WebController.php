@@ -63,13 +63,6 @@ class WebController extends Controller{
 			Cache::put('categories_home', $categories, Carbon::now()->endOfMonth());
 		}
 
-		if (Cache::has('categories_home')) {
-			$categories = Cache::get('categories_home');
-		} else {
-			$categories = Category::has('mangas')->inRandomOrder()->limit(3)->get();
-			Cache::put('categories_home', $categories);
-		}
-
 		$viewData = [
 			'categories' => $categories,
 			'mostViewed' => $mostViewed,
