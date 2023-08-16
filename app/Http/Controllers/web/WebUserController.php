@@ -12,6 +12,7 @@ use App\Models\UserViewChapter;
 use App\Models\UserViewManga;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -449,6 +450,11 @@ class WebUserController extends Controller{
         $rate->rating = number_format($request->params['rating']);
 
         if($rate->save()){
+            Cache::forget('home_slider');
+            Cache::forget('most_viewed');
+            Cache::forget('manga_shortcuts');
+            Cache::forget('categories_home');
+            Cache::forget('top_month');
             return response()->json([
                 'status' => "success",
                 'message' => "Calificado"

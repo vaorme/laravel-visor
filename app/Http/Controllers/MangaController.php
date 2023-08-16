@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\Tag;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 use ManipulateImage;
@@ -111,6 +112,7 @@ class MangaController extends Controller{
         $manga->new_chapters_date = $request->new_chapters_date;
 
         if($manga->save()){
+            Cache::forget('manga_shortcuts');
             if(isset($request->categories)){
                 foreach($request->categories as $cat){
                     $category = new MangaHasCategory;
@@ -277,6 +279,7 @@ class MangaController extends Controller{
         }
 
         if($manga->save()){
+            Cache::forget('manga_shortcuts');
             return redirect()->route('manga.edit', ['id' => $manga->id])->with('success', 'Manga actualizado correctamente');
         }
     }
@@ -292,6 +295,14 @@ class MangaController extends Controller{
         $path = "/manga/$manga->slug";
         $delete = Manga::destroy($id);
         if($delete){
+            // Clear cache
+            Cache::forget('home_slider');
+            Cache::forget('most_viewed');
+            Cache::forget('new_chapters_novel');
+            Cache::forget('new_chapters_manga');
+            Cache::forget('manga_shortcuts');
+            Cache::forget('categories_home');
+            Cache::forget('top_month');
             if(Storage::disk($this->disk)->exists($path)){
                 Storage::disk($this->disk)->deleteDirectory($path);
             }

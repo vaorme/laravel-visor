@@ -6,6 +6,7 @@ use App\Models\Manga;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller{
@@ -58,6 +59,7 @@ class SliderController extends Controller{
         }
 
         if($store->save()){
+            Cache::forget('home_slider');
             return redirect()->route('slider.index')->with('success', 'Elemento correctamente');
         }
         return redirect()->route('slider.index')->with('error', 'Ups, se complico la cosa');
@@ -96,6 +98,7 @@ class SliderController extends Controller{
         }
 
         if($update->save()){
+            Cache::forget('home_slider');
             return redirect()->route('slider.index')->with('success', 'Elemento correctamente');
         }
         return redirect()->route('slider.index')->with('error', 'Ups, se complico la cosa');
@@ -109,6 +112,7 @@ class SliderController extends Controller{
             Storage::disk($this->disk)->delete($delete->logo);
         }
         if($delete->delete()){
+            Cache::forget('home_slider');
             $response['msg'] = "Elemento eliminada correctamente.";
         }else{
             $response['msg'] = "Ups, algo salio mal socio.";

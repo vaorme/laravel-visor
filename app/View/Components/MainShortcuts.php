@@ -7,6 +7,7 @@ use App\Models\Shortcut;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\Component;
 
 class MainShortcuts extends Component
@@ -23,7 +24,12 @@ class MainShortcuts extends Component
      * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string{
-        $mangas = Manga::where('manga.status', '=', 'published')->get();
+        if (Cache::has('manga_shortcuts')) {
+			$mangas = Cache::get('manga_shortcuts');
+		} else {
+			$mangas = Manga::where('manga.status', '=', 'published')->get();
+			Cache::put('manga_shortcuts', $mangas);
+		}
         $user = Auth::user();
         $viewData = [
             'mangas' => $mangas,

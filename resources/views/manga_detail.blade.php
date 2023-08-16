@@ -15,12 +15,12 @@
                 <div class="manga__terms">
                     @if ($manga->demography)
                         <div class="manga__demography {{ $manga->demography->slug }}">
-                            <a href="{{ $manga->demography->slug }}">{{ $manga->demography->name }}</a>
+                            <a href="{{ $manga->demography->url() }}">{{ $manga->demography->name }}</a>
                         </div>
                     @endif
                     @if ($manga->type)
                         <div class="manga__type {{ $manga->type->slug }}">
-                            <a href="{{ $manga->type->slug }}">{{ $manga->type->name }}</a>
+                            <a href="{{ $manga->type->url() }}">{{ $manga->type->name }}</a>
                         </div>
                     @endif
                 </div>

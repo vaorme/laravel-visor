@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chapter;
 use App\Models\Manga;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -106,6 +107,8 @@ class ChaptersController extends Controller{
         $chapter->manga_id = $mangaid;
 
         if($chapter->save()){
+            Cache::forget('new_chapters_manga');
+            Cache::forget('new_chapters_novel');
             $response = [
                 "status" => "success",
                 "msg" => "Capítulo $chapter->name creado",
@@ -211,6 +214,8 @@ class ChaptersController extends Controller{
         $chapter->disk = $request->disk;
 
         if($chapter->save()){
+            Cache::forget('new_chapters_manga');
+            Cache::forget('new_chapters_novel');
             $response = [
                 "status" => "success",
                 "msg" => "Capítulo $chapter->name actualizado",
@@ -246,7 +251,8 @@ class ChaptersController extends Controller{
                 'msg' => "Ups, algo paso",
             ]);
         }
-
+        Cache::forget('new_chapters_manga');
+        Cache::forget('new_chapters_novel');
         return response()->json([
             'status' => "success",
             'msg' => "Eliminado correctamente",
@@ -305,6 +311,8 @@ class ChaptersController extends Controller{
         $chapter->manga_id = $mangaid;
 
         if($chapter->save()){
+            Cache::forget('new_chapters_manga');
+            Cache::forget('new_chapters_novel');
             $response = [
                 "status" => "success",
                 "msg" => "Capítulo $chapter->name creado",

@@ -31,7 +31,7 @@ class ShortcutsController extends Controller{
             ]);
         }
         $count = Shortcut::where('user_id', '=', $id)->count();
-        if($count >= 16){
+        if($count >= 20){
             return response()->json([
                 'status' => "error",
                 'msg' => "Limite de atajos alcanzado"

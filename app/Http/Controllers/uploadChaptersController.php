@@ -6,6 +6,7 @@ use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use App\Models\Chapter;
 use App\Models\Manga;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -344,7 +345,8 @@ class uploadChaptersController extends Controller{
             $mangaSlug = Manga::firstWhere('id', '=', $mangaid);
             
             $create->save();
-
+            Cache::forget('new_chapters_manga');
+            Cache::forget('new_chapters_novel');
             return [
                 "status" => "success",
                 "msg" => "Chapter $create->name created",
