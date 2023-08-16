@@ -21,8 +21,8 @@ class ViewerChapter extends Controller{
             return abort(404);
         }
 
-        $count = new ViewCount;
-        $manga->viewCount()->save($count);
+        // $count = new ViewCount;
+        // $manga->viewCount()->save($count);
 
         $viewData = [
             'manga' => $manga,

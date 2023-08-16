@@ -6,6 +6,7 @@ use App\Models\Setting;
 use App\Models\SettingAds;
 use App\Models\SettingSeo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller{
@@ -64,6 +65,7 @@ class SettingsController extends Controller{
             $update->favicon = 'images/site/favicon/favicon-site.'.$avatarExtension;
         }
         if($update->save()){
+            Cache::forget('settings');
             return redirect()->route('settings.index')->with('success', 'Configuración actualizada');
         }
         return redirect()->route('settings.index')->with('error', 'Ups, se complico la cosa');
@@ -95,6 +97,7 @@ class SettingsController extends Controller{
         $store->ads_10 = $request->ads_10;
         
         if($store->save()){
+            Cache::forget('settings_ads');
             return redirect()->route('settings.ads.index')->with('success', 'ADS Creados');
         }
         return redirect()->route('settings.ads.index')->with('error', 'Ups, se complico la cosa');
@@ -113,6 +116,7 @@ class SettingsController extends Controller{
         $update->ads_10 = $request->ads_10;
         
         if($update->save()){
+            Cache::forget('settings_ads');
             return redirect()->route('settings.ads.index')->with('success', 'ADS actualizados');
         }
         return redirect()->route('settings.ads.index')->with('error', 'Ups, se complico la cosa');
@@ -140,6 +144,7 @@ class SettingsController extends Controller{
         $store->seo_robots = $request->seo_robots;
         
         if($store->save()){
+            Cache::forget('settings_seo');
             return redirect()->route('settings.seo.index')->with('success', 'SEO Creado');
         }
         return redirect()->route('settings.seo.index')->with('error', 'Ups, se complico la cosa');
@@ -154,6 +159,7 @@ class SettingsController extends Controller{
         $update->seo_robots = $request->seo_robots;
         
         if($update->save()){
+            Cache::forget('settings_seo');
             return redirect()->route('settings.seo.index')->with('success', 'SEO actualizado');
         }
         return redirect()->route('settings.seo.index')->with('error', 'Ups, se complico la cosa');

@@ -22,8 +22,8 @@ class MangaDetailController extends Controller{
         if($manga->status != "published"){
             return abort(404);
         }
-        $count = new ViewCount;
-        $manga->viewCount()->save($count);
+        // $count = new ViewCount;
+        // $manga->viewCount()->save($count);
 
         $viewedChapters = UserViewChapter::where('user_id', '=', Auth::id())
         ->join('chapters', 'chapters.id', '=', 'chapter_id')
