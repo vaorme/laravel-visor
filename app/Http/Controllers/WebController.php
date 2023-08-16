@@ -43,12 +43,13 @@ class WebController extends Controller{
 			Cache::put('new_chapters_novel', $newChapterNovel->slice(0, 15), Carbon::now()->endOfWeek());
 		}
 
-		if (Cache::has('top_month')) {
-			$topMonthly = Cache::get('top_month');
-		} else {
-			$topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->limit(10)->get();
-			Cache::put('top_month', $topMonthly, Carbon::now()->endOfWeek());
-		}
+		// if (Cache::has('top_month')) {
+		// 	$topMonthly = Cache::get('top_month');
+		// } else {
+		// 	$topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->limit(10)->get();
+		// 	Cache::put('top_month', $topMonthly, Carbon::now()->endOfWeek());
+		// }
+		$topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->limit(10)->get();
 		// if (Cache::has('home_slider')) {
 		// 	$slider = Cache::get('home_slider');
 		// } else {
