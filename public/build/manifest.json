@@ -52,7 +52,7 @@
     "src": "public/assets/banner-loreg.jpg"
   },
   "resources/css/admin/admin.scss": {
-    "file": "assets/admin-9df2f5eb.css",
+    "file": "assets/admin-c858c81e.css",
     "isEntry": true,
     "src": "resources/css/admin/admin.scss"
   },
@@ -67,12 +67,12 @@
     "src": "resources/css/admin/slider.scss"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-a9267317.css",
+    "file": "assets/app-eaa2ea3a.css",
     "isEntry": true,
     "src": "resources/css/app.scss"
   },
   "resources/css/global.scss": {
-    "file": "assets/global-2b1350ae.css",
+    "file": "assets/global-ebe79727.css",
     "isEntry": true,
     "src": "resources/css/global.scss"
   },
@@ -82,7 +82,7 @@
     "src": "resources/css/loreg.scss"
   },
   "resources/css/web/account.scss": {
-    "file": "assets/account-8b27e233.css",
+    "file": "assets/account-b1357337.css",
     "isEntry": true,
     "src": "resources/css/web/account.scss"
   },
@@ -92,7 +92,7 @@
     "src": "resources/css/web/coloris.css"
   },
   "resources/css/web/library.scss": {
-    "file": "assets/library-a8a6907c.css",
+    "file": "assets/library-bdbbd058.css",
     "isEntry": true,
     "src": "resources/css/web/library.scss"
   },
@@ -202,7 +202,7 @@
     "src": "resources/js/admin/library.js"
   },
   "resources/js/admin/manga.js": {
-    "file": "assets/manga-4c673dcf.js",
+    "file": "assets/manga-e75971a5.js",
     "imports": [
       "_helpers-c1bfa4e6.js",
       "_helpers-557a48c5.js"
@@ -256,7 +256,7 @@
     "src": "resources/js/web/account.js"
   },
   "resources/js/web/app.js": {
-    "file": "assets/app-bdedd29f.js",
+    "file": "assets/app-b812fea1.js",
     "imports": [
       "_toastify-f9ee0e47.js",
       "_helpers-557a48c5.js",
@@ -282,7 +282,7 @@
     "src": "resources/js/web/home.js"
   },
   "resources/js/web/library.js": {
-    "file": "assets/library-32ecc2a2.js",
+    "file": "assets/library-441353a3.js",
     "imports": [
       "_index-a8aa5ca2.js",
       "__commonjsHelpers-725317a4.js"
