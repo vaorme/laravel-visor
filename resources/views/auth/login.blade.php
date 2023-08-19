@@ -41,13 +41,17 @@
                 <div class="group buttons flex items-center justify-end">
                     @if (Route::has('password.request'))
                         <a href="{{ route('password.request') }}">
-                            {{ __('Olvidates tu contraseña?') }}
+                            {{ __('Forgot your password?') }}
                         </a>
                     @endif
 
                     <button type="submit">{{ __('Ingresar') }}</button>
                 </div>
             </form>
+            <div class="dont have__account">
+                <h4>{{ __('¿Aún no estás registrado?') }}</h4>
+                <a href="{{ route('register') }}" class="botn log bg-neutral-700 py-3 text-white px-8 rounded-lg text-center hover:bg-neutral-600 transition-colors"> Registrate</a>
+            </div>
         </div>
         <div class="banner"></div>
     </div>

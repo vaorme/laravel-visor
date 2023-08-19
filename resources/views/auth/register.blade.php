@@ -49,15 +49,16 @@
                 </div>
         
                 <div class="group buttons flex items-center justify-end">
-                    <a href="{{ route('login') }}">
-                        {{ __('Ya estás registrado?') }}
-                    </a>
         
                     <button type="submit">
                         {{ __('Registrarme') }}
                     </button>
                 </div>
             </form>
+            <div class="have__account">
+                <h4>{{ __('¿Ya estás registrado?') }}</h4>
+                <a href="{{ route('login') }}" class="botn log bg-neutral-700 py-3 text-white px-8 rounded-lg text-center hover:bg-neutral-600 transition-colors">Iniciar sesion</a>
+            </div>
         </div>
         <div class="banner"></div>
     </div>

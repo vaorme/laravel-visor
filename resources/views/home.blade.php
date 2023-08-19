@@ -97,26 +97,6 @@
 					</div>
 				</div>
 			</section>
-			@if ($categories->isNotEmpty())
-				<div class="home__categories">
-					@foreach ($categories as $category)
-						<section class="section section__cat">
-							<div class="section__title">
-								<h2>{{ $category->name }}</h2>
-							</div>
-							<div class="section__content">
-								<div class="manga">
-									<div class="manga__list">
-										@foreach ($category->mangas as $item)
-											<x-manga-loop-item :item="$item" />
-										@endforeach
-									</div>
-								</div>
-							</div>
-						</section>
-					@endforeach
-				</div>
-			@endif
 		</div>
 		<aside class="main__sidebar">
 			@if ($newChapterManga->isNotEmpty() || $newChapterNovel->isNotEmpty())

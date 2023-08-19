@@ -70,17 +70,7 @@ class WebController extends Controller{
 			Cache::put('home_slider', $slider, Carbon::now()->endOfMonth());
 		}
 
-
-		// $categories = Category::has('mangas')->inRandomOrder()->limit(4)->get();
-		if (Cache::has('categories_home')) {
-			$categories = Cache::get('categories_home');
-		} else {
-			$categories = Category::has('mangas')->inRandomOrder()->limit(4)->get();
-			Cache::put('categories_home', $categories, Carbon::now()->endOfMonth());
-		}
-
 		$viewData = [
-			'categories' => $categories,
 			'mostViewed' => $mostViewed,
 			'newChapterManga' => $newChapterManga,
 			'newChapterNovel' => $newChapterNovel,
