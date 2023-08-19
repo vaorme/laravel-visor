@@ -83,12 +83,12 @@ class MangaController extends Controller{
         $mangaSlug = $request->slug;
         $fileName = $imageFile->hashName();
         if($imageFile){
-            Storage::disk($this->disk)->makeDirectory('manga/'.$mangaSlug.'/cover');
+            Storage::disk($this->disk)->makeDirectory('covers/manga/'.$mangaSlug.'/cover');
 
             $img = ManipulateImage::make($imageFile->path())->resize(458, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->fit(458, 646);
-            $stored = Storage::disk($this->disk)->put('manga/'.$mangaSlug.'/cover/'.$fileName, $img->stream()->__toString());
+            $stored = Storage::disk($this->disk)->put('covers/manga/'.$mangaSlug.'/cover/'.$fileName, $img->stream()->__toString());
             //$stored = Storage::disk($this->disk)->putFile('manga/'.$mangaSlug.'/cover', new File($img->stream()));    
         }
 
@@ -96,7 +96,7 @@ class MangaController extends Controller{
         $manga = new Manga;
         $manga->order = $count;
         if(!empty($imageFile)){
-            $manga->featured_image = 'manga/'.$mangaSlug.'/cover/'.$fileName;
+            $manga->featured_image = 'covers/manga/'.$mangaSlug.'/cover/'.$fileName;
         }
         $manga->name = $request->name;
         $manga->alternative_name = $request->alternative_name;
@@ -113,6 +113,7 @@ class MangaController extends Controller{
 
         if($manga->save()){
             Cache::forget('manga_shortcuts');
+            Cache::forget('most_viewed');
             if(isset($request->categories)){
                 foreach($request->categories as $cat){
                     $category = new MangaHasCategory;
@@ -214,16 +215,16 @@ class MangaController extends Controller{
         $imageFile = $request->file('featured_image');
         $mangaSlug = $request->slug;
         if($imageFile){
-            Storage::disk($this->disk)->deleteDirectory('manga/'.$mangaSlug.'/cover');
-            Storage::disk($this->disk)->makeDirectory('manga/'.$mangaSlug.'/cover');
+            Storage::disk($this->disk)->deleteDirectory('covers/manga/'.$mangaSlug.'/cover');
+            Storage::disk($this->disk)->makeDirectory('covers/manga/'.$mangaSlug.'/cover');
 
             $img = ManipulateImage::make($imageFile->path())->resize(458, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->fit(458, 646);
             $fileName = $imageFile->hashName();
-            Storage::disk($this->disk)->put('manga/'.$mangaSlug.'/cover/'.$fileName, $img->stream()->__toString());
+            Storage::disk($this->disk)->put('covers/manga/'.$mangaSlug.'/cover/'.$fileName, $img->stream()->__toString());
 
-            $manga->featured_image = 'manga/'.$mangaSlug.'/cover/'.$fileName;
+            $manga->featured_image = 'covers/manga/'.$mangaSlug.'/cover/'.$fileName;
         }
 
         $manga->name = $request->name;
@@ -280,6 +281,7 @@ class MangaController extends Controller{
 
         if($manga->save()){
             Cache::forget('manga_shortcuts');
+            Cache::forget('most_viewed');
             return redirect()->route('manga.edit', ['id' => $manga->id])->with('success', 'Manga actualizado correctamente');
         }
     }

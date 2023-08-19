@@ -85,7 +85,7 @@
 				</div>
 				<div class="section__content">
 					<div class="manga">
-						@if (!$mostViewed->isEmpty())
+						@if ($mostViewed)
 							<div class="manga__list">
 								@foreach ($mostViewed as $item)
 									<x-manga-loop-item :item="$item" />
