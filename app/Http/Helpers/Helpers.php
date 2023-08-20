@@ -606,7 +606,7 @@ function editorJsToHtml($json) {
                 break;
             
             case 'image':
-                $html .= '<div class="img_pnl"><img src="'. $block->data->file->url .'" /></div>';
+                $html .= '<div class="img_pnl"><img src="'. $block->data->url .'" /></div>';
                 break;
             
             default:
