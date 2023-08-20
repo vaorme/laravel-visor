@@ -13,6 +13,7 @@ export default defineConfig({
                 'resources/css/admin/slider.scss',
                 // :MANGA
                 'resources/js/admin/manga.js',
+                'resources/js/admin/manga_extras.js',
 
                 // :WEB
 
@@ -31,6 +32,10 @@ export default defineConfig({
                 // WEB
                 'resources/js/web/app.js',
                 'resources/js/web/home.js',
+
+                // MEMBERS
+                'resources/css/web/users.scss',
+                'resources/js/web/users.js',
 
                 // :LIBRARY
                 'resources/js/web/library.js',

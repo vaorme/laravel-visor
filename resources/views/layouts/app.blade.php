@@ -32,6 +32,9 @@
         @if (Route::is(['library.index']))
             <link href="{{ Vite::asset('resources/css/web/library.scss') }}" rel="stylesheet">
         @endif
+        @if (Route::is(['members.index']))
+            <link href="{{ Vite::asset('resources/css/web/users.scss') }}" rel="stylesheet">
+        @endif
         @php
             $insertHead = config('app.head');
         @endphp
@@ -72,6 +75,9 @@
         @endif
         @if (Route::is(['library.index']))
             <script type="module" src="{{ Vite::asset('resources/js/web/library.js') }}"></script>
+        @endif
+        @if (Route::is(['members.index']))
+            <script type="module" src="{{ Vite::asset('resources/js/web/users.js') }}"></script>
         @endif
         <script id="dsq-count-scr" src="//new-nartag.disqus.com/count.js" async></script>
         <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.4/dist/lazyload.min.js"></script>

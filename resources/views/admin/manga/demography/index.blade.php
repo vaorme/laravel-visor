@@ -106,8 +106,8 @@
                     {{-- @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror --}}
-                    <div class="errores">
-                        @if ($errors->any())
+                    @if ($errors->any())
+                        <div class="errores">
                             <div class="alert alert-danger">
                                 <ul>
                                     @foreach ($errors->all() as $error)
@@ -115,8 +115,8 @@
                                     @endforeach
                                 </ul>
                             </div>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                     <button type="submit" class="botn success">{{ isset($edit)? "Actualizar" : 'Crear' }}</button>
                 </form>
             </div>

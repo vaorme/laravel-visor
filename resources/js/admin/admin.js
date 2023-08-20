@@ -32,7 +32,7 @@ if(tabla){
 
 // Template 1 Validation Form
 
-const templateOneForm = document.querySelector('.template-1 form.form');
+const templateOneForm = document.querySelector('.template-1 form.form:not(.editing)');
 if(templateOneForm){
     let ctRegex = /[^a-zA-Z0-9]+/g;
     let fieldName = document.querySelector('.template-1 form input[name="name"]');

@@ -50,7 +50,7 @@ class MangaDemographyController extends Controller
     {
         $request->validate([
             'name' => ['required', 'max:24'],
-            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:manga_demography',]
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:manga_demography']
         ]);
         
         $store = new MangaDemography;
@@ -99,7 +99,8 @@ class MangaDemographyController extends Controller
      */
     public function update(Request $request, $id){
         $request->validate([
-            'name' => ['required', 'max:24']
+            'name' => ['required', 'max:24'],
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
         ]);
         $update = MangaDemography::find($id);
 

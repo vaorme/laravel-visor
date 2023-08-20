@@ -85,7 +85,7 @@
         <aside class="side w-2/5">
             <div class="frmo">
                 <h2>{{ isset($edit)? "Editar" : 'Crear' }} permiso</h2>
-                <form action="{{ isset($edit)? route('permissions.update', ['id' => $edit->id]) : route('permissions.store') }}" class="form" method="POST">
+                <form action="{{ isset($edit)? route('permissions.update', ['id' => $edit->id]) : route('permissions.store') }}" class="form{{ (isset($edit))? ' editing' : null }}" method="POST">
                     @csrf
                     @if (isset($edit))
                         @method('PATCH')
@@ -97,8 +97,8 @@
                     {{-- @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror --}}
-                    <div class="errores">
-                        @if ($errors->any())
+                    @if ($errors->any())
+                        <div class="errores">
                             <div class="alert alert-danger">
                                 <ul>
                                     @foreach ($errors->all() as $error)
@@ -106,8 +106,8 @@
                                     @endforeach
                                 </ul>
                             </div>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                     <button type="submit" class="botn success">{{ isset($edit)? "Actualizar" : 'Crear' }}</button>
                 </form>
             </div>

@@ -50,7 +50,7 @@ class MangaTypeController extends Controller
     public function store(Request $request){
         $request->validate([
             'name' => ['required', 'max:24'],
-            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:manga_type',]
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:manga_type']
         ]);
 
         $store = new MangaType;
@@ -99,7 +99,8 @@ class MangaTypeController extends Controller
      */
     public function update(Request $request, $id){
         $request->validate([
-            'name' => ['required', 'max:24']
+            'name' => ['required', 'max:24'],
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
         ]);
 
         $update = MangaType::find($id);

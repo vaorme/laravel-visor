@@ -140,6 +140,16 @@ header.header nav.navbar .menu{
             a .item__text{
                 display: block;
             }
+            a .item__badge{
+                background-color: #9b2e2e;
+                position: absolute;
+                right: -8px;
+                top: -16px;
+                padding: 2px 4px;
+                font-size: 10px;
+                color: #fff;
+                border-radius: 5px;
+            }
             &.active, &:hover{
                 a{
                     color: #fff;
@@ -308,6 +318,12 @@ header.header nav.navbar .panel{
     }
     header.header nav.navbar .menu ul{
         flex-direction: column;
+    }
+    header.header nav.navbar .menu ul li a .item__badge{
+        right: 12px;
+        top: 50%;
+        z-index: 1;
+        transform: translateY(-50%);
     }
 }
 @media (max-width: 870px){

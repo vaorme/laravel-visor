@@ -20,6 +20,22 @@
         @if (Route::is(['manga.index', 'manga.create', 'manga.edit']))
             <script type="module" src="{{ Vite::asset('resources/js/admin/manga.js') }}"></script>
         @endif
+        @if (Route::is([
+            'manga_book_status.index',
+            'manga_book_status.create',
+            'manga_book_status.edit',
+            'manga_demography.index',
+            'manga_demography.create',
+            'manga_demography.edit',
+            'categories.index',
+            'categories.create',
+            'categories.edit',
+            'manga_types.index',
+            'manga_types.create',
+            'manga_types.edit',
+        ]))
+            <script type="module" src="{{ Vite::asset('resources/js/admin/manga_extras.js') }}"></script>
+        @endif
         @if (Route::is(['settings.index']) || Route::is(['settings.ads.index']) || Route::is(['settings.seo.index']))
             <link href="{{ Vite::asset('resources/css/admin/settings.scss') }}" rel="stylesheet">
         @endif

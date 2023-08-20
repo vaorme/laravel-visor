@@ -371,25 +371,42 @@
         color: #cfcfcf;
     }
     .manga__info .manga__extra .manga__status span.status__name{
+        position: relative;
         display: inline-flex;
         align-items: center;
+        padding: 8px 24px;
         gap: 10px;
+        z-index: 1;
         font-size: 16px;
-        color: #a3a3a3;
+        color: #ffffff;
         font-weight: 500;
         &::before{
-            background-color: #414141;
+            background: radial-gradient(circle at top left,transparent 25%,rgb(0 0 0 / 40%) 25.5%, rgb(0 0 0 / 40%) 36%, transparent 37%, transparent 100%),radial-gradient(circle at bottom right,transparent 34%,rgb(0 0 0 / 40%) 34.5%, rgb(0 0 0 / 40%) 45.5%, transparent 46%, transparent 100%);
+            background-size: 2em 2em;
+            background-color: #ec453a;
+            position: absolute;
             display: block;
             content: "";
-            width: 10px;
-            height: 10px;
+            opacity: .5;
+            z-index: -1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
             border-radius: 35px;
         }
         &.completed::before{
-            background-color: #36B286;
+            background-color: #df4b4b;
         }
-        &.ongoing::before{
-            background-color: #dd4619;
+        &.ongoing::before,
+        &.publishing::before{
+            background-color: #519b5a;
+        }
+        &.on-hiatus::before{
+            background-color: #1b858b;
+        }
+        &.unknown::before{
+            background-color: #777070;
         }
     }
     .manga__rating{

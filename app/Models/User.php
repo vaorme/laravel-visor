@@ -40,7 +40,10 @@ class User extends Authenticatable implements MustVerifyEmail{
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+    public function link(){
+        $link = route('profile.index', ['username' => $this->username]);
+        return $link;
+    }
     public function profile(){
         return $this->hasOne(Profile::class);
     }
@@ -51,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail{
         return $this->belongsToMany(Manga::class, UserHasFavorite::class)->where('manga.status', '=', 'published');
     }
     public function shortcutMangas(){
-        return $this->belongsToMany(Manga::class, UserShortcut::class)->where('manga.status', '=', 'published');
+        return $this->belongsToMany(Manga::class, UserShortcut::class)->where('manga.status', '=', 'published')->limit(20);
     }
     public function verifiedEmail(){
         return ($this instanceof MustVerifyEmail);

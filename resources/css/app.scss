@@ -252,6 +252,24 @@ div.toastify.error{
     border-radius: 6px;
     transform: translateX(-50%);
 }
+#app main.main .main__wrap.main__home aside.main__sidebar .section.buttons{
+	background-color: transparent;
+	display: grid;
+	gap: 1.5rem;
+	padding: 0;
+	border-radius: 0;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.buttons a{
+    background-color: #3f3f3f;
+    padding: 16px 20px;
+    display: flex;
+    gap: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+}
 #app main.main .main__shortcuts{
 	background-color: #1c1c1c;
     position: absolute;

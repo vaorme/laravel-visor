@@ -6,6 +6,7 @@ use App\Http\Controllers\ShortcutsController;
 use App\Http\Controllers\uploadChaptersController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\web\LibraryController;
+use App\Http\Controllers\web\MembersController;
 use App\Http\Controllers\web\ViewerChapter;
 use App\Http\Controllers\web\WebUserController;
 use App\Http\Controllers\WebController;
@@ -64,16 +65,19 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/rate/{manga_id}', [WebUserController::class, 'rateManga'])->name('rate_manga.store');
 });
 
+// :MEMBERS
+Route::get('/usuarios', [MembersController::class, 'index'])->name('members.index');
+
 // :USER PROFILE
 Route::get('/u/{username}/{page?}', [ProfileController::class, 'index'])->where(['page' => 'siguiendo|favoritos|atajos'])->name('profile.index');
 
 Route::get('/u/', function(){
-    return redirect('/'); // Redirect home if user go to /u/
+    return redirect('/usuarios'); // Redirect home if user go to /u/
 });
 
 // :MANGA DETAIL
 
-Route::prefix('library')->group(function(){
+Route::prefix('biblioteca')->group(function(){
     Route::get('/', [LibraryController::class, 'index'])->name('library.index');
 });
 
@@ -81,7 +85,7 @@ Route::prefix('library')->group(function(){
 
 Route::prefix('l')->group(function(){
     Route::get('/', function(){
-        return redirect('/library'); // Redirect home if user go to /u/
+        return redirect('/biblioteca'); // Redirect home if user go to /u/
     });
     Route::get('{slug}', [MangaDetailController::class, 'index'])->name('manga_detail.index');
 });

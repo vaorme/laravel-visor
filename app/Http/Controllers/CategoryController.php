@@ -48,7 +48,7 @@ class CategoryController extends Controller{
     public function store(Request $request){
         $request->validate([
             'name' => ['required', "max:50"],
-            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:categories',]
+            'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/', 'unique:categories']
         ]);
 
         $currentOrder = Category::orderBy('id', 'DESC')->first();

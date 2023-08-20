@@ -16,10 +16,7 @@ class WebController extends Controller{
 		
 		$oneWeek = date('Y-m-d', strtotime("-6 days"));
 		$oneMonth = date('Y-m-d', strtotime("-1 month"));
-		// $newManga = Manga::where('manga.created_at', '>=', $oneMonth)->limit(12)->get();
-
-		//$mostViewed = Manga::where('status', '=', 'published')->with(['rating', 'viewsMonth'])->has('viewsMonth')->limit(16)->get()->sortByDesc('viewsMonth');
-
+		
 		if (Cache::has('most_viewed')) {
 			$mostViewed = Cache::get('most_viewed');
 		} else {
@@ -27,10 +24,6 @@ class WebController extends Controller{
 			Cache::put('most_viewed', $mostViewed, Carbon::now()->endOfWeek());
 		}
 		
-
-		// $newChapterManga = Chapter::where('created_at', '>=', $oneWeek)->orderBy('id', 'desc')->withWhereHas('manga.type', function($query) {
-		// 	$query->where('slug', '!=','novela');
-		// })->get()->unique('manga_id');
 		if (Cache::has('new_chapters_manga')) {
 			$newChapterManga = Cache::get('new_chapters_manga');
 		} else {
@@ -40,10 +33,6 @@ class WebController extends Controller{
 			Cache::put('new_chapters_manga', $newChapterManga->slice(0, 15), Carbon::now()->endOfWeek());
 		}
 
-
-		// $newChapterNovel = Chapter::where('created_at', '>=', $oneWeek)->orderBy('id', 'desc')->withWhereHas('manga.type', function($query) {
-		// 	$query->where('slug', '=','novela');
-		// })->get()->unique('manga_id');
 		if (Cache::has('new_chapters_novel')) {
 			$newChapterNovel = Cache::get('new_chapters_novel');
 		} else {
@@ -53,20 +42,16 @@ class WebController extends Controller{
 			Cache::put('new_chapters_novel', $newChapterNovel->slice(0, 15), Carbon::now()->endOfWeek());
 		}
 
-
-		// $topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->limit(10)->get();
 		if (Cache::has('top_month')) {
 			$topMonthly = Cache::get('top_month');
 		} else {
 			$topMonthly = Manga::where('status', '=', 'published')->select(['id', 'slug', 'name', 'featured_image'])->withAvg('monthRating', 'rating')->has('monthRating')->orderBy('month_rating_avg_rating', 'DESC')->limit(10)->get();
 			Cache::put('top_month', $topMonthly, Carbon::now()->endOfWeek());
 		}
-
-		// $slider = Slider::get();
 		if (Cache::has('home_slider')) {
 			$slider = Cache::get('home_slider');
 		} else {
-			$slider = Slider::get();
+			$slider = Slider::limit(4)->get();
 			Cache::put('home_slider', $slider, Carbon::now()->endOfMonth());
 		}
 

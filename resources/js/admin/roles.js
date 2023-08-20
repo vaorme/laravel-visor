@@ -2,7 +2,7 @@ import { Modalerts } from './helpers/helpers';
 
 let nn = new Modalerts();
 
-// :DELETE PERMISSION
+// :DELETE ROLES
 
 document.addEventListener('click', function (e) {
 	if (!e.target.matches('.roleDelete')) return;
