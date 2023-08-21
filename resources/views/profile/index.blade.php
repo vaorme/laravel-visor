@@ -197,7 +197,7 @@
                                                     $pathImage = 'storage/'.$item->featured_image;
                                                     $imageExtension = pathinfo($pathImage)["extension"];
                                                     $img = ManipulateImage::cache(function($image) use ($item) {
-                                                        return $image->make('storage/'.$item->featured_image)->fit(40, 40);
+                                                        return $image->make('storage/'.$item->featured_image)->fit(80, 68);
                                                     }, 10, true);
 
                                                     $img->response($imageExtension, 70);
