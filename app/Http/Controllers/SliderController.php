@@ -18,7 +18,7 @@ class SliderController extends Controller{
 
     public function index(Request $request){
         $loop = Slider::get();
-        $mangas = Manga::get();
+        $mangas = Manga::where('status', '=', 'published')->get();
         $viewData = [
             'loop' => $loop,
             'mangas' => $mangas
