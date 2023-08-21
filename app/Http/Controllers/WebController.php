@@ -51,7 +51,7 @@ class WebController extends Controller{
 		if (Cache::has('home_slider')) {
 			$slider = Cache::get('home_slider');
 		} else {
-			$slider = Slider::limit(4)->get();
+			$slider = Slider::get();
 			Cache::put('home_slider', $slider, Carbon::now()->endOfMonth());
 		}
 

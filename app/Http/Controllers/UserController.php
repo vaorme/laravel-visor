@@ -25,9 +25,15 @@ class UserController extends Controller{
     public function __construct(){
         $this->disk = config('app.disk');
     }
-    public function index(){
-        $users = User::paginate(15);
-        return view('admin.users.index', ['loop' => $users]);
+    public function index(Request $request){
+        $users = User::orderBy('created_at', 'desc');
+        $param_search = strip_tags($request->s);
+        if(isset($param_search) && !empty($param_search)){
+            $users->where(function ($query) use ($param_search) {
+                $query->where('username', 'LIKE', '%'.$param_search.'%');
+            });
+        }
+        return view('admin.users.index', ['loop' => $users->paginate(15)]);
     }
 
     /**

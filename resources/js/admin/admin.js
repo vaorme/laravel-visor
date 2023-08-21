@@ -18,7 +18,9 @@ import './roles';
 let tabla = document.querySelector('.table');
 if(tabla){
     const dataTable = new DataTable("#tablr", {
-        perPage: 15,
+        paging: false,
+        searchable: false,
+        ordering:  false,
         labels: {
             placeholder: "Buscar...",
             searchTitle: "Buscar dentro de la tabla",

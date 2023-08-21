@@ -126,15 +126,17 @@
 									<a href="{{ $item->url() }}" class="new__chapters__link">
 										<figure class="new__chapters__image">
 											@php
-												$pathImage = 'storage/'.$item->manga->featured_image;
-												$imageExtension = pathinfo($pathImage)["extension"];
-												$img = ManipulateImage::cache(function($image) use ($item) {
-													return $image->make('storage/'.$item->manga->featured_image)->fit(80, 68);
-												}, 10, true);
+												$base64 = asset('storage/images/error-loading-image.png');
+												if (Storage::disk($item->disk)->exists($item->manga->featured_image)) {
+													$pathImage = 'storage/'.$item->manga->featured_image;
+													$imageExtension = pathinfo($pathImage)["extension"];
+													$img = ManipulateImage::cache(function($image) use ($item) {
+														return $image->make('storage/'.$item->manga->featured_image)->fit(80, 68);
+													}, 10, true);
 
-												$img->response($imageExtension, 70);
-												$base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
-												
+													$img->response($imageExtension, 70);
+													$base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
+												}
 											@endphp
 											<img src="{!! $base64 !!}" alt="{{ $item->manga->name }}">
 										</figure>
@@ -167,15 +169,17 @@
 									<a href="{{ $item->url() }}" class="new__chapters__link">
 										<figure class="new__chapters__image">
 											@php
-												$pathImage = 'storage/'.$item->manga->featured_image;
-												$imageExtension = pathinfo($pathImage)["extension"];
-												$img = ManipulateImage::cache(function($image) use ($item) {
-													return $image->make('storage/'.$item->manga->featured_image)->fit(80, 68);
-												}, 10, true);
+												$base64 = asset('storage/images/error-loading-image.png');
+												if (Storage::disk($item->disk)->exists($item->manga->featured_image)) {
+													$pathImage = 'storage/'.$item->manga->featured_image;
+													$imageExtension = pathinfo($pathImage)["extension"];
+													$img = ManipulateImage::cache(function($image) use ($item) {
+														return $image->make('storage/'.$item->manga->featured_image)->fit(80, 68);
+													}, 10, true);
 
-												$img->response($imageExtension, 70);
-												$base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
-												
+													$img->response($imageExtension, 70);
+													$base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
+												}
 											@endphp
 											<img src="{!! $base64 !!}" alt="{{ $item->manga->name }}">
 										</figure>
@@ -217,15 +221,17 @@
 									<a href="{{ $item->url() }}">
 										<figure class="item__image">
 											@php
-												$pathImage = 'storage/'.$item->featured_image;
-												$imageExtension = pathinfo($pathImage)["extension"];
-												$img = ManipulateImage::cache(function($image) use ($item) {
-													return $image->make('storage/'.$item->featured_image)->fit(60, 54);
-												}, 10, true);
+												$base64 = asset('storage/images/error-loading-image.png');
+												if (Storage::disk('public')->exists($item->featured_image)) {
+													$pathImage = 'storage/'.$item->featured_image;
+													$imageExtension = pathinfo($pathImage)["extension"];
+													$img = ManipulateImage::cache(function($image) use ($item) {
+														return $image->make('storage/'.$item->featured_image)->fit(80, 68);
+													}, 10, true);
 
-												$img->response($imageExtension, 70);
-												$base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
-												
+													$img->response($imageExtension, 70);
+													$base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
+												}
 											@endphp
 											<img src="{!! $base64 !!}" alt="{{ $item->manga_name }}">
 											<div class="item__count">{{ $count }}</div>

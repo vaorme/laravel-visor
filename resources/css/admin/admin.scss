@@ -1792,3 +1792,41 @@ main.main{
 main.main .box .contain.d__users .table .datatable-wrapper .datatable-bottom{
     display: none !important;
 }
+main.main .table .table__search{
+    position: relative;
+    form{
+        transition: top .4s ease, width .4s ease, visibility .4s ease, opacity .4s ease;
+        input{
+            background-color: rgb(#fff, .1);
+            width: 100%;
+            color: #fff;
+            border-radius: 10px;
+            padding: 16px 20px;
+            letter-spacing: .02rem;
+            &::-webkit-input-placeholder { /* Edge */
+                color: #afafaf;
+                letter-spacing: .02rem;
+            }
+            
+            &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                color: #afafaf;
+                letter-spacing: .02rem;
+            }
+            
+            &::placeholder {
+                color: #afafaf;
+                letter-spacing: .02rem;
+            }
+        }
+        button{
+            position: absolute;
+            cursor: pointer;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            svg{
+                width: 20px;
+            }
+        }
+    }
+}

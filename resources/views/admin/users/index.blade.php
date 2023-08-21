@@ -37,6 +37,7 @@
             $other = $loop->links('vendor.pagination.default');
         @endphp
         <div class="table">
+            <x-admin.table-search />
             <table id="tablr">
                 <thead>
                     <tr>

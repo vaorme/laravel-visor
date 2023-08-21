@@ -403,11 +403,16 @@ div.toastify.error{
     box-shadow: 0 0 0 0;
 }
 #app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-dropdown .ts-dropdown-content .option{
-	display: flex;
-    align-items: center;
+	display: grid;
+	align-items: center;
+    grid-template-columns: 50px auto;
 }
 #app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-dropdown .ts-dropdown-content .option img{
+	width: 40px;
+	height: 40px;
 	border-radius: 6px;
+	object-fit: cover;
+	object-position: center
 }
 #app main.main .main__shortcuts .shortcuts__add .shortcuts__footer{
 	padding-top: 20px;
@@ -439,7 +444,7 @@ div.toastify.error{
 }
 #app main.main .main__shortcuts .shortcuts__list .shortcuts__item a.shortcuts__link img{
 	display: block;
-	width: 100%;
+	width: 45px;
 	height: 45px;
 	max-height: 45px;
 	object-fit: cover;

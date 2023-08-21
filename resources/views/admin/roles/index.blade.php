@@ -34,7 +34,11 @@
                 </script>
             @endif
             @if ($loop->isNotEmpty())
+            @php
+                $other = $loop->links('vendor.pagination.default');
+            @endphp
             <div class="table">
+                <x-admin.table-search />
                 <table id="tablr">
                     <thead>
                         <tr>
@@ -75,6 +79,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $other }}
             </div>
             @else
                 <div class="empty">
@@ -134,8 +139,8 @@
                     {{-- @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
                     @enderror --}}
-                    <div class="errores">
-                        @if ($errors->any())
+                    @if ($errors->any())
+                        <div class="errores">
                             <div class="alert alert-danger">
                                 <ul>
                                     @foreach ($errors->all() as $error)
@@ -143,8 +148,8 @@
                                     @endforeach
                                 </ul>
                             </div>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                     <button type="submit" class="botn success">{{ isset($edit)? "Actualizar" : 'Crear' }}</button>
                 </form>
             </div>

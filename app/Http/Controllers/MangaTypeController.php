@@ -15,9 +15,15 @@ class MangaTypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $loop = MangaType::get();
+        $loop = MangaType::latest();
+        $param_search = strip_tags($request->s);
+        if(isset($param_search) && !empty($param_search)){
+            $loop->where(function ($query) use ($param_search) {
+                $query->where('name', 'LIKE', '%'.$param_search.'%');
+            });
+        }
         $data = [
-            'loop' => $loop,
+            'loop' => $loop->paginate(15),
         ];
         if(isset($request->id)){
             $user = Auth::user();

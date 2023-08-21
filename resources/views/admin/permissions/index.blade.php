@@ -34,7 +34,11 @@
                 </script>
             @endif
             @if ($loop->isNotEmpty())
+            @php
+                $other = $loop->links('vendor.pagination.default');
+            @endphp
             <div class="table">
+                <x-admin.table-search />
                 <table id="tablr">
                     <thead>
                         <tr>
@@ -75,6 +79,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $other }}
             </div>
             @else
                 <div class="empty">

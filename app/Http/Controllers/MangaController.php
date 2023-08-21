@@ -31,8 +31,14 @@ class MangaController extends Controller{
             'status' => ['max:60', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
         ]);
         $status = ($request->status == null)? 'published': $request->status;
-        $loop = Manga::where('status', '=', $status)->get();
-        return view('admin.manga.index', ['loop' => $loop]);
+        $loop = Manga::where('status', '=', $status);
+        $param_search = strip_tags($request->s);
+        if(isset($param_search) && !empty($param_search)){
+            $loop->where(function ($query) use ($param_search) {
+                $query->where('name', 'LIKE', '%'.$param_search.'%');
+            });
+        }
+        return view('admin.manga.index', ['loop' => $loop->paginate(15)]);
     }
 
     /**

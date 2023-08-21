@@ -10,6 +10,18 @@ main.main .main__content{
     gap: 1.5rem;
     grid-template-columns: 100%;
 }
+main.main .main__content .empty{
+    background-color: #1c1c1c;
+    color: #919191;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 12px;
+}
+main.main .members__top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 main.main .members__title{
     display: flex;
     gap: 15px;
@@ -18,6 +30,44 @@ main.main .members__title{
 main.main .members__title h2{
     font-size: 18px;
     font-weight: 700;
+}
+main.main .members__search{
+    position: relative;
+    form{
+        transition: top .4s ease, width .4s ease, visibility .4s ease, opacity .4s ease;
+        input{
+            background-color: rgb(#fff, .1);
+            width: 100%;
+            color: #fff;
+            border-radius: 10px;
+            padding: 16px 20px;
+            letter-spacing: .02rem;
+            &::-webkit-input-placeholder { /* Edge */
+                color: #afafaf;
+                letter-spacing: .02rem;
+            }
+            
+            &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+                color: #afafaf;
+                letter-spacing: .02rem;
+            }
+            
+            &::placeholder {
+                color: #afafaf;
+                letter-spacing: .02rem;
+            }
+        }
+        button{
+            position: absolute;
+            cursor: pointer;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            svg{
+                width: 20px;
+            }
+        }
+    }
 }
 main.main .members__title a.view__back{
     background-color: #9b2e2e;
@@ -174,5 +224,12 @@ main.main .members__list .member__card .card__role{
 @media (max-width: 580px){
     main.main .members__list{
         grid-template-columns: repeat(1, 1fr);
+    }
+    main.main .members__top{
+        gap: 15px;
+        flex-direction: column;
+    }
+    main.main .members__top > div{
+        width: 100%;
     }
 }

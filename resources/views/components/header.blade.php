@@ -115,7 +115,7 @@
             @endif
         </div>
     @endif
-    @if (!Route::is(['members.index']))
+    @if (!Route::is(['members.index']) && !request()->is('controller/*'))
         <div class="search__bar">
             <form action="{{ (Route::is('library.index'))? url()->full() : route('library.index'); }}" method="GET">
                 <input type="text" name="s" class="outline-none text-white pl-12 text-base" placeholder="Buscar..." value="{{ (isset(request()->s) && !empty(request()->s))? request()->s : null }}">
