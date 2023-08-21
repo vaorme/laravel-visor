@@ -31,14 +31,14 @@
                 </script>
             @endif
             <div class="frmo update">
-                <form action="{{ route('users.update', ['id' => $user->user_id]) }}" method="POST" id="formUser" enctype="multipart/form-data">
+                <form action="{{ route('users.update', ['id' => $user->id]) }}" method="POST" id="formUser" enctype="multipart/form-data">
                     @csrf
 					@method('PATCH')
                     <div class="row grid grid-cols-2 gap-10">
                         <div class="col">
                             <div class="group">
                                 <label>Nombre</label>
-                                <input type="text" name="name" value="{{ old('name', $user->name) }}">
+                                <input type="text" name="name" value="{{ old('name', $user->profile->name) }}">
                             </div>
                             <div class="group">
                                 <label>Nombre de usuario</label>
@@ -53,7 +53,7 @@
                                 <select name="country">
                                     <option value="" selected>Seleccionar país</option>
                                     @foreach ($countries as $item)
-                                        <option value="{{ $item->id }}" @if ($user->country_id === $item->id)
+                                        <option value="{{ $item->id }}" @if ($user->profile->country_id === $item->id)
 											selected
 										@endif>{{ $item->name }}</option>
                                     @endforeach
@@ -82,7 +82,7 @@
                                     @foreach ($avatares as $key => $item)
                                         <div class="item">
                                             <label for="av-{{ $key }}">
-                                                <input type="radio" name="default_avatar" id="av-{{ $key }}" value="{{ $item }}" @if ($item === $user->avatar)
+                                                <input type="radio" name="default_avatar" id="av-{{ $key }}" value="{{ $item }}" @if ($item === $user->profile->avatar)
 													checked
 												@endif>
                                                 <div class="avatar">
@@ -92,7 +92,7 @@
                                         </div>
                                     @endforeach
 									@php
-										$explodeAvatar = explode('/', $user->avatar);
+										$explodeAvatar = explode('/', $user->profile->avatar);
 										$nameAvatar = end($explodeAvatar);
 										function includesAvatares($array, $name){
 											foreach ($array as $item) {
@@ -105,8 +105,8 @@
 									@if (!includesAvatares($avatares, $nameAvatar))
 										<div class="item selected" id="avatar">
 											<div class="avatar">
-												<img src="{{ asset('storage/'.$user->avatar) }}" alt="avatar">
-                                                <input type="text" name="current_avatar" accept="image/jpg,image/png,image/jpeg,image/gif" hidden value="{{ $user->avatar }}">
+												<img src="{{ asset('storage/'.$user->profile->avatar) }}" alt="avatar">
+                                                <input type="text" name="current_avatar" accept="image/jpg,image/png,image/jpeg,image/gif" hidden value="{{ $user->profile->avatar }}">
 											</div>
 										</div>
 									@endif
@@ -129,9 +129,9 @@
                             </div>
                             <div class="group cover">
                                 <label>URL Portada</label>
-                                <input type="text" name="cover" data-validated="false" value="{{ old('cover', $user->cover) }}">
+                                <input type="text" name="cover" data-validated="false" value="{{ old('cover', $user->profile->cover) }}">
 								<div class="preview">
-									<img src="{{ old('cover', $user->cover) }}" alt="cover-preview" @if (!empty($user->cover))
+									<img src="{{ old('cover', $user->profile->cover) }}" alt="cover-preview" @if (!empty($user->profile->cover))
 										class="show"	
 									@endif>
 								</div>
@@ -144,13 +144,13 @@
                             </div>
                             <div class="group">
                                 <label>Mensaje</label>
-                                <textarea name="message" cols="30" rows="4">{{ old('message', $user->message) }}</textarea>
+                                <textarea name="message" cols="30" rows="4">{{ old('message', $user->profile->message) }}</textarea>
                             </div>
                             <div class="group perfil-publico">
                                 <label>Perfil publico</label>
                                 <div class="rdos grid grid-cols-2 gap-4">
                                     <label for="op-1">
-                                        <input type="radio" id="op-1" name="public_profile" value="1" @if ($user->public_profile === 1)
+                                        <input type="radio" id="op-1" name="public_profile" value="1" @if ($user->profile->public_profile === 1)
 											checked
 										@endif>
                                         <div class="rd-input">
@@ -160,7 +160,7 @@
                                         </div>
                                     </label>
                                     <label for="op-2">
-                                        <input type="radio" id="op-2" name="public_profile" value="0" @if ($user->public_profile === 0)
+                                        <input type="radio" id="op-2" name="public_profile" value="0" @if ($user->profile->public_profile === 0)
 											checked
 										@endif>
                                         <div class="rd-input">
@@ -176,7 +176,7 @@
                                 <select name="roles">
                                     <option value="" selected>Seleccionar role</option>
                                     @foreach ($roles as $item)
-                                        <option value="{{ $item->name }}" @if ($user->role_id === $item->id)
+                                        <option value="{{ $item->name }}" @if (!empty($user->roles) && $user->roles->first()->id === $item->id)
 											selected
 										@endif>{{ $item->name }}</option>
                                     @endforeach
@@ -185,7 +185,7 @@
                             <div class="fields redes">
                                 <h4>Redes</h4>
 								@php
-									$redes = json_decode($user->redes);
+									$redes = json_decode($user->profile->redes);
 								@endphp
                                 <div class="list">
 									<div class="item add">

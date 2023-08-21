@@ -146,7 +146,15 @@ class UserController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $user = User::join('profiles', 'users.id', '=', 'profiles.user_id')->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')->where('users.id', $id)->get(['users.*', 'profiles.*', 'model_has_roles.role_id'])->first();
+        $user = User::find($id);
+        $profileExists = Profile::where('user_id', '=',$id);
+        if(!$profileExists->exists()){
+            $user->syncRoles('lector');
+            $profile = new Profile();
+            $profile->user_id = $user['id'];
+            $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
+            $profile->save();
+        }
 		$countries = Countries::get();
         $avatares = Storage::disk($this->disk)->files('/avatares');
 		$roles = Role::get();

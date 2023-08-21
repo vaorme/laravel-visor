@@ -47,16 +47,14 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        event(new Registered($user));
-
-        // New user role
-        $role = Role::findByName('lector');
-        $user->assignRole($role);
+        $user->assignRole('lector');
 
         $profile = new Profile();
         $profile->user_id = $user['id'];
         $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
         $profile->save();
+
+        event(new Registered($user));
 
         Auth::login($user);
 

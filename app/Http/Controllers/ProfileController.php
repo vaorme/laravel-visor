@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Countries;
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,15 @@ class ProfileController extends Controller
         $username = $request->username;
         $user = User::firstWhere('users.username', '=', $username);
         if($user){
+            if(!$user->profile){
+                $user->syncRoles('lector');
+                $profile = new Profile();
+                $profile->user_id = $user['id'];
+                $profile->public_profile = 1;
+                $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
+                $profile->save();
+                return redirect()->route('profile.index', ['username' => $user->username]);
+            }
             $page = $request->page;
             $viewData = [
                 'user' => $user
