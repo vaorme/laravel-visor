@@ -240,11 +240,16 @@
         margin: auto;
     }
     .view__reader .view__content.view__novel{
+        background-color: #272727;
         font-size: 16px;
         padding: 2rem;
+        color: #fff;
     }
     .view__reader .view__content.view__novel p{
         margin: 1em 0;
+    }
+    .view__reader .view__content.view__novel *{
+        color: inherit;
     }
     
     .view__reader .view__content.view__full{
