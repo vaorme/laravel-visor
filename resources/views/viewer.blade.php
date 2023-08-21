@@ -1,5 +1,5 @@
 <x-viewer-layout>
-    <x-slot:title>{{ $currentChapter->name }}</x-slot>
+    <x-slot:title>{{ $currentChapter->name . ' | '. $manga->name }}</x-slot>
     @php
         $paginado = request()->route('reader_type');
     @endphp

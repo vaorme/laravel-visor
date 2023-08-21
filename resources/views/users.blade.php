@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-slot:title>Usuarios | Nartag</x-slot>
 	<div class="main__wrap members">
 		<div class="main__content">
             <div class="members__top">
