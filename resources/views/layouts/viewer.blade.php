@@ -15,7 +15,7 @@
         <link href="{{ Vite::asset('resources/css/web/tom-select.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ Vite::asset('resources/css/web/coloris.css') }}"/>
         <link href="{{ Vite::asset('resources/css/web/viewer.scss') }}" rel="stylesheet">
-
+        
         <script src="{{ asset('storage/assets/js/tom-select.js') }}"></script>
         <script src="{{ Vite::asset('resources/js/web/coloris.js') }}"></script>
         <script type="module" src="{{ Vite::asset('resources/js/web/viewer.js') }}"></script>
