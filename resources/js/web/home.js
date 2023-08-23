@@ -3,6 +3,8 @@ import { Navigation, Pagination, EffectFade, Autoplay } from 'swiper/modules';
 
 import SimpleBar from "simplebar";
 
+import { removeClass, addClass, hasClass } from '../helpers/helpers';
+
 // :NEW CHAPTERS SIMPLEBAR
 const newChaptersList = document.querySelector('.new_manga .new__chapters');
 if(newChaptersList){
@@ -39,10 +41,10 @@ const viewMoreTopMonth = document.querySelector('aside.main__sidebar .section.to
 if(viewMoreTopMonth){
     const topList = document.querySelector('aside.main__sidebar .section.tops ul.tops__list');
     viewMoreTopMonth.addEventListener('click', function(){
-        if(topList.hasClass('more')){
-            topList.removeClass('more');
+        if(hasClass(topList, 'more')){
+            removeClass(topList, 'more');
         }else{
-            topList.addClass('more');
+            addClass(topList, 'more');
         }
     });
 }

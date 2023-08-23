@@ -1,3 +1,5 @@
+import { removeClass, addClass } from "../helpers/helpers";
+
 const readerContent = document.querySelector('#viewer .view__reader .view__content');
 const settings = {
     render: {
@@ -69,10 +71,10 @@ readerSizes.forEach(item =>{
 
         if(toms && valueReaderSie == "full"){
             toms.setValue(1);
-            readerContent.addClass('view__full');
+            addClass(readerContent, 'view__full');
         }else{
             toms.setValue(2);
-            readerContent.removeClass('view__full');
+            removeClass(readerContent, 'view__full');
         }
         toms.on('change', function(value){
             if(readerToms.length > 0){
@@ -84,11 +86,11 @@ readerSizes.forEach(item =>{
             switch (value) {
                 case "1":
                     sessionStorage.setItem('reader_size', 'full');
-                    readerContent.addClass('view__full');
+                    addClass(readerContent, 'view__full');
                     break;
                 case "2":
                     sessionStorage.setItem('reader_size', 'deafult');
-                    readerContent.removeClass('view__full');
+                    removeClass(readerContent, 'view__full');
                     break;
                 default:
                     break;

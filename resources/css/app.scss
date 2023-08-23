@@ -388,31 +388,25 @@ div.toastify.error{
 #app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper.dropdown-active .ts-control > input{
 	display: block !important;
 }
-#app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-control .item{
-	display: flex;
-	gap: 10px;
-	align-items: center;
-}
-#app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-control .item img{
-	border-radius: 6px;
-}
-#app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-dropdown{
-    top: calc(100% + 40px);
-    margin-top: 0;
-    border: 0;
-    box-shadow: 0 0 0 0;
-}
+#app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-control .item,
 #app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-dropdown .ts-dropdown-content .option{
 	display: grid;
 	align-items: center;
     grid-template-columns: 50px auto;
 }
+#app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-control .item img,
 #app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-dropdown .ts-dropdown-content .option img{
 	width: 40px;
 	height: 40px;
 	border-radius: 6px;
 	object-fit: cover;
 	object-position: center
+}
+#app main.main .main__shortcuts .shortcuts__add .shortcuts__content .ts-wrapper .ts-dropdown{
+    top: calc(100% + 40px);
+    margin-top: 0;
+    border: 0;
+    box-shadow: 0 0 0 0;
 }
 #app main.main .main__shortcuts .shortcuts__add .shortcuts__footer{
 	padding-top: 20px;

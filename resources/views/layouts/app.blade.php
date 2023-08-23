@@ -79,7 +79,6 @@
         @if (Route::is(['members.index']))
             <script type="module" src="{{ Vite::asset('resources/js/web/users.js') }}"></script>
         @endif
-        <script id="dsq-count-scr" src="//new-nartag.disqus.com/count.js" async></script>
         <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.4/dist/lazyload.min.js"></script>
         <script>
             (function() {

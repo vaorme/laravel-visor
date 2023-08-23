@@ -106,13 +106,19 @@
 .slider .frmo .ts-wrapper.dropdown-active .ts-control > input{
 	display: block !important;
 }
-.slider .frmo .ts-wrapper .ts-control .item{
-	display: flex;
-	gap: 10px;
+.slider .frmo .ts-wrapper .ts-control .item,
+.slider .frmo .ts-wrapper .ts-dropdown .ts-dropdown-content .option{
+	display: grid;
 	align-items: center;
+    grid-template-columns: 50px auto;
 }
-.slider .frmo .ts-wrapper .ts-control .item img{
+.slider .frmo .ts-wrapper .ts-control .item img,
+.slider .frmo .ts-wrapper .ts-dropdown .ts-dropdown-content .option img{
+	width: 40px;
+	height: 40px;
 	border-radius: 6px;
+	object-fit: cover;
+	object-position: center
 }
 .slider .frmo .ts-wrapper .ts-dropdown{
     top: calc(100% + 40px);

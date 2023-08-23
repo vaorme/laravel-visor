@@ -1,5 +1,4 @@
 import './bootstrap';
-import './helpers/helpers'
 
 // :ALPINE
 import Alpine from 'alpinejs';

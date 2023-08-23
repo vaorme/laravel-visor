@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { dropZone, validateEmail, isUrl, Modalerts } from '../admin/helpers/helpers';
+import { removeClass, addClass, toggleClass } from '../helpers/helpers';
 
 let nn = new Modalerts();
 
@@ -25,7 +26,7 @@ if (listInputAvatares) {
 		item.addEventListener('change', (e) => {
 			const avatarSelected = document.querySelector('.form__avatares .list .item#avatar');
 			if (avatarSelected) {
-				avatarSelected.removeClass('selected');
+				removeClass(avatarSelected, 'selected');
 			}
 
 		});
@@ -41,7 +42,7 @@ document.addEventListener('click', function (e) {
 		currentInput.checked = false;
 	}
 
-	e.target.addClass('selected');
+	addClass(e.target,'selected');
 
 
 });
@@ -123,7 +124,7 @@ function previewUserAvatar(image) {
 	if (currentInput) {
 		currentInput.checked = false;
 	}
-	imageDiv.addClass('item selected');
+	addClass(imageDiv, 'item selected');
 	imageDiv.setAttribute('id', 'avatar');
 	imageDiv.innerHTML = `
         <div class="avatar">
@@ -159,7 +160,7 @@ async function userCoverPreview(e){
 	const $imagePreview = document.querySelector('.account__form .form__cover .preview img');
 	const urlPreview = e.target.value;
 	
-	$imagePreview.removeClass('show');
+	removeClass($imagePreview, 'show');
 
 	if(!isUrl(urlPreview)){
 		return false;
@@ -196,7 +197,7 @@ async function userCoverPreview(e){
 		return false;
 	}
 
-	$imagePreview.addClass('show');
+	addClass($imagePreview, 'show');
 	$coverPreview.setAttribute('data-validated', true);
 }
 
@@ -214,9 +215,9 @@ if($redes.listInputs){
 			if(item.value === ""){
 				errorAlert("Campo requerido");
 				item.focus();
-				item.addClass('error');
+				addClass(item, 'error');
 			}else{
-				item.removeClass('error');
+				removeClass(item, 'error');
 			}
 		});
 	});
@@ -231,22 +232,22 @@ document.addEventListener('click', function (e) {
 	if(val === ""){
 		errorAlert("Campo requerido");
 		$redes.addInput.focus();
-		$redes.addInput.addClass('error');
+		addClass($redes.addInput,'error');
 		return false;
 	}else{
-		$redes.addInput.removeClass('error');
+		removeClass($redes.addInput,'error');
 	}
 	if(!isUrl(val)){
 		errorAlert("Debes insertar un enlace valido");
 		$redes.addInput.focus();
-		$redes.addInput.addClass('error');
+		addClass($redes.addInput, 'error');
 		return false;
 	}else{
-		$redes.addInput.removeClass('error');
+		removeClass($redes.addInput, 'error');
 	}
 	
 	let createDiv = document.createElement('div');
-	createDiv.addClass('item');
+	addClass(createDiv, 'item');
 	createDiv.setAttribute('id', `i-${id}`);
 
 	createDiv.innerHTML = `
@@ -370,47 +371,47 @@ if (inputPassword) {
 	inputPassword.addEventListener('keyup', function () {
 		let lowerCaseLetters = /[a-z]/g;
 		if (inputPassword.value.match(lowerCaseLetters)) {
-			passwordFields.letter.removeClass("invalid");
-			passwordFields.letter.addClass("valid");
+			removeClass(passwordFields.letter, "invalid");
+			addClass(passwordFields.letter, "valid");
 			passwordValidated = true;
 		} else {
-			passwordFields.letter.removeClass("valid");
-			passwordFields.letter.addClass("invalid");
+			removeClass(passwordFields.letter,"valid");
+			addClass(passwordFields.letter,"invalid");
 			passwordValidated = false;
 		}
 
 		// Validate capital letters
 		let upperCaseLetters = /[A-Z]/g;
 		if (inputPassword.value.match(upperCaseLetters)) {
-			passwordFields.capital.removeClass("invalid");
-			passwordFields.capital.addClass("valid");
+			removeClass(passwordFields.capital,"invalid");
+			addClass(passwordFields.capital,"valid");
 			passwordValidated = true;
 		} else {
-			passwordFields.capital.removeClass("valid");
-			passwordFields.capital.addClass("invalid");
+			removeClass(passwordFields.capital,"valid");
+			addClass(passwordFields.capital,"invalid");
 			passwordValidated = false;
 		}
 
 		// Validate numbers
 		let numbers = /[0-9]/g;
 		if (inputPassword.value.match(numbers)) {
-			passwordFields.number.removeClass("invalid");
-			passwordFields.number.addClass("valid");
+			removeClass(passwordFields.number,"invalid");
+			addClass(passwordFields.number,"valid");
 			passwordValidated = true;
 		} else {
-			passwordFields.number.removeClass("valid");
-			passwordFields.number.addClass("invalid");
+			removeClass(passwordFields.number,"valid");
+			addClass(passwordFields.number,"invalid");
 			passwordValidated = false;
 		}
 
 		// Validate length
 		if (inputPassword.value.length >= 8) {
-			passwordFields.length.removeClass("invalid");
-			passwordFields.length.addClass("valid");
+			removeClass(passwordFields.length, "invalid");
+			addClass(passwordFields.length, "valid");
 			passwordValidated = true;
 		} else {
-			passwordFields.length.removeClass("valid");
-			passwordFields.length.addClass("invalid");
+			removeClass(passwordFields.length, "valid");
+			addClass(passwordFields.length, "invalid");
 			passwordValidated = false;
 		}
 	});

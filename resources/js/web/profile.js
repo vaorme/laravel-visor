@@ -7,9 +7,6 @@ if(buttonsRemoveShortcut){
             const manga_id = e.target.getAttribute('data-manga-id');
             const user_id = e.target.getAttribute('data-user-id');
 
-            console.log(manga_id == null);
-            console.log(user_id);
-
             if((manga_id == null || user_id == null) || (manga_id == "" || user_id == "")){
                 Toastify({
                     text: "Lo siento, ID Requerido",

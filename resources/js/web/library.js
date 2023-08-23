@@ -1,4 +1,5 @@
 import SimpleBar from "simplebar";
+import { removeClass, toggleClass } from "../helpers/helpers";
 
 const settings = {
     hidePlaceholder: false,
@@ -93,17 +94,17 @@ if(buttonFilter){
     const asideFilter = document.querySelector('aside.filter');
     const asideButtonClose = document.querySelector('aside.filter .filter__close');
     window.addEventListener('click', function(){
-        asideFilter.removeClass('open');
+        removeClass(asideFilter, 'open');
     })
     asideButtonClose.addEventListener('click', function(){
-        asideFilter.removeClass('open');
+        removeClass(asideFilter, 'open');
     })
     asideFilter.addEventListener('click', function(e){
         e.stopPropagation();
     })
     buttonFilter.addEventListener('click', function(e){
         e.stopPropagation();
-        asideFilter.toggleClass('open');
+        toggleClass(asideFilter, 'open');
     });
 }
 const paginationLinks = document.querySelectorAll('section.library .paginator .paginator__links a.page__link');
@@ -117,16 +118,6 @@ if(paginationLinks){
             newUrl.searchParams.delete('page');
             newUrl.searchParams.append('page', currentUrl.searchParams.get('page'));
             window.location.href = newUrl.href;
-        });
-    });
-}
-
-// :COLLPASE FILTER
-const titlesWidget = document.querySelectorAll('aside.filter form.filter__form .filter__widget.filter__categories h2.widget__title');
-if(titlesWidget){
-    titlesWidget.forEach(item =>{
-        item.addEventListener('click', function(){
-            slideToggle(item.nextElementSibling)
         });
     });
 }

@@ -115,18 +115,18 @@
 			e.stopPropagation();
 		});
 		bdy.addEventListener('click', function(e){
-			modal.removeClass('active');
+			modal.classList.remove('active');
 			tom.clear();
 		});
 		function toggleFormShortcut(e){
 			e.stopPropagation();
 
-			modal.toggleClass('active');
+			modal.classList.toggle('active');
 		}
 		function closeFormShortcut(e){
 			e.preventDefault();
 
-			modal.removeClass('active');
+			modal.classList.remove('active');
 			tom.clear();
 		}
 		let shortcutSpam = false;
@@ -181,7 +181,7 @@
 				if(response.data.status == "success"){
 					// Creamos el DIV
 					let divShortcut = document.createElement('div');
-					divShortcut.addClass('shortcuts__item');
+					divShortcut.classList.add('shortcuts__item');
 					divShortcut.innerHTML = `
 						<a href="${selectedOption.getAttribute('data-url')}" class="shortcuts__link">
 							<img src="${dataSrc}">

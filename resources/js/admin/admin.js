@@ -15,6 +15,8 @@ import './permissions'
 // :ROLES
 import './roles';
 
+import { removeClass, addClass } from '../helpers/helpers';
+
 let tabla = document.querySelector('.table');
 if(tabla){
     const dataTable = new DataTable("#tablr", {
@@ -56,7 +58,7 @@ if(templateOneForm){
             e.preventDefault();
             
             fieldName.focus();
-            fieldName.addClass('error');
+            addClass(fieldName, 'error');
     
             Toastify({
                 text: "Campo nombre requerido",
@@ -68,13 +70,13 @@ if(templateOneForm){
                 position: "center",
             }).showToast();
         }else if(fieldName){
-            fieldName.removeClass('error');
+            removeClass(fieldName, 'error');
         }
         if(fieldSlug && fieldSlug.value == ""){
             e.preventDefault();
             
             fieldSlug.focus();
-            fieldSlug.addClass('error');
+            addClass(fieldSlug, 'error');
     
             Toastify({
                 text: "Campo slug requerido",
@@ -86,7 +88,7 @@ if(templateOneForm){
                 position: "center",
             }).showToast();
         }else if(fieldSlug){
-            fieldSlug.removeClass('error');
+            removeClass(fieldSlug, 'error');
         }
     });
 }

@@ -1,4 +1,5 @@
 import SimpleBar from "simplebar";
+import { addClass } from "../helpers/helpers";
 
 const chaptersList = document.querySelector('.chapters__list');
 if(chaptersList){
@@ -49,7 +50,7 @@ document.addEventListener('click', async function (e) {
         if(response.data.status == "success"){
             btn.remove();
             let unfollowButton = document.createElement('button');
-            unfollowButton.addClass('action__follow unfollow');
+            addClass(unfollowButton, 'action__follow unfollow');
             unfollowButton.setAttribute('data-tippy-content', 'Dejar de seguir')
             unfollowButton.textContent = "Siguiendo";
             unfollowButton.setAttribute('data-id', id);
@@ -130,7 +131,7 @@ document.addEventListener('click', async function (e) {
             btn.remove();
 
             let followButton = document.createElement('button');
-            followButton.addClass('action__follow follow');
+            addClass(followButton, 'action__follow follow');
             followButton.textContent = "Seguir";
             followButton.setAttribute('data-id', id);
 
@@ -212,7 +213,7 @@ document.addEventListener('click', async function (e) {
             const divButtonView = document.querySelector('.manga__actions button.action__view.view');
 
             let unviewButton = document.createElement('button');
-            unviewButton.addClass('action__view unview');
+            addClass(unviewButton, 'action__view unview');
             unviewButton.setAttribute('data-tippy-content', 'Desmarcar como visto');
             unviewButton.setAttribute('data-id', id);
             unviewButton.innerHTML = `
@@ -297,7 +298,7 @@ document.addEventListener('click', async function (e) {
             const divButtonUnview = document.querySelector('.manga__actions button.action__view.unview');
 
             let viewButton = document.createElement('button');
-            viewButton.addClass('action__view view');
+            addClass(viewButton, 'action__view view');
             viewButton.setAttribute('data-tippy-content', 'Marcar como visto');
             viewButton.setAttribute('data-id', id);
             viewButton.innerHTML = `
@@ -385,7 +386,7 @@ document.addEventListener('click', async function (e) {
             const divButtonFav = document.querySelector('.manga__actions button.action__fav.fav');
 
             let unfavButton = document.createElement('button');
-            unfavButton.addClass('action__fav unfav');
+            addClass(unfavButton, 'action__fav unfav');
             unfavButton.setAttribute('data-tippy-content', 'Desmarcar como favorito');
             unfavButton.setAttribute('data-id', id);
             unfavButton.innerHTML = `
@@ -471,7 +472,7 @@ document.addEventListener('click', async function (e) {
             const divButtonUnFav = document.querySelector('.manga__actions button.action__fav.unfav');
 
             let favButton = document.createElement('button');
-            favButton.addClass('action__fav fav');
+            addClass(favButton, 'action__fav fav');
             favButton.setAttribute('data-tippy-content', 'Marcar como visto');
             favButton.setAttribute('data-id', id);
             favButton.innerHTML = `
@@ -556,7 +557,7 @@ document.addEventListener('click', async function (e) {
         console.log(response);
         if(response.data.status == "success"){
             let unviewButton = document.createElement('button');
-            unviewButton.addClass('action__view unview');
+            addClass(unviewButton, 'action__view unview');
             unviewButton.setAttribute('data-tippy-content', 'Desmarcar como visto');
             unviewButton.setAttribute('data-id', id);
             unviewButton.innerHTML = `
@@ -640,7 +641,7 @@ document.addEventListener('click', async function (e) {
         if(response.data.status == "success"){
 
             let viewButton = document.createElement('button');
-            viewButton.addClass('action__view view');
+            addClass(viewButton, 'action__view view');
             viewButton.setAttribute('data-tippy-content', 'Marcar como visto');
             viewButton.setAttribute('data-id', id);
             viewButton.innerHTML = `

@@ -10,8 +10,8 @@
         @vite([
             'resources/css/global.scss',
             'resources/css/app.scss',
-            'resources/js/web/app.js'
         ])
+        <script type="module" src="{{ Vite::asset('resources/js/web/app.js') }}"></script>
         <link href="{{ Vite::asset('resources/css/web/tom-select.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ Vite::asset('resources/css/web/coloris.css') }}"/>
         <link href="{{ Vite::asset('resources/css/web/viewer.scss') }}" rel="stylesheet">
@@ -42,7 +42,6 @@
             </main>
             <x-footer/>
         </div>
-        <script id="dsq-count-scr" src="//new-nartag.disqus.com/count.js" async></script>
         <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.4/dist/lazyload.min.js"></script>
         <script>
             (function() {

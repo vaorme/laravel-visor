@@ -1,5 +1,5 @@
 import { dropZone, removeBodyScroll, clearBodyScroll, Modalerts } from './helpers/helpers';
-import { sluggify } from '../helpers/helpers';
+import { sluggify, removeClass, addClass } from '../helpers/helpers';
 let allowTypes = ['jpg', 'jpeg', 'png','webp','gif'];
 dropZone('.fm-manga .dropzone #choose', allowTypes);
 
@@ -145,8 +145,8 @@ if(createChapter){
     
         createContentEditor.destroy();
     
-        createChapter.addClass('clg');
-        createChapter.removeClass('opn');
+        addClass(createChapter, 'clg');
+        removeClass(createChapter, 'opn');
         clearBodyScroll();
     })
     let previewBox = document.querySelector('#t-preview');
@@ -157,12 +157,12 @@ if(createChapter){
     inputRdos.forEach(item =>{
         item.addEventListener('click', function(e){
             if(e.target.value == "novel"){
-                tManga.addClass('hidden');
-                tNovel.removeClass('hidden');
+                addClass(tManga, 'hidden');
+                removeClass(tNovel, 'hidden');
             }
             if(e.target.value == "manga"){
-                tNovel.addClass('hidden');
-                tManga.removeClass('hidden');
+                addClass(tNovel,'hidden');
+                removeClass(tManga, 'hidden');
             }
         })
     });
@@ -292,7 +292,7 @@ if(createChapter){
 
         if(inputCtName.value == ""){
             inputCtName.focus();
-            inputCtName.addClass('error');
+            addClass(inputCtName, 'error');
 
             Toastify({
                 text: "Campo nombre requerido",
@@ -306,11 +306,11 @@ if(createChapter){
 
             return true;
         }else{
-            inputCtName.removeClass('error');
+            removeClass(inputCtName, 'error');
         }
         if(inputCtSlug.value == ""){
             inputCtSlug.focus();
-            inputCtSlug.addClass('error');
+            addClass(inputCtSlug, 'error');
 
             Toastify({
                 text: "Campo slug requerido",
@@ -324,7 +324,7 @@ if(createChapter){
 
             return true;
         }else{
-            inputCtSlug.removeClass('error');
+            removeClass(inputCtSlug, 'error');
         }
 
         let chapterForm = document.querySelector('#modalChapter form');
@@ -420,7 +420,7 @@ if(createChapter){
                         let count = 0;
                         for(const item of arrayImages){
                             const imageStatus = document.querySelector('#image-'+ count);
-                            imageStatus.children[1].addClass('spin');
+                            addClass(imageStatus.children[1], 'spin');
                             await axios.post(route('uploadSingle.store'), {
                                 chapter_id: id,
                                 manga_id,
@@ -434,7 +434,7 @@ if(createChapter){
                             }).then(function (response){
                                 console.log(response);
                                 if(response.data.status == "success"){
-                                    imageStatus.children[1].addClass('uploaded');
+                                    addClass(imageStatus.children[1], 'uploaded');
                                     imageStatus.children[1].innerHTML = '<i class="fa-solid fa-check"></i>';
                                 }
                             })
@@ -506,10 +506,10 @@ if(createChapter){
 
                         createContentEditor.destroy();
 
-                        tManga.removeClass('hidden');
-                        tNovel.addClass('hidden');
+                        removeClass(tManga, 'hidden');
+                        addClass(tNovel, 'hidden');
 
-                        createChapter.removeClass('opn');
+                        removeClass(createChapter, 'opn');
                     }, 1000)
                 });
             }else{
@@ -547,7 +547,7 @@ function generarImagenesPreview(images){
         let imageUrl = URL.createObjectURL(images[i]);
         let imageDiv = document.createElement('div');
         let cuentaFinal = cuentaIndex + i;
-        imageDiv.addClass('item');
+        addClass(imageDiv, 'item');
         imageDiv.setAttribute('id', 'image-'+cuentaFinal);
         imageDiv.setAttribute('index', cuentaFinal);
         imageDiv.innerHTML = `
@@ -885,7 +885,7 @@ document.addEventListener('click', function (e) {
                 cuentaItemIndex = 0;
             }
             divChapter.setAttribute('id', 'updateChapter');
-            divChapter.addClass('modal-chapter opn');
+            addClass(divChapter, 'modal-chapter opn');
 
             let url;
             switch (disk) {
@@ -1200,12 +1200,12 @@ document.addEventListener('click', function (e) {
                 let uNovel = document.querySelector('#u-novel');
             
                 if(e.target.value == "novel"){
-                    uManga.addClass('hidden');
-                    uNovel.removeClass('hidden');
+                    addClass(uManga, 'hidden');
+                    removeClass(uNovel, 'hidden');
                 }
                 if(e.target.value == "manga"){
-                    uNovel.addClass('hidden');
-                    uManga.removeClass('hidden');
+                    addClass(uNovel, 'hidden');
+                    removeClass(uManga, 'hidden');
                 }
             });
 
@@ -1219,7 +1219,7 @@ document.addEventListener('click', function (e) {
 
                 if(inputCtName.value == ""){
                     inputCtName.focus();
-                    inputCtName.addClass('error');
+                    addClass(inputCtName, 'error');
         
                     Toastify({
                         text: "Campo nombre requerido",
@@ -1233,11 +1233,11 @@ document.addEventListener('click', function (e) {
         
                     return true;
                 }else{
-                    inputCtName.removeClass('error');
+                    removeClass(inputCtName, 'error');
                 }
                 if(inputCtSlug.value == ""){
                     inputCtSlug.focus();
-                    inputCtSlug.addClass('error');
+                    addClass(inputCtSlug, 'error');
         
                     Toastify({
                         text: "Campo slug requerido",
@@ -1251,7 +1251,7 @@ document.addEventListener('click', function (e) {
         
                     return true;
                 }else{
-                    inputCtSlug.removeClass('error');
+                    removeClass(inputCtSlug, 'error');
                 }
 
                 let encodeData = "";
@@ -1380,8 +1380,8 @@ document.addEventListener('click', function (e) {
 
 function closeUpdateModal(){
     let updateChapter = document.getElementById('updateChapter');
-    updateChapter.addClass('clg');
-    updateChapter.removeClass('opn');
+    addClass(updateChapter, 'clg');
+    removeClass(updateChapter, 'opn');
     setTimeout(() => {
         updateChapter.remove();
     }, 300);
@@ -1404,7 +1404,7 @@ async function subirGenerarImagenes(images, mangaid, chapterid){
         let imageUrl = URL.createObjectURL(images[i]);
         let imageDiv = document.createElement('div');
         let cuentaFinal = cuentaIndex + i;
-        imageDiv.addClass('item');
+        addClass(imageDiv, 'item');
         imageDiv.setAttribute('id', 'image-'+cuentaFinal);
         imageDiv.setAttribute('index', cuentaFinal);
         imageDiv.innerHTML = `
@@ -1428,7 +1428,7 @@ async function subirGenerarImagenes(images, mangaid, chapterid){
         }
         for(const item of arrayImages){
             const imageStatus = document.querySelector('#image-'+ count);
-            imageStatus.children[1].addClass('spin');
+            addClass(imageStatus.children[1], 'spin');
             await axios.post(route('uploadSingle.store'), {
                 chapter_id: chapterid,
                 manga_id: mangaid,
@@ -1442,7 +1442,7 @@ async function subirGenerarImagenes(images, mangaid, chapterid){
             }).then(function (response){
                 console.log(response);
                 if(response.data.status == "success"){
-                    imageStatus.children[1].addClass('uploaded');
+                    addClass(imageStatus.children[1], 'uploaded');
                     imageStatus.children[1].innerHTML = '<i class="fa-solid fa-check"></i>';
                 }
             })
@@ -1507,7 +1507,7 @@ function validarFormulario(){
 
     if(fieldName && fieldName.value == ""){
         fieldName.focus();
-        fieldName.addClass('error');
+        addClass(fieldName, 'error');
 
         Toastify({
             text: "Campo nombre requerido",
@@ -1520,11 +1520,11 @@ function validarFormulario(){
         }).showToast();
         return false;
     }else if(fieldName){
-        fieldName.removeClass('error');
+        removeClass(fieldName, 'error');
     }
     if(fieldSlug && fieldSlug.value == ""){
         fieldSlug.focus();
-        fieldSlug.addClass('error');
+        addClass(fieldSlug, 'error');
 
         Toastify({
             text: "Campo slug requerido",
@@ -1537,13 +1537,13 @@ function validarFormulario(){
         }).showToast();
         return false;
     }else if(fieldSlug){
-        fieldSlug.removeClass('error');
+        removeClass(fieldSlug, 'error');
     }
     if(fieldImage && fieldImage.value == ""){
         let dropImage = document.querySelector('.fm-manga > form .dropzone #choose');
-        dropImage.addClass('error');
+        addClass(dropImage, 'error');
         setTimeout(() => {
-            dropImage.removeClass('error');
+            removeClass(dropImage, 'error');
         }, 1000);
 
         Toastify({
@@ -1558,11 +1558,11 @@ function validarFormulario(){
 
         return false;
     }else if(fieldImage){
-        fieldImage.removeClass('error');
+        removeClass(fieldImage, 'error');
     }
     if(divCategories && fieldCategories.value == ""){
         fieldCategories.focus();
-        divCategories.addClass('error');
+        addClass(divCategories, 'error');
 
         Toastify({
             text: "Campo descripcion requerido",
@@ -1575,7 +1575,7 @@ function validarFormulario(){
         }).showToast();
         return false;
     }else if(divCategories){
-        divCategories.removeClass('error');
+        removeClass(divCategories, 'error');
     }
 
     return true;

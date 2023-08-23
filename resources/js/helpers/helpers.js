@@ -1,25 +1,25 @@
-const hasClass = function(n){
-    if(this.classList.contains(n)){
+const hasClass = function(element, n){
+    if(element.classList.contains(n)){
         return true;
     }
     return false;
 }
-const toggleClass = function(n){
+const toggleClass = function(element, n){
     let classes = n.split(' ');
     classes.forEach(i => {
-        this.classList.toggle(i);
+        element.classList.toggle(i);
     })
 }
-const addClass = function(n){
+const addClass = function(element, n){
     let classes = n.split(' ');
     classes.forEach(i => {
-        this.classList.add(i)
+        element.classList.add(i)
     })
 }
-const removeClass = function(n){
+const removeClass = function(element, n){
     let classes = n.split(' ');
     classes.forEach(i => {
-        this.classList.remove(i)
+        element.classList.remove(i)
     })
 }
 
@@ -82,9 +82,9 @@ let slideDown = (target, duration=500) => {
 }
 let slideToggle = (target, duration = 500) => {
     if (window.getComputedStyle(target).display === 'none') {
-    return slideDown(target, duration);
+        return slideDown(target, duration);
     } else {
-    return slideUp(target, duration);
+        return slideUp(target, duration);
     }
 }
 function sluggify(str){
@@ -93,16 +93,15 @@ function sluggify(str){
     let removeSc = strNoAccents.replace(ctRegex, ' ');
     let strNoSpaces = removeSc.trim();
     return strNoSpaces.replace(ctRegex, '-').toLowerCase();
-} 
-
-Object.prototype.hasClass = hasClass;
-Object.prototype.toggleClass = toggleClass;
-Object.prototype.addClass = addClass;
-Object.prototype.removeClass = removeClass;
-Object.prototype.slideDown = slideDown;
-Object.prototype.slideUp = slideUp;
-Object.prototype.slideToggle = slideToggle;
+}
 
 export {
-    sluggify
+    sluggify,
+    hasClass,
+    toggleClass,
+    addClass,
+    removeClass,
+    slideDown,
+    slideUp,
+    slideToggle
 }

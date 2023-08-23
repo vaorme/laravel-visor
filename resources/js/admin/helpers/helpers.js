@@ -1,5 +1,5 @@
 
-import '../../helpers/helpers';
+import { hasClass, removeClass, addClass } from "../../helpers/helpers";
 
 function dropZone(zone, allowed){
     const drop = document.querySelector(zone);
@@ -7,7 +7,7 @@ function dropZone(zone, allowed){
     if(drop){
         inputElement = drop.nextElementSibling;
         Object.values(drop.children).forEach(val => {
-            if(val.hasClass('preview')){
+            if(hasClass(val, 'preview')){
                 img = val.children[0];
             }    
         });
@@ -38,9 +38,9 @@ function dropFile(file, preview, allowed){
         alert('Tipo de archivo no permitido');
         return 'no allowed';
     }
-    preview.removeClass('added');
+    removeClass(preview, 'added');
     setTimeout(() => {
-        preview.addClass('added');
+        addClass(preview, 'added');
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = function () {
@@ -58,11 +58,11 @@ function sanitizeText(text){
 
 function removeBodyScroll(){
     let bdy = document.querySelector('body');
-    bdy.addClass('noscroll');
+    addClass(bdy, 'noscroll');
 }
 function clearBodyScroll(){
     let bdy = document.querySelector('body');
-    bdy.removeClass('noscroll');
+    removeClass(bdy, 'noscroll');
 }
 
 function validateEmail(email){
@@ -95,20 +95,20 @@ class Modalerts{
         let app = document.querySelector('#app');
         let createAlert = document.createElement('div');
         let createOverlay = document.createElement('div');
-        createOverlay.addClass('al-overlay');
-        createAlert.addClass('alertify');
+        addClass(createOverlay, 'al-overlay');
+        addClass(createAlert, 'alertify');
         if(opt.type == "error"){
-            createAlert.addClass(opt.type);
+            addClass(createAlert, opt.type);
             icon = "sin icono error";
         }
         if(opt.type == "warning"){
-            createAlert.addClass(opt.type);
+            addClass(createAlert, opt.type);
             icon = `
                 <svg aria-labelledby="errorIconTitle" color="#d62323" fill="none" height="48px" role="img" stroke="#d62323" stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" viewBox="0 0 24 24" width="48px" xmlns="http://www.w3.org/2000/svg"><title id="errorIconTitle"/><path d="M12 8L12 13"/><line x1="12" x2="12" y1="16" y2="16"/><circle cx="12" cy="12" r="10"/></svg>
             `;
         }
         if(opt.type == "success"){
-            createAlert.addClass(opt.type);
+            addClass(createAlert, opt.type);
             icon = "sin icono success";
         }
         createAlert.innerHTML = `
@@ -151,8 +151,8 @@ class Modalerts{
     close(alert, over){
         let element = alert;
         let overlay = over;
-        element.addClass('closing');
-        overlay.addClass('closing');
+        addClass(element, 'closing');
+        addClass(overlay, 'closing');
         setTimeout(function(){
             element.remove();
             overlay.remove();
