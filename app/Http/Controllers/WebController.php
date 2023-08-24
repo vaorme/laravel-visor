@@ -24,6 +24,9 @@ class WebController extends Controller{
 			$newChapters = Cache::get('new_chapters');
 		} else {
 			$newChapters = Manga::take(16)->where('status', '=', 'published')->has('latestChapters')->with('latestChapters')->get();
+			$newChapters = $newChapters->sortByDesc(function ($item) {
+				return optional($item->latestChapters->first())->created_at;
+			});
 			Cache::put('new_chapters', $newChapters, Carbon::now()->endOfWeek());
 		}
 

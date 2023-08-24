@@ -153,7 +153,7 @@
 				</a>
 			</div>
 			@if ($mostViewed->isNotEmpty())
-				<h2 class="sidebar__title"><span>Mes</span> Más vistos</h2>
+				<h2 class="sidebar__title"><span>Histórico</span> Más vistos</h2>
 				<section class="section new_manga">
 					<div class="section__content">
 						<div class="new__chapters">

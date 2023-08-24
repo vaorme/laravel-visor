@@ -16,6 +16,10 @@ class Manga extends Model{
 
     protected $table = "manga";
 
+    public function getCustomOrderAttribute(){
+        return $this->created_at->timestamp;
+    }
+
     public function url(){
         return URL::route('manga_detail.index', [
             'slug' => $this->slug
