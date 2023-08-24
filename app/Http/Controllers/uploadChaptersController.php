@@ -233,8 +233,7 @@ class uploadChaptersController extends Controller{
 
             
         }
-        Cache::forget('new_chapters_manga');
-        Cache::forget('new_chapters_novel');
+        Cache::forget('new_chapters');
         Storage::deleteDirectory("tmp/$manga->slug/");
 
         return $response;
@@ -347,8 +346,7 @@ class uploadChaptersController extends Controller{
             $mangaSlug = Manga::firstWhere('id', '=', $mangaid);
             
             $create->save();
-            Cache::forget('new_chapters_manga');
-            Cache::forget('new_chapters_novel');
+            Cache::forget('new_chapters');
             return [
                 "status" => "success",
                 "msg" => "Chapter $create->name created",
@@ -394,8 +392,7 @@ class uploadChaptersController extends Controller{
         $chapter->images = json_encode($dbImages);
 
         if($chapter->save()){
-            Cache::forget('new_chapters_manga');
-            Cache::forget('new_chapters_novel');
+            Cache::forget('new_chapters');
             return response()->json([
                 'msg' => 'Subida completada',
                 "status" => "success",

@@ -12,6 +12,7 @@ use App\Models\UserViewManga;
 use App\Models\ViewCount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class MangaDetailController extends Controller{
     public function index(Request $request){
@@ -22,8 +23,18 @@ class MangaDetailController extends Controller{
         if($manga->status != "published"){
             return abort(404);
         }
-        // $count = new ViewCount;
-        // $manga->viewCount()->save($count);
+
+        $durationInSeconds = 3600;
+        $viewCount = Cache::remember('manga_view_count_'.$manga->id, $durationInSeconds, function () use ($manga) {
+            return $manga->view_count;
+        });
+        
+        // Incrementa cache si no encuentra o expiro
+        Cache::put('manga_view_count_'.$manga->id, $viewCount + 1, $durationInSeconds);
+        // Actualiza la base cada cierto tiempo (e.g., cada 10 visitas o cada minuto)
+        if ($viewCount % 10 === 0) {
+            $manga->increment('view_count', $viewCount - $manga->view_count);
+        }
 
         $viewedChapters = UserViewChapter::where('user_id', '=', Auth::id())
         ->join('chapters', 'chapters.id', '=', 'chapter_id')

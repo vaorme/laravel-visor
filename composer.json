@@ -17,6 +17,7 @@
         "nelexa/zip": "^4.0",
         "nesbot/carbon": "^2.67",
         "spatie/laravel-permission": "^5.7",
+        "staudenmeir/eloquent-eager-limit": "^1.0",
         "tightenco/ziggy": "^1.5"
     },
     "require-dev": {

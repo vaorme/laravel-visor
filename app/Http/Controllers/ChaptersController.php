@@ -107,8 +107,7 @@ class ChaptersController extends Controller{
         $chapter->manga_id = $mangaid;
 
         if($chapter->save()){
-            Cache::forget('new_chapters_manga');
-            Cache::forget('new_chapters_novel');
+            Cache::forget('new_chapters');
             $response = [
                 "status" => "success",
                 "msg" => "Capítulo $chapter->name creado",
@@ -214,8 +213,7 @@ class ChaptersController extends Controller{
         $chapter->disk = $request->disk;
 
         if($chapter->save()){
-            Cache::forget('new_chapters_manga');
-            Cache::forget('new_chapters_novel');
+            Cache::forget('new_chapters');
             $response = [
                 "status" => "success",
                 "msg" => "Capítulo $chapter->name actualizado",
@@ -251,8 +249,7 @@ class ChaptersController extends Controller{
                 'msg' => "Ups, algo paso",
             ]);
         }
-        Cache::forget('new_chapters_manga');
-        Cache::forget('new_chapters_novel');
+        Cache::forget('new_chapters');
         return response()->json([
             'status' => "success",
             'msg' => "Eliminado correctamente",
@@ -311,8 +308,7 @@ class ChaptersController extends Controller{
         $chapter->manga_id = $mangaid;
 
         if($chapter->save()){
-            Cache::forget('new_chapters_manga');
-            Cache::forget('new_chapters_novel');
+            Cache::forget('new_chapters');
             $response = [
                 "status" => "success",
                 "msg" => "Capítulo $chapter->name creado",

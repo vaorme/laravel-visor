@@ -7,6 +7,7 @@ use App\Models\Chapter;
 use App\Models\Manga;
 use App\Models\ViewCount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ViewerChapter extends Controller{
     public function index(Request $request){
@@ -21,8 +22,18 @@ class ViewerChapter extends Controller{
             return abort(404);
         }
 
-        // $count = new ViewCount;
-        // $manga->viewCount()->save($count);
+        // CACHE VIEW
+        $durationInSeconds = 3600;
+        $viewCount = Cache::remember('manga_view_count_'.$manga->id, $durationInSeconds, function () use ($manga) {
+            return $manga->view_count;
+        });
+        
+        // Incrementa cache si no encuentra o expiro
+        Cache::put('manga_view_count_'.$manga->id, $viewCount + 1, $durationInSeconds);
+        // Actualiza la base cada cierto tiempo (e.g., cada 10 visitas o cada minuto)
+        if ($viewCount % 10 === 0) {
+            $manga->increment('view_count', $viewCount - $manga->view_count);
+        }
 
         $viewData = [
             'manga' => $manga,

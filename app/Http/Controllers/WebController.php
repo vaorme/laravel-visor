@@ -13,33 +13,18 @@ use Illuminate\Support\Facades\Storage;
 
 class WebController extends Controller{
     public function index(){
-		
-		$oneWeek = date('Y-m-d', strtotime("-6 days"));
-		$oneMonth = date('Y-m-d', strtotime("-1 month"));
-		
 		if (Cache::has('most_viewed')) {
 			$mostViewed = Cache::get('most_viewed');
 		} else {
-			$mostViewed = Manga::where('status', '=', 'published')->with(['rating', 'viewsMonth'])->has('viewsMonth')->limit(16)->get()->sortByDesc('viewsMonth');
+			$mostViewed = Manga::where('view_count', '>', 0)->orderBy('view_count', 'desc')->take(10)->get();
 			Cache::put('most_viewed', $mostViewed, Carbon::now()->endOfWeek());
 		}
-		
-		if (Cache::has('new_chapters_manga')) {
-			$newChapterManga = Cache::get('new_chapters_manga');
+		// $categories = Category::withCount('mangas')->orderByDesc('mangas_count')->take(8)->get();
+		if (Cache::has('new_chapters')) {
+			$newChapters = Cache::get('new_chapters');
 		} else {
-			$newChapterManga = Chapter::where('created_at', '>=', $oneWeek)->orderBy('id', 'desc')->withWhereHas('manga.type', function($query) {
-				$query->where('slug', '!=','novela');
-			})->get()->unique('manga_id');
-			Cache::put('new_chapters_manga', $newChapterManga->slice(0, 15), Carbon::now()->endOfWeek());
-		}
-
-		if (Cache::has('new_chapters_novel')) {
-			$newChapterNovel = Cache::get('new_chapters_novel');
-		} else {
-			$newChapterNovel = Chapter::where('created_at', '>=', $oneWeek)->orderBy('id', 'desc')->withWhereHas('manga.type', function($query) {
-				$query->where('slug', '=','novela');
-			})->get()->unique('manga_id');
-			Cache::put('new_chapters_novel', $newChapterNovel->slice(0, 15), Carbon::now()->endOfWeek());
+			$newChapters = Manga::take(16)->where('status', '=', 'published')->has('latestChapters')->with('latestChapters')->get();
+			Cache::put('new_chapters', $newChapters, Carbon::now()->endOfWeek());
 		}
 
 		if (Cache::has('top_month')) {
@@ -56,10 +41,9 @@ class WebController extends Controller{
 		}
 
 		$viewData = [
-			'mostViewed' => $mostViewed,
-			'newChapterManga' => $newChapterManga,
-			'newChapterNovel' => $newChapterNovel,
+			'newChapters' => $newChapters,
 			'topmonth' => $topMonthly,
+			'mostViewed' => $mostViewed,
 			'slider' => $slider
 		];
 

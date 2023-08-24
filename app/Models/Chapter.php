@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\URL;
 
 class Chapter extends Model{
+    use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
     use HasFactory;
     
     public function manga(): BelongsTo{

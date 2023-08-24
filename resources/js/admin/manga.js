@@ -1,5 +1,5 @@
 import { dropZone, removeBodyScroll, clearBodyScroll, Modalerts } from './helpers/helpers';
-import { sluggify, removeClass, addClass } from '../helpers/helpers';
+import { sluggify, removeClass, addClass, slideToggle } from '../helpers/helpers';
 let allowTypes = ['jpg', 'jpeg', 'png','webp','gif'];
 dropZone('.fm-manga .dropzone #choose', allowTypes);
 
@@ -136,7 +136,7 @@ if(createChapter){
             holder: 'createChapterContent',
             tools: toolsConfig,
         });
-        createChapter.addClass('opn');
+        addClass(createChapter, 'opn');
         removeBodyScroll();
     });
     document.addEventListener('click', function(e){

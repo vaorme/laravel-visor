@@ -79,16 +79,57 @@
 					{!! $ad_2 !!}
 				</div>
 			@endif
-			<section class="section most__viewed">
+			<section class="section updates">
 				<div class="section__title">
-					<h2><span>mes</span> Más vistos</h2>
+					<h2><span>semana</span> Actualizaciones</h2>
 				</div>
 				<div class="section__content">
 					<div class="manga">
-						@if ($mostViewed)
+						@if ($newChapters)
 							<div class="manga__list">
-								@foreach ($mostViewed as $item)
-									<x-manga-loop-item :item="$item" />
+								@foreach ($newChapters as $item)
+									<div class="manga__item">
+										<div class="manga__cover">
+											<a href="{{ $item->url() }}" class="manga__link">
+												<figure class="manga__image">
+													<img data-src="{{ $item->cover() }}" alt="{{ $item->manga_name }}" class="lazy">
+												</figure>
+											</a>
+											@if ($item->rating->avg('rating'))
+												<div class="manga__ratings">
+													<i class="fa-solid fa-star"></i>
+													<div class="rating__avg">{{ round($item->rating->avg('rating'), 1, PHP_ROUND_HALF_DOWN) }}</div>
+												</div>
+											@endif
+											<div class="manga__terms">
+												@if ($item->demography)
+													<div class="manga__demography {{ $item->demography->slug }}">
+														<a href="{{ $item->demography->url() }}">{{ $item->demography->name }}</a>
+													</div>
+												@endif
+												@if ($item->type)
+													<div class="manga__type {{ $item->type->slug }}">
+														<a href="{{ $item->type->url() }}">{{ $item->type->name }}</a>
+													</div>
+												@endif
+											</div>
+										</div>
+										<h4 class="manga__title">
+											<a href="{{ $item->url() }}" class="manga__link">{{ $item->name }}</a>
+										</h4>
+										<div class="manga__chapters">
+											@foreach ($item->latestChapters as $item)
+												<div class="chapter__item">
+													<a href="{{ $item->url() }}">
+														<span class="chapter__name">{{ Str::limit($item->name, 10); }}</span>
+														<span class="chapter__date">
+															{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}
+														</span>
+													</a>
+												</div>
+											@endforeach
+										</div>
+									</div>
 								@endforeach
 							</div>
 						@else
@@ -111,7 +152,47 @@
 					<span class="button__text">Usuarios</span>
 				</a>
 			</div>
-			@if ($newChapterManga->isNotEmpty() || $newChapterNovel->isNotEmpty())
+			@if ($mostViewed->isNotEmpty())
+				<h2 class="sidebar__title"><span>Mes</span> Más vistos</h2>
+				<section class="section new_manga">
+					<div class="section__content">
+						<div class="new__chapters">
+							@foreach ($mostViewed as $item)
+								<div class="new__chapters__item">
+									<a href="{{ $item->url() }}" class="new__chapters__link">
+										<figure class="new__chapters__image">
+											@php
+												$base64 = asset('storage/images/error-loading-image.png');
+												if (Storage::disk('public')->exists($item->featured_image)) {
+													$pathImage = 'storage/'.$item->featured_image;
+													$imageExtension = pathinfo($pathImage)["extension"];
+													$img = ManipulateImage::cache(function($image) use ($item) {
+														return $image->make('storage/'.$item->featured_image)->fit(80, 68);
+													}, 10, true);
+
+													$img->response($imageExtension, 70);
+													$base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
+												}
+											@endphp
+											<img src="{!! $base64 !!}" alt="{{ $item->name }}">
+										</figure>
+										<div class="new__chapters__group">
+											<div class="new__chapters__content">
+												<h6>{{ $item->name }}</h6>
+												<span class="new__chapters__chapter">{{ parse_numbers_count($item->view_count) }}</span>
+											</div>
+											<div class="new__chapters__icon">
+												<i class="fa-solid fa-book-open"></i>
+											</div>
+										</div>
+									</a>
+								</div>
+							@endforeach
+						</div>
+					</div>
+				</section>
+			@endif
+			{{-- @if ($newChapterManga->isNotEmpty() || $newChapterNovel->isNotEmpty())
 				<h2 class="sidebar__title"><span>Semana</span> Nuevos capítulos</h2>
 			@endif
 			@if ($newChapterManga->isNotEmpty())
@@ -156,8 +237,8 @@
 						</div>
 					</div>
 				</section>
-			@endif
-			@if ($newChapterNovel->isNotEmpty())
+			@endif --}}
+			{{-- @if ($newChapterNovel->isNotEmpty())
 				<section class="section new_novels">
 					<div class="section__title">
 						<div class="section__type">Novelas</div>
@@ -199,7 +280,7 @@
 						</div>
 					</div>
 				</section>
-			@endif
+			@endif --}}
 			@php
 				$ad_1 = config('app.ads_1');
 			@endphp

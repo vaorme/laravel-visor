@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class Manga extends Model{
+    use \Staudenmeir\EloquentEagerLimit\HasEagerLimit;
+
     use HasFactory;
 
     protected $table = "manga";
@@ -22,8 +24,12 @@ class Manga extends Model{
     public function chapters(){
         return $this->hasMany(Chapter::class)->orderBy('id', 'DESC');
     }
+    public function latestChapters(){
+        $week = date('Y-m-d', strtotime("-1 week"));
+        return $this->hasMany(Chapter::class)->where('chapters.created_at', '>=', $week)->orderBy('id', 'DESC')->limit(2);
+    }
     public function lastChapter(){
-        $week = date('Y-m-d', strtotime("-6 day"));
+        $week = date('Y-m-d', strtotime("-1 week"));
         return $this->hasOne(Chapter::class)->where('chapters.created_at', '>=', $week)->orderBy('id', 'DESC');
     }
     public function categories(){

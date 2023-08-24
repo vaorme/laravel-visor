@@ -306,10 +306,8 @@ class MangaController extends Controller{
             // Clear cache
             Cache::forget('home_slider');
             Cache::forget('most_viewed');
-            Cache::forget('new_chapters_novel');
-            Cache::forget('new_chapters_manga');
+            Cache::forget('new_chapters');
             Cache::forget('manga_shortcuts');
-            Cache::forget('categories_home');
             Cache::forget('top_month');
             if(Storage::disk($this->disk)->exists($path)){
                 Storage::disk($this->disk)->deleteDirectory($path);

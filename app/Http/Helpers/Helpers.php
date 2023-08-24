@@ -616,6 +616,22 @@ function editorJsToHtml($json) {
     
     return json_encode($html);
 }
+function parse_numbers_count($n) {
+    // first strip any formatting;
+    $n = (0+str_replace(",","",$n));
+
+    // is this a number?
+    if(!is_numeric($n)) return false;
+
+    // now filter it;
+    if($n>1000000000000) return round(($n/1000000000000),1).'T';
+    else if($n>1000000000) return round(($n/1000000000),1).'B';
+    else if($n>1000000) return round(($n/1000000),1).'M';
+    else if($n>1000) return round(($n/1000),1).'K';
+    else if($n>1) return round(($n/1),1).' Visitas';
+
+    return number_format($n);
+}
 
 function getFavicon($url){
     return "http://www.google.com/s2/favicons?domain=".$url;

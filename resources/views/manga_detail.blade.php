@@ -103,7 +103,7 @@
                         <div class="categories__list">
                             @foreach ($manga->categories as $category)
                                 <div class="category__item">
-                                    <a href="{{ $category->slug }}" class="category__link">
+                                    <a href="{{ $category->url() }}" class="category__link">
                                         {{ $category->name }}
                                     </a>
                                 </div>

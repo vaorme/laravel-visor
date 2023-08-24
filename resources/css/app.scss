@@ -700,10 +700,10 @@ div.toastify.error{
 }
 
 // :MOST VIEWED
-#app main.main .section.home__slider + .section.most__viewed{
+#app main.main .section.home__slider + .section{
 	padding-top: 40px;
 }
-#app main.main .section.most__viewed{
+#app main.main .section.updates{
 	padding-bottom: 40px;
 }
 
@@ -734,7 +734,10 @@ div.toastify.error{
 #app main.main .manga .manga__list .manga__item{
 	position: relative;
 }
-#app main.main .manga .manga__list .manga__item::before{
+#app main.main .manga .manga__list .manga__item .manga__cover{
+	position: relative;
+}
+#app main.main .manga .manga__list .manga__item .manga__cover::before{
     background-color: #1c1c1c;
     position: absolute;
     opacity: 0;
@@ -747,11 +750,9 @@ div.toastify.error{
     height: calc(100% + 30px);
     transition: opacity 0.2s ease;
 }
-#app main.main .manga .manga__list .manga__item:hover::before{
+#app main.main .manga .manga__list .manga__item:hover .manga__cover::before,
+#app main.main .manga .manga__list .manga__item .manga__cover:hover::before{
 	opacity: 1;
-}
-#app main.main .manga .manga__list .manga__item .manga__cover{
-	position: relative;
 }
 #app main.main .manga .manga__list .manga__item .manga__link{
 	display: block;
@@ -878,13 +879,43 @@ div.toastify.error{
 	font-weight: 500;
 	margin-top: 12px;
 }
+#app main.main .manga .manga__list .manga__item .manga__chapters{
+	display: grid;
+	gap: 10px;
+	padding-top: 1rem;
+	grid-template-columns: 100%;
+}
+#app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item{
 
+}
+#app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a{
+	background-color: transparent;
+    display: flex;
+    padding: 5px 10px;
+    border-radius: 35px;
+    align-items: center;
+    border: 1px solid #393939;
+    justify-content: space-between;
+	transition: color .2s ease, border .2s ease;
+}
+#app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a span.chapter__name{
+	font-size: 12px;
+	font-weight: 500;
+}
+#app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a span.chapter__date{
+	font-size: 10px;
+	opacity: .5;
+}
+#app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a:hover{
+	border-color: theme('colors.vo-red');
+}
 // :NEW CHAPTERS
 
 #app main.main .main__wrap.main__home aside.main__sidebar .section.new_manga .section__content,
 #app main.main .main__wrap.main__home aside.main__sidebar .section.new_novels .section__content{
-	max-height: 620px;
-	overflow: hidden;
+    max-height: 720px;
+    overflow: hidden;
+    padding: 20px 0;
 }
 #app main.main .new__chapters{
 	max-height: 620px;
