@@ -121,7 +121,7 @@
 											@foreach ($item->latestChapters as $item)
 												<div class="chapter__item">
 													<a href="{{ $item->url() }}">
-														<span class="chapter__name">{{ Str::limit($item->name, 10); }}</span>
+														<span class="chapter__name">{{ Str::limit($item->name, 16); }}</span>
 														<span class="chapter__date">
 															{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}
 														</span>
