@@ -19,15 +19,22 @@ class WebController extends Controller{
 			$mostViewed = Manga::where('view_count', '>', 0)->orderBy('view_count', 'desc')->take(10)->get();
 			Cache::put('most_viewed', $mostViewed, Carbon::now()->endOfWeek());
 		}
-		// $categories = Category::withCount('mangas')->orderByDesc('mangas_count')->take(8)->get();
 		if (Cache::has('new_chapters')) {
-			$newChapters = Cache::get('new_chapters');
+			$newLimit = Cache::get('new_chapters');
 		} else {
-			$newChapters = Manga::take(16)->where('status', '=', 'published')->has('latestChapters')->with('latestChapters')->get();
-			$newChapters = $newChapters->sortByDesc(function ($item) {
-				return optional($item->latestChapters->first())->created_at;
-			});
-			Cache::put('new_chapters', $newChapters, Carbon::now()->endOfWeek());
+			$newChapters = Manga::where('status', '=', 'published')
+				->has('latestChapters') // Only include manga with at least one latest chapter
+				->with(['latestChapters' => function ($query) {
+					$query->latest('created_at')->limit(2); // Order and limit the latestChapters relationship
+				}])
+				->get();
+
+			$newChapters = $newChapters->sortByDesc(function ($manga) {
+				return optional($manga->latestChapters->first())->created_at; // Get the creation date of the latest chapter
+			})->values(); // Reset the array keys
+
+			$newLimit = $newChapters->take(16);
+			Cache::put('new_chapters', $newLimit, Carbon::now()->endOfWeek());
 		}
 
 		if (Cache::has('top_month')) {
@@ -44,7 +51,7 @@ class WebController extends Controller{
 		}
 
 		$viewData = [
-			'newChapters' => $newChapters,
+			'newChapters' => $newLimit,
 			'topmonth' => $topMonthly,
 			'mostViewed' => $mostViewed,
 			'slider' => $slider
