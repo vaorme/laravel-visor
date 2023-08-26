@@ -69,7 +69,7 @@ Route::middleware('auth', 'verified')->group(function () {
 Route::get('/usuarios', [MembersController::class, 'index'])->name('members.index');
 
 // :USER PROFILE
-Route::get('/u/{username}/{page?}', [ProfileController::class, 'index'])->where(['page' => 'siguiendo|favoritos|atajos'])->name('profile.index');
+Route::get('/u/{username}/{item?}', [ProfileController::class, 'index'])->where(['item' => 'siguiendo|favoritos|atajos'])->name('profile.index');
 
 Route::get('/u/', function(){
     return redirect('/usuarios'); // Redirect home if user go to /u/

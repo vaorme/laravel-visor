@@ -70,7 +70,7 @@ document.addEventListener('click', async function (e) {
         }
         setTimeout(() => {
             followSpam = false;
-        }, 5000);
+        }, 1000);
     }).catch(function (error){
         // handle error
         console.log(error);
@@ -85,7 +85,7 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         setTimeout(() => {
             followSpam = false;
-        }, 5000);
+        }, 1000);
     });
 
 });
@@ -150,7 +150,7 @@ document.addEventListener('click', async function (e) {
         }
         setTimeout(() => {
             unfollowSpam = false;
-        }, 5000);
+        }, 1000);
     })
     .catch(function (error){
         // handle error
@@ -166,7 +166,7 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         setTimeout(() => {
             unfollowSpam = false;
-        }, 5000);
+        }, 1000);
     });
 
 });
@@ -238,7 +238,7 @@ document.addEventListener('click', async function (e) {
         }
         setTimeout(() => {
             viewMangaSpam = false;
-        }, 5000);
+        }, 1000);
     })
     .catch(function (error){
         // handle error
@@ -254,7 +254,7 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         setTimeout(() => {
             viewMangaSpam = false;
-        }, 5000);
+        }, 1000);
     });
 
 });
@@ -324,7 +324,7 @@ document.addEventListener('click', async function (e) {
         }
         setTimeout(() => {
             unviewMangaSpam = false;
-        }, 5000);
+        }, 1000);
     })
     .catch(function (error){
         // handle error
@@ -340,7 +340,7 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         setTimeout(() => {
             unviewMangaSpam = false;
-        }, 5000);
+        }, 1000);
     });
 });
 
@@ -411,7 +411,7 @@ document.addEventListener('click', async function (e) {
         }
         setTimeout(() => {
             favSpam = false;
-        }, 5000);
+        }, 1000);
     })
     .catch(function (error){
         // handle error
@@ -427,7 +427,7 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         setTimeout(() => {
             favSpam = false;
-        }, 5000);
+        }, 1000);
     });
 
 });
@@ -498,7 +498,7 @@ document.addEventListener('click', async function (e) {
         }
         setTimeout(() => {
             unfavSpam = false;
-        }, 5000);
+        }, 1000);
     })
     .catch(function (error){
         // handle error
@@ -514,7 +514,7 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         setTimeout(() => {
             unfavSpam = false;
-        }, 5000);
+        }, 1000);
     });
 });
 
@@ -582,7 +582,7 @@ document.addEventListener('click', async function (e) {
         }
         setTimeout(() => {
             viewSpam = false;
-        }, 5000);
+        }, 1000);
     })
     .catch(function (error){
         // handle error
@@ -598,7 +598,7 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         setTimeout(() => {
             viewSpam = false;
-        }, 5000);
+        }, 1000);
     });
 
 });
@@ -667,7 +667,7 @@ document.addEventListener('click', async function (e) {
         }
         setTimeout(() => {
             unviewSpam = false;
-        }, 5000);
+        }, 1000);
     })
     .catch(function (error){
         // handle error
@@ -683,7 +683,7 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         setTimeout(() => {
             unviewSpam = false;
-        }, 5000);
+        }, 1000);
     });
 });
 
@@ -763,7 +763,7 @@ document.addEventListener('click', async function (e) {
         }
         setTimeout(() => {
             rateSpam = false;
-        }, 5000);
+        }, 1000);
     }).catch(function (error){
         // handle error
         console.log(error);
@@ -778,6 +778,6 @@ document.addEventListener('click', async function (e) {
         }).showToast();
         setTimeout(() => {
             rateSpam = false;
-        }, 5000);
+        }, 1000);
     });
 });

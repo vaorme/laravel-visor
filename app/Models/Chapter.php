@@ -16,10 +16,13 @@ class Chapter extends Model{
         return $this->belongsTo(Manga::class)->where('status', '=', 'published');
     }
     public function url(){
-        return URL::route('chapter_viewer.index', [
-            'manga_slug' => $this->manga->slug,
-            'chapter_slug' => $this->slug
-        ]);
+        if($this->manga){
+            return URL::route('chapter_viewer.index', [
+                'manga_slug' => $this->manga->slug,
+                'chapter_slug' => $this->slug
+            ]);
+        }
+        return "/";
     }
     public function next($mangaid){
         // GET NEXT

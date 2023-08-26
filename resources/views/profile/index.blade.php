@@ -99,14 +99,14 @@
                                 <li class="navbar__item">
                                     <a href="{{ route('profile.index', [
                                         'username' => request()->route('username')
-                                    ]) }}" class="navbar__link{{ (request()->route('page') == null)? ' active' : null }}">Ultimos capitulos <span class="count">Semana</span></a>
+                                    ]) }}" class="navbar__link{{ (request()->route('item') == null)? ' active' : null }}">Ultimos capitulos <span class="count">Semana</span></a>
                                 </li>
                             @endif
                             <li class="navbar__item">
                                 <a href="{{ route('profile.index', [
                                     'username' => request()->route('username'),
-                                    'page' => 'siguiendo'
-                                ]) }}" class="navbar__link{{ ((request()->route('page') && request()->route('page') == 'siguiendo') || (is_null(request()->route('page')) && !Auth::check()))? ' active': null }}">
+                                    'item' => 'siguiendo'
+                                ]) }}" class="navbar__link{{ ((request()->route('item') && request()->route('item') == 'siguiendo') || (is_null(request()->route('item')) && !Auth::check()))? ' active': null }}">
                                     Siguiendo
                                     @if (isset($user->followedMangas))
                                         <span class="count">{{ $user->followedMangas->count() }}</span>
@@ -116,8 +116,8 @@
                             <li class="navbar__item">
                                 <a href="{{ route('profile.index', [
                                     'username' => request()->route('username'),
-                                    'page' => 'favoritos'
-                                ]) }}" class="navbar__link{{ (request()->route('page') && request()->route('page') == 'favoritos')? ' active' : null }}">
+                                    'item' => 'favoritos'
+                                ]) }}" class="navbar__link{{ (request()->route('item') && request()->route('item') == 'favoritos')? ' active' : null }}">
                                     Favoritos
                                     @if (isset($user->favoriteMangas))
                                         <span class="count">{{ $user->favoriteMangas->count() }}</span>
@@ -128,8 +128,8 @@
                                 <li class="navbar__item">
                                     <a href="{{ route('profile.index', [
                                         'username' => request()->route('username'),
-                                        'page' => 'atajos'
-                                    ]) }}" class="navbar__link {{ (request()->route('page') && request()->route('page') == 'atajos')? ' active' : null }}">Editar atajos</a>
+                                        'item' => 'atajos'
+                                    ]) }}" class="navbar__link {{ (request()->route('item') && request()->route('item') == 'atajos')? ' active' : null }}">Editar atajos</a>
                                 </li>
                             @endif
                         </ul>
@@ -145,6 +145,9 @@
                     @if (isset($page) || !Auth::check())
                         @if (!isset($page) || $page == "siguiendo" || $page == "favoritos" || ($page == "atajos" && Auth::check()))
                             @if (isset($manga) && $manga->isNotEmpty())
+                                @php
+                                    $pagination = $manga->links('vendor.pagination.default');
+                                @endphp
                                 <div class="manga__list">
                                     @foreach ($manga as $item)
                                         <div class="manga__item" id="shortcut-p-{{ $item->id }}">
@@ -177,12 +180,16 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                {{ $pagination }}
                             @else
                                 <div class="empty">No hay elementos para mostrar</div>
                             @endif
                         @endif
                     @else
                         @if (isset($manga) && $manga->isNotEmpty())
+                            @php
+                                $pagination = $manga->links('vendor.pagination.default');
+                            @endphp
                             <div class="new__chapters">
                                 @foreach ($manga as $item)
                                     @if (!isset($item->lastChapter))
@@ -221,6 +228,7 @@
                                     </div>
                                 @endforeach
                             </div>
+                            {{ $pagination }}
                         @else
                             <div class="empty">No hay elementos para mostrar</div>
                         @endif

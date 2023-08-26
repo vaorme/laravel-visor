@@ -27,29 +27,29 @@ class ProfileController extends Controller
                 $profile->save();
                 return redirect()->route('profile.index', ['username' => $user->username]);
             }
-            $page = $request->page;
+            $page = $request->item;
             $viewData = [
                 'user' => $user
             ];
             if($user->profile->public_profile || Auth::id() == $user->id){
                 if(!isset($request->page) && Auth::check()){
-                    $viewData['manga'] = $user->followedMangas;
+                    $viewData['manga'] = $user->followedMangas()->paginate(16);
                 }
                 if(isset($page) && $page == "atajos" && !Auth::check()){
                     abort(404);
                 }
                 switch ($page) {
                     case 'siguiendo':
-                        $viewData['manga'] = $user->followedMangas;
+                        $viewData['manga'] = $user->followedMangas()->paginate(16);
                         break;
                     case 'favoritos':
-                        $viewData['manga'] = $user->favoriteMangas;
+                        $viewData['manga'] = $user->favoriteMangas()->paginate(16);
                         break;
                     case 'atajos':
-                        $viewData['manga'] = $user->shortcutMangas;
+                        $viewData['manga'] = $user->shortcutMangas()->paginate(16);
                         break;
                     default:
-                        $viewData['manga'] = $user->followedMangas;
+                        $viewData['manga'] = $user->followedMangas()->paginate(16);
                         break;
                 }
                 $viewData['page'] = $page;
