@@ -7,6 +7,7 @@ use App\Models\Countries;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -32,8 +33,19 @@ class ProfileController extends Controller
                 'user' => $user
             ];
             if($user->profile->public_profile || Auth::id() == $user->id){
-                if(!isset($request->page) && Auth::check()){
-                    $viewData['manga'] = $user->followedMangas()->paginate(16);
+                if(Auth::check()){
+                    
+                    $userLastChapters = collect($user->latestChapters());
+                    $perPage = 16; 
+                    $currentPage = request()->get('page', 1);
+                    $paginatedChapters = new LengthAwarePaginator(
+                        $userLastChapters->forPage($currentPage, $perPage),
+                        $userLastChapters->count(),
+                        $perPage,
+                        $currentPage,
+                        ['path' => route('profile.index', ['username' => $user->username])]
+                    );
+                    $viewData['latest'] = $paginatedChapters;
                 }
                 if(isset($page) && $page == "atajos" && !Auth::check()){
                     abort(404);

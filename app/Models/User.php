@@ -56,6 +56,15 @@ class User extends Authenticatable implements MustVerifyEmail{
     public function shortcutMangas(){
         return $this->belongsToMany(Manga::class, UserShortcut::class)->where('manga.status', '=', 'published')->limit(20);
     }
+    public function latestChapters(){
+        return $this->followedMangas->map(function ($manga) {
+            return $manga->lastChapter;
+        })->filter(function ($chapter) {
+            return $chapter !== null;
+        })->sortByDesc(function ($chapter) {
+            return optional($chapter)->created_at; // Get the creation date of the latest chapter
+        })->values();
+    }
     public function verifiedEmail(){
         return ($this instanceof MustVerifyEmail);
     }

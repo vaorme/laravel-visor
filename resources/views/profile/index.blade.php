@@ -186,25 +186,19 @@
                             @endif
                         @endif
                     @else
-                        @if (isset($manga) && $manga->isNotEmpty())
-                            @php
-                                $pagination = $manga->links('vendor.pagination.default');
-                            @endphp
+                        @if (isset($latest) && $latest->isNotEmpty())
                             <div class="new__chapters">
-                                @foreach ($manga as $item)
-                                    @if (!isset($item->lastChapter))
-                                        @continue
-                                    @endif
+                                @foreach ($latest as $item)
                                     <div class="new__chapters__item">
-                                        <a href="{{ $item->lastChapter->url() }}" class="new__chapters__link">
+                                        <a href="{{ $item->url() }}" class="new__chapters__link">
                                             <figure class="new__chapters__image">
                                                 @php
                                                     $base64 = asset('storage/images/error-loading-image.png');
-                                                    if (Storage::disk('public')->exists($item->featured_image)) {
-                                                        $pathImage = 'storage/'.$item->featured_image;
+                                                    if (Storage::disk('public')->exists($item->manga->featured_image)) {
+                                                        $pathImage = 'storage/'.$item->manga->featured_image;
                                                         $imageExtension = pathinfo($pathImage)["extension"];
                                                         $img = ManipulateImage::cache(function($image) use ($item) {
-                                                            return $image->make('storage/'.$item->featured_image)->fit(80, 68);
+                                                            return $image->make('storage/'.$item->manga->featured_image)->fit(80, 68);
                                                         }, 10, true);
 
                                                         $img->response($imageExtension, 70);
@@ -216,9 +210,9 @@
                                             </figure>
                                             <div class="new__chapters__group">
                                                 <div class="new__chapters__content">
-                                                    <h6>{{ $item->name }}</h6>
-                                                    <span class="new__chapters__chapter">{{ $item->lastChapter->name }}</span>
-                                                    <span class="new__chapters__date">{{ Carbon\Carbon::parse($item->lastChapter->created_at)->diffForHumans()}}</span>
+                                                    <h6>{{ $item->manga->name }}</h6>
+                                                    <span class="new__chapters__chapter">{{ $item->name }}</span>
+                                                    <span class="new__chapters__date">{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}</span>
                                                 </div>
                                                 <div class="new__chapters__icon">
                                                     <i class="fa-solid fa-book-open"></i>									
@@ -228,7 +222,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            {{ $pagination }}
+                            {{ $latest->links('vendor.pagination.default') }}
                         @else
                             <div class="empty">No hay elementos para mostrar</div>
                         @endif
