@@ -25,7 +25,7 @@ class WebController extends Controller{
 			$newChapters = Manga::where('status', '=', 'published')
 				->has('latestChapters') // Only include manga with at least one latest chapter
 				->with(['latestChapters' => function ($query) {
-					$query->latest('created_at')->limit(2); // Order and limit the latestChapters relationship
+					$query->latest('created_at')->orderBy('name', 'DESC')->limit(2); // Order and limit the latestChapters relationship
 				}])
 				->get();
 
