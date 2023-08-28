@@ -119,6 +119,7 @@ class MangaController extends Controller{
 
         if($manga->save()){
             Cache::forget('manga_shortcuts');
+            Cache::forget('new_chapters');
             Cache::forget('most_viewed');
             if(isset($request->categories)){
                 foreach($request->categories as $cat){
@@ -287,6 +288,7 @@ class MangaController extends Controller{
 
         if($manga->save()){
             Cache::forget('manga_shortcuts');
+            Cache::forget('new_chapters');
             Cache::forget('most_viewed');
             return redirect()->route('manga.edit', ['id' => $manga->id])->with('success', 'Manga actualizado correctamente');
         }
