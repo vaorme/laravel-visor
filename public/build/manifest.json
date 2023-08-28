@@ -5,11 +5,11 @@
   "_axios-4a70c6fc.js": {
     "file": "assets/axios-4a70c6fc.js"
   },
-  "_bundle-f83c28e3.js": {
+  "_draggable.bundle-de0222bd.js": {
     "css": [
-      "assets/bundle-a461d729.css"
+      "assets/draggable-a461d729.css"
     ],
-    "file": "assets/bundle-f83c28e3.js",
+    "file": "assets/draggable.bundle-de0222bd.js",
     "imports": [
       "__commonjsHelpers-725317a4.js"
     ]
@@ -39,9 +39,9 @@
       "_axios-4a70c6fc.js"
     ]
   },
-  "bundle.css": {
-    "file": "assets/bundle-a461d729.css",
-    "src": "bundle.css"
+  "draggable.css": {
+    "file": "assets/draggable-a461d729.css",
+    "src": "draggable.css"
   },
   "public/assets/arrow-select-chapters.svg": {
     "file": "assets/arrow-select-chapters-16ce1aa4.svg",
@@ -72,7 +72,7 @@
     "src": "resources/css/app.scss"
   },
   "resources/css/global.scss": {
-    "file": "assets/global-bc84bd32.css",
+    "file": "assets/global-b63ba254.css",
     "isEntry": true,
     "src": "resources/css/global.scss"
   },
@@ -182,10 +182,10 @@
     "src": "resources/fonts/inter/Inter-Thin.ttf"
   },
   "resources/js/admin/admin.js": {
-    "file": "assets/admin-2f72c40c.js",
+    "file": "assets/admin-227dd672.js",
     "imports": [
       "_toastify-f9ee0e47.js",
-      "_bundle-f83c28e3.js",
+      "_draggable.bundle-de0222bd.js",
       "_index-a8aa5ca2.js",
       "_axios-4a70c6fc.js",
       "_helpers-388d927a.js",
@@ -196,10 +196,10 @@
     "src": "resources/js/admin/admin.js"
   },
   "resources/js/admin/library.js": {
-    "file": "assets/library-f6ba267f.js",
+    "file": "assets/library-d5734587.js",
     "imports": [
       "_toastify-f9ee0e47.js",
-      "_bundle-f83c28e3.js",
+      "_draggable.bundle-de0222bd.js",
       "__commonjsHelpers-725317a4.js",
       "_axios-4a70c6fc.js"
     ],
@@ -207,7 +207,7 @@
     "src": "resources/js/admin/library.js"
   },
   "resources/js/admin/manga.js": {
-    "file": "assets/manga-d4078160.js",
+    "file": "assets/manga-e3cf074f.js",
     "imports": [
       "_helpers-388d927a.js",
       "_helpers-6fc151c3.js"
@@ -306,7 +306,7 @@
     "src": "resources/js/web/library.js"
   },
   "resources/js/web/mangaDetail.js": {
-    "file": "assets/mangaDetail-d43c7b3f.js",
+    "file": "assets/mangaDetail-fffaa286.js",
     "imports": [
       "_index-a8aa5ca2.js",
       "_helpers-6fc151c3.js",

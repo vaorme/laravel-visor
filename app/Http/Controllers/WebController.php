@@ -33,7 +33,7 @@ class WebController extends Controller{
 				return optional($manga->latestChapters->first())->created_at; // Get the creation date of the latest chapter
 			})->values(); // Reset the array keys
 
-			$newLimit = $newChapters->take(16);
+			$newLimit = $newChapters->take(20);
 			Cache::put('new_chapters', $newLimit, Carbon::now()->endOfWeek());
 		}
 

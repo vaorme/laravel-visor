@@ -159,7 +159,7 @@
             <div class="view__content{{ ($currentChapter->type == "novel")? ' view__novel' : null}}">
                 @switch($currentChapter->type)
                     @case("novel")
-                        {!! $content !!}
+                        {!! nl2br($content) !!}
                     @break
                     @case("manga")
                         @if(isset($images) && !empty($images))

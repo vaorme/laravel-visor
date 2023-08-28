@@ -9,6 +9,7 @@
         <!-- Styles -->
         <link href="{{ Vite::asset('resources/css/web/tom-select.css') }}" rel="stylesheet">
         <!-- Scripts -->
+        <script src="https://cdn.tiny.cloud/1/it8xtzzcm77gv4mg2r0cs0456xmy9w93n4mstt2u1r5ek0f6/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
         <script type="module" src="{{ Vite::asset('resources/js/admin/library.js') }}"></script>
         @vite(['resources/css/global.scss', 'resources/css/admin/admin.scss'])
         

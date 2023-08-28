@@ -87,7 +87,7 @@ class ViewerChapter extends Controller{
 
         // :NOVEL
         if($currentChapter->type == "novel"){
-            $viewData['content'] = json_decode(editorJsToHtml($currentChapter->content));
+            $viewData['content'] = json_decode($currentChapter->content);
         }
         
         return view('viewer', $viewData);
