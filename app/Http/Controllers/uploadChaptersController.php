@@ -204,6 +204,7 @@ class uploadChaptersController extends Controller{
             }
             
             $scandir = Storage::allFiles($tmp_path);
+            sort($scandir, SORT_NATURAL);
             foreach($scandir as $dirFile){
                 $fileInfo = pathinfo($dirFile);
                 $nBaseName = basename($dirFile);
