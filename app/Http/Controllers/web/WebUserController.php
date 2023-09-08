@@ -52,8 +52,8 @@ class WebUserController extends Controller{
                     Storage::disk($this->disk)->deleteDirectory('images/users/'.$user->username);
                     Storage::disk($this->disk)->makeDirectory('images/users/'.$user->username);
                     $avatarExtension = $request->file('avatar_file')->extension();
-                    $pathAvatar = $request->file('avatar_file')->storeAs('images/users/'.$user->username,'avatar.'.$avatarExtension, $this->disk);
-                    $profile->avatar = 'images/users/'.$user->username.'/avatar.'.$avatarExtension;
+                    $pathAvatar = $request->file('avatar_file')->store('images/users/'.$user->username, $this->disk);
+                    $profile->avatar = $pathAvatar;
                 }else{
                     $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
                 }

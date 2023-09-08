@@ -91,9 +91,11 @@ class UserController extends Controller{
 			$profile->avatar = $request->default_avatar;
 		}else{
 			if(isset($request->avatar_file)){
-				$avatarExtension = $request->file('avatar_file')->extension();
-				$pathAvatar = $request->file('avatar_file')->storeAs('images/users', $request->username.'-avatar.'.$avatarExtension, $this->disk);
-				$profile->avatar = 'images/users/'.$request->username.'-avatar.'.$avatarExtension;
+                Storage::disk($this->disk)->deleteDirectory('images/users/'.$user->username);
+                Storage::disk($this->disk)->makeDirectory('images/users/'.$user->username);
+                $avatarExtension = $request->file('avatar_file')->extension();
+                $pathAvatar = $request->file('avatar_file')->store('images/users/'.$request->username, $this->disk);
+                $profile->avatar = $pathAvatar;
 			}else{
 				$profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
 			}
@@ -222,9 +224,11 @@ class UserController extends Controller{
                 $profile->avatar = $request->current_avatar;
             }else{
                 if(isset($request->avatar_file)){
+                    Storage::disk($this->disk)->deleteDirectory('images/users/'.$user->username);
+                    Storage::disk($this->disk)->makeDirectory('images/users/'.$user->username);
                     $avatarExtension = $request->file('avatar_file')->extension();
-                    $pathAvatar = $request->file('avatar_file')->storeAs('images/users', $request->username.'-avatar.'.$avatarExtension, $this->disk);
-                    $profile->avatar = 'images/users/'.$request->username.'-avatar.'.$avatarExtension;
+                    $pathAvatar = $request->file('avatar_file')->store('images/users/'.$request->username, $this->disk);
+                    $profile->avatar = $pathAvatar;
                 }else{
                     $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
                 }
