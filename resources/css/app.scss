@@ -85,6 +85,7 @@ div.toastify.error{
 #app main.main .main__wrap{
 	padding: 0;
 	width: 100%;
+	padding-left: 1.5rem;
 	padding-right: calc(102px + 1.5rem);
 }
 #app main.main .main__wrap.main__home{
@@ -1074,7 +1075,7 @@ div.toastify.error{
 		grid-template-columns: repeat(4, 1fr);
 	}
 	#app main.main .main__wrap{
-		padding-right: 1.5rem;
+		padding: 0;
 	}
 	#app main.main .section.section__cat{
 		padding: 25px;

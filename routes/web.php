@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\MangaDetailController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShortcutsController;
 use App\Http\Controllers\uploadChaptersController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\web\CartController;
+use App\Http\Controllers\web\CheckoutController;
 use App\Http\Controllers\web\LibraryController;
 use App\Http\Controllers\web\MembersController;
+use App\Http\Controllers\web\ShopController;
 use App\Http\Controllers\web\ViewerChapter;
 use App\Http\Controllers\web\WebUserController;
 use App\Http\Controllers\WebController;
@@ -63,7 +67,17 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/u/remove_shortcut', [ShortcutsController::class, 'destroy'])->name('shortcut.destroy');
     
     Route::post('/rate/{manga_id}', [WebUserController::class, 'rateManga'])->name('rate_manga.store');
+
+    Route::controller(PaymentController::class)->prefix('checkout')->group(function () {
+        Route::get('/', 'index')->name('checkout.index');
+        Route::get('/success', 'index')->name('checkout.success');
+        Route::get('/canceled', 'index')->name('checkout.canceled');
+        Route::post('/payment-processing', [PaymentController::class, 'paypalProcessing'])->name('paypal.processing');
+        Route::get('/payment-success', [PaymentController::class, 'paypalSuccess'])->name('paypal.success');
+        Route::get('/payment-canceled', [PaymentController::class, 'paypalCancel'])->name('paypal.cancel');
+    });
 });
+Route::get("/tienda", [ShopController::class, 'index'])->name('shop.index');
 
 // :MEMBERS
 Route::get('/usuarios', [MembersController::class, 'index'])->name('members.index');

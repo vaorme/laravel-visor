@@ -21,6 +21,10 @@
         @if (Route::is(['manga.index', 'manga.create', 'manga.edit']))
             <script type="module" src="{{ Vite::asset('resources/js/admin/manga.js') }}"></script>
         @endif
+        @if (Route::is(['products.index', 'products.create', 'products.edit']))
+            <script type="module" src="{{ Vite::asset('resources/js/admin/products.js') }}"></script>
+            <link href="{{ Vite::asset('resources/css/admin/products.scss') }}" rel="stylesheet">
+        @endif
         @if (Route::is([
             'manga_book_status.index',
             'manga_book_status.create',

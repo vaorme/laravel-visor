@@ -1425,6 +1425,15 @@ main.main{
                 }
             }
         }
+        .contain .empty{
+            padding: 2rem;
+            text-align: center;
+        }
+        .contain .empty p{
+            color: #838383;
+            font-size: 16px;
+            font-weight: 500;
+        }
         .template-1, .template-3{
             .errores{
                 background-color: #452929;
@@ -1447,15 +1456,6 @@ main.main{
             }
             .contain{
                 border-right: 1px solid rgb(#fff, .1);
-            }
-            .contain .empty{
-                padding: 2rem;
-                text-align: center;
-            }
-            .contain .empty p{
-                color: #838383;
-                font-size: 16px;
-                font-weight: 500;
             }
             aside.side{
                 h2{
