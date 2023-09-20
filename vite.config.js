@@ -17,6 +17,7 @@ export default defineConfig({
 
                 // :PRODUCTS
                 'resources/js/admin/products.js',
+                'resources/css/admin/products.scss',
 
                 // :ORDERS
                 'resources/js/admin/orders.js',

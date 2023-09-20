@@ -87,6 +87,12 @@ class User extends Authenticatable implements MustVerifyEmail{
         $chapter = Chapter::find($chapterid);
         if($chapter){
             $userCoins = $this->coins;
+            if(!$userCoins){
+                return response()->json([
+                    'status' => "error",
+                    'message' => "No tienes suficientes monedas."
+                ]);
+            }
             if($userCoins->coins < $chapter->price){
                 return response()->json([
                     'status' => "error",

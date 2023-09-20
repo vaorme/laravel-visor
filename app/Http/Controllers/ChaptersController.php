@@ -162,7 +162,6 @@ class ChaptersController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-        // return response()->json($request->all());
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'max:50'],
             'slug' => ['required', 'max:50', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/']
@@ -206,6 +205,8 @@ class ChaptersController extends Controller{
         $chapter->type = $request->type;
         if(!empty($request->price)){
             $chapter->price = $request->price;
+        }else{
+            $chapter->price = "";
         }
         if(!empty($request->content)){
             $chapter->content = $request->content;
@@ -301,6 +302,8 @@ class ChaptersController extends Controller{
         $chapter->disk = $request->disk;
         if(!empty($request->price)){
             $chapter->price = $request->price;
+        }else{
+            $chapter->price = "";
         }
         if(!empty($request->content)){
             $chapter->content = $request->content;
