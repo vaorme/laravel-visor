@@ -1830,3 +1830,24 @@ main.main .table .table__search{
         }
     }
 }
+.order .order__details{
+    background-color: #1c1c1c;
+    padding: 2rem;
+    width: 50%;
+    border-radius: 12px;
+}
+.order .order__details table{
+    width: 100%;
+}
+.order .order__details table td{
+    opacity: .5;
+    color: #fff;
+    font-size: 16px;
+}
+.order .order__details table td.check__title{
+    font-weight: 300;
+}
+.order .order__details table td.check__element{
+    text-align: end;
+    opacity: 1;
+}

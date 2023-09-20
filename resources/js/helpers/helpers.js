@@ -5,22 +5,28 @@ const hasClass = function(element, n){
     return false;
 }
 const toggleClass = function(element, n){
-    let classes = n.split(' ');
-    classes.forEach(i => {
-        element.classList.toggle(i);
-    })
+    if(element){
+        let classes = n.split(' ');
+        classes.forEach(i => {
+            element.classList.toggle(i);
+        })
+    }
 }
 const addClass = function(element, n){
-    let classes = n.split(' ');
-    classes.forEach(i => {
-        element.classList.add(i)
-    })
+    if(element){
+        let classes = n.split(' ');
+        classes.forEach(i => {
+            element.classList.add(i)
+        })
+    }
 }
 const removeClass = function(element, n){
-    let classes = n.split(' ');
-    classes.forEach(i => {
-        element.classList.remove(i)
-    })
+    if(element){
+        let classes = n.split(' ');
+        classes.forEach(i => {
+            element.classList.remove(i)
+        })
+    }
 }
 
 let slideUp = (target, duration=500) => {

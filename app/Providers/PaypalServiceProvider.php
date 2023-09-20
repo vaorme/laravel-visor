@@ -5,16 +5,19 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 
-class PaypalServiceProvider extends ServiceProvider
-{
-    private $apiBase;
+class PaypalServiceProvider extends ServiceProvider{
+    private $apiUrl;
+    private $oauthUrl;
     private $clientId;
     private $secret;
 
     public function __construct(){
-        $this->apiBase = config('services.paypal.mode') === 'live'
-            ? 'https://api.paypal.com/v2'
+        $this->apiUrl = config('services.paypal.mode') === 'live'
+            ? 'https://api-m.paypal.com/v2'
             : 'https://api-m.sandbox.paypal.com/v2';
+        $this->oauthUrl = config('services.paypal.mode') === 'live'
+            ? 'https://api-m.paypal.com/v1'
+            : 'https://api-m.sandbox.paypal.com/v1';
         $this->clientId = config('services.paypal.mode') === 'live'
             ? config('services.paypal.client_id')
             : config('services.paypal.sandbox_client_id');
@@ -27,7 +30,7 @@ class PaypalServiceProvider extends ServiceProvider
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->getAccessToken(),
             'Content-Type' => 'application/json',
-        ])->post($this->apiBase . '/checkout/orders', [
+        ])->post($this->apiUrl . '/checkout/orders', [
             'intent' => 'CAPTURE',
             'purchase_units' => [
                 [
@@ -41,18 +44,25 @@ class PaypalServiceProvider extends ServiceProvider
             'application_context' => [
                 'return_url' => $successUrl,
                 'cancel_url' => $cancelUrl,
-            ],
+            ]
         ]);
 
         return $response->json();
     }
-    public function capturePaymentOrder($token){
+    public function orderDetails($token){
         $accessToken = $this->getAccessToken();
-        $mode = config('services.paypal.mode');
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $accessToken,
             'Content-Type' => 'application/json',
-        ])->post("https://api-m.sandbox.paypal.com/v2/checkout/orders/{$token}/capture", [
+        ])->get($this->apiUrl ."/checkout/orders/{$token}");
+        return $response->json();
+    }
+    public function capturePaymentOrder($token){
+        $accessToken = $this->getAccessToken();
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $accessToken,
+            'Content-Type' => 'application/json',
+        ])->post($this->apiUrl ."/checkout/orders/{$token}/capture", [
             'return' => 'representation'
         ]);
         // $response = Http::withToken($accessToken)
@@ -65,17 +75,15 @@ class PaypalServiceProvider extends ServiceProvider
     private function getAccessToken(){
         $clientId = $this->clientId;
         $secret = $this->secret;
-        $mode = config('services.paypal.mode');
 
         $credentials = base64_encode($clientId . ':' . $secret);
 
         $response = Http::asForm()->withHeaders([
             'Authorization' => 'Basic ' . $credentials,
             'Content-Type' => 'application/x-www-form-urlencoded',
-        ])->post("https://api-m.$mode.paypal.com/v1/oauth2/token", [
+        ])->post($this->oauthUrl ."/oauth2/token", [
             "grant_type" => 'client_credentials',
         ]);
-
         return $response->json('access_token');
     }
 }

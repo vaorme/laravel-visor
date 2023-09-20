@@ -22,11 +22,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="group hidden" id="option-1">
+                            <div class="group {{ ($edit->product_type_id == 1)? '' : ' hidden' }}" id="option-1">
                                 <label>Cantidad de monedas</label>
                                 <input type="number" name="amount_coins" value="{{ old('amount_coins', $edit->coins) }}">
                             </div>
-                            <div class="group hidden" id="option-2">
+                            <div class="group {{ ($edit->product_type_id == 2)? '' : ' hidden' }}" id="option-2">
                                 <label>Cantidad de dias sin publicidad</label>
                                 <input type="number" name="days_without_ads" value="{{ old('days_without_ads', $edit->days_without_ads) }}">
                             </div>

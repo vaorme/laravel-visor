@@ -14,16 +14,18 @@
                 <div class="profile__card">
                     <div class="card__box">
                         <div class="card__content">
-                            @if (isset($user->profile->coins))
-                                <div class="card__fly card__money" data-tippy-placement="top" data-tippy-content="Monedas">
-                                    <div class="card__icon">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8 0.5C12.1423 0.5 15.5 3.85775 15.5 8C15.5 12.1423 12.1423 15.5 8 15.5C3.85775 15.5 0.5 12.1423 0.5 8C0.5 3.85775 3.85775 0.5 8 0.5ZM7.46975 5.348L5.348 7.46975C5.2074 7.6104 5.12841 7.80113 5.12841 8C5.12841 8.19887 5.2074 8.3896 5.348 8.53025L7.46975 10.652C7.6104 10.7926 7.80113 10.8716 8 10.8716C8.19887 10.8716 8.3896 10.7926 8.53025 10.652L10.652 8.53025C10.7926 8.3896 10.8716 8.19887 10.8716 8C10.8716 7.80113 10.7926 7.6104 10.652 7.46975L8.53025 5.348C8.3896 5.2074 8.19887 5.12841 8 5.12841C7.80113 5.12841 7.6104 5.2074 7.46975 5.348Z" fill="white" fill-opacity="0.5"/>
-                                        </svg>
-                                    </div>
-                                    {{ $user->profile->coins }}
+                            <div class="card__fly card__money" data-tippy-placement="top" data-tippy-content="Monedas">
+                                <div class="card__icon">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 0.5C12.1423 0.5 15.5 3.85775 15.5 8C15.5 12.1423 12.1423 15.5 8 15.5C3.85775 15.5 0.5 12.1423 0.5 8C0.5 3.85775 3.85775 0.5 8 0.5ZM7.46975 5.348L5.348 7.46975C5.2074 7.6104 5.12841 7.80113 5.12841 8C5.12841 8.19887 5.2074 8.3896 5.348 8.53025L7.46975 10.652C7.6104 10.7926 7.80113 10.8716 8 10.8716C8.19887 10.8716 8.3896 10.7926 8.53025 10.652L10.652 8.53025C10.7926 8.3896 10.8716 8.19887 10.8716 8C10.8716 7.80113 10.7926 7.6104 10.652 7.46975L8.53025 5.348C8.3896 5.2074 8.19887 5.12841 8 5.12841C7.80113 5.12841 7.6104 5.2074 7.46975 5.348Z" fill="white" fill-opacity="0.5"/>
+                                    </svg>
                                 </div>
-                            @endif
+                                @if ($user->coins)
+                                    {{ $user->coins->coins }}
+                                @else
+                                    0
+                                @endif
+                            </div>
                             @if (isset($country))
                                 <div class="card__fly card__country" data-tippy-placement="top" data-tippy-content="{{ $country->name }}">
                                     <div class="card__icon">
@@ -76,6 +78,12 @@
                                     </div>
                                 @endif
                                 @if (Auth::check() && Auth::id() == $user->id)
+                                    @if (!$user->showAds())
+                                    <div class="user__remain__days">
+                                        <h6>Días sin publicidad:</h6>
+                                        <div class="days__count">{{ $user->remainingDays() }}</div>
+                                    </div>
+                                    @endif
                                     <div class="user__buttons">
                                         <a href="{{ route('account.index') }}" class="button__item">Editar perfil</a>
                                     </div>                        
@@ -83,13 +91,15 @@
                             </div>
                         </div>
                     </div>
-                    @php
-                        $ad_7 = config('app.ads_7');
-                    @endphp
-                    @if ($ad_7)
-                        <div class="vealo">
-                            {!! $ad_7 !!}
-                        </div>
+                    @if (showAds())
+                        @php
+                            $ad_7 = config('app.ads_7');
+                        @endphp
+                        @if ($ad_7)
+                            <div class="vealo">
+                                {!! $ad_7 !!}
+                            </div>
+                        @endif
                     @endif
                 </div>
                 <div class="profile__content manga">
@@ -134,13 +144,15 @@
                             @endif
                         </ul>
                     </div>
-                    @php
-                        $ad_8 = config('app.ads_8');
-                    @endphp
-                    @if ($ad_8)
-                        <div class="vealo">
-                            {!! $ad_8 !!}
-                        </div>
+                    @if (showAds())
+                        @php
+                            $ad_8 = config('app.ads_8');
+                        @endphp
+                        @if ($ad_8)
+                            <div class="vealo">
+                                {!! $ad_8 !!}
+                            </div>
+                        @endif
                     @endif
                     @if (isset($page) || !Auth::check())
                         @if (!isset($page) || $page == "siguiendo" || $page == "favoritos" || ($page == "atajos" && Auth::check()))

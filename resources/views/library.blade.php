@@ -64,6 +64,16 @@
         </form>
     </aside>
     <section class="library">
+        @if (showAds())
+            @php
+                $ad_2 = config('app.ads_2');
+            @endphp
+            @if ($ad_2)
+                <div class="vealo">
+                    {!! $ad_2 !!}
+                </div>
+            @endif
+        @endif
         <div class="manga">
             @if ($list->isNotEmpty())
                 <div class="manga__list">
@@ -76,5 +86,15 @@
                 <div class="empty">No hay elementos para mostrar</div>
             @endif
         </div>
+        @if (showAds())
+            @php
+                $ad_9 = config('app.ads_9');
+            @endphp
+            @if ($ad_9)
+                <div class="vealo">
+                    {!! $ad_9 !!}
+                </div>
+            @endif
+        @endif
     </section>
 </x-app-layout>

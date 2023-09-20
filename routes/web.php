@@ -14,6 +14,7 @@ use App\Http\Controllers\web\ShopController;
 use App\Http\Controllers\web\ViewerChapter;
 use App\Http\Controllers\web\WebUserController;
 use App\Http\Controllers\WebController;
+use App\Http\Controllers\WebHooksController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -43,6 +44,9 @@ Route::middleware('auth', 'verified')->group(function () {
 
         // :UPDATE USER
         Route::patch('{id}', [WebUserController::class, 'update'])->name('currentUser.update');
+
+        // :USER BUY CHAPTER
+        Route::post('buy-chapter', [WebUserController::class, 'buyChapter'])->name('userBuyChapter.store');
     });
     // :USER SHORTCUTS
     Route::post('shortcut/add', [ShortcutsController::class, 'store'])->name('shortcut.store');
@@ -70,13 +74,18 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::controller(PaymentController::class)->prefix('checkout')->group(function () {
         Route::get('/', 'index')->name('checkout.index');
-        Route::get('/success', 'index')->name('checkout.success');
-        Route::get('/canceled', 'index')->name('checkout.canceled');
+        Route::get('/order', 'order')->name('checkout.order');
+        Route::get('/cancelled', 'cancelled')->name('checkout.cancelled');
         Route::post('/payment-processing', [PaymentController::class, 'paypalProcessing'])->name('paypal.processing');
         Route::get('/payment-success', [PaymentController::class, 'paypalSuccess'])->name('paypal.success');
-        Route::get('/payment-canceled', [PaymentController::class, 'paypalCancel'])->name('paypal.cancel');
+        Route::get('/payment-cancelled', [PaymentController::class, 'paypalCancel'])->name('paypal.cancel');
     });
 });
+
+// :WEBHOOK PAYPAL
+Route::post('/checkout/paypal/webhook', [WebHooksController::class, 'paypalWebhook']);
+
+// :SHOP
 Route::get("/tienda", [ShopController::class, 'index'])->name('shop.index');
 
 // :MEMBERS

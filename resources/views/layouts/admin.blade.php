@@ -21,9 +21,20 @@
         @if (Route::is(['manga.index', 'manga.create', 'manga.edit']))
             <script type="module" src="{{ Vite::asset('resources/js/admin/manga.js') }}"></script>
         @endif
-        @if (Route::is(['products.index', 'products.create', 'products.edit']))
+        @if (Route::is([
+            'products.index',
+            'products.create',
+            'products.edit',
+            'product_types.index'
+        ]))
             <script type="module" src="{{ Vite::asset('resources/js/admin/products.js') }}"></script>
             <link href="{{ Vite::asset('resources/css/admin/products.scss') }}" rel="stylesheet">
+        @endif
+        @if (Route::is([
+            'orders.edit',
+            'orders.index'
+        ]))
+            <script type="module" src="{{ Vite::asset('resources/js/admin/orders.js') }}"></script>
         @endif
         @if (Route::is([
             'manga_book_status.index',

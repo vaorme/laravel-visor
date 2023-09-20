@@ -171,6 +171,14 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="group">
+                                <label>Días sin publicidad</label>
+                                <input type="number" name="days_without_ads" value="{{ (isset($user->daysNotAds) && $user->daysNotAds->exists())? $user->daysNotAds->days_without_ads : '' }}">
+                            </div>
+                            <div class="group">
+                                <label>Monedas</label>
+                                <input type="number" name="coins" value="{{ (isset($user->coins) && $user->coins->exists())? $user->coins->coins : '' }}">
+                            </div>
 							<div class="group">
                                 <label>Role</label>
                                 <select name="roles">

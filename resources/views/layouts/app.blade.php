@@ -35,21 +35,25 @@
         @if (Route::is(['members.index']))
             <link href="{{ Vite::asset('resources/css/web/users.scss') }}" rel="stylesheet">
         @endif
-        @php
-            $insertHead = config('app.head');
-        @endphp
-        @if ($insertHead)
-            {!! $insertHead !!}
+        @if (showAds())
+            @php
+                $insertHead = config('app.head');
+            @endphp
+            @if ($insertHead)
+                {!! $insertHead !!}
+            @endif
         @endif
     </head>
     <body>
-        @php
-            $insertBody = config('app.body');
-        @endphp
-        @if ($insertBody)
-            <div class="bdy vealo">
-                {!! $insertBody !!}
-            </div>
+        @if (showAds())
+            @php
+                $insertBody = config('app.body');
+            @endphp
+            @if ($insertBody)
+                <div class="bdy vealo">
+                    {!! $insertBody !!}
+                </div>
+            @endif
         @endif
         <div id="app">
             <x-header />
@@ -58,6 +62,40 @@
 				<x-main-shortcuts />
             </main>
             <x-footer/>
+            <div class="overlay"></div>
+            <div class="modal" id="chapter-premium">
+                <div class="modal__head">
+                    <h4>Capítulo premium</h4>
+                    <button>
+                        <svg version="1.1" width="20" height="20" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="grid_system"></g>
+                            <g id="_icons">
+                                <path d="M5.3,18.7C5.5,18.9,5.7,19,6,19s0.5-0.1,0.7-0.3l5.3-5.3l5.3,5.3c0.2,0.2,0.5,0.3,0.7,0.3s0.5-0.1,0.7-0.3   c0.4-0.4,0.4-1,0-1.4L13.4,12l5.3-5.3c0.4-0.4,0.4-1,0-1.4s-1-0.4-1.4,0L12,10.6L6.7,5.3c-0.4-0.4-1-0.4-1.4,0s-0.4,1,0,1.4   l5.3,5.3l-5.3,5.3C4.9,17.7,4.9,18.3,5.3,18.7z"></path>
+                            </g>
+                        </svg>
+                    </button>
+                </div>
+                <div class="modal__body">
+                    <div class="chapter__buy">
+                        <div class="buy__box">
+                            @if (Auth::check())
+                                <form action="/" method="post" class="buy-chapter-form">
+                                    @csrf
+                                    <input type="hidden" name="chapter_id" value="">
+                                    <h4></h4>
+                                    <button>Comprar</button>
+                                </form>
+                            @else
+                                <h2>Capítulo premium</h2>
+                                <p>Debes <a href="{{ route('login') }}" target="_blank">Iniciar sesión</a> primero.</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="modal__footer">
+
+                </div>
+            </div>
         </div>
         {{-- SCRIPTS --}}
         <script type="module" src="{{ Vite::asset('resources/js/web/app.js') }}"></script>

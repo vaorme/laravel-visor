@@ -6,6 +6,7 @@ use App\Http\Controllers\MangaBookStatusController;
 use App\Http\Controllers\MangaController;
 use App\Http\Controllers\MangaDemographyController;
 use App\Http\Controllers\MangaTypeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
@@ -182,6 +183,17 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 
             // Delete
             Route::delete('{id}', [RoleController::class, 'destroy'])->middleware(['permission:roles.destroy'])->name('roles.destroy');
+        });
+
+        Route::prefix('orders')->group(function(){
+            Route::get("/", [OrderController::class, 'index'])->middleware(['permission:orders.index'])->name('orders.index');
+
+            //Edit
+            Route::get('{id}', [OrderController::class, 'edit'])->middleware(['permission:orders.edit'])->name('orders.edit');
+            Route::patch('{id}', [OrderController::class, 'update'])->middleware(['permission:orders.edit'])->name('orders.update');
+
+            // Delete
+            Route::delete('{id}', [OrderController::class, 'destroy'])->middleware(['permission:orders.destroy'])->name('orders.destroy');
         });
 
         Route::prefix('products')->group(function(){

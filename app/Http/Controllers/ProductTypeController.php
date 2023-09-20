@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductTypeController extends Controller
 {
@@ -12,9 +13,21 @@ class ProductTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        $loop = ProductType::get();
-        return view('admin.products.type.index', ['loop' => $loop]);
+    public function index(Request $request){
+        $loop = ProductType::latest();
+        $data = [
+            'loop' => $loop->paginate(15),
+        ];
+        if(isset($request->id)){
+            $user = Auth::user();
+            if($user->can('product_types.edit')){
+                $edit = ProductType::find($request->id);
+                $data['edit'] = $edit;
+            }else{
+                return abort(404);
+            }
+        }
+        return view('admin.products.type.index', $data);
     }
 
     /**
@@ -42,18 +55,9 @@ class ProductTypeController extends Controller
         $store->name = $request->name;
 
         if($store->save()){
-            $response['success'] = [
-                'msg' => "Tipo creado correctamente.",
-                'data' => $store
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $store
-            ];
+            return redirect()->route('product_types.index')->with('success', 'Tipo creado correctamente');
         }
-
-        return $response;
+        return redirect()->route('product_types.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**
@@ -96,17 +100,9 @@ class ProductTypeController extends Controller
         $update->name = $request->name;
 
         if($update->save()){
-            $response['success'] = [
-                'msg' => "Tipo actualizado correctamente.",
-                'data' => $update
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $update
-            ];
+            return redirect()->route('product_types.index')->with('success', 'Tipo actulizado correctamente');
         }
-        return $response;
+        return redirect()->route('product_types.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**

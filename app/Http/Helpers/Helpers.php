@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+
 function sanitize_title( $title, $fallback_title = '', $context = 'save' ) {
     $raw_title = $title;
     if ( 'save' === $context ) {
@@ -635,4 +637,14 @@ function parse_numbers_count($n) {
 
 function getFavicon($url){
     return "http://www.google.com/s2/favicons?domain=".$url;
+}
+
+function showAds(){
+    if(Auth::check()){
+        $user = Auth::user();
+        if(!$user->showAds()){
+            return false;
+        }
+    }
+    return true;
 }

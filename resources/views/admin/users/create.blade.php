@@ -114,6 +114,14 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="group">
+                                <label>Días sin publicidad</label>
+                                <input type="number" name="days_without_ads" value="">
+                            </div>
+                            <div class="group">
+                                <label>Monedas</label>
+                                <input type="number" name="coins" value="">
+                            </div>
 							<div class="group">
                                 <label>Role</label>
                                 <select name="roles">

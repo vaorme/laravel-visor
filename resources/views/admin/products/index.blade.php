@@ -4,9 +4,7 @@
         $status = request()->all('status');
     @endphp
     <x-admin.nav>
-        <li class="{{ (request()->is('controller/manga/type')) ? 'active' : '' }}"><a href="{{ route('manga_types.index') }}">Tipos</a></li>
-        <li class="{{ (request()->is('controller/manga/status')) ? 'active' : '' }}"><a href="{{ route('manga_book_status.index') }}">Estados</a></li>
-        <li class="{{ (request()->is('controller/manga/demography')) ? 'active' : '' }}"><a href="{{ route('manga_demography.index') }}">Demografia</a></li>
+        <li class="{{ (request()->is('controller/manga/type')) ? 'active' : '' }}"><a href="{{ route('product_types.index') }}">Tipos</a></li>
     </x-admin.nav>
     <x-admin.bar title="Productos" :buttonTo="route('products.create')" buttonText="Añadir producto"/>
     <div class="contain">

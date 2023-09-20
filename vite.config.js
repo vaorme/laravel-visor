@@ -18,6 +18,9 @@ export default defineConfig({
                 // :PRODUCTS
                 'resources/js/admin/products.js',
 
+                // :ORDERS
+                'resources/js/admin/orders.js',
+
                 // :WEB
 
                 // LOGIN / REGISTER

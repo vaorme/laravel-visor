@@ -135,3 +135,53 @@ function validateFields(form){
 
     return true;
 }
+
+// :DELETE CATEGORIES
+
+document.addEventListener('click', function (e) {
+	if (!e.target.matches('.productTypeDelete')) return;
+
+    e.preventDefault();
+
+	let id = e.target.getAttribute('data-id');
+
+    nn.fire({
+        type: "warning",
+        title: "Seguro que deseas eliminar?",
+        text: "¡No podrás revertir esto!",
+        confirmButtonText: "Si, eliminar",
+        cancelButtonText: "Cancelar"
+    }).then(res => {
+        if(res.confirmed){
+            axios.delete(route('product_types.destroy', [id]), {
+                headers:{
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            }).then(function (response){
+                Toastify({
+                    text: response.data.msg,
+                    className: "success",
+                    duration: 1000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top", // `top` or `bottom`
+                    position: "center", // `left`, `center` or `right`
+                }).showToast();
+                let alertify = document.querySelector('.alertify');
+                let over = document.querySelector('.al-overlay');
+                nn.close(alertify, over);
+
+                setTimeout(() => {
+                    window.location.href = route('product_types.index');
+                }, 1000);
+            })
+            .catch(function (error){
+                // handle error
+                console.log(error);
+            });
+        }
+    }).catch(err => {
+        console.log(err);
+    })
+
+});

@@ -7,8 +7,7 @@ use App\Models\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller{
     /**
      * Display a listing of the resource.
      *

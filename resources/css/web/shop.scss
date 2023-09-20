@@ -1,5 +1,14 @@
 section.shop{
-
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 100%;
+}
+section.shop .empty{
+    background-color: #1c1c1c;
+    color: #919191;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 12px;
 }
 main.main .shop__title{
     display: flex;
@@ -22,11 +31,7 @@ section.shop .shop__title a.view__back{
 section.shop .products{
     display: grid;
     gap: 1.5rem;
-    padding-top: 2rem;
     grid-template-columns: repeat(7, 1fr);
-}
-section.shop .products .product__item{
-
 }
 section.shop .products .product__item .product__card{
     background-color: #1c1c1c;
@@ -93,26 +98,32 @@ section.checkout{
 }
 section.checkout .check__content{
     background-color: #1c1c1c;
+    display: grid;
+    gap: 1.5rem;
     max-width: 540px;
     margin: auto;
     padding: 2.5rem;
     border-radius: 18px;
-}
-section.checkout .check__content form.check__form{
-    display: grid;
-    gap: 1.5rem;
     grid-template-columns: 100%;
 }
-section.checkout .check__content .check__head{
-    
+section.checkout .check__content .alert{
+    background-color: #2d2d2d;
+    padding: 2rem 1rem;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 12px;
+    &.alert-success{
+        background-color: theme('colors.vo-green');
+    }
+    &.alert-error{
+        background-color: theme('colors.vo-red');
+    }
 }
 section.checkout .check__content .check__head h1{
     font-size: 24px;
     font-weight: 600;
     text-align: center;
-}
-section.checkout .check__content .check__body{
-
 }
 section.checkout .check__content .check__body table{
     width: 100%;
@@ -128,4 +139,34 @@ section.checkout .check__content .check__body table td.check__title{
 section.checkout .check__content .check__body table td.check__element{
     text-align: end;
     opacity: 1;
+}
+@media (max-width: 2200px){
+    section.shop .products{
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+@media (max-width: 1920px){
+    section.shop .products{
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+@media (max-width: 1600px){
+    section.shop .products{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+@media (max-width: 1240px){
+    section.shop .products{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 1024px){
+    section.shop .products{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 600px){
+    section.shop .products{
+        grid-template-columns: repeat(1, 1fr);
+    }
 }

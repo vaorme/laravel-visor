@@ -72,6 +72,15 @@ class UserController extends Controller{
         $user->password = Hash::make($request->password);
         $userSaved = $user->save();
 
+        // Asignamos monedas
+        if(isset($request->coins) && !empty($request->coins)){
+            $user->purchaseCoins($request->coins);
+        }
+        // Asignamos dias
+        if(isset($request->days_without_ads) && !empty($request->days_without_ads)){
+            $user->purchaseDays($request->days_without_ads);
+        }
+
         // Assign Role
 		if(isset($request->roles)){
 			$role = Role::findByName($request->roles);
@@ -200,6 +209,23 @@ class UserController extends Controller{
 			$user->password = Hash::make($request->password);
 		}
         $userSaved = $user->save();
+
+        // Asignamos monedas
+        if(isset($request->coins) && !empty($request->coins)){
+            if(isset($user->coins) && $user->coins->exists()){
+                $user->assignCoins($request->coins);
+            }else{
+                $user->purchaseCoins($request->coins);
+            }
+        }
+        // Asignamos dias
+        if(isset($request->days_without_ads) && !empty($request->days_without_ads)){
+            if(isset($user->daysNotAds) && $user->daysNotAds->exists()){
+                $user->assignDays($request->days_without_ads);
+            }else{
+                $user->purchaseDays($request->days_without_ads);
+            }
+        }
 		
         // Assign Role
 		if(isset($request->roles)){

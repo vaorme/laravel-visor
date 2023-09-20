@@ -5,6 +5,10 @@
 #app main.main .main__wrap.members{
     padding: 0;
 }
+#app main.main .main__wrap.members .vealo{
+    text-align: center;
+    padding-bottom: 2rem;
+}
 main.main .main__content{
     display: grid;
     gap: 1.5rem;

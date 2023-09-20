@@ -6,6 +6,114 @@ img{
 	display: block;
 }
 
+// :MODAL
+.overlay,
+.modal{
+	transition: visibility .2s ease, opacity .2s ease;
+}
+.overlay{
+	background-color: #000;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	z-index: 10;
+	opacity: 0;
+	visibility: hidden;
+}
+.modal{
+    background-color: #fff;
+    position: fixed;
+    width: 100%;
+    top: 10vw;
+    left: 50%;
+    z-index: 11;
+	opacity: 0;
+    padding: 1.5rem;
+    max-width: 520px;
+    border-radius: 12px;
+	visibility: hidden;
+    transform: translateX(-50%);
+}
+.overlay.show{
+	visibility: visible;
+	opacity: .5;
+}
+.modal.show{
+	visibility: visible;
+	opacity: 1;
+}
+.modal .modal__head{
+	position: relative;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eaeaea;
+}
+.modal .modal__head h4{
+	color: #000;
+	font-weight: bold;
+}
+.modal .modal__head button{
+    position: absolute;
+    right: 0;
+    top: 3px;
+}
+.modal .modal__head button svg{
+	pointer-events: none;
+}
+.modal .modal__body{
+	color: #000;
+	padding-top: 1.5rem;
+}
+.modal .modal__body p{
+	text-align: center;
+}
+.modal .modal__body p a{
+	color: theme('colors.vo-red');
+	font-weight: 500;
+}
+
+// :CHAPTER BUY
+
+.chapter__buy .buy__box{
+	text-align: center;
+}
+.chapter__buy .buy__box h2{
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: .5rem;
+}
+.chapter__buy .buy__box h4{
+	font-size: 16px;
+	font-weight: 500;
+	text-align: center;
+}
+.chapter__buy .buy__box p{
+	color: #989898;
+	font-size: 16px;
+	font-weight: 400;
+}
+.chapter__buy .buy__box p a{
+	color: #fff;
+}
+.chapter__buy .buy__box button{
+	background-color: theme('colors.vo-red');
+	font-size: 16px;
+	display: inline-block;
+	width: 100%;
+	color: #fff;
+	font-weight: 500;
+	padding: 14px 30px;
+	text-align: center;
+	border-radius: 10px;
+	max-width: 160px;
+	margin-top: 1rem;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+.chapter__buy .buy__box button:hover{
+	background-color: theme('colors.vo-red-over');
+}
+
 // :ERROR
 
 .errors.four .image{
@@ -256,7 +364,7 @@ div.toastify.error{
 #app main.main .main__wrap.main__home aside.main__sidebar .section.buttons{
 	background-color: transparent;
 	display: grid;
-	gap: 1.5rem;
+	gap: 1rem;
 	padding: 0;
 	border-radius: 0;
 }
@@ -270,6 +378,9 @@ div.toastify.error{
     border-radius: 8px;
     align-items: center;
     justify-content: center;
+}
+#app main.main .main__wrap.main__home aside.main__sidebar .section.buttons a:first-of-type{
+	background-color: theme('colors.vo-red');
 }
 #app main.main .main__shortcuts{
 	background-color: #1c1c1c;
@@ -1164,6 +1275,13 @@ div.toastify.error{
 	}
 }
 @media (max-width: 768px){
+	.modal{
+		top: 25px;
+		max-width: calc(100% - 50px);
+	}
+	.chapter__buy .buy__box h2{
+		font-size: 20px;
+	}
 	#app main.main .manga .manga__list{
 		grid-template-columns: repeat(3, 1fr);
 	}

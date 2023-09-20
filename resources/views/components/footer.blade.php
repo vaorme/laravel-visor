@@ -4,12 +4,14 @@
     </div>
 </footer>
 @if (!Route::is(['shop.index']))
-    @php
-        $insertFooter = config('app.footer');
-    @endphp
-    @if ($insertFooter)
-        <div class="fto vealo">
-            {!! $insertFooter !!}
-        </div>
+    @if (showAds())
+        @php
+            $insertFooter = config('app.footer');
+        @endphp
+        @if ($insertFooter)
+            <div class="fto vealo">
+                {!! $insertFooter !!}
+            </div>
+        @endif
     @endif
 @endif

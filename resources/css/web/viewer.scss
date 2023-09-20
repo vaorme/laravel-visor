@@ -282,6 +282,16 @@
     .view__reader .view__content.view__full .reader__item img{
         width: 100%;
     }
+    .chapter__buy{
+        padding: 2rem 0;
+    }
+    .chapter__buy .buy__box{
+        background-color: #2a2a2a;
+        max-width: 500px;
+        margin: auto;
+        padding: 2rem;
+        border-radius: 18px;
+    }
 }
 @media (max-width: 1920px){
     #viewer .view__options .view__left .view__title h2{

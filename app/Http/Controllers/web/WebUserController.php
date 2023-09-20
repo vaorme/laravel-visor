@@ -466,4 +466,28 @@ class WebUserController extends Controller{
             'message' => "Ups, algo paso",
         ]);
     }
+    public function buyChapter(Request $request){
+        $validator = Validator::make($request->params, [
+            'chapter_id' => ['required', 'numeric']
+        ],[
+			'chapter_id.required' => 'ID requerido',
+			'chapter_id.numeric' => 'El ID debe ser número'
+		]);
+		if ($validator->fails()) {
+            return response()->json([
+                'status' => "error",
+                'message' => $validator->errors()->all()
+            ]);
+        }
+        $user = Auth::user();
+        $chapterId = $request->params['chapter_id'];
+        if($user->userBuyChapter($chapterId)){
+            return response()->json([
+                'status' => "error",
+                'message' => "El capítulo ya fue comprado."
+            ]);
+        }
+        $buyChapter = $user->buyChapter($chapterId);
+        return $buyChapter;
+    }
 }

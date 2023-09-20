@@ -79,8 +79,21 @@
                         <a href="{{ route('profile.index', ['username' => $auth->username]) }}">
                             <div class="user flex align-center">
                                 <div class="name">
-                                    <span>Bienvenid@</span>
                                     <h4>{{ $auth->username }}</h4>
+                                    <div class="coins" data-tippy-placement="bottom" data-tippy-content="Monedas">
+                                        <div class="coins__icon">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M8 0.5C12.1423 0.5 15.5 3.85775 15.5 8C15.5 12.1423 12.1423 15.5 8 15.5C3.85775 15.5 0.5 12.1423 0.5 8C0.5 3.85775 3.85775 0.5 8 0.5ZM7.46975 5.348L5.348 7.46975C5.2074 7.6104 5.12841 7.80113 5.12841 8C5.12841 8.19887 5.2074 8.3896 5.348 8.53025L7.46975 10.652C7.6104 10.7926 7.80113 10.8716 8 10.8716C8.19887 10.8716 8.3896 10.7926 8.53025 10.652L10.652 8.53025C10.7926 8.3896 10.8716 8.19887 10.8716 8C10.8716 7.80113 10.7926 7.6104 10.652 7.46975L8.53025 5.348C8.3896 5.2074 8.19887 5.12841 8 5.12841C7.80113 5.12841 7.6104 5.2074 7.46975 5.348Z" fill="white" fill-opacity="0.5"/>
+                                            </svg>
+                                        </div>
+                                        <div class="coins__amount">
+                                            @if ($auth->coins)
+                                                {{ $auth->coins->coins }}
+                                            @else
+                                                0
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="avatar">
                                     <img src="{{ asset('storage/'.$profile->avatar) }}" alt="{{ $auth->username }}"/>
@@ -118,8 +131,11 @@
     @if (!Route::is([
         'members.index',
         'shop.index',
-        'checkout.success',
-        'checkout.canceled'
+        'checkout.index',
+        'checkout.order',
+        'checkout.canceled',
+        'paypal.success',
+        'paypal.canceled'
         ]) && !request()->is('controller/*'))
         <div class="search__bar">
             <form action="{{ (Route::is('library.index'))? url()->full() : route('library.index'); }}" method="GET">

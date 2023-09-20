@@ -24,13 +24,15 @@
     </head>
     <body>
         @if (!Route::is(['shop.index']))
-            @php
-                $insertBody = config('app.body');
-            @endphp
-            @if ($insertBody)
-                <div class="bdy vealo">
-                    {!! $insertBody !!}
-                </div>
+            @if (showAds())    
+                @php
+                    $insertBody = config('app.body');
+                @endphp
+                @if ($insertBody)
+                    <div class="bdy vealo">
+                        {!! $insertBody !!}
+                    </div>
+                @endif
             @endif
         @endif
         <div id="app">

@@ -1,6 +1,16 @@
 <x-app-layout>
     <x-slot:title>Usuarios | Nartag</x-slot>
 	<div class="main__wrap members">
+        @if (showAds())
+            @php
+                $ad_2 = config('app.ads_2');
+            @endphp
+            @if ($ad_2)
+                <div class="vealo">
+                    {!! $ad_2 !!}
+                </div>
+            @endif
+        @endif
 		<div class="main__content">
             <div class="members__top">
                 <div class="members__title">
@@ -36,5 +46,15 @@
                 <div class="empty">No hay elementos para mostrar</div>
             @endif
         </div>
+        @if (showAds())
+            @php
+                $ad_9 = config('app.ads_9');
+            @endphp
+            @if ($ad_9)
+                <div class="vealo">
+                    {!! $ad_9 !!}
+                </div>
+            @endif
+        @endif
     </div>
 </x-app-layout>
