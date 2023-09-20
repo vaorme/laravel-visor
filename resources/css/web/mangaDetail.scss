@@ -18,6 +18,8 @@
         display: grid;
         gap: 1.5rem;
         padding: 1.5rem;
+        overflow: hidden;
+        max-height: 100vh;
         border-radius: 14px;
         grid-template-columns: 100%;
     }

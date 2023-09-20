@@ -346,13 +346,15 @@
 					</div>
 				</section>
 			@endif
-			@php
-				$ad_3 = config('app.ads_3');
-			@endphp
-			@if ($ad_3)
-				<div class="vealo">
-					{!! $ad_3 !!}
-				</div>
+			@if (showAds())
+				@php
+					$ad_3 = config('app.ads_3');
+				@endphp
+				@if ($ad_3)
+					<div class="vealo">
+						{!! $ad_3 !!}
+					</div>
+				@endif
 			@endif
 		</aside>
 	</div>
