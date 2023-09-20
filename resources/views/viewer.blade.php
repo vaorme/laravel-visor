@@ -2,6 +2,11 @@
     <x-slot:title>{{ $currentChapter->name . ' | '. $manga->name }}</x-slot>
     @php
         $paginado = request()->route('reader_type');
+        $user = Auth::user();
+        $userBuyChapter = false;
+        if (isset($user) && $user->userBuyChapter($currentChapter->id)) {
+            $userBuyChapter = true;
+        }
     @endphp
     <div id="viewer">
         <section class="view__options">
@@ -85,14 +90,34 @@
                 </div>
             </div>
         </section>
-        @php
-            $ad_9 = config('app.ads_9');
-        @endphp
-        @if ($ad_9)
-            <div class="vealo">
-                {!! $ad_9 !!}
-            </div>
+        @if (showAds())
+            @php
+                $ad_9 = config('app.ads_9');
+            @endphp
+            @if ($ad_9)
+                <div class="vealo">
+                    {!! $ad_9 !!}
+                </div>
+            @endif
         @endif
+        @if ($currentChapter->isChapterPremium() && !$userBuyChapter)
+            <div class="chapter__buy">
+                <div class="buy__box">
+                    @if (Auth::check())
+                        <form action="/" method="post" class="buy-chapter-form">
+                            @csrf
+                            <input type="hidden" name="chapter_id" value="{{ $currentChapter->id }}">
+                            <h2>Capítulo premium</h2>
+                            <h4>{{ $currentChapter->name }} x {{ $currentChapter->price }} Monedas</h4>
+                            <button>Comprar</button>
+                        </form>
+                    @else
+                        <h2>Capítulo premium</h2>
+                        <p>Debes <a href="{{ route('login') }}" target="_blank">Iniciar sesión</a> primero.</p>
+                    @endif
+                </div>
+            </div>
+        @else
         <section class="view__reader">
             @if ($currentChapter->type == "novel")
                 <div class="view__colors">
@@ -237,13 +262,16 @@
                 @endif
             @endif
         </section>
-        @php
-            $ad_10 = config('app.ads_10');
-        @endphp
-        @if ($ad_10)
-            <div class="vealo">
-                {!! $ad_10 !!}
-            </div>
+        @endif
+        @if (showAds())
+            @php
+                $ad_10 = config('app.ads_10');
+            @endphp
+            @if ($ad_10)
+                <div class="vealo">
+                    {!! $ad_10 !!}
+                </div>
+            @endif
         @endif
         <section class="view__options bottom">
             <div class="view__col view__left">
@@ -375,7 +403,10 @@
             });
         </script>
     @endif
-    <section class="chapter__comments p-6">
-        @include('components.viewer-comments')
-    </section>
+    @if ($currentChapter->isChapterPremium() && !$userBuyChapter)    
+    @else
+        <section class="chapter__comments p-6">
+            @include('components.viewer-comments')
+        </section>
+    @endif
 </x-viewer-layout>

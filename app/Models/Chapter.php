@@ -15,6 +15,12 @@ class Chapter extends Model{
     public function manga(): BelongsTo{
         return $this->belongsTo(Manga::class)->where('status', '=', 'published');
     }
+    public function isChapterPremium(){
+        if($this->price && $this->price > 0){
+            return true;
+        }
+        return false;
+    }
     public function url(){
         if($this->manga){
             return URL::route('chapter_viewer.index', [

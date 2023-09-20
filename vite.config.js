@@ -15,6 +15,12 @@ export default defineConfig({
                 'resources/js/admin/manga.js',
                 'resources/js/admin/manga_extras.js',
 
+                // :PRODUCTS
+                'resources/js/admin/products.js',
+
+                // :ORDERS
+                'resources/js/admin/orders.js',
+
                 // :WEB
 
                 // LOGIN / REGISTER
@@ -61,6 +67,10 @@ export default defineConfig({
                 'resources/css/web/account.scss',
                 'resources/js/web/account.js',
                 
+                // :SHOP
+                'resources/css/web/shop.scss',
+                'resources/js/web/shop.js',
+
                 'resources/js/library.js',
                 'resources/css/global.scss',
                 'resources/css/app.scss',

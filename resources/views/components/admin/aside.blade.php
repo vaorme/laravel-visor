@@ -92,6 +92,34 @@
                 </a>
             </li>
         @endcan
+        @can('orders.index')
+            <li class="m-item {{ (request()->is('controller/orders*')) ? 'active' : '' }}">
+                <a href="{{ route('orders.index') }}" class="m-link">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-article" width="40" height="40" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
+                            <path d="M7 8h10"></path>
+                            <path d="M7 12h10"></path>
+                            <path d="M7 16h10"></path>
+                        </svg>
+                    </div>
+                </a>
+            </li>
+        @endcan
+        @can('products.index')
+            <li class="m-item {{ (request()->is('controller/products*')) ? 'active' : '' }}">
+                <a href="{{ route('products.index') }}" class="m-link">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-bag" width="44" height="44" viewBox="0 0 24 24" stroke-width="2" stroke="#fff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z"></path>
+                            <path d="M9 11v-5a3 3 0 0 1 6 0v5"></path>
+                        </svg>
+                    </div>
+                </a>
+            </li>
+        @endcan
         {{-- <li class="m-item m-item-dropdown {{ (request()->is('controller/products*')) ? 'active' : '' }}">
             <a href="#" class="m-link">
                 <div class="icon">

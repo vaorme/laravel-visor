@@ -179,16 +179,15 @@ header.header nav.navbar .panel{
     align-items: center;
     .user{
         .name{
+            display: grid;
+            gap: 4px;
             padding-right: 1.5rem;
+            grid-template-columns: 100%;
             h4{
                 color: #fff;
                 font-weight: 600;
                 font-size: 1.2rem;
                 line-height: 1;
-            }
-            span{
-                color: rgb(#fff, .3);
-                font-size: 1rem;
             }
         }
         .avatar{
@@ -219,6 +218,19 @@ header.header nav.navbar .panel{
             }
         }
     }
+}
+header.header nav.navbar .panel .coins{
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+header.header nav.navbar .panel .coins .coins__icon svg{
+    width: 12px;
+}
+header.header nav.navbar .panel .coins .coins__amount{
+    opacity: .6;
+    font-size: 12px;
+    font-weight: 600;
 }
 @media (max-width: 1024px){
     header.header{

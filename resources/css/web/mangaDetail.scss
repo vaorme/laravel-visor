@@ -122,6 +122,9 @@
     section.manga__chapters .chapters__list .chapter__item .chapter__actions button:hover svg{
         opacity: 1;
     }
+    section.manga__chapters .chapters__list .chapter__item .chapter__actions .chapter__premium{
+        order: -1;
+    }
     
     // :MANGA SIDEBAR
     .manga__sidebar{

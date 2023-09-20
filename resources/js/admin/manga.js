@@ -970,8 +970,8 @@ document.addEventListener('click', function (e) {
                 </div>
             `;
             box.append(divChapter);
-            let conten;
-            if(chapter.content){
+            let conten = "";
+            if(chapter.content && chapter.content != ""){
                 conten = JSON.parse(chapter.content);
                 conten = conten.replace(/\n/g, '<br>');
             }

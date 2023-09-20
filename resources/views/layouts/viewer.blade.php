@@ -19,21 +19,25 @@
         <script src="{{ asset('storage/assets/js/tom-select.js') }}"></script>
         <script src="{{ Vite::asset('resources/js/web/coloris.js') }}"></script>
         <script type="module" src="{{ Vite::asset('resources/js/web/viewer.js') }}"></script>
-        @php
-            $insertHead = config('app.head');
-        @endphp
-        @if ($insertHead)
-            {!! $insertHead !!}
+        @if (showAds())
+            @php
+                $insertHead = config('app.head');
+            @endphp
+            @if ($insertHead)
+                {!! $insertHead !!}
+            @endif
         @endif
     </head>
     <body>
-        @php
-            $insertBody = config('app.body');
-        @endphp
-        @if ($insertBody)
-            <div class="bdy vealo">
-                {!! $insertBody !!}
-            </div>
+        @if (showAds())
+            @php
+                $insertBody = config('app.body');
+            @endphp
+            @if ($insertBody)
+                <div class="bdy vealo">
+                    {!! $insertBody !!}
+                </div>
+            @endif
         @endif
         <div id="app">
             <x-header />

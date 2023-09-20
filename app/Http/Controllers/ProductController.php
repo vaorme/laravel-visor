@@ -5,17 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class ProductController extends Controller
-{
+class ProductController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        $loop = Product::get();
-        return view('admin.products.index', ['loop' => $loop]);
+    public function index(Request $request){
+        $loop = Product::latest();
+        $types = ProductType::get();
+        $param_search = strip_tags($request->s);
+        if(isset($param_search) && !empty($param_search)){
+            $loop->where(function ($query) use ($param_search) {
+                $query->where('name', 'LIKE', '%'.$param_search.'%');
+            });
+        }
+        $data = [
+            'loop' => $loop->paginate(15),
+            'types' => $types
+        ];
+        return view('admin.products.index', $data);
     }
 
     /**
@@ -39,33 +50,38 @@ class ProductController extends Controller
     public function store(Request $request){
         $request->validate([
             'name' => ['required', 'max:255'],
+            'image' => ['mimes:jpg,jpeg,png,gif'],
             'price' => ['required', 'numeric'],
-            'coins' => ['numeric'],
             'quantity' => ['numeric'],
-            'product_type_id' => ['required']
+            'product_type' => ['required']
         ]);
 
         $store = new Product;
         
         $store->name = $request->name;
         $store->price = $request->price;
-        $store->coins = $request->coins;
+        $store->coins = $request->amount_coins;
         $store->quantity = $request->quantity;
-        $store->product_type_id = $request->product_type_id;
-
-        if($store->save()){
-            $response['success'] = [
-                'msg' => "Producto creado correctamente.",
-                'data' => $store
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $store
-            ];
+        $store->days_without_ads = $request->days_without_ads;
+        $store->product_type_id = $request->product_type;
+        if($request->has('image')){
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $file = $request->file('image');
+            $originalName = $file->getClientOriginalName();
+            $extensionFile = $file->getClientOriginalExtension();
+            $check = in_array($extensionFile, $allowedExtensions);
+            if($check){
+                $path = Storage::disk('public')->putFile("product", $file);
+                $store->image = $path;
+            }else{
+                $response['excluded'][] = "$originalName fue excluido, solo puedes subir jpg, jpeg, png, gif";
+            }
         }
 
-        return $response;
+        if($store->save()){
+            return redirect()->route('products.index')->with('success', 'Producto creado correctamente');
+        }
+        return redirect()->route('products.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**
@@ -104,32 +120,47 @@ class ProductController extends Controller
     public function update(Request $request, $id){
         $request->validate([
             'name' => ['required', 'max:255'],
+            'image' => ['mimes:jpg,jpeg,png,gif'],
             'price' => ['required', 'numeric'],
-            'coins' => ['numeric'],
             'quantity' => ['numeric'],
-            'product_type_id' => ['required']
+            'product_type' => ['required']
         ]);
 
         $update = Product::find($id);
         
         $update->name = $request->name;
         $update->price = $request->price;
-        $update->coins = $request->coins;
+        $update->coins = $request->amount_coins;
         $update->quantity = $request->quantity;
-        $update->product_type_id = $request->product_type_id;
+        $update->days_without_ads = $request->days_without_ads;
+        $update->product_type_id = $request->product_type;
+        if($request->has('image')){
+
+            // Eliminamos en caso de que exista una imagen anterior
+            if($update->image && !empty($update->image)){
+                $path = $update->image;
+                if(!empty($path) && Storage::disk('public')->exists($path)){
+                    Storage::disk('public')->delete($path);
+                }
+            }
+
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $file = $request->file('image');
+            $originalName = $file->getClientOriginalName();
+            $extensionFile = $file->getClientOriginalExtension();
+            $check = in_array($extensionFile, $allowedExtensions);
+            if($check){
+                $path = Storage::disk('public')->putFile("product", $file);
+                $update->image = $path;
+            }else{
+                $response['excluded'][] = "$originalName fue excluido, solo puedes subir jpg, jpeg, png, gif";
+            }
+        }
 
         if($update->save()){
-            $response['success'] = [
-                'msg' => "Producto actualizado correctamente.",
-                'data' => $update
-            ];
-        }else{
-            $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
-                'data' => $update
-            ];
+            return redirect()->route('products.index')->with('success', 'Producto actualizado correctamente');
         }
-        return $response;
+        return redirect()->route('products.index')->with('error', 'Ups, se complico la cosa');
     }
 
     /**
@@ -139,13 +170,24 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id){
+        $manga = Product::where('id', $id)->get()->first();
+        $path = "";
+        if($manga->image && !empty($manga->image)){
+            $path = $manga->image;
+        }
         $delete = Product::destroy($id);
         if($delete){
-            $response['msg'] = "Producto eliminado correctamente.";
-        }else{
-            $response['msg'] = "Ups, algo salio mal socio.";
+            if(!empty($path) && Storage::disk('public')->exists($path)){
+                Storage::disk('public')->delete($path);
+            }
+            return response()->json([
+                'status' => "success",
+                'msg' => "Eliminado correctamente"
+            ]);
         }
-
-        return $response;
+        return response()->json([
+            'status' => "error",
+            'msg' => "Ups, algo paso",
+        ]);
     }
 }
