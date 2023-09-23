@@ -127,6 +127,24 @@
 														<span class="chapter__date">
 															{{ Carbon\Carbon::parse($item->created_at)->diffForHumans()}}
 														</span>
+														<div class="chapter__float">
+															@if ($item->isChapterPremium())
+																@php
+																	$user = Auth::user();
+																@endphp
+																<button class="chapter__premium{{ (isset($user) && $user->userBuyChapter($item->id))? ' paid' : ' buy' }}" data-id="{{ $item->id }}" data-price="{{ $item->price }}" data-tippy-content="{{ (isset($user) && $user->userBuyChapter($item->id))? ' Capítulo comprado' : ' Capítulo premium' }}">
+																	@if (isset($user) && $user->userBuyChapter($item->id))
+																		<svg baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" fill="white">
+																			<path d="M18,4c-2.206,0-4,1.795-4,4v3h-4v-1H7c-1.103,0-2,0.896-2,2v7c0,1.104,0.897,2,2,2h10c1.103,0,2-0.896,2-2v-7  c0-1.104-0.897-2-2-2h-1V8c0-1.104,0.897-2,2-2s2,0.896,2,2v3c0,0.553,0.448,1,1,1s1-0.447,1-1V8C22,5.795,20.206,4,18,4z   M12,18.299c-0.719,0-1.3-0.58-1.3-1.299s0.581-1.301,1.3-1.301s1.3,0.582,1.3,1.301S12.719,18.299,12,18.299z"/>
+																		</svg>
+																	@else
+																		<svg baseProfile="tiny" height="24px" id="Layer_1" version="1.2" viewBox="0 0 24 24" width="24px" fill="white">
+																			<path d="M17,10h-1V8c0-2.205-1.794-4-4-4S8,5.795,8,8v2H7c-1.103,0-2,0.896-2,2v7c0,1.104,0.897,2,2,2h10c1.103,0,2-0.896,2-2v-7  C19,10.896,18.103,10,17,10z M12,18.299c-0.719,0-1.3-0.58-1.3-1.299s0.581-1.301,1.3-1.301s1.3,0.582,1.3,1.301  S12.719,18.299,12,18.299z M14,11h-4V8c0-1.104,0.897-2,2-2s2,0.896,2,2V11z"/>
+																		</svg>
+																	@endif
+																</button>
+															@endif
+														</div>
 													</a>
 												</div>
 											@endforeach

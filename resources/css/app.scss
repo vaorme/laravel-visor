@@ -1002,10 +1002,12 @@ div.toastify.error{
 }
 #app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a{
 	background-color: transparent;
+	position: relative;
     display: flex;
     padding: 5px 10px;
     border-radius: 35px;
     align-items: center;
+	flex-direction: column;
     border: 1px solid #393939;
     justify-content: space-between;
 	transition: color .2s ease, border .2s ease;
@@ -1013,6 +1015,22 @@ div.toastify.error{
 #app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a span.chapter__name{
 	font-size: 12px;
 	font-weight: 500;
+}
+#app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a .chapter__float{
+    position: absolute;
+    right: 15px;
+	top: calc(50% + 2px);
+	transform: translateY(-50%);
+}
+#app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a .chapter__float button svg{
+	pointer-events: none;
+	width: 16px;
+	height: 16px;
+    opacity: 0.5;
+    transition: opacity 0.4s ease;
+}
+#app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a .chapter__float button:hover svg {
+    opacity: 1;
 }
 #app main.main .manga .manga__list .manga__item .manga__chapters .chapter__item a span.chapter__date{
 	font-size: 10px;
