@@ -70,6 +70,13 @@ return [
             'days' => 14,
         ],
 
+        'webhook_errors' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/webhook-errors.log'),
+            'level' => "error",
+            'days' => 15,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

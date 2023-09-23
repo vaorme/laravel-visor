@@ -25,7 +25,7 @@
             <link href="{{ Vite::asset('resources/css/web/profile.scss') }}" rel="stylesheet">
         @endif
 
-        @if (Route::is(['account.index']))
+        @if (Route::is(['account.index', 'my_shopping.index']))
             <link href="{{ Vite::asset('resources/css/web/account.scss') }}" rel="stylesheet">
         @endif
 

@@ -212,20 +212,29 @@ class UserController extends Controller{
 		}
         $userSaved = $user->save();
 
-        // Asignamos monedas
-        if(isset($request->coins) && !empty($request->coins)){
+        $userCoins = $request->coins;
+
+        if(!isset($userCoins)){
+            $userCoins = 0;
+        }
+        if(isset($userCoins) && $userCoins != ""){
             if(isset($user->coins) && $user->coins->exists()){
-                $user->assignCoins($request->coins);
+                $user->assignCoins($userCoins);
             }else{
-                $user->purchaseCoins($request->coins);
+                $user->purchaseCoins($userCoins);
             }
         }
-        // Asignamos dias
-        if(isset($request->days_without_ads) && !empty($request->days_without_ads)){
+
+        $userDays = $request->days_without_ads;
+        
+        if(!isset($userDays)){
+            $userDays = 0;
+        }
+        if(isset($userDays) && $userDays != ""){
             if(isset($user->daysNotAds) && $user->daysNotAds->exists()){
-                $user->assignDays($request->days_without_ads);
+                $user->assignDays($userDays);
             }else{
-                $user->purchaseDays($request->days_without_ads);
+                $user->purchaseDays($userDays);
             }
         }
 		

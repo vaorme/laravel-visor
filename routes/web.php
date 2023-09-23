@@ -32,9 +32,11 @@ use Illuminate\Support\Facades\Storage;
 Route::get('/', [WebController::class, 'index'])->name('web.index');
 
 Route::middleware('auth', 'verified')->group(function () {
-    Route::get('/u/account', [ProfileController::class, 'edit'])->name('account.index');
-    Route::patch('/u/account', [ProfileController::class, 'update'])->name('account.update');
-    Route::delete('/u/account', [ProfileController::class, 'destroy'])->name('account.destroy');
+    Route::get('/u/cuenta', [ProfileController::class, 'edit'])->name('account.index');
+    Route::patch('/u/cuenta', [ProfileController::class, 'update'])->name('account.update');
+    Route::delete('/u/cuenta', [ProfileController::class, 'destroy'])->name('account.destroy');
+
+    Route::get('/u/compras', [ProfileController::class, 'shopping'])->name('my_shopping.index');
 
     // :USERS
     Route::prefix('users')->group(function(){

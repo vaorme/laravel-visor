@@ -314,6 +314,33 @@
         }
     }
 }
+
+// :SHOPPING
+main.main section.orders .section__title{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+main.main section.orders .section__title h2{
+    font-size: 18px;
+    font-weight: 700;
+}
+main.main section.orders .section__title a.view__back{
+    background-color: #9b2e2e;
+    display: flex;
+    width: 42px;
+    height: 42px;
+    border-radius: 9px;
+    align-items: center;
+    justify-content: center;
+}
+main.main section.orders table thead{
+    background-color: #303030;
+}
+main.main section.orders table tbody tr:nth-child(2n){
+    background-color: #1c1c1c;
+}
+
 @media (max-width: 1024px){
     #app main.main .main__wrap.account{
         padding: 0;

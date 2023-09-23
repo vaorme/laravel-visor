@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PaymentPending;
 use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\Product;
+use App\Models\User;
 use App\Providers\PaypalServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 class PaymentController extends Controller{
     public function index(Request $request){
+        if (session()->has('error')) {
+            return view('ecommerce.checkout');
+        }
         return abort(404);
     }
     public function order(Request $request){
@@ -73,10 +79,10 @@ class PaymentController extends Controller{
                         return redirect()->away($links['href']);
                     }
                 }
-                return redirect()->route('cancel.payment')->with('error', 'Algo salió mal.');
+                return redirect()->route('checkout.index')->with('error', 'Algo salió mal.');
             }
         } else {
-            return redirect()->route('create.payment')->with('error', $response['message'] ?? 'Algo salió mal.');
+            return redirect()->route('checkout.index')->with('error', $response['message'] ?? 'Algo salió mal.');
         }
     }
 
@@ -128,7 +134,32 @@ class PaymentController extends Controller{
                                     break;
                             }
                         }
-                        return redirect()->route('checkout.order', ['id' => $response['id']])->with('success', 'Transacción completada.');
+                        if($updateOrder->status){
+                            $product = Product::find($productId[1]);
+                            switch ($updateOrder->status) {
+                                case 'COMPLETED':
+                                    $mailData = [
+                                        'title' => 'Pedido completado',
+                                        'message' => '¡Tu pago ha sido procesado con éxito! Gracias por tu transacción.',
+                                        'product' => $product,
+                                        'status' => 'Completado',
+                                    ];
+                                    Mail::to($user->email)->send(new PaymentPending($mailData, "Pago completado Orden #".$updateOrder->order_id." | Nartag"));
+                                    break;
+                                case 'PENDING':
+                                    $mailData = [
+                                        'title' => 'Pedido pendiente',
+                                        'message' => 'Estamos procesando tu pago y lo estamos validando. Esto puede tomar un tiempo, así que por favor ten paciencia.',
+                                        'product' => $product,
+                                        'status' => 'Pendiente',
+                                    ];
+                                    Mail::to($user->email)->send(new PaymentPending($mailData, "Pago pendiente Orden #".$updateOrder->order_id." | Nartag"));
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        return redirect()->route('checkout.order', ['id' => $response['id']]);
                     }else{
                         return redirect()->route('checkout.index')->with('error', 'Algo salió mal.');
                     }
@@ -153,7 +184,7 @@ class PaymentController extends Controller{
                 $createOrder->response = json_encode($response);
                 $createOrder->user_id = $user->id;
                 if($createOrder->save()){
-                    return redirect()->route('checkout.index')->with('success', 'Pedido con otro estado que no es completado.');
+                    return redirect()->route('checkout.index');
                 }else{
                     return redirect()->route('checkout.index')->with('error', 'No puedes estar aquí. 1');
                 }

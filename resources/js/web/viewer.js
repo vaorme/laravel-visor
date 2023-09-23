@@ -2,6 +2,7 @@ import { removeClass, addClass } from "../helpers/helpers";
 
 const readerContent = document.querySelector('#viewer .view__reader .view__content');
 const settings = {
+    maxOptions: null,
     render: {
         option: function (data, escape) {
             return `<div data-url="${data.url}">${data.text}</div>`;

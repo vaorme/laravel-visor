@@ -175,7 +175,10 @@
         }
     }
     .profile__card .card__content .card__user .user__buttons{
+        display: grid;
+        gap: 15px;
         padding-top: 5rem;
+        grid-template-columns: 100%;
     }
     .profile__card .card__content .card__user .user__buttons .button__item{
         background-color: #2d2d2d;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Countries;
+use App\Models\Order;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -148,4 +149,11 @@ class ProfileController extends Controller
 
 		return true;
 	}
+    public function shopping(){
+        $orders = Order::where('user_id', Auth::id())->orderBy('id', 'desc')->paginate(20);
+        $viewData = [
+            'loop' => $orders
+        ];
+        return view('profile.account.shopping', $viewData);
+    }
 }

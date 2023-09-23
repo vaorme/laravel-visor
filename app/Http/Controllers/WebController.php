@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PaymentPending;
+use App\Mail\TestEmails;
 use App\Models\Category;
 use App\Models\Manga;
 use App\Models\Chapter;
@@ -9,10 +11,12 @@ use App\Models\Order;
 use App\Models\OrderItems;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class WebController extends Controller{

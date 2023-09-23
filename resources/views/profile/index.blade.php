@@ -86,6 +86,7 @@
                                     @endif
                                     <div class="user__buttons">
                                         <a href="{{ route('account.index') }}" class="button__item">Editar perfil</a>
+                                        <a href="{{ route('my_shopping.index') }}" class="button__item">Mis Compras</a>
                                     </div>                        
                                 @endif
                             </div>

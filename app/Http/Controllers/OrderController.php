@@ -14,7 +14,10 @@ class OrderController extends Controller{
             $loop->where(function ($query) use ($param_search) {
                 $query->where('order_id', 'LIKE', '%'.$param_search.'%')
                 ->orWhere('name', 'LIKE', '%'.$param_search.'%')
-                ->orWhere('status', 'LIKE', '%'.$param_search.'%');
+                ->orWhere('status', 'LIKE', '%'.$param_search.'%')
+                ->orWhere('transaction_id', 'LIKE', '%'.$param_search.'%')
+                ->orWhere('order_id', 'LIKE', '%'.$param_search.'%')
+                ->orWhere('user_id', 'LIKE', '%'.$param_search.'%');
             });
         }
         $data = [

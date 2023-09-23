@@ -107,6 +107,14 @@ class User extends Authenticatable implements MustVerifyEmail{
             ]);
             if($buy){
                 $userCoins->save();
+                $chapter = Chapter::find($chapterid);
+                if($chapter){
+                    return response()->json([
+                        'status' => "success",
+                        'url' => $chapter->url(),
+                        'message' => "Capítulo comprado."
+                    ]);
+                }
                 return response()->json([
                     'status' => "success",
                     'message' => "Capítulo comprado."
@@ -175,7 +183,7 @@ class User extends Authenticatable implements MustVerifyEmail{
     }
     public function assignCoins($coins = 0){
         $instance = UserBuyCoins::where('user_id', $this->id);
-        if($instance){
+        if($instance->exists()){
             $instance->update([
                 'coins' => $coins,
             ]);
@@ -185,10 +193,42 @@ class User extends Authenticatable implements MustVerifyEmail{
     }
     public function assignDays($days = 0){
         $instance = UserBuyDays::where('user_id', $this->id);
-        if($instance){
+        if($instance->exists()){
             $instance->update([
                 'days_without_ads' => $days,
             ]);
+            return true;
+        }
+        return false;
+    }
+    public function removeCoins($coins = 0){
+        $instance = UserBuyCoins::where('user_id', $this->id);
+        if($instance->exists()){
+            $current = $this->coins;
+            $resta = $current->coins - $coins;
+            if($resta <= 0){
+                $current->coins = 0;
+                $current->save();
+            }else{
+                $current->coins = $resta;
+                $current->save();
+            }
+            return true;
+        }
+        return false;
+    }
+    public function removeDays($days = 0){
+        $instance = UserBuyDays::where('user_id', $this->id);
+        if($instance->exists()){
+            $current = $this->daysNotAds;
+            $resta = $current->days_without_ads - $days;
+            if($resta <= 0){
+                $current->days_without_ads = 0;
+                $current->save();
+            }else{
+                $current->days_without_ads = $resta;
+                $current->save();
+            }
             return true;
         }
         return false;

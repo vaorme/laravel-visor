@@ -29,7 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     position: "center",
                 }).showToast();
                 setTimeout(() => {
-                    location.reload();
+                    if(response.data.url && response.data.url != ""){
+                        window.location.href = response.data.url;
+                    }else{
+                        location.reload();
+                    }
                 }, 1000);
             }
             if(response.data.status == "error"){

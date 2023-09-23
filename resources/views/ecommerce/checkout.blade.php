@@ -2,11 +2,6 @@
     <div class="main__wrap">
         <section class="checkout">
             <div class="check__content">
-                @if (session()->has('success'))
-                    <div class="alert alert-success">
-                        {{ session()->get('success') }}
-                    </div>
-                @endif
                 @if (session()->has('error'))
                     <div class="alert alert-error">
                         {{ session()->get('error') }}
@@ -15,6 +10,25 @@
                 @if (isset($order) && !empty($order) && $order->user_id === Auth::id())
                     <div class="check__head">
                         <h1>Detalles del pedido #{{ $order->order_id }}</h1>
+                        @switch($order->status)
+                            @case("COMPLETED")
+                                <div class="alert alert-success">¡Tu pago ha sido procesado con éxito! Gracias por tu transacción.</div>
+                                @break
+                            @case("PENDING")
+                                <div class="alert alert-gray">Estamos procesando tu pago y lo estamos validando. Esto puede tomar un tiempo, así que por favor ten paciencia.</div>
+                                @break
+                            @case("CANCELLED")
+                                <div class="alert alert-error">Tu pago ha sido cancelado a solicitud tuya o debido a un problema técnico. Si tienes alguna pregunta, contáctanos.</div>
+                                @break
+                            @case("REFUNDED")
+                                <div class="alert alert-error">Hemos procesado tu solicitud de reembolso y los fondos están en proceso de ser devueltos a tu cuenta.</div>
+                                @break
+                            @case("FAILED")
+                                <div class="alert alert-error">Lamentablemente, tu pago no pudo ser procesado. Por favor, verifica la información de pago y vuelve a intentarlo.</div>
+                                @break
+                            @default
+                                
+                        @endswitch
                     </div>
                     <div class="check__body">
                         <div class="check__details">

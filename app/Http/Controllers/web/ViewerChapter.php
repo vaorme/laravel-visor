@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 class ViewerChapter extends Controller{
     public function index(Request $request){
         $manga = Manga::where('slug', '=', $request->manga_slug)->get()->first();
-        if($manga->status != "published"){
+        if($manga && $manga->status != "published"){
             return abort(404);
         }
 

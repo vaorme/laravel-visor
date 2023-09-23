@@ -46,7 +46,7 @@
                     </thead>
                     <tbody>
                         @foreach ($loop as $i)
-                                <td>{{ $i->order_id }}</td>
+                                <td>{{ ($i->transaction_id)? $i->transaction_id : $i->order_id }}</td>
                                 <td>{{ $i->name }}</td>
                                 <td>{{ $i->status }}</td>
                                 <td>${{ $i->total }}</td>

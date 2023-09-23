@@ -14,11 +14,13 @@
         <script src="{{ asset('storage/assets/js/tom-select.js') }}"></script>
         <script type="module" src="{{ Vite::asset('resources/js/web/shop.js') }}"></script>
         @if (!Route::is(['shop.index']))
-            @php
-                $insertHead = config('app.head');
-            @endphp
-            @if ($insertHead)
-                {!! $insertHead !!}
+            @if (showAds())
+                @php
+                    $insertHead = config('app.head');
+                @endphp
+                @if ($insertHead)
+                    {!! $insertHead !!}
+                @endif
             @endif
         @endif
     </head>
