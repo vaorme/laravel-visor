@@ -16,59 +16,62 @@
                 </div>
             </div>
             <div class="section__content pt-8">
-                @if ($loop->isNotEmpty())
-            <div class="products">
-                @php
-                    $paginate = $loop->links('vendor.pagination.default');
-                @endphp
-                <div class="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Nombre</th>
-                                <th scope="col" class="px-6 py-3">Estado</th>
-                                <th scope="col" class="px-6 py-3">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($loop as $item)
-                                <tr>
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $item->order_id }}</th>
-                                    <td class="px-6 py-4">{{ $item->products->first()->product->name }}</td>
-                                    <td class="px-6 py-4">
-                                        @switch($item->status)
-                                            @case("COMPLETED")
-                                                Completado
-                                                @break
-                                            @case("PENDING")
-                                                Pendiente
-                                                @break
-                                            @case("CANCELLED")
-                                                Cancelado
-                                                @break
-                                            @case("REFUNDED")
-                                                Reembolsado
-                                                @break
-                                            @case("FAILED")
-                                                Fallido
-                                                @break
-                                            @case("REVERSED")
-                                                Revertido
-                                                @break
-                                            @default
-                                                
-                                        @endswitch
-                                    </td>
-                                    <td class="px-6 py-4">$ {{ number_format($item->total, 2) }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                
-                {{ $paginate }}
-            </div>
+            @if ($loop->isNotEmpty())
+                    <div class="products">
+                        @php
+                            $paginate = $loop->links('vendor.pagination.default');
+                        @endphp
+                        <div class="relative overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs uppercase">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">#</th>
+                                        <th scope="col" class="px-6 py-3">Nombre</th>
+                                        <th scope="col" class="px-6 py-3">Estado</th>
+                                        <th scope="col" class="px-6 py-3">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($loop as $item)
+                                        <tr>
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $item->order_id }}</th>
+                                            <td class="px-6 py-4">{{ ($item->products && $item->products->first())? $item->products->first()->product->name : 'Procesando' }}</td>
+                                            <td class="px-6 py-4">
+                                                @switch($item->status)
+                                                    @case("COMPLETED")
+                                                        Completado
+                                                        @break
+                                                    @case("PENDING")
+                                                        Pendiente
+                                                        @break
+                                                    @case("CANCELLED")
+                                                        Cancelado
+                                                        @break
+                                                    @case("REFUNDED")
+                                                        Reembolsado
+                                                        @break
+                                                    @case("FAILED")
+                                                        Fallido
+                                                        @break
+                                                    @case("REVERSED")
+                                                        Revertido
+                                                        @break
+                                                    @case("CREATED")
+                                                        Creada
+                                                        @break
+                                                    @default
+                                                        
+                                                @endswitch
+                                            </td>
+                                            <td class="px-6 py-4">$ {{ number_format($item->total, 2) }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        {{ $paginate }}
+                    </div>
             @else
                 <div class="empty">No hay elementos para mostrar</div>
             @endif
