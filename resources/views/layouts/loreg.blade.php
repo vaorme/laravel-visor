@@ -31,6 +31,9 @@
                 {{ $slot }}
             </div>
         </div>
+        @if (showAds())
+            <script type="module" src="{{ Vite::asset('resources/js/web/whelp.js') }}"></script>
+        @endif
         @vite(['resources/js/loreg.js'])
     </body>
 </html>

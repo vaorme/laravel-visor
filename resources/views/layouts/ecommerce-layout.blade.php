@@ -46,6 +46,9 @@
             <x-footer/>
         </div>
         {{-- SCRIPTS --}}
+        @if (showAds())
+            <script type="module" src="{{ Vite::asset('resources/js/web/whelp.js') }}"></script>
+        @endif
         <script type="module" src="{{ Vite::asset('resources/js/web/app.js') }}"></script>
     </body>
 </html>

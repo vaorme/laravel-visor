@@ -46,6 +46,9 @@
             </main>
             <x-footer/>
         </div>
+        @if (showAds())
+            <script type="module" src="{{ Vite::asset('resources/js/web/whelp.js') }}"></script>
+        @endif
         <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.4/dist/lazyload.min.js"></script>
         <script>
             (function() {
