@@ -1,3 +1,5 @@
+const origin = window.location.origin;
+
 document.addEventListener('DOMContentLoaded', function(){
     if(!window.adsbygoogle || (window.adsbygoogle && !window.adsbygoogle.loaded)){
         crearAyudanos();
@@ -24,7 +26,7 @@ function crearAyudanos(){
             <p>Por favor, si quieres ayudarnos, desactivalo para seguir ofreciendo contenido.</p>
             <p>Gracias.</p>
             <div class="w-image">
-                <img src="http://127.0.0.1:8000/storage/images/chibi-rama.jpg" alt="Apoyanos">
+                <img src="${origin}/storage/images/chibi-rama.jpg" alt="Apoyanos">
             </div>
         </div>
     `;
