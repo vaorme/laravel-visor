@@ -55,6 +55,7 @@
                 </div>
             @endif
         @endif
+        <h2 id="adblock-message"></h2>
         <div id="app">
             <x-header />
             <main class="main">

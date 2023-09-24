@@ -1,41 +1,41 @@
 {
-  "__commonjsHelpers-725317a4.js": {
-    "file": "assets/_commonjsHelpers-725317a4.js"
+  "__commonjsHelpers-de833af9.js": {
+    "file": "assets/_commonjsHelpers-de833af9.js"
   },
   "_axios-4a70c6fc.js": {
     "file": "assets/axios-4a70c6fc.js"
   },
-  "_draggable.bundle-de0222bd.js": {
+  "_draggable.bundle-7660e9fd.js": {
     "css": [
       "assets/draggable-a461d729.css"
     ],
-    "file": "assets/draggable.bundle-de0222bd.js",
+    "file": "assets/draggable.bundle-7660e9fd.js",
     "imports": [
-      "__commonjsHelpers-725317a4.js"
+      "__commonjsHelpers-de833af9.js"
     ]
   },
-  "_helpers-388d927a.js": {
-    "file": "assets/helpers-388d927a.js",
+  "_helpers-27e9ade0.js": {
+    "file": "assets/helpers-27e9ade0.js",
     "imports": [
-      "_helpers-6fc151c3.js"
+      "_helpers-cf980081.js"
     ]
   },
-  "_helpers-6fc151c3.js": {
-    "file": "assets/helpers-6fc151c3.js"
+  "_helpers-cf980081.js": {
+    "file": "assets/helpers-cf980081.js"
   },
-  "_index-a8aa5ca2.js": {
-    "file": "assets/index-a8aa5ca2.js",
+  "_index-88830fa7.js": {
+    "file": "assets/index-88830fa7.js",
     "imports": [
-      "__commonjsHelpers-725317a4.js"
+      "__commonjsHelpers-de833af9.js"
     ]
   },
   "_tippy.esm-0e655d3f.js": {
     "file": "assets/tippy.esm-0e655d3f.js"
   },
-  "_toastify-f9ee0e47.js": {
-    "file": "assets/toastify-f9ee0e47.js",
+  "_toastify-2295babd.js": {
+    "file": "assets/toastify-2295babd.js",
     "imports": [
-      "__commonjsHelpers-725317a4.js",
+      "__commonjsHelpers-de833af9.js",
       "_axios-4a70c6fc.js"
     ]
   },
@@ -52,9 +52,14 @@
     "src": "public/assets/banner-loreg.jpg"
   },
   "resources/css/admin/admin.scss": {
-    "file": "assets/admin-594338ad.css",
+    "file": "assets/admin-f6553a3a.css",
     "isEntry": true,
     "src": "resources/css/admin/admin.scss"
+  },
+  "resources/css/admin/products.scss": {
+    "file": "assets/products-ce571267.css",
+    "isEntry": true,
+    "src": "resources/css/admin/products.scss"
   },
   "resources/css/admin/settings.scss": {
     "file": "assets/settings-4a4d91d5.css",
@@ -67,12 +72,12 @@
     "src": "resources/css/admin/slider.scss"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-530104d1.css",
+    "file": "assets/app-d1fba7ae.css",
     "isEntry": true,
     "src": "resources/css/app.scss"
   },
   "resources/css/global.scss": {
-    "file": "assets/global-b63ba254.css",
+    "file": "assets/global-e2cb02f4.css",
     "isEntry": true,
     "src": "resources/css/global.scss"
   },
@@ -82,7 +87,7 @@
     "src": "resources/css/loreg.scss"
   },
   "resources/css/web/account.scss": {
-    "file": "assets/account-b1357337.css",
+    "file": "assets/account-ee54131d.css",
     "isEntry": true,
     "src": "resources/css/web/account.scss"
   },
@@ -92,19 +97,24 @@
     "src": "resources/css/web/coloris.css"
   },
   "resources/css/web/library.scss": {
-    "file": "assets/library-544f80bb.css",
+    "file": "assets/library-009ff75d.css",
     "isEntry": true,
     "src": "resources/css/web/library.scss"
   },
   "resources/css/web/mangaDetail.scss": {
-    "file": "assets/mangaDetail-9d6a409f.css",
+    "file": "assets/mangaDetail-96676464.css",
     "isEntry": true,
     "src": "resources/css/web/mangaDetail.scss"
   },
   "resources/css/web/profile.scss": {
-    "file": "assets/profile-84a3c148.css",
+    "file": "assets/profile-2376b967.css",
     "isEntry": true,
     "src": "resources/css/web/profile.scss"
+  },
+  "resources/css/web/shop.scss": {
+    "file": "assets/shop-d535d512.css",
+    "isEntry": true,
+    "src": "resources/css/web/shop.scss"
   },
   "resources/css/web/tom-select.css": {
     "file": "assets/tom-select-ff3904b5.css",
@@ -112,12 +122,12 @@
     "src": "resources/css/web/tom-select.css"
   },
   "resources/css/web/users.scss": {
-    "file": "assets/users-73f21688.css",
+    "file": "assets/users-b55ee12d.css",
     "isEntry": true,
     "src": "resources/css/web/users.scss"
   },
   "resources/css/web/viewer.scss": {
-    "file": "assets/viewer-cb2098db.css",
+    "file": "assets/viewer-38979cbb.css",
     "isEntry": true,
     "src": "resources/css/web/viewer.scss"
   },
@@ -182,72 +192,90 @@
     "src": "resources/fonts/inter/Inter-Thin.ttf"
   },
   "resources/js/admin/admin.js": {
-    "file": "assets/admin-227dd672.js",
+    "file": "assets/admin-1a17847f.js",
     "imports": [
-      "_toastify-f9ee0e47.js",
-      "_draggable.bundle-de0222bd.js",
-      "_index-a8aa5ca2.js",
+      "_toastify-2295babd.js",
+      "_draggable.bundle-7660e9fd.js",
+      "_index-88830fa7.js",
       "_axios-4a70c6fc.js",
-      "_helpers-388d927a.js",
-      "_helpers-6fc151c3.js",
-      "__commonjsHelpers-725317a4.js"
+      "_helpers-27e9ade0.js",
+      "_helpers-cf980081.js",
+      "__commonjsHelpers-de833af9.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/admin.js"
   },
   "resources/js/admin/library.js": {
-    "file": "assets/library-d5734587.js",
+    "file": "assets/library-d8a69f6d.js",
     "imports": [
-      "_toastify-f9ee0e47.js",
-      "_draggable.bundle-de0222bd.js",
-      "__commonjsHelpers-725317a4.js",
+      "_toastify-2295babd.js",
+      "_draggable.bundle-7660e9fd.js",
+      "__commonjsHelpers-de833af9.js",
       "_axios-4a70c6fc.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/library.js"
   },
   "resources/js/admin/manga.js": {
-    "file": "assets/manga-e3cf074f.js",
+    "file": "assets/manga-882ae007.js",
     "imports": [
-      "_helpers-388d927a.js",
-      "_helpers-6fc151c3.js"
+      "_helpers-27e9ade0.js",
+      "_helpers-cf980081.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/manga.js"
   },
   "resources/js/admin/manga_extras.js": {
-    "file": "assets/manga_extras-4d83c4ce.js",
+    "file": "assets/manga_extras-940ff52e.js",
     "imports": [
-      "_helpers-388d927a.js",
-      "_helpers-6fc151c3.js"
+      "_helpers-27e9ade0.js",
+      "_helpers-cf980081.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/manga_extras.js"
   },
-  "resources/js/admin/settings.js": {
-    "file": "assets/settings-24330d1d.js",
+  "resources/js/admin/orders.js": {
+    "file": "assets/orders-258a13fd.js",
     "imports": [
-      "_helpers-388d927a.js",
-      "_helpers-6fc151c3.js"
+      "_helpers-27e9ade0.js",
+      "_helpers-cf980081.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/admin/orders.js"
+  },
+  "resources/js/admin/products.js": {
+    "file": "assets/products-8fa4b3a6.js",
+    "imports": [
+      "_helpers-cf980081.js",
+      "_helpers-27e9ade0.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/admin/products.js"
+  },
+  "resources/js/admin/settings.js": {
+    "file": "assets/settings-30426418.js",
+    "imports": [
+      "_helpers-27e9ade0.js",
+      "_helpers-cf980081.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/settings.js"
   },
   "resources/js/admin/slider.js": {
-    "file": "assets/slider-1f4562be.js",
+    "file": "assets/slider-56206946.js",
     "imports": [
-      "_helpers-388d927a.js",
-      "_helpers-6fc151c3.js"
+      "_helpers-27e9ade0.js",
+      "_helpers-cf980081.js"
     ],
     "isEntry": true,
     "src": "resources/js/admin/slider.js"
   },
   "resources/js/library.js": {
-    "file": "assets/library-94869199.js",
+    "file": "assets/library-c4425eb6.js",
     "imports": [
-      "_toastify-f9ee0e47.js",
+      "_toastify-2295babd.js",
       "_tippy.esm-0e655d3f.js",
-      "__commonjsHelpers-725317a4.js",
+      "__commonjsHelpers-de833af9.js",
       "_axios-4a70c6fc.js"
     ],
     "isEntry": true,
@@ -259,22 +287,22 @@
     "src": "resources/js/loreg.js"
   },
   "resources/js/web/account.js": {
-    "file": "assets/account-2b372196.js",
+    "file": "assets/account-def0dd18.js",
     "imports": [
       "_axios-4a70c6fc.js",
-      "_helpers-388d927a.js",
-      "_helpers-6fc151c3.js"
+      "_helpers-27e9ade0.js",
+      "_helpers-cf980081.js"
     ],
     "isEntry": true,
     "src": "resources/js/web/account.js"
   },
   "resources/js/web/app.js": {
-    "file": "assets/app-463943ca.js",
+    "file": "assets/app-ebef6f9f.js",
     "imports": [
-      "_toastify-f9ee0e47.js",
+      "_toastify-2295babd.js",
       "_tippy.esm-0e655d3f.js",
-      "_helpers-6fc151c3.js",
-      "__commonjsHelpers-725317a4.js",
+      "_helpers-cf980081.js",
+      "__commonjsHelpers-de833af9.js",
       "_axios-4a70c6fc.js"
     ],
     "isEntry": true,
@@ -286,31 +314,31 @@
     "src": "resources/js/web/coloris.js"
   },
   "resources/js/web/home.js": {
-    "file": "assets/home-36299b17.js",
+    "file": "assets/home-da6ee12c.js",
     "imports": [
-      "_index-a8aa5ca2.js",
-      "_helpers-6fc151c3.js",
-      "__commonjsHelpers-725317a4.js"
+      "_index-88830fa7.js",
+      "_helpers-cf980081.js",
+      "__commonjsHelpers-de833af9.js"
     ],
     "isEntry": true,
     "src": "resources/js/web/home.js"
   },
   "resources/js/web/library.js": {
-    "file": "assets/library-8daa4e40.js",
+    "file": "assets/library-9505c11e.js",
     "imports": [
-      "_index-a8aa5ca2.js",
-      "_helpers-6fc151c3.js",
-      "__commonjsHelpers-725317a4.js"
+      "_index-88830fa7.js",
+      "_helpers-cf980081.js",
+      "__commonjsHelpers-de833af9.js"
     ],
     "isEntry": true,
     "src": "resources/js/web/library.js"
   },
   "resources/js/web/mangaDetail.js": {
-    "file": "assets/mangaDetail-fffaa286.js",
+    "file": "assets/mangaDetail-98fa4cc8.js",
     "imports": [
-      "_index-a8aa5ca2.js",
-      "_helpers-6fc151c3.js",
-      "__commonjsHelpers-725317a4.js"
+      "_index-88830fa7.js",
+      "_helpers-cf980081.js",
+      "__commonjsHelpers-de833af9.js"
     ],
     "isEntry": true,
     "src": "resources/js/web/mangaDetail.js"
@@ -320,17 +348,30 @@
     "isEntry": true,
     "src": "resources/js/web/profile.js"
   },
+  "resources/js/web/shop.js": {
+    "file": "assets/shop-4ed993c7.js",
+    "isEntry": true,
+    "src": "resources/js/web/shop.js"
+  },
   "resources/js/web/users.js": {
     "file": "assets/users-4ed993c7.js",
     "isEntry": true,
     "src": "resources/js/web/users.js"
   },
   "resources/js/web/viewer.js": {
-    "file": "assets/viewer-b2ef7807.js",
+    "file": "assets/viewer-57f49aea.js",
     "imports": [
-      "_helpers-6fc151c3.js"
+      "_helpers-cf980081.js"
     ],
     "isEntry": true,
     "src": "resources/js/web/viewer.js"
+  },
+  "resources/js/web/whelp.js": {
+    "file": "assets/whelp-7ffb7658.js",
+    "imports": [
+      "__commonjsHelpers-de833af9.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/web/whelp.js"
   }
 }
