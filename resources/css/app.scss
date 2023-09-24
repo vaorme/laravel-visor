@@ -13,6 +13,12 @@ img{
 	top: 0;
 	left: 0;
 	z-index: 9999;
+	animation-duration: .4s;
+	animation-name: inModal;
+	animation-fill-mode: forwards;
+}
+.w-help.remove{
+	animation-name: outModal;
 }
 .w-overlay,
 .w-box{
@@ -29,7 +35,7 @@ img{
 	opacity: .5;
 	visibility: visible;
 }
-.w-box{
+.w-help .w-box{
     background-color: #fff;
     position: fixed;
     width: 100%;
@@ -45,35 +51,80 @@ img{
 	visibility: visible;
     transform: translateX(-50%);
 }
-.w-box .w-icon{
+.w-help .w-box .w-close{
+	position: absolute;
+	right: 1rem;
+	top: 1rem;
+	width: 32px;
+	height: 32px;
+	cursor: pointer;
+}
+.w-help .w-box .w-close::before,
+.w-help .w-box .w-close::after{
+	display: block;
+    content: "";
+    height: 32px;
+    width: 2px;
+    background: rgb(199 199 199);
+}
+.w-help .w-box .w-close::before{
+    transform: rotate(45deg) translate(11px, -10px);
+}
+.w-help .w-box .w-close::after{
+    transform: rotate(-45deg) translate(33px, -11px);
+}
+.w-help .w-box .w-icon{
 	text-align: center;
 	margin-bottom: 1rem;
 }
-.w-box .w-icon svg{
+.w-help .w-box .w-icon svg{
 	display: inline-block;
 	width: 80px;
 	height: 80px;
 	stroke: theme('colors.vo-red');
 }
-.w-box h4{
+.w-help .w-box h4{
 	font-size: 18px;
 	font-weight: 700;
 	text-align: center;
 	margin-bottom: 1rem;
 }
-.w-box p{
+.w-help .w-box p{
     color: #6f6f6f;
     font-size: 16px;
     font-weight: 500;
     text-align: center;
 	margin-bottom: .5rem;
 }
-.w-box .w-image{
+.w-help .w-box .w-image{
 	margin-top: 1rem;
 }
-.w-box img{
+.w-help .w-box img{
 	max-width: 170px;
 	margin: auto;
+}
+
+@keyframes inModal{
+	from{
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(-15px);
+	}
+	to{
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0px);
+	}
+}
+@keyframes outModal{
+	from{
+		opacity: 1;
+		visibility: visible;
+	}
+	to{
+		opacity: 0;
+		visibility: hidden;
+	}
 }
 
 // :MODAL

@@ -1,10 +1,30 @@
 const origin = window.location.origin;
 
 document.addEventListener('DOMContentLoaded', function(){
-    if(!window.adsbygoogle || (window.adsbygoogle && !window.adsbygoogle.loaded)){
+    if(typeof window.adsbygoogle.loaded === "undefined" ){
         crearAyudanos();
     }
+    document.addEventListener('click', function (e) {
+        if (!e.target.matches('.w-help .w-close')) return;
+        e.preventDefault();
+        eliminarAyudanos();
+    });
+    document.addEventListener('click', function (e) {
+        if (!e.target.matches('.w-help .w-overlay')) return;
+        e.preventDefault();
+        eliminarAyudanos();
+    });
 });
+
+function eliminarAyudanos(){
+    const exists = document.querySelector('.w-help');
+    if(exists){
+        exists.classList.add('remove');
+        setTimeout(() => {
+            exists.remove();
+        }, 500);
+    }
+}
 
 function crearAyudanos(){
     const bdy = document.querySelector('body');
@@ -13,6 +33,7 @@ function crearAyudanos(){
     createDiv.innerHTML = `
         <div class="w-overlay"></div>
         <div class="w-box">
+            <div class="w-close"></div>
             <div class="w-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hand-stop" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
