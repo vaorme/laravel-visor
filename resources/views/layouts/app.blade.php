@@ -98,6 +98,9 @@
             </div>
         </div>
         {{-- SCRIPTS --}}
+        @if (showAds())
+            <script type="module" src="{{ Vite::asset('resources/js/web/whelp.js') }}"></script>
+        @endif
         <script type="module" src="{{ Vite::asset('resources/js/web/app.js') }}"></script>
         @if (Route::is(['web.index']))
             <script type="module" src="{{ Vite::asset('resources/js/web/home.js') }}"></script>

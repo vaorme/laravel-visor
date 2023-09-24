@@ -37,6 +37,7 @@ export default defineConfig({
                 'resources/js/web/coloris.js',
 
                 // WEB
+                'resources/js/web/whelp.js',
                 'resources/js/web/app.js',
                 'resources/js/web/home.js',
 

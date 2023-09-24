@@ -1,6 +1,5 @@
 import '../library';
 import { addClass, removeClass, toggleClass } from '../helpers/helpers';
-import { remove } from 'lodash';
 
 const urlOrigin = window.location.origin;
 const buyForm = document.querySelector('form.buy-chapter-form');

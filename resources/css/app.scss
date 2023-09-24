@@ -6,6 +6,76 @@ img{
 	display: block;
 }
 
+.w-help{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+}
+.w-overlay,
+.w-box{
+	transition: visibility .2s ease, opacity .2s ease;
+}
+.w-overlay{
+	background-color: #000;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	z-index: 10;
+	opacity: .5;
+	visibility: visible;
+}
+.w-box{
+    background-color: #fff;
+    position: fixed;
+    width: 100%;
+    top: 10vw;
+    left: 50%;
+    z-index: 11;
+	opacity: 0;
+	opacity: 1;
+	color: #000;
+    padding: 1.5rem;
+    max-width: 520px;
+    border-radius: 12px;
+	visibility: visible;
+    transform: translateX(-50%);
+}
+.w-box .w-icon{
+	text-align: center;
+	margin-bottom: 1rem;
+}
+.w-box .w-icon svg{
+	display: inline-block;
+	width: 80px;
+	height: 80px;
+	stroke: theme('colors.vo-red');
+}
+.w-box h4{
+	font-size: 18px;
+	font-weight: 700;
+	text-align: center;
+	margin-bottom: 1rem;
+}
+.w-box p{
+    color: #6f6f6f;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+	margin-bottom: .5rem;
+}
+.w-box .w-image{
+	margin-top: 1rem;
+}
+.w-box img{
+	max-width: 170px;
+	margin: auto;
+}
+
 // :MODAL
 .overlay,
 .modal{
