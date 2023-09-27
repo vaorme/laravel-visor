@@ -186,7 +186,7 @@ class UserController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-		//return response()->json($request->all());
+		// return response()->json($request->all());
 		$request->validate([
             'username' => ['string', 'regex:/^[_A-z0-9]*((-|\S)*[_A-z0-9])*$/','max:16'],
 			'avatar_file' => ['dimensions:max_width=248,max_height=248', 'max:400', 'mimes:jpg,jpeg,png,gif'],
@@ -239,12 +239,12 @@ class UserController extends Controller{
         }
 		
         // Assign Role
-		if(isset($request->roles)){
+		if(isset($request->roles) && !empty($request->roles)){
 			$role = Role::findByName($request->roles);
 		}else{
 			$role = Role::findByName('lector');
 		}
-        $user->assignRole($role);
+        $user->syncRoles($role);
 		
         $profile = Profile::find($id);
 		$profile->name = $request->name;

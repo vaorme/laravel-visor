@@ -81,6 +81,9 @@
                         <x-manga-loop-item :item="$item" />
                     @endforeach
                 </div>
+                @php
+                    $list->appends(request()->input())->links();
+                @endphp
                 {{ $list->links('vendor.pagination.default') }}
             @else
                 <div class="empty">No hay elementos para mostrar</div>

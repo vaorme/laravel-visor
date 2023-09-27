@@ -34,6 +34,7 @@
             </div>
             @if ($loop->isNotEmpty())
                 @php
+                    $loop->appends(request()->input())->links();
                     $pagination = $loop->links('vendor.pagination.default');
                 @endphp
                 <div class="members__list">

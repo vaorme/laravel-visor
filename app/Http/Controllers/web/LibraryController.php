@@ -9,6 +9,7 @@ use App\Models\MangaBookStatus;
 use App\Models\MangaDemography;
 use App\Models\MangaType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class LibraryController extends Controller{
     public function index(Request $request){
@@ -55,16 +56,25 @@ class LibraryController extends Controller{
             });
         }
         $limit = 32;
+        $list = $list->paginate($limit);
         $types = MangaType::get();
         $demographics = MangaDemography::get();
         $bookStatus = MangaBookStatus::get();
         $categories = Category::orderBy('name')->get();
-        return view('library', [
-            'list' => $list->paginate($limit),
+        $viewData = [
+            'list' => $list,
             'types' => $types,
             'demographics' => $demographics,
             'bookStatus' => $bookStatus,
             'categories' => $categories
-        ]);
+        ];
+        if ($list->lastPage() === 1 && $list->currentPage() !== 1) {
+            $queryParams = $request->query();
+            $queryParams['page'] = 1;
+            $redirectUrl = '/biblioteca?' . http_build_query($queryParams);
+
+            return Redirect::to($redirectUrl);
+        }
+        return view('library', $viewData);
     }
 }
