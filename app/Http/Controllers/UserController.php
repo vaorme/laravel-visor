@@ -194,6 +194,7 @@ class UserController extends Controller{
 		]);
         
         $user = User::find($id);
+        $oldEmail = $user->email;
 		
         if($user->username !== $request->username){
 			if(User::where('username', $request->username)->exists()){
@@ -211,6 +212,9 @@ class UserController extends Controller{
 			$user->password = Hash::make($request->password);
 		}
         $userSaved = $user->save();
+        if($oldEmail !== $request->email){
+			$user->SendEmailVerificationNotification();
+		}
 
         $userCoins = $request->coins;
 
@@ -282,7 +286,6 @@ class UserController extends Controller{
         $profileSaved = $profile->save();
 
         if($userSaved && $profileSaved){
-            $user->SendEmailVerificationNotification();
             $response['success'] = [
                 'msg' => "Usuario actualizado correctamente",
                 // 'data' => $user,
