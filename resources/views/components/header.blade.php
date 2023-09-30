@@ -30,7 +30,6 @@
                                 <i class="fa-solid fa-book-open-reader"></i>
                             </div>
                             <span class="item__text">Explorar</span>
-                            <span class="item__badge">New</span>
                         </a>
                     </li>
                     <li>
@@ -39,7 +38,7 @@
                                 <i class="fa-solid fa-book"></i>
                             </div>
                             <span class="item__text">Novelas</span>
-                            <span class="item__badge">New</span>
+                            {{-- <span class="item__badge">New</span> --}}
                         </a>
                     </li>
                     <li>
@@ -51,7 +50,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="https://nartag.com/donacione/" target="_blank" class="block font-medium">
+                        <a href="https://paypal.me/Nartag1" target="_blank" class="block font-medium">
                             <div class="item__icon">
                                 <i class="fa-solid fa-circle-dollar-to-slot"></i>
                             </div>
@@ -75,6 +74,14 @@
                     @php
                         $profile = $auth->profile;
                     @endphp
+                    
+                    <a href="{{ route('shop.index') }}" class="shop__link" data-tippy-placement="left" data-tippy-content="Tienda">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-bag" width="26" height="26" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z"></path>
+                            <path d="M9 11v-5a3 3 0 0 1 6 0v5"></path>
+                        </svg>
+                    </a>
                     <div class="panel">
                         <a href="{{ route('profile.index', ['username' => $auth->username]) }}">
                             <div class="user flex align-center">

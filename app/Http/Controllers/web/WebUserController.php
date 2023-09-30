@@ -451,7 +451,7 @@ class WebUserController extends Controller{
         $rate->rating = number_format($request->params['rating']);
 
         if($rate->save()){
-            Cache::forget('home_slider');
+            Cache::forget('new_records');
             Cache::forget('most_viewed');
             Cache::forget('manga_shortcuts');
             Cache::forget('categories_home');

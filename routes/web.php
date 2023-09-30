@@ -100,6 +100,9 @@ Route::get('/u/', function(){
     return redirect('/usuarios'); // Redirect home if user go to /u/
 });
 
+// :UPDATES
+Route::get("/actualizaciones", [WebController::class, 'updates'])->name('updates.index');
+
 // :MANGA DETAIL
 
 Route::prefix('biblioteca')->group(function(){

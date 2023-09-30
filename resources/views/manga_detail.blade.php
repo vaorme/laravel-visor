@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot:title>{{ $manga->name }}</x-slot>
+    <x-slot:title>{{ $manga->name }} | Nartag</x-slot>
     @if (showAds())
         @php
             $ad_5 = config('app.ads_5');

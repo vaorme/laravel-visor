@@ -26,15 +26,6 @@ main.main .members__top{
     align-items: center;
     justify-content: space-between;
 }
-main.main .members__title{
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-main.main .members__title h2{
-    font-size: 18px;
-    font-weight: 700;
-}
 main.main .members__search{
     position: relative;
     form{
@@ -72,15 +63,6 @@ main.main .members__search{
             }
         }
     }
-}
-main.main .members__title a.view__back{
-    background-color: #9b2e2e;
-    display: flex;
-    width: 42px;
-    height: 42px;
-    border-radius: 9px;
-    align-items: center;
-    justify-content: center;
 }
 main.main .members__list{
     display: grid;

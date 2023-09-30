@@ -36,6 +36,10 @@ class Manga extends Model{
         $week = date('Y-m-d', strtotime("-1 week"));
         return $this->hasOne(Chapter::class)->where('chapters.created_at', '>=', $week)->orderBy('id', 'DESC');
     }
+    public function latestMonthChapters(){
+        $month = date('Y-m-d', strtotime("-1 month"));
+        return $this->hasMany(Chapter::class)->where('chapters.created_at', '>=', $month)->orderBy('created_at', 'DESC')->limit(2);
+    }
     public function categories(){
         return $this->belongsToMany(Category::class, 'manga_has_categories', 'manga_id');
     }

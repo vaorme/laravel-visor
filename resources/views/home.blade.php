@@ -14,7 +14,7 @@
 	@endif
 	<div class="main__wrap main__home">
 		<div class="main__content">
-			@if ($slider->isNotEmpty())
+			{{-- @if ($slider->isNotEmpty())
 				<section class="section home__slider">
 					<div class="slide__box">
 						<div class="swiper home__swiper">
@@ -70,7 +70,54 @@
 						</div>
 					</div>
 				</section>
-			@endif
+			@endif --}}
+			<section class="section news">
+				<div class="section__title">
+					<h2><span>Últimos</span>Agregados</h2>
+				</div>
+				<div class="section__content">
+					<div class="manga">
+						@if ($newRecords)
+							<div class="manga__list">
+								@foreach ($newRecords as $item)
+									<div class="manga__item">
+										<div class="manga__cover">
+											<a href="{{ $item->url() }}" class="manga__link">
+												<figure class="manga__image">
+													<img data-src="{{ $item->cover() }}" alt="{{ $item->manga_name }}" class="lazy">
+												</figure>
+											</a>
+											@if ($item->rating->avg('rating'))
+												<div class="manga__ratings">
+													<i class="fa-solid fa-star"></i>
+													<div class="rating__avg">{{ round($item->rating->avg('rating'), 1, PHP_ROUND_HALF_DOWN) }}</div>
+												</div>
+											@endif
+											<div class="manga__terms">
+												@if ($item->demography)
+													<div class="manga__demography {{ $item->demography->slug }}">
+														<a href="{{ $item->demography->url() }}">{{ $item->demography->name }}</a>
+													</div>
+												@endif
+												@if ($item->type)
+													<div class="manga__type {{ $item->type->slug }}">
+														<a href="{{ $item->type->url() }}">{{ $item->type->name }}</a>
+													</div>
+												@endif
+											</div>
+										</div>
+										<h4 class="manga__title">
+											<a href="{{ $item->url() }}" class="manga__link">{{ $item->name }}</a>
+										</h4>
+									</div>
+								@endforeach
+							</div>
+						@else
+							<div class="empty">No hay elementos para mostrar</div>
+						@endif
+					</div>
+				</div>
+			</section>
 			@if (showAds())
 				@php
 					$ad_2 = config('app.ads_2');
@@ -151,6 +198,17 @@
 										</div>
 									</div>
 								@endforeach
+							</div>
+							<div class="manga__viewmore">
+								<a href="{{ route('updates.index') }}" class="view_more">
+									Ver más
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-narrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+										<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+										<path d="M5 12l14 0"></path>
+										<path d="M15 16l4 -4"></path>
+										<path d="M15 8l4 4"></path>
+									 </svg>
+								</a>
 							</div>
 						@else
 							<div class="empty">No hay elementos para mostrar</div>
@@ -360,7 +418,6 @@
 								</li>
 							@endforeach
 						</ul>
-						<button class="tops__viewmore">Ver más</button>
 					</div>
 				</section>
 			@endif

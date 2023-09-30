@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-slot:title>{{ $user->username }}</x-slot>
+    <x-slot:title>{{ $user->username }} | Nartag</x-slot>
     @php
         $country = $user->profile->getCountry();
     @endphp

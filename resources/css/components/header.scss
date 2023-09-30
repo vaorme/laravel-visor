@@ -232,6 +232,14 @@ header.header nav.navbar .panel .coins .coins__amount{
     font-size: 12px;
     font-weight: 600;
 }
+header.header nav.navbar .rth__access{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+header.header nav.navbar .rth__access .shop__link{
+
+}
 @media (max-width: 1024px){
     header.header{
         gap: 1rem;

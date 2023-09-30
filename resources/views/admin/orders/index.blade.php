@@ -30,6 +30,7 @@
             @endif
         @if ($loop->isNotEmpty())
             @php
+                $loop->appends(request()->input())->links();
                 $other = $loop->links('vendor.pagination.default');
             @endphp
             <div class="table">

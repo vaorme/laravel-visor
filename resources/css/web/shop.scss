@@ -10,24 +10,6 @@ section.shop .empty{
     text-align: center;
     border-radius: 12px;
 }
-main.main .shop__title{
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-main.main .shop__title h2{
-    font-size: 18px;
-    font-weight: 700;
-}
-section.shop .shop__title a.view__back{
-    background-color: #9b2e2e;
-    display: flex;
-    width: 42px;
-    height: 42px;
-    border-radius: 9px;
-    align-items: center;
-    justify-content: center;
-}
 section.shop .products{
     display: grid;
     gap: 1.5rem;

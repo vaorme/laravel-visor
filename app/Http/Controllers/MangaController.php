@@ -118,6 +118,7 @@ class MangaController extends Controller{
         $manga->new_chapters_date = $request->new_chapters_date;
 
         if($manga->save()){
+            Cache::forget('new_records');
             Cache::forget('manga_shortcuts');
             Cache::forget('new_chapters');
             Cache::forget('most_viewed');
@@ -299,7 +300,7 @@ class MangaController extends Controller{
         $delete = Manga::destroy($id);
         if($delete){
             // Clear cache
-            Cache::forget('home_slider');
+            Cache::forget('new_records');
             Cache::forget('most_viewed');
             Cache::forget('new_chapters');
             Cache::forget('manga_shortcuts');
