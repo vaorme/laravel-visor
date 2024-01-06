@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ChaptersController;
+use App\Http\Controllers\Dashboard\ChaptersController;
 use App\Http\Controllers\MangaBookStatusController;
 use App\Http\Controllers\MangaController;
 use App\Http\Controllers\MangaDemographyController;

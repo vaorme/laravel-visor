@@ -1,0 +1,1 @@
+import{d as o}from"./helpers-27e9ade0.js";import"./helpers-cf980081.js";let e=["jpg","jpeg","png","webp","gif"];o(".settings form.form .logo .dropzone #choose",e);o(".settings form.form .favicon .dropzone #choose",e);

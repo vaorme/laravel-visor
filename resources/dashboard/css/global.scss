@@ -1,0 +1,89 @@
+@use "toastify-js/src/toastify.css";
+
+.toastify{
+    box-shadow: 0 0 0 0;
+    button.toast-close{
+        margin-left: 1rem;
+    }
+    &.error{
+        background: var(--tblr-red);
+    }
+    &.success{
+        background: var(--tblr-green);
+    }
+}
+
+// * COMICS OWN DROPZONE
+
+.comics .own-dropzone .dz-choose,
+.comics .im-dropzone .dz-choose{
+    background-color: #fbfbfb;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    max-width: 280px;
+    min-height: 420px;
+    color: #adadad;
+    margin: auto;
+    font-size: 12px;
+    border-radius: 1rem;
+    font-weight: 600;
+    overflow: hidden;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    text-transform: uppercase;
+    border: 1px dashed rgba(0, 0, 0, 0.1);
+    transition: color 0.2s ease, border 0.2s ease;
+}
+.comics .im-dropzone .dz-choose{
+    max-width: 100%;
+    min-height: 140px;
+}
+.comics .own-dropzone .dz-choose .dz-preview .dz-change{
+    background-color: rgb(0 0 0 / 40%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .4s ease, visibility .4s ease;
+}
+.comics .own-dropzone .dz-choose:hover .dz-preview .dz-change{
+    opacity: 1;
+    visibility: visible;
+}
+.comics .own-dropzone .dz-choose .dz-preview img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    visibility: hidden;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center;
+    object-position: center;
+}
+.comics .own-dropzone .dz-choose .dz-preview img.show{
+    animation-name: dzIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+@keyframes dzIn{
+    from {
+        opacity: 0;
+        visibility: hidden;
+    }
+    to {
+        opacity: 1;
+        visibility: visible;
+    }
+}

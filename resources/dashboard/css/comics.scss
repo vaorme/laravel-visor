@@ -1,0 +1,145 @@
+.draggable--is-dragging, .draggable--is-dragging .draggable-mirror, .draggable--is-dragging .draggable-source {
+    cursor: move;
+}
+.comics{
+
+}
+.comics .chapters .card-body{
+    max-height: 1000px;
+    overflow: auto;
+}
+.comics .chapters .card-body .item{
+    background-color: #fff;
+    padding: 10px;
+}
+.comics .chapters .card-body .item.draggable--original{
+    display: none !important;
+}
+.comics .chapters .card-body .item.draggable-source--is-dragging {
+    opacity: 0.2;
+}
+.comics .chapters .card-body .item .lft{
+    gap: 10px;
+}
+.comics .chapters .card-body .item .lft button{
+    background-color: transparent;
+    outline: none;
+    border: 0;
+    color: #a0a0a0;
+    cursor: move;
+}
+.comics .chapters .card-body .item .lft .name{
+    font-weight: 600;
+}
+.comics .chapters .card-body .item .rig{
+
+}
+.comics .chapters .card-body .item .rig .actions{
+    text-align: right;
+}
+.comics .chapters .card-body .item .rig .actions a{
+    color: #fff;
+}
+.comics #chapter-modal .modal-body{
+    
+}
+.comics #chapter-modal .modal-body .chapter-images{
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(5, 1fr);
+}
+.comics #chapter-modal .modal-body .chapter-images .add-more{
+    
+}
+.comics #chapter-modal .modal-body .chapter-images .add-more .add-choose{
+    background-color: #fbfbfb;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    width: 100%;
+    min-height: 320px;
+    color: #adadad;
+    margin: auto;
+    font-size: 12px;
+    border-radius: 1rem;
+    font-weight: 600;
+    overflow: hidden;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    text-transform: uppercase;
+    border: 1px dashed rgba(0, 0, 0, 0.1);
+    transition: color 0.2s ease, border 0.2s ease;
+}
+.comics #chapter-modal .modal-body .chapter-images .add-more input{
+    display: none;
+}
+.comics #chapter-modal .modal-body .chapter-images .image{
+    position: relative;
+}
+.comics #chapter-modal .modal-body .chapter-images .image.draggable--original{
+    display: none !important;
+}
+.comics #chapter-modal .modal-body .chapter-images .image.draggable-source--is-dragging {
+    opacity: 0.2;
+}
+.comics #chapter-modal .modal-body .chapter-images .image .i-remove,
+.comics #chapter-modal .modal-body .chapter-images .image .i-status{
+    background-color: #263238;
+    position: absolute;
+    display: flex;
+    top: 10px;
+    width: 44px;
+    height: 44px;
+    border-radius: 35px;
+    align-items: center;
+    justify-content: center;
+}
+.comics #chapter-modal .modal-body .chapter-images .image .i-remove{
+    cursor: pointer;
+    right: 10px;
+    color: #ffffff;
+    transition: background .2s ease;
+}
+.comics #chapter-modal .modal-body .chapter-images .image .i-remove svg{
+    width: 26px;
+    pointer-events: none;
+}
+.comics #chapter-modal .modal-body .chapter-images .image .i-remove:hover{
+    background-color: #d80404;
+}
+.comics #chapter-modal .modal-body .chapter-images .image .i-status{
+    left: 10px;
+}
+.comics #chapter-modal .modal-body .chapter-images .image .i-status .i-loader{
+    background: linear-gradient(0deg, rgba(255, 61, 0, 0.2) 33%, #ff3d00 100%);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+}
+.comics #chapter-modal .modal-body .chapter-images .image .i-status .i-loader.uploading{
+    animation: statusRotation 1s linear infinite;
+}
+.comics #chapter-modal .modal-body .chapter-images .image .i-status .i-loader.uploaded{
+    background: #2fb344;
+    animation-iteration-count: 1;
+}
+.comics #chapter-modal .modal-body .chapter-images .image .i-status .i-loader::after{
+    content: '';  
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #263238;
+}
+@keyframes statusRotation{
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg)}
+}

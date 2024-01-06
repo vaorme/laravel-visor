@@ -8,11 +8,16 @@ window._ = _;
  */
 
 import axios from 'axios';
-axios.defaults.baseURL = import.meta.env.APP_URL;
+axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
+const axiosToken = document.head.querySelector('meta[name="csrf-token"]');
+if (axiosToken) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = axiosToken.content;
+}else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

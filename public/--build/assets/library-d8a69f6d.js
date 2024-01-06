@@ -1,0 +1,1 @@
+import{m as a,T as i}from"./toastify-2295babd.js";import{C as e,A as r,d as t,a as o}from"./draggable.bundle-7660e9fd.js";import"./_commonjsHelpers-de833af9.js";import"./axios-4a70c6fc.js";window.Alpine=a;window.Choices=e;window.AirDatepicker=r;window.localeEs=t;window.Toastify=i;window.Draggable=o.Draggable;window.DgSortable=o.Sortable;a.start();

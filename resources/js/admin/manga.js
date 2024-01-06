@@ -539,7 +539,7 @@ if(openPopButton){
 }
 
 let fileAllow = ['zip'];
-dropButton('.fm-manga .upload #upload-chapter', fileAllow);
+dropButton('.fm-manga .im-dropzone', fileAllow);
 
 function dropButton(zone, allowed){
     const drop = document.querySelector(zone);
@@ -595,7 +595,7 @@ function dropButtonFile(file, allowed){
             const progress = (progressEvent.loaded / progressEvent.total) * 95;
             uploadBar.style.display = "block";
             progressBar.style.width = progress + "%";
-        } 
+        }
     }).then(function (response){
         let data = response.data;
         if(data['excluded']){
