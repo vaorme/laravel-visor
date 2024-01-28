@@ -6,6 +6,7 @@ import { hasClass, addClass, removeClass } from "./own-helpers";
 
 let previewImages = [];
 let chapterImages = [];
+let chaptersToDelete = [];
 let validator;
 let isChapterEdit = false;
 
@@ -79,7 +80,7 @@ function removeImageChapter(e){
     }
 }
 
-// ? DELETE IMAGEN CHAPTER
+// ? DELETE IMAGE CHAPTER
 async function deleteImageChapter(files, index){
     if(isChapterEdit){
         const chapter_id = document.querySelector('form.frmo-chapter input[name="chapter_id"]');
@@ -654,6 +655,9 @@ function appendChapter(data){
     createItem.setAttribute('data-id', chapter.id)
     createItem.innerHTML = `
         <div class="lft d-flex g-4 w-full">
+            <div class="inpt-select d-flex align-items-center">
+                <input class="form-check-input input-del-chapters" type="checkbox" name="delete_chapters[]" value="${chapter.id}">
+            </div>
             <button class="drag">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-grip-horizontal" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -701,20 +705,36 @@ const modalChapterDestroy = document.getElementById('chapter-destroy')
 let btpModalChapterDestroy = modalChapterDestroy? new bootstrap.Modal(modalChapterDestroy) : '';
 modalChapterDestroy?.addEventListener('show.bs.modal', e => {
     const id = e.relatedTarget.getAttribute('data-id');
-    const button = document.querySelector('#buttonConfirm');
+    const button = modalChapterDestroy.querySelector('#buttonConfirm');
     button.setAttribute('data-id', id);
-    button?.addEventListener('click', chapterDestroy);
+    button?.addEventListener('click', handlerChapterDestroy);
 })
-async function chapterDestroy(){
-    const id = this.getAttribute('data-id');
-    this.disabled = true;
+modalChapterDestroy?.addEventListener('hide.bs.modal', () =>{
+    const button = modalChapterDestroy.querySelector('#buttonConfirm');
+    button?.removeEventListener('click', handlerChapterDestroy);
+});
+
+async function handlerChapterDestroy(){
     let buttonText = this.textContent;
+    let id = this.getAttribute('data-id');
+    this.disabled = true;
     this.innerHTML = `
         ${buttonText}
         <span class="input-icon-addon">
             <div class="spinner-border spinner-border-sm text-white" role="status"></div>
         </span>
     `;
+    await chapterDestroy(id);
+    this.disabled = false;
+    this.removeAttribute('data-id');
+    this.innerHTML = `
+        ${buttonText}
+    `;
+    btpModalChapterDestroy.hide();
+}
+
+async function chapterDestroy(chapter_id){
+    const id = chapter_id;
     await axios.delete("chapters/"+id).then(function (response){
         //console.log(response);
         const data = response.data;
@@ -750,13 +770,83 @@ async function chapterDestroy(){
         }
     });
     checkChaptersList();
-    btpModalChapterDestroy.hide();
+};
+
+// ? SELECT MULTIPLE CHAPTERS TO DELETE IT
+const modalMultipleChapterDestroy = document.getElementById('md-delete-chapters');
+let btpModalMultipleChapterDestroy = modalMultipleChapterDestroy? new bootstrap.Modal(modalMultipleChapterDestroy) : '';
+document.addEventListener('DOMContentLoaded', function() {
+    const buttonGroup = document.querySelector('form.frmo .chapters .botn-group');
+    document.addEventListener('change', function(event) {
+        if (event.target.tagName === 'INPUT' && event.target.classList.contains('input-del-chapters')) {
+            let changedValue = event.target.value;
+            const existBtn = document.querySelector('.dl-chapters');
+
+            if (event.target.checked) {
+                if (!chaptersToDelete.includes(changedValue)) {
+                    chaptersToDelete.push(changedValue);
+                }
+            } else {
+                let index = chaptersToDelete.indexOf(changedValue);
+                if (index !== -1) {
+                    chaptersToDelete.splice(index, 1);
+                }
+            }
+            if(chaptersToDelete.length > 0){
+                if(existBtn) return true;
+                buttonGroup.insertAdjacentHTML('afterbegin', `
+                    <a href="javascript:void(0)" class="botn view btn btn-pinterest dl-chapters" data-bs-toggle="modal" data-bs-target="#md-delete-chapters">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M18 6l-12 12"></path>
+                            <path d="M6 6l12 12"></path>
+                        </svg>
+                        Eliminar selecionado/s
+                    </a>
+                `);
+            }else{
+                if(existBtn){
+                    existBtn.remove();
+                }
+            }
+        }
+    });
+    const button = modalMultipleChapterDestroy.querySelector('#buttonConfirm');
+    modalMultipleChapterDestroy?.addEventListener('show.bs.modal', () => {
+        button?.addEventListener('click', handlerMultipleDeleteChapters);
+    });
+    modalMultipleChapterDestroy?.addEventListener('hide.bs.modal', () =>{
+        const existBtn = document.querySelector('.dl-chapters');
+        if(existBtn){
+            existBtn.remove();
+        }
+        button?.removeEventListener('click', handlerMultipleDeleteChapters);
+    });
+});
+
+async function handlerMultipleDeleteChapters(){
+    let buttonText = this.textContent;
+    this.disabled = true;
+    this.innerHTML = `
+        ${buttonText}
+        <span class="input-icon-addon">
+            <div class="spinner-border spinner-border-sm text-white" role="status"></div>
+        </span>
+    `;
+    await deleteMultipleChapters(chaptersToDelete);
+    chaptersToDelete = [];
     this.disabled = false;
-    this.removeAttribute('data-id');
     this.innerHTML = `
         ${buttonText}
     `;
-};
+    btpModalMultipleChapterDestroy.hide();
+}
+
+async function deleteMultipleChapters(chapters){
+    for(const key in chapters){
+        await chapterDestroy(chapters[key]);
+    }
+}
 
 // * CHECK IF LIST OF CHAPTERS IS ZERO
 function checkChaptersList(){
@@ -767,7 +857,7 @@ function checkChaptersList(){
         divChapters.innerHTML = `
             <div class="card card-inactive">
                 <div class="card-body text-center">
-                    <p>No se han encontrado capítulos</p>
+                    <p>No hay capítulos</p>
                 </div>
             </div>
         `;
@@ -896,7 +986,18 @@ function clearImages(){
 
 // ? IMPORT CHAPTERS FROM FILE
 
-let fileAllow = ['zip'];
+const importChapterModal = document.getElementById('modal-chapter-import');
+let btnImpotChapterModal = importChapterModal? new bootstrap.Modal(importChapterModal) : '';
+importChapterModal?.addEventListener('hide.bs.modal', () =>{
+    const fileList = document.querySelector('form.frmo-import .file-list')
+    importFiles = [];
+    if(fileList){
+        fileList.innerHTML = "";
+    }
+});
+
+const fileAllow = ['zip'];
+let importFiles = [];
 dropButton('form.frmo-import .dz-choose', fileAllow);
 
 function dropButton(zone, allowed){
@@ -904,10 +1005,24 @@ function dropButton(zone, allowed){
     let inputElement;
     if(drop){
         inputElement = drop.nextElementSibling;
-
         inputElement.addEventListener('change', function (e) {
             const file = this.files[0];
-            dropButtonFile(file, allowed);
+            const fileExists = importFiles.some(item => item.name === file.name);
+            if(fileExists){
+                console.log(importFiles);
+                Toastify({
+                    text: "El archivo ya se encuentra agregado",
+                    className: "error",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "center",
+                }).showToast();
+                return true;
+            }
+            importFiles.push(file);
+            generatePreviewFile(file);
         })
         drop.addEventListener('click', () => inputElement.click());
         drop.addEventListener('dragover', (e) => {
@@ -915,22 +1030,78 @@ function dropButton(zone, allowed){
         });
         drop.addEventListener('drop', (e) => {
             e.preventDefault();
-            console.log(e.dataTransfer.files);
             const file = e.dataTransfer.files[0];
-            dropButtonFile(file, allowed);
+            const fileExists = importFiles.some(item => item.name === file.name);
+            if(fileExists){
+                Toastify({
+                    text: "El archivo ya se encuentra agregado",
+                    className: "error",
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "center",
+                }).showToast();
+                return true;
+            }
+            importFiles.push(file);
+            generatePreviewFile(file);
         });
     }
 }
-function dropButtonFile(file, allowed){
-    if(!file) {
-        console.log('error, no hay archivo');
-        return 'error';
+
+const importButton = document.querySelector('#modal-chapter-import button#buttonChapterImportConfirm');
+importButton?.addEventListener('click', async function(e){
+    e.preventDefault();
+    if(importFiles < 1){
+        Toastify({
+            text: "Debes seleccionar un archivo",
+            className: "error",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+        }).showToast();
+        return true;
     }
-    let extension = file.name.split('.').pop().toLowerCase();
+
+    this.disabled = true;
+    await importUploadFiles(importFiles);
+    this.disabled = false;
+    
+});
+
+async function importUploadFiles(files) {
+    // const uploadPromises = files.map((file, index) => importUploadFile(file, index));
+    // await Promise.all(uploadPromises);
+
+    for (const index in files) {
+        await importUploadFile(files[index], index);
+    }
+
+    // * CLEAN FILES WATING ROOM
+    importFiles = [];
+}
+function importUploadFile(file, index){
+    const allowed = ['zip'];
+    const extension = file.name.split('.').pop().toLowerCase();
     if(!allowed.includes(extension)){
-        alert('Tipo de archivo no permitido');
-        return 'no allowed';
+        console.log('si, fue este');
+        Toastify({
+            text: "Tipo de archivo no permitido",
+            className: "error",
+            duration: 3000,
+            newWindow: true,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+        }).showToast();
+        return true;
     }
+
+    const completedItems = document.querySelectorAll('form.frmo-import .file-list .list-group-item.item-completed');
+    index = (completedItems.length > 0)? completedItems.length : index;
 
     const inputComic = document.querySelector('form.frmo input[name="comic_id"]');
     let inputUpload = document.querySelector('form.frmo-import input.dz-input');
@@ -943,122 +1114,148 @@ function dropButtonFile(file, allowed){
     dataForm.set('disk', disk.value);
     dataForm.append("chapters", file);
 
-    let uploadBar = document.querySelector('form.frmo-import #progress-bar');
-    let progressBar = document.querySelector('form.frmo-import #progress-bar .progress .progress-bar')
-
-    axios.post("chapters/upload/"+inputComic.value, dataForm, {
-        headers:{
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        onUploadProgress: (progressEvent) =>{
-            const progress = (progressEvent.loaded / progressEvent.total) * 95;
-            uploadBar.style.display = "block";
-            progressBar.style.width = progress + "%";
-        }
-    }).then(function (response){
-        let data = response.data;
-        console.log(data);
-        if(data['excluded']){
-            let excluded = data['excluded'];
-            excluded.forEach(item => {
-                Toastify({
-                    text: item,
-                    className: "error",
-                    duration: 5000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "bottom", // `top` or `bottom`
-                    position: "right", // `left`, `center` or `right`
-                }).showToast();
-            })
-        }
-        let created = data.created;
-        if(created){
-            created.forEach(item => {
-                Toastify({
-                    text: item.msg,
-                    className: "success",
-                    duration: 5000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top", // `top` or `bottom`
-                    position: "center", // `left`, `center` or `right`
-                }).showToast();
-            });
-            created.forEach(element => {
-                let chapter = element.item;
-                let manga_slug = element.manga_slug;
-                let divItem = document.createElement('div');
-                divItem.classList.add('item');
-                divItem.setAttribute('id', 'm-'+chapter.id);
-                divItem.innerHTML = `
-                    <div class="lft d-flex g-4 w-full">
-                        <button class="drag">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-grip-horizontal" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M5 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                <path d="M5 15m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                <path d="M12 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                <path d="M12 15m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                <path d="M19 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                <path d="M19 15m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                            </svg>
-                        </button>
-                        <div class="name col-8">${chapter.name}</div>
-                    </div>
-                    <div class="rig w-full d-flex justify-content-end">
-                        <div class="actions">
-                            <a href="${data.manga_slug}/${chapter.slug}" data-id="${chapter.id}" class="botn view btn btn-lime btn-icon" target="_blank">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M7 4v16l13 -8z"></path>
-                                </svg>
-                            </a>
-                            <button data-id="${chapter.id}" class="botn edit btn btn-bitbucket btn-icon" data-bs-toggle="modal" data-bs-target="#chapter-modal">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
-                                    <path d="M13.5 6.5l4 4"></path>
-                                </svg>
-                            </button>
-                            <button data-id="${chapter.id}" class="botn delete btn btn-pinterest btn-icon" data-bs-toggle="modal" data-bs-target="#chapter-destroy">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M18 6l-12 12"></path>
-                                    <path d="M6 6l12 12"></path>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                listChapters.append(divItem);
-            });
-        }else{
-            let errors = response.data['error'];
-            if(errors){
-                errors.forEach(item => {
+    let currentItem = document.querySelector(`#file-${index}`);
+    let dotStatus = document.querySelector(`#file-${index} .badge`);
+    let uploadBar = document.querySelector(`#file-${index} .progress`);
+    let progressBar = document.querySelector(`#file-${index} .progress .progress-bar`);
+    let buttonDelete = document.querySelector(`#file-${index} .removeItemFromList`);
+    return new Promise((resolve, reject) => {
+        axios.post("chapters/upload/"+inputComic.value, dataForm, {
+            headers:{
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            onUploadProgress: (progressEvent) =>{
+                const progress = (progressEvent.loaded / progressEvent.total) * 95;
+                uploadBar.style.display = "block";
+                progressBar.style.width = progress + "%";
+            }
+        }).then(function (response){
+            console.log(response);
+            let data = response.data;
+            if(data['excluded']){
+                let excluded = data['excluded'];
+                excluded.forEach(item => {
                     Toastify({
                         text: item,
                         className: "error",
                         duration: 5000,
                         newWindow: true,
                         close: true,
-                        gravity: "bottom", // `top` or `bottom`
-                        position: "right", // `left`, `center` or `right`
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
                     }).showToast();
                 })
             }
-        }
-        inputUpload.value = "";
-        progressBar.style.width = "100%";
-        setTimeout(() =>{
-            uploadBar.style.display = "none";
-            progressBar.style.width = 0;
-        }, 300);
-    })
-    .catch(function (error){
-        // handle error
-        console.log(error);
-    });
+            if(data['file_excluded']){
+                let excluded = data['file_excluded'];
+                excluded.forEach(item => {
+                    Toastify({
+                        text: item,
+                        className: "warning",
+                        duration: 5000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                    }).showToast();
+                })
+            }
+            let created = data.created;
+            if(created){
+                created.forEach(item => {
+                    Toastify({
+                        text: item.msg,
+                        className: "success",
+                        duration: 5000,
+                        newWindow: true,
+                        close: true,
+                        gravity: "top", // `top` or `bottom`
+                        position: "center", // `left`, `center` or `right`
+                    }).showToast();
+                });
+                created.forEach(element => {
+                    appendChapter(element);
+                });
+            }else{
+                let errors = response.data['error'];
+                if(errors){
+                    errors.forEach(item => {
+                        Toastify({
+                            text: item,
+                            className: "error",
+                            duration: 5000,
+                            newWindow: true,
+                            close: true,
+                            gravity: "top", // `top` or `bottom`
+                            position: "center", // `left`, `center` or `right`
+                        }).showToast();
+                    })
+                }
+            }
 
+            inputUpload.value = "";
+            currentItem.classList.add('item-completed');
+            progressBar.style.width = "100%";
+            progressBar.classList.add('bg-green');
+            dotStatus.classList.add('bg-green');
+            buttonDelete?.remove();
+            resolve();
+        })
+        .catch(function (error){
+            console.log(error);
+            reject();
+        });
+    });
+}
+
+document.addEventListener('click', function(e){
+    if (!e.target.matches('.removeItemFromList')) return;
+    e.preventDefault();
+    const inputDrop = document.querySelector('form.frmo-import .im-dropzone input.dz-input');
+    const target = e.target;
+    const targetId = target.getAttribute('data-id');
+    const currentItem = document.querySelector(`#file-${targetId}`);
+
+    inputDrop.value = "";
+    importFiles.splice(targetId, 1);
+    currentItem.remove();
+})
+
+function generatePreviewFile(file) {
+    if(!file) return true;
+
+    const fileList = document.querySelector('form.frmo-import .file-list')
+    const existen = document.querySelector('form.frmo-import .file-list .list-group-item:last-of-type');
+    let existeIndex = 0;
+    if(existen){
+        existeIndex = existen.getAttribute('id').split('-')[1];
+    }
+    const listDiv = document.createElement('div');
+    listDiv.classList.add('list-group-item', 'col-12', 'px-2', 'bg-transparent');
+    let idItem = (existen)? Number(existeIndex) + 1 : existeIndex;
+    listDiv.setAttribute('id', 'file-'+idItem);
+    listDiv.innerHTML = `
+        <div class="row align-items-center">
+            <div class="col-auto"><span class="badge bg-gray"></span></div>
+            <div class="col-auto">
+                <a href="javascript:void(0);">
+                    <span class="avatar">ZIP</span>
+                </a>
+            </div>
+            <div class="col text-truncate">
+                <a href="javascript:void(0);" class="text-reset d-block">${file.name}</a>
+                <div class="progress">
+                    <div class="progress-bar" style="width: 0%">
+                        <span class="visually-hidden">0% Complete</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                <a href="javascript:void(0)" class="list-group-item-actions removeItemFromList" data-id="${idItem}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon text-secondary" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+                </a>
+            </div>
+        </div>
+    `;
+    fileList.appendChild(listDiv);
 }

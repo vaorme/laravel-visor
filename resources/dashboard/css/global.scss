@@ -1,5 +1,9 @@
 @use "toastify-js/src/toastify.css";
 
+svg{
+    pointer-events: none;
+}
+
 .toastify{
     box-shadow: 0 0 0 0;
     button.toast-close{
@@ -10,6 +14,9 @@
     }
     &.success{
         background: var(--tblr-green);
+    }
+    &.warning{
+        background: var(--tblr-warning);
     }
 }
 

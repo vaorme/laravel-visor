@@ -143,3 +143,9 @@
     0% { transform: rotate(0deg) }
     100% { transform: rotate(360deg)}
 }
+.comics #modal-chapter-import .file-list{
+    gap: 15px;
+}
+.comics #modal-chapter-import .file-list .progress{
+    margin-top: 10px;
+}

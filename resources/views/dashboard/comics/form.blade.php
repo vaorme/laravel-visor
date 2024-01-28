@@ -149,7 +149,7 @@
                                         <div class="col">
                                             <h4 class="card-title">Capítulos</h4>
                                         </div>
-                                        <div class="col-auto text-end gp-4">
+                                        <div class="botn-group col-auto text-end gp-4">
                                             <a href="javascript:void(0)" class="botn view btn btn-lime" data-bs-toggle="modal" data-bs-target="#chapter-modal">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -164,7 +164,7 @@
                                                     <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
                                                     <path d="M5 13v-8a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-5.5m-9.5 -2h7m-3 -3l3 3l-3 3"></path>
                                                 </svg>
-                                                Importar Productos
+                                                Importar capítulos
                                             </a>
                                         </div>
                                     </div>
@@ -173,6 +173,9 @@
                                             @foreach ($chapters as $item)
                                                 <div class="item g-col-12 border d-flex justify-content-between align-items-center rounded-2" id="m-{{ $item->id }}" data-id="{{ $item->id }}">
                                                     <div class="lft d-flex g-4 w-full">
+                                                        <div class="inpt-select d-flex align-items-center">
+                                                            <input class="form-check-input input-del-chapters" type="checkbox" name="delete_chapters[]" value="{{ $item->id }}">
+                                                        </div>
                                                         <button class="drag">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-grip-horizontal" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -401,34 +404,8 @@
                     </div>
                 </div>
             </form>
-            {{-- MODAL CONFIRM DELTE --}}
-            <div class="modal modal-blur fade" id="chapter-destroy" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="modal-status bg-danger"></div>
-                        <div class="modal-body text-center py-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon mb-2 text-danger icon-lg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
-                            <h3>¿Está seguro?</h3>
-                            <div class="text-muted">¿Realmente quieres eliminar este capítulo? No se puede deshacer.</div>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="w-100">
-                                <div class="row">
-                                    <div class="col">
-                                        <button class="btn w-100" data-bs-dismiss="modal">Cancelar</button>
-                                    </div>
-                                    <div class="col">
-                                        <button class="position-relative btn btn-danger w-100" id="buttonConfirm">
-                                            Sí, eliminar
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-dashboard.components.modal-danger id="chapter-destroy" message="¿Realmente quieres eliminar este capítulo? No se puede deshacer."/>
+            <x-dashboard.components.modal-danger id="md-delete-chapters" message="¿Realmente quieres eliminar estos capítulos? No se puede deshacer."/>
             {{-- MODAL IMPORT CHAPTER --}}
             <div class="modal modal-dialog-scrollable modal-blur fade" id="modal-chapter-import" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
@@ -441,7 +418,7 @@
                             <form action="" class="frmo-import" id="frmo-import-chapters">
                                 <div class="row row-cards">
                                     <div class="col-12 btn-group" role="group">
-                                        <input type="radio" class="btn-check" name="import_disk" id="btn-radio-toolbar-1" autocomplete="off" checked value="local">
+                                        <input type="radio" class="btn-check" name="import_disk" id="btn-radio-toolbar-1" autocomplete="off" checked value="public">
                                         <label for="btn-radio-toolbar-1" class="btn btn-icon">Local</label>
                                         <input type="radio" class="btn-check" name="import_disk" id="btn-radio-toolbar-2" autocomplete="off" value="ftp">
                                         <label for="btn-radio-toolbar-2" class="btn btn-icon">FTP</label>
@@ -489,12 +466,13 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="file-list d-flex flex-wrap"></div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn me-auto" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" id="buttonChapterImportConfirm" class="btn btn-primary" data-bs-dismiss="modal">Importar</button>
+                            <button type="button" id="buttonChapterImportConfirm" class="btn btn-primary">Importar</button>
                         </div>
                     </div>
                 </div>
@@ -581,6 +559,9 @@
                                 return true;
                             }
                             if(value === "programmed"){
+                                const selectParent = tmSelectStatus.wrapper.parentElement;
+                                const existHint = selectParent.querySelector('.form-hint');
+                                if(existHint) return true;
                                 tmSelectStatus.wrapper.insertAdjacentHTML('afterend', `<small class="form-hint">Recuerda seleccionar una fecha futura para programar la publicacion</small>`)
                             }else{
                                 if(tmSelectStatus.wrapper.nextElementSibling.classList.contains('form-hint')){
@@ -655,15 +636,16 @@
                         },
                         enableTime: true,
                         dateFormat: "Y-m-d H:i:S",
+                        onClose: function(selectedDates, dateStr, instance) {
+                            let currentDate = new Date();
+                            let selectedDate = new Date(dateStr);
+                            if (selectedDate > currentDate) {
+                                tmSelectStatus.setValue('programmed')
+                            }else{
+                                tmSelectStatus.setValue('published')
+                            }
+                        }
                     });
-                    // window.Litepicker && (new Litepicker({
-                    //     element: document.getElementById('datepicker'),
-                    //     format: 'DD-MM-YYYY HH:mm',
-                    //     buttonText: {
-                    //         previousMonth: `<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 6l-6 6l6 6" /></svg>`,
-                    //         nextMonth: `<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>`,
-                    //     },
-                    // }));
                 })
             </script>
         </div>

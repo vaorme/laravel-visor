@@ -69,31 +69,25 @@ class ChapterUploadController extends Controller{
         $isNovel = false;
         $allowedExtensions = ['webp', 'jpg', 'jpeg', 'png', 'gif'];
 
+        $test = [];
         foreach($zipList as $zipFile){
             $pathInfo = pathinfo($zipFile);
-            // Es novela (Simple o Multiple)
-            if(isset($pathInfo['extension'])){
-                if($pathInfo['extension'] == "txt"){
-                    $isNovel = true;
-                    break;
-                }else{
-                    $response['excluded'][] = $pathInfo['extension']." fue omitido, tipo de archivo invalido.";
-                    break;
-                }
-            }
 
-            // Es multiple
+            // ?: CHECK IF IS DIRECTORY
             if($zip->isDirectory($zipFile)){
                 $isMultiple = true;
                 break;
             }
 
-            // Es simple y comprobamos que sean imagenes
+            // ?: CHECK IF IS SIMPLE (IMAGES)
             if(!$zip->isDirectory($zipFile) && in_array($pathInfo['extension'], $allowedExtensions)){
                 $isSingle = true;
                 break;
-            }else{
-                $response['excluded'][] = $pathInfo['extension']." fue omitido, tipo de archivo invalido.";
+            }
+
+            // ?: CHECK IF IS NOVEL (SINGLE O MULTIPLE)
+            if(isset($pathInfo['extension']) && $pathInfo['extension'] == "txt"){
+                $isNovel = true;
                 break;
             }
         }
@@ -135,7 +129,13 @@ class ChapterUploadController extends Controller{
                 $collectImages = [];
                 natcasesort($files);
                 foreach($files as $file){
+                    $pathfile = pathinfo($file);
                     $baseFile = basename($file);
+                    if(!in_array($pathfile['extension'], $allowedExtensions)){
+                        $exFile = $baseFile;
+                        $response['file_excluded'][] = "$exFile fue omitido, formato no permitido";
+                        continue;
+                    }
                     $collectImages[] = "comic/$manga->slug/$simpleChapterSlug/$baseFile";
                     // $fileRoute = $storagePath.$simpleChapterSlug."/".$baseFile;
                     $fileConten = Storage::disk($this->extractDisk)->get("tmp/$manga->slug/$simpleChapterSlug/$baseFile");
