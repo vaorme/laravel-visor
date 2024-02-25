@@ -66,9 +66,12 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('comics.index') }}" rel="noopener">Todos</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="https://tabler.io/docs" rel="noopener">Tipo</a>
-                                <a class="dropdown-item" href="https://tabler.io/docs" rel="noopener">Estado</a>
-                                <a class="dropdown-item" href="https://tabler.io/docs" rel="noopener">Demografia</a>
+                                <a class="dropdown-item" href="{{ route('comics.types.index') }}" rel="noopener">Tipos</a>
+                                <a class="dropdown-item" href="{{ route('comics.status.index') }}" rel="noopener">Estados</a>
+                                <a class="dropdown-item" href="{{ route('comics.demographies.index') }}" rel="noopener">Demografias</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="{{ route('comics.categories.index') }}" rel="noopener">Categorías</a>
+                                <a class="dropdown-item" href="{{ route('comics.tags.index') }}" rel="noopener">Tags</a>
                             </div>
                         </li>
                         <li class="nav-item">

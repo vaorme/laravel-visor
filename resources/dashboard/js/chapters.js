@@ -811,7 +811,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-    const button = modalMultipleChapterDestroy.querySelector('#buttonConfirm');
+    const button = modalMultipleChapterDestroy?.querySelector('#buttonConfirm');
     modalMultipleChapterDestroy?.addEventListener('show.bs.modal', () => {
         button?.addEventListener('click', handlerMultipleDeleteChapters);
     });

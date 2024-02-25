@@ -17,6 +17,9 @@
         @if (Route::is(['comics.*']))
             <link href="{{ Vite::asset('resources/dashboard/css/comics.scss') }}" rel="stylesheet"/>
         @endif
+		@if (Route::is(['users.*']))
+            <link href="{{ Vite::asset('resources/dashboard/css/users.scss') }}" rel="stylesheet"/>
+        @endif
         <style>
             @import url('https://rsms.me/inter/inter.css');
             :root {
@@ -45,10 +48,28 @@
         <script src="{{ Vite::asset('resources/dashboard/libs/tinymce/tinymce.min.js') }}" defer></script>
         <script src="{{ Vite::asset('resources/dashboard/js/dependencies/tabler.min.js') }}" defer></script>
         <script src="{{ Vite::asset('resources/dashboard/js/dependencies/demo.min.js') }}" defer></script>
-
-        @if (Route::is(['comics.*']))
-            <script type="module" src="{{ Vite::asset('resources/dashboard/js/comics.js') }}" defer></script>
+		
+		@if (Route::is(['comics.index', 'comics.create', 'comics.edit']))
+			<script type="module" src="{{ Vite::asset('resources/dashboard/js/comics.js') }}" defer></script>
             <script type="module" src="{{ Vite::asset('resources/dashboard/js/chapters.js') }}" defer></script>
+        @endif
+		@if (Route::is(['users.index', 'users.create', 'users.edit']))
+            <script type="module" src="{{ Vite::asset('resources/dashboard/js/users.js') }}" defer></script>
+        @endif
+		@if (Route::is(['comics.types.*']))
+			<script type="module" src="{{ Vite::asset('resources/dashboard/js/comics.types.js') }}" defer></script>
+        @endif
+		@if (Route::is(['comics.status.*']))
+			<script type="module" src="{{ Vite::asset('resources/dashboard/js/comics.status.js') }}" defer></script>
+        @endif
+		@if (Route::is(['comics.demographies.*']))
+			<script type="module" src="{{ Vite::asset('resources/dashboard/js/comics.demographies.js') }}" defer></script>
+        @endif
+		@if (Route::is(['comics.categories.*']))
+			<script type="module" src="{{ Vite::asset('resources/dashboard/js/comics.categories.js') }}" defer></script>
+        @endif
+		@if (Route::is(['comics.tags.*']))
+			<script type="module" src="{{ Vite::asset('resources/dashboard/js/comics.tags.js') }}" defer></script>
         @endif
     </body>
 </html>

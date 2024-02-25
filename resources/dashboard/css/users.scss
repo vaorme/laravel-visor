@@ -1,0 +1,15 @@
+form.frmo{
+
+}
+form.frmo .dropzone{
+	min-height: 210px;
+}
+form.frmo .password-validation{
+
+}
+form.frmo .password-validation .invalid{
+	color: var(--tblr-danger);
+}
+form.frmo .password-validation .valid{
+	color: var(--tblr-success);
+}

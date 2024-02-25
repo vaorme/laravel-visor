@@ -5,11 +5,11 @@
         <div class="row g-2 align-items-center">
             <div class="col">
                 <div class="page-pretitle">Overview</div>
-                <h2 class="page-title">Comics</h2>
+                <h2 class="page-title">Users</h2>
             </div>
             <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
-                        <a href="{{ route('comics.create') }}" class="btn btn-primary d-sm-inline-block" >
+                        <a href="{{ route('users.create') }}" class="btn btn-primary d-sm-inline-block" >
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
                             Agregar
                         </a>
@@ -27,9 +27,8 @@
                     <div class="col-auto">
                         <select type="text" class="form-select" id="select-labels" value="">
 							<option value="" data-custom-properties="&lt;span class=&quot;badge bg-muted&quot;&gt;&lt;/span&gt;" selected>Estado</option>
-                            <option value="published" data-custom-properties="&lt;span class=&quot;badge bg-success&quot;&gt;&lt;/span&gt;" {{ (request()->status == 'published')? 'selected' : null }}>Publicado</option>
-                            <option value="draft" data-custom-properties="&lt;span class=&quot;badge bg-warning&quot;&gt;&lt;/span&gt;" {{ (request()->status == 'draft')? 'selected' : null }}>Borrador</option>
-                            <option value="private" data-custom-properties="&lt;span class=&quot;badge bg-purple&quot;&gt;&lt;/span&gt;" {{ (request()->status == 'private')? 'selected' : null }}>Privado</option>
+                            <option value="active" data-custom-properties="&lt;span class=&quot;badge bg-success&quot;&gt;&lt;/span&gt;" {{ (request()->status == 'active')? 'selected' : null }}>Activo</option>
+                            <option value="inactive" data-custom-properties="&lt;span class=&quot;badge bg-warning&quot;&gt;&lt;/span&gt;" {{ (request()->status == 'inactive')? 'selected' : null }}>Inactivo</option>
                         </select>
                     </div>
                     <div class="col-auto">
@@ -45,64 +44,56 @@
                     </div>
                 </div>
             </div>
-            @if ($comics->isNotEmpty())
+            @if ($loop->isNotEmpty())
+			@php
+				$newLoop = $loop;
+			@endphp
             <div id="table-default" class="table-responsive">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th>Portada</th>
-                        <th><button class="table-sort" data-sort="sort-name">Nombre</button></th>
+                        <th>#</th>
+                        <th><button class="table-sort" data-sort="sort-name">Usuario</button></th>
+                        <th>Correo</th>
                         <th>Estado</th>
-                        <th>Tipo</th>
-                        <th><button class="table-sort" data-sort="sort-score">Puntaje</button></th>
-                        <th><button class="table-sort" data-sort="sort-chapters">Capítulos</button></th>
+                        <th>Monedas</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody class="table-tbody">
-                            @foreach ($comics as $comic)
+                            @foreach ($loop as $item)
                                 <tr class="align-middle">
                                     <td>
-                                        <a href="{{ route('comics.edit', ['id' => $comic->id]) }}" class="d-inline-block">
-                                            <div class="avatar avatar-md img-responsive-1x1 rounded-3 border" style="background-image: url({{ $comic->cover() }})"></div>
+                                        <a href="{{ route('users.edit', ['id' => $item->id]) }}" class="d-inline-block">
+                                            <div class="avatar avatar-md img-responsive-1x1 rounded-3 border" style="background-image: url({{ asset('storage/'.$item->profile->avatar) }})"></div>
                                         </a>
                                     </td>
                                     <td class="sort-name">
-                                        <a href="{{ route('comics.edit', ['id' => $comic->id]) }}" class="d-inline-block">
-                                            <h4 class="d-block m-0 text-dark" style="max-width: 300px">{{ $comic->name }}</h4>
+                                        <a href="{{ route('users.edit', ['id' => $item->id]) }}" class="d-inline-block">
+                                            <h4 class="d-block m-0 text-dark" style="max-width: 300px">{{ $item->username }}</h4>
                                         </a>
                                     </td>
+									<td>
+                                        <h4 class="d-block m-0 text-dark" style="max-width: 300px">{{ $item->email }}</h4>
+                                    </td>
                                     <td>
-                                        @switch($comic->status)
-                                            @case("published")
-                                                <span class="badge bg-green-lt p-2">Publicado</span>
-                                                @break
-                                            @case("draft")
-                                                <span class="badge bg-orange-lt p-2">Borrador</span>
-                                                @break
-                                            @case("private")
-                                                <span class="badge bg-blue-lt p-2">Privado</span>
-                                                @break
-                                            @default
-                                                
-                                        @endswitch
+                                        @if (isset($item->email_verified_at))
+											<span class="badge bg-green-lt p-2">Activo</span>
+										@else
+											<span class="badge bg-pink-lt p-2">Inactivo</span>
+										@endif
                                     </td>
-                                    @php
-                                        $colors = ["blue", "indigo", "purple", "pink", "muted"];
-                                        $random_key = array_rand($colors);
-                                        $random_item = $colors[$random_key];
-                                    @endphp
                                     <td class="sort-type">
-                                        @if (isset($comic->type))
-                                            <span class="badge bg-{{ $random_item }}-lt p-2">{{ $comic->type->name }}</span>
-                                        @endif
+                                        @if ($item->coins && $item->coins->coins > 0)
+											<span class="badge bg-yellow-lt p-2">{{ $item->coins->coins }}</span>
+										@else
+											<span class="badge bg-muted-lt p-2">0</span>
+										@endif
                                     </td>
-                                    <td class="sort-score">{{ round($comic->rating->avg('rating'), 1, PHP_ROUND_HALF_DOWN) }}</td>
-                                    <td class="sort-chapters">{{ $comic->chapters->count() }}</td>
                                     <td>
                                         <div class="btn-list flex-nowrap">
                                             <div class="botn" title="Editar" data-bs-toggle="tooltip" data-bs-placement="top">
-                                                <a href="{{ route('comics.edit', ['id' => $comic->id]) }}" class="btn btn-bitbucket w-auto btn-icon">
+                                                <a href="{{ route('users.edit', ['id' => $item->id]) }}" class="btn btn-bitbucket w-auto btn-icon">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-minus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                         <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
@@ -112,7 +103,7 @@
                                                 </a>
                                             </div>
                                             <div class="botn" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="top">
-                                                <a href="javascript:void(0)" class="btn btn-pinterest w-auto btn-icon" data-id="{{ $comic->id }}" data-bs-toggle="modal" data-bs-target="#modal-destroy">
+                                                <a href="javascript:void(0)" class="btn btn-pinterest w-auto btn-icon" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#modal-destroy">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                         <path d="M4 7l16 0"></path>
@@ -132,9 +123,9 @@
                 </table>
             </div>
             @php
-                $comics->appends(request()->input())->links();
+                $newLoop->appends(request()->input())->links();
             @endphp
-            {{ $comics->links('dashboard.components.pagination') }}
+            {{ $newLoop->links('dashboard.components.pagination') }}
             @else
                 <div class="row">
                     <div class="col-md-12">
