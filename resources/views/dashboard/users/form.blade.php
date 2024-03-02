@@ -189,7 +189,9 @@
 													<input type="text" class="form-control" name="cover_url" autocomplete="off">
                                                     <label for="floating-input">URL Portada</label>  
                                                 </div>
-												<div class="cover-preview dropzone rounded-2"></div>
+												<div class="cover-preview dropzone rounded-2">
+													<img src="" alt="cover">
+												</div>
                                             </div>
                                         </div>
                                     </div>
@@ -310,25 +312,15 @@
                                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-4" aria-expanded="false">Redes</button>
                                                 </h2>
                                                 <div id="collapse-4" class="accordion-collapse collapse">
-                                                    <div class="accordion-body pt-0">
+                                                    <div class="social-links accordion-body pt-0">
                                                         <div class="row row-cards">
 															<div class="col-12 row g-2">
 																<div class="col">
-																	<input type="text" name="social[]" class="form-control" placeholder="Enlace">
+																	<input type="text" name="add_social" class="form-control" placeholder="Enlace">
 																</div>
 																<div class="col-auto">
-																	<a href="#" class="btn btn-icon btn-green" aria-label="Button">
+																	<a href="#" class="btn btn-add btn-icon btn-green" aria-label="Button">
 																		<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
-																	</a>
-																</div>
-															</div>
-															<div class="col-12 row g-2">
-																<div class="col">
-																	<input type="text" name="social[]" class="form-control" value="https://facebook.com/vaor">
-																</div>
-																<div class="col-auto">
-																	<a href="#" class="btn btn-icon btn-danger" aria-label="Button">
-																		<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
 																	</a>
 																</div>
 															</div>

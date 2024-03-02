@@ -420,8 +420,10 @@
                                     <div class="col-12 btn-group" role="group">
                                         <input type="radio" class="btn-check" name="import_disk" id="btn-radio-toolbar-1" autocomplete="off" checked value="public">
                                         <label for="btn-radio-toolbar-1" class="btn btn-icon">Local</label>
-                                        <input type="radio" class="btn-check" name="import_disk" id="btn-radio-toolbar-2" autocomplete="off" value="ftp">
-                                        <label for="btn-radio-toolbar-2" class="btn btn-icon">FTP</label>
+                                        {{-- <input type="radio" class="btn-check" name="import_disk" id="btn-radio-toolbar-2" autocomplete="off" value="ftp">
+                                        <label for="btn-radio-toolbar-2" class="btn btn-icon">FTP</label> --}}
+										<input type="radio" class="btn-check" name="import_disk" id="btn-radio-toolbar-3" autocomplete="off" value="bunnycdn">
+                                        <label for="btn-radio-toolbar-3" class="btn btn-icon">BUNNY.NET</label>
                                     </div>
                                     <div class="col-12">
                                         <div class="im-dropzone">

@@ -71,24 +71,6 @@ class ChaptersController extends Controller{
             $count = 1;
         }
 
-        // Uploading images
-        // if($request->has('images')){
-        //     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-        //     $files = $request->file('images');
-        //     foreach($files as $file){
-        //         $originalName = $file->getClientOriginalName();
-        //         $extensionFile = $file->getClientOriginalExtension();
-        //         $check = in_array($extensionFile, $allowedExtensions);
-        //         if(!$check){
-        //             $response['excluded'][] = "$originalName fue excluido, solo puedes subir jpg, jpeg, png, gif";
-        //             continue;
-        //         }
-        //         // $images[] = $file->store("manga/".$mangaSlug[0]->slug."/".$request->slug, 'public');
-        //         Storage::disk($request->disk)->putFileAs("comic/".$comic->slug."/".$request->slug, $file, $originalName);
-        //         $images[] = "comic/".$comic->slug."/".$request->slug."/".$originalName;
-        //     }
-        // }
-
         $chapter = new Chapter;
 
         $chapter->order = $count;

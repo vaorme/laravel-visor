@@ -158,6 +158,9 @@ function chapterContentForm(manga_id, chapter){
         case "s3":
             url = import.meta.env.VITE_S3_URL;
             break;
+		case "s3":
+			url = import.meta.env.VITE_BUNNY_FTP_URL;
+			break;
     
         default:
             url = import.meta.env.VITE_STORAGE_LOCAL;
@@ -230,8 +233,8 @@ function chapterContentForm(manga_id, chapter){
                     <div class="col-12" x-show="chapter_type.includes('comic')">
                         <label class="form-label">Subir a:</label>
                         <div class="form-selectgroup-boxes row mb-3">
-                            <div class="col-lg-6">
-                            <label class="form-selectgroup-item">
+                            <div class="col-lg-4">
+                            	<label class="form-selectgroup-item">
                                     <input type="radio" name="disk" value="public" x-model="chapter_disk" class="form-selectgroup-input" checked>
                                     <span class="form-selectgroup-label d-flex align-items-center p-3">
                                         <span class="me-3">
@@ -243,19 +246,36 @@ function chapterContentForm(manga_id, chapter){
                                     </span>
                                 </label>
                             </div>
-                            <div class="col-lg-6">
-                                <label class="form-selectgroup-item">
-                                    <input type="radio" name="disk" value="ftp" x-model="chapter_disk" class="form-selectgroup-input">
-                                    <span class="form-selectgroup-label d-flex align-items-center p-3">
-                                        <span class="me-3">
-                                            <span class="form-selectgroup-check"></span>
-                                        </span>
-                                        <span class="form-selectgroup-label-content">
-                                            <span class="form-selectgroup-title strong mb-1">FTP</span>
-                                        </span>
-                                    </span>
-                                </label>
-                            </div>
+							${import.meta.env.VITE_FTP_URL? `
+								<div class="col-lg-4">
+									<label class="form-selectgroup-item">
+										<input type="radio" name="disk" value="ftp" x-model="chapter_disk" class="form-selectgroup-input">
+										<span class="form-selectgroup-label d-flex align-items-center p-3">
+											<span class="me-3">
+												<span class="form-selectgroup-check"></span>
+											</span>
+											<span class="form-selectgroup-label-content">
+												<span class="form-selectgroup-title strong mb-1">FTP</span>
+											</span>
+										</span>
+									</label>
+								</div>
+							` : ''}
+							${import.meta.env.VITE_BUNNY_FTP_URL? `
+								<div class="col-lg-4">
+									<label class="form-selectgroup-item">
+										<input type="radio" name="disk" value="bunnycdn" x-model="chapter_disk" class="form-selectgroup-input">
+										<span class="form-selectgroup-label d-flex align-items-center p-3">
+											<span class="me-3">
+												<span class="form-selectgroup-check"></span>
+											</span>
+											<span class="form-selectgroup-label-content">
+												<span class="form-selectgroup-title strong mb-1">BUNNY.NET</span>
+											</span>
+										</span>
+									</label>
+								</div>
+							` : ''}
                         </div>
                     </div>
                     <div class="col-12" x-show="chapter_type.includes('comic')">
@@ -1181,7 +1201,7 @@ function importUploadFile(file, index){
                 if(errors){
                     errors.forEach(item => {
                         Toastify({
-                            text: item,
+                            text: item.msg,
                             className: "error",
                             duration: 5000,
                             newWindow: true,

@@ -5,103 +5,140 @@ import { Sortable, Plugins } from '@shopify/draggable';
 
 import ownDropZone from "./own-dropzone";
 import OwnValidator from "./own-validator";
-import { addClass, formattedUsername, isValidEmail, removeClass, sluggify } from "./own-helpers";
+import { addClass, formattedUsername, generateUniqueID, isUrl, isValidEmail, removeClass, sluggify } from "./own-helpers";
 
 axios.defaults.baseURL = axios.defaults.baseURL + '/space/users';
 
-const sortChapters = new Sortable(document.querySelectorAll('.chapters .card-body'), {
-    draggable: '.chapters .item',
-    handle: '.chapters .item .drag',
-    mirror: {
-        xAxis: false,
-        constrainDimensions: true
-    },
-    delay: 0,
-    plugins: [Plugins.SortAnimation],
-    swapAnimation: {
-        duration: 200,
-        easingFunction: 'ease-in-out',
-    },
+// ? PREVIEW COVER
+const inputCoverPreview = document.querySelector('form.frmo input[name="cover_url"]');
+inputCoverPreview?.addEventListener('change', coverPreview);
+
+function coverPreview(e){
+	const coverPreview = document.querySelector('form.frmo .cover-preview img');
+	const urlPreview = e.target.value;
+	removeClass(coverPreview, 'added');
+
+	if(!isUrl(urlPreview)){
+		return false;
+	}
+	coverPreview.src = urlPreview;
+	coverPreview.onload = (e) =>{
+		
+	}
+	coverPreview.onerror = (e) =>{
+		Toastify({
+			text: "Imagen invalida o enlace roto.",
+			className: "error",
+			duration: 5000,
+			newWindow: true,
+			close: true,
+			gravity: "top",
+			position: "center",
+		}).showToast();
+	}
+	const getDimensions = (url) => new Promise((resolve, reject) => {
+		const img = new Image();
+		img.onload = () => resolve(img);
+		img.onerror = (err) => reject(err);
+		img.src = url;
+	});
+
+	// Usage example:
+	(async() => {
+		// const img = await getDimensions(urlPreview);
+		// let sta = true;
+		// if(img.naturalWidth > 1440){
+		// 	Toastify({
+		// 		text: "El ancho maximo debe ser de 1440px.",
+		// 		className: "error",
+		// 		duration: 5000,
+		// 		newWindow: true,
+		// 		close: true,
+		// 		gravity: "top",
+		// 		position: "center",
+		// 	}).showToast();
+		// 	coverPreview.setAttribute('data-validated', false);
+		// 	sta = false;
+		// }
+		// if(img.naturalHeight > 380){
+		// 	Toastify({
+		// 		text: "El alto maximo debe ser de 380px.",
+		// 		className: "error",
+		// 		duration: 5000,
+		// 		newWindow: true,
+		// 		close: true,
+		// 		gravity: "top",
+		// 		position: "center",
+		// 	}).showToast();
+		// 	coverPreview.setAttribute('data-validated', false);
+		// 	sta = false;
+		// }
+
+		// if(!sta){
+		// 	return false;
+		// }
+
+		addClass(coverPreview, 'added');
+		coverPreview.setAttribute('data-validated', true);
+	})();
+}
+
+// ? SOCIAL LINKS
+const socialLinkButton = document.querySelector('form.frmo .social-links a.btn-add');
+socialLinkButton?.addEventListener('click', addSocial);
+
+document.addEventListener("click", function(e) {
+	if (e.target.classList.contains("btn-remove")) {
+		e.preventDefault();
+		const target = e.target;
+		const id = target.getAttribute('href');
+
+		const element = document.querySelector(id);
+		element.remove();
+	}
 });
 
-let initialOrder = [];
+function addSocial(e){
+	e.preventDefault();
+	const socialLinks = document.querySelector('form.frmo .social-links .row-cards');
+	const inputSocialLink = document.querySelector('form.frmo .social-links input[name="add_social"]');
+	if(inputSocialLink.value === ""){
+		Toastify({
+			text: "Campo enlace es requerido.",
+			className: "error",
+			duration: 5000,
+			newWindow: true,
+			close: true,
+			gravity: "top",
+			position: "center",
+		}).showToast();
+		return true;
+	}
 
-// Save the initial order when the page loads
-let itemsInitial = document.querySelectorAll('.chapters .card-body .item');
-itemsInitial?.forEach(item => {
-    const chapterId = item.getAttribute('data-id');
-    initialOrder.push(chapterId);
-});
+	// ? VALIDATE URL
 
-sortChapters.on('drag:stop', async (event) => {
-    let currentOrder = [];
-    
-    // Get the current order after the drag
-    await new Promise((resolve) => {
-        setTimeout(() => {
-            const chaptersList = document.querySelectorAll('.chapters .card-body .item');
-            chaptersList?.forEach(item => {
-                const chapterId = item.getAttribute('data-id');
-                currentOrder.push(chapterId);
-            });
-            resolve();
-        }, 200);
-    });
+	// ? CREATE ITEM
+	const items = document.querySelectorAll('.social-item');
+	const uniqueID = generateUniqueID();
+	const item = document.createElement('div');
+	item.classList.add('social-item', 'col-12', 'row', 'g-2');
+	item.setAttribute('id', 'item-'+uniqueID);
+	item.innerHTML = `
+		<div class="col">
+			<input type="text" name="social[]" class="form-control" value="${inputSocialLink.value}">
+		</div>
+		<div class="col-auto">
+			<a href="#item-${uniqueID}" class="btn btn-remove btn-icon btn-danger">
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+			</a>
+		</div>
+	`;
+	socialLinks.append(item);
 
-    // Check if the order has changed
-    if (JSON.stringify(initialOrder) !== JSON.stringify(currentOrder)) {
-        // The order has changed, proceed with Axios request
-        await axios.post("chapters/reorder-chapters", {
-            order: currentOrder
-        }).then(function (response) {
-            const data = response.data;
-            if (data && data.status === "success") {
-                // Show success message using Toastify
-                Toastify({
-                    className: 'success',
-                    text: data.msg,
-                    duration: 3000,
-                    newWindow: false,
-                    close: true,
-                    gravity: "top",
-                    position: "center"
-                }).showToast();
-                itemsInitial = document.querySelectorAll('.chapters .card-body .item');
-                initialOrder = [];
-                itemsInitial?.forEach(item => {
-                    const chapterId = item.getAttribute('data-id');
-                    initialOrder.push(chapterId);
-                });
-            } else {
-                console.log(response);
-            }
-        }).catch(function (error) {
-            console.log('error:', error);
-            const message = error.response.data.message;
-            if (message) {
-                // Show error message using Toastify
-                Toastify({
-                    className: 'error',
-                    text: message,
-                    duration: 3000,
-                    newWindow: false,
-                    close: true,
-                    gravity: "top",
-                    position: "center"
-                }).showToast();
-            } else {
-                console.log(error);
-            }
-        });
-    }
-});
-
-// * DROPZONE COVER COMIC
-const allowedExtensions = ['jpg', 'png', 'gif', 'webp'];
-ownDropZone('.own-dropzone .dz-choose', allowedExtensions);
+	inputSocialLink.value = "";
+}
 
 // ? CREATE COMIC
-
 let validator;
 const frmo = document.querySelector('form.frmo');
 frmo?.addEventListener('submit', function(e){
@@ -206,6 +243,10 @@ if(frmo){
 const btnSubmit = document.querySelector('button.btn-submit');
 btnSubmit?.addEventListener('click', function(){
     const formData = new FormData(frmo);
+    if(!validator.formValidation()){
+		return true;
+    }
+
 	if(!passwordValidated){
 		Toastify({
 			text: "Contraseña invalida.",
@@ -218,7 +259,7 @@ btnSubmit?.addEventListener('click', function(){
 		}).showToast();
 		return false;
 	}
-	if(inputConfirmPassword.value === inputPassword.value){
+	if(inputConfirmPassword.value !== inputPassword.value){
 		Toastify({
 			text: "Las contraseñas deben coincidir.",
 			className: "error",
@@ -230,10 +271,9 @@ btnSubmit?.addEventListener('click', function(){
 		}).showToast();
 		return false;
 	}
+	console.log('paso todo');
 	return true;
-    if(validator.formValidation()){
-        frmo?.submit();
-    }
+	frmo?.submit();
 });
 
 // ? DELETE ITEM

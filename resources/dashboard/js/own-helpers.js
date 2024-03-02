@@ -61,13 +61,18 @@ const isUrl = urlString => {
     const regex = new RegExp(expression);
     return urlString.match(regex);
 }
+function generateUniqueID() {
+	return Math.random().toString(36).substring(2, 15) + Math.round(new Date().getTime() / 1000).toString(36);
+}
 
 export {
     sluggify,
     hasClass,
     toggleClass,
     addClass,
+	isUrl,
     removeClass,
 	isValidEmail,
-	formattedUsername
+	formattedUsername,
+	generateUniqueID
 }

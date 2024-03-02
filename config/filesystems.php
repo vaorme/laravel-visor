@@ -73,14 +73,21 @@ return [
             'host' => env('FTP_HOST'),
             'username' => env('FTP_USERNAME'),
             'password' => env('FTP_PASSWORD'),
-            'url' => 'https://s3.imgs-knight.xyz/',
+            'url' => env('FTP_URL'),
             // Optional FTP Settings...
             'port' => env('FTP_PORT', 21),
-            'root' => "/",
-            // 'passive' => true,
+            //'root' => "/",
+            'passive' => true,
             // 'ssl' => true,
             // 'timeout' => 30,
-        ]
+		],
+		'bunnycdn' => [
+            'driver' => 'bunnycdn',
+            'storage_zone' => env('BUNNY_FTP_USERNAME'),
+            'api_key' => env('BUNNY_FTP_PASSWORD'),
+			'url' => env('BUNNY_FTP_URL'),
+            'region' => env('BUNNYCDN_REGION', \PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNRegion::DEFAULT)
+        ],
 
         // 's3' => [
         //     'driver' => 's3',

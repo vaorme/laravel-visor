@@ -9,6 +9,7 @@ use App\Models\Chapter;
 use App\Models\Manga;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File as FacadesFile;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -39,15 +40,6 @@ class ChapterUploadController extends Controller{
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function subir(Request $request){
-        $file = $request->file('archivo')->store('tmp');
-        // $filename = hexdec(uniqid()).'.'.$file->extension();
-        // $folder = uniqid().'-'. now()->timestamp;
-
-        // $file->storeAs('tmp/'.$folder, $filename);
-
-        return response()->json($file);
-    }
     public function store(Request $request, $mangaid){
         $manga = Manga::where('id', $mangaid)->first();
         // 1. Subimos zip a ruta temporal
@@ -143,13 +135,18 @@ class ChapterUploadController extends Controller{
                 }
 
                 $res = $this->createChapter($mangaid, $request->disk,$simpleChapterName, 'comic', $simpleChapterSlug, $collectImages);
-                if($res['status'] == "error"){
-                    $response['error'] = [
-                        'msg' => $res['msg']
+                if($res['status'] == "success"){
+					$response['created'][] = $res;
+				}else if($res['status'] == "error"){
+                    $response['error'][] = [
+                        'msg' => $res['msg'],
                     ];
+					// ? DELETE DIRECTORY IF THE CHAPTER IS NOT CREATED
+					$dir_path = "comic/$manga->slug/$simpleChapterSlug";
+					if(Storage::disk($request->disk)->exists($dir_path)){
+						Storage::disk($request->disk)->deleteDirectory($dir_path);
+					}
                 }
-
-                $response['created'][] = $res;
             }else{
                 $response['excluded'][] = "$simpleChapterName fue omitido, ya existe el capitulo.";
             }
@@ -186,8 +183,13 @@ class ChapterUploadController extends Controller{
                         $res = $this->createChapter($mangaid, $request->disk, $dirName, 'comic', $dirSlug, $collectImages);
                         if($res['status'] == "error"){
                             $response['error'][] = [
-                                'msg' => $res['msg']
+                                'msg' => $res['msg'],
                             ];
+							// ? DELETE DIRECTORY IF THE CHAPTER IS NOT CREATED
+							$dir_path = "comic/$manga->slug/$dirSlug";
+							if(Storage::disk($request->disk)->exists($dir_path)){
+								Storage::disk($request->disk)->deleteDirectory($dir_path);
+							}
                             continue;
                         }
                         $response['created'][] = $res;
@@ -226,7 +228,7 @@ class ChapterUploadController extends Controller{
                 $res = $this->createChapter($mangaid, $request->disk, $fileName, 'novel', $slugify, "", $fileConten);
 
                 if($res['status'] == "error"){
-                    $response['error'] = [
+                    $response['error'][] = [
                         'msg' => $res['msg']
                     ];
                 }
@@ -240,43 +242,6 @@ class ChapterUploadController extends Controller{
 
         return $response;
     }
-
-    // public function subirImagenes(Request $request, $mangaid){
-    //     $chapter = Chapter::find($request->chapterid);
-    //     $manga = Manga::find($chapter->manga_id);
-
-    //     $dbImages = json_decode($chapter->images);
-
-    //     //Storage::disk($request->disk)->makeDirectory("manga/$manga->slug/$chapter->slug");
-    //     foreach($request->images as $file){
-    //         $originalName = $file->getClientOriginalName();
-    //         $path = "comic/$manga->slug/$chapter->slug";
-            
-    //         // $storeFile = $file->store($path, $request->disk);
-    //         if (Storage::disk($chapter->disk)->exists($path.'/'.$originalName)) {
-    //             $storeFile = Storage::disk($chapter->disk)->putFileAs($path, $file, time().'-'.$originalName);
-    //         }else{
-    //             $storeFile = Storage::disk($chapter->disk)->putFileAs($path, $file, $originalName);
-    //         }
-    //         $newName = basename($storeFile);
-    //         $dbImages[] = "comic/$manga->slug/$chapter->slug/$newName";
-    //     }
-
-    //     $chapter->images = json_encode($dbImages);
-
-    //     if($chapter->save()){
-    //         return response()->json([
-    //             'status' => "success",
-    //             'msg' => 'Subida completada',
-    //             'data' => $dbImages
-    //         ]);
-    //     }else{
-    //         return response()->json([
-    //             'status' => "error",
-    //             'error' => "algo paso"
-    //         ]);
-    //     }
-    // }
 
 
     public function updateImagesOrder(Request $request, $chapterid){
@@ -390,7 +355,6 @@ class ChapterUploadController extends Controller{
 
         $dbImages = json_decode($chapter->images);
         $excluded = [];
-
         if($request->has('image')){
             $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
             $file = $request->file('image');
@@ -403,9 +367,9 @@ class ChapterUploadController extends Controller{
 
             // * SET STRUCTURE TO CHECK IF FILE EXISTS
             $originalStructure = "comic/".$comic->slug."/".$chapter->slug."/".$originalName.'.'.$extensionFile;
-            if(Storage::disk($request->disk)->exists($originalStructure)){
-                $originalName = $originalName.'-'.now()->format('YmdHis');
-            }
+            // if(Storage::disk($request->disk)->exists($originalStructure)){
+            //     $originalName = $originalName.'-'.now()->format('YmdHis');
+            // }
 
             // * SET STRUCTURE OF FILE
             $fileStructure = "comic/".$comic->slug."/".$chapter->slug."/".$originalName.'.'.$extensionFile;
@@ -425,7 +389,7 @@ class ChapterUploadController extends Controller{
                 "msg" => 'Imagen agregada',
                 "status" => "success",
                 "excluded" => $excluded,
-                "data" => $dbImages
+                "data" => $dbImages,
             ]);
         }
         return response()->json([
@@ -440,8 +404,7 @@ class ChapterUploadController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id){
         //
     }
 
