@@ -17,7 +17,7 @@
             </a>
         </li>
         <div class="divider"></div>
-        @can('slider.index')
+        {{-- @can('slider.index')
             <li class="m-item {{ (request()->is('controller/slider*')) ? 'active' : '' }}">
                 <a href="{{ route('slider.index') }}" class="m-link">
                     <div class="icon">
@@ -30,8 +30,8 @@
                     </div>
                 </a>
             </li>
-        @endcan
-        @can('manga.index')
+        @endcan --}}
+        {{-- @can('manga.index')
             <li class="m-item m-item-dropdown {{ (request()->is('controller/manga*')) ? 'active' : '' }}">
                 <a href="{{ route('manga.index') }}" class="m-link">
                     <div class="icon">
@@ -46,8 +46,8 @@
                     </div>
                 </a>
             </li>
-        @endcan
-        @can('categories.index')
+        @endcan --}}
+        {{-- @can('categories.index')
             <li class="m-item {{ (request()->is('controller/categories*')) ? 'active' : '' }}">
                 <a href="{{ route('categories.index') }}" class="m-link">
                     <div class="icon">
@@ -76,7 +76,7 @@
                     </div>
                 </a>
             </li>
-        @endcan
+        @endcan --}}
         @can('users.index')
             <li class="m-item {{ (request()->is('controller/users*')) ? 'active' : '' }}">
                 <a href="{{ route('users.index') }}" class="m-link">
