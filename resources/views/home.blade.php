@@ -249,7 +249,7 @@
 										<figure class="new__chapters__image">
 											@php
 												$base64 = asset('storage/images/error-loading-image.png');
-												if (Storage::disk('public')->exists($item->featured_image)) {
+												if ($item->featured_image && Storage::disk('public')->exists($item->featured_image)) {
 													$pathImage = 'storage/'.$item->featured_image;
 													$imageExtension = pathinfo($pathImage)["extension"];
 													$img = ManipulateImage::cache(function($image) use ($item) {
@@ -391,7 +391,7 @@
 										<figure class="item__image">
 											@php
 												$base64 = asset('storage/images/error-loading-image.png');
-												if (Storage::disk('public')->exists($item->featured_image)) {
+												if ($item->featured_image && Storage::disk('public')->exists($item->featured_image)) {
 													$pathImage = 'storage/'.$item->featured_image;
 													$imageExtension = pathinfo($pathImage)["extension"];
 													$img = ManipulateImage::cache(function($image) use ($item) {

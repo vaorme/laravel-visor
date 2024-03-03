@@ -39,7 +39,20 @@ class RegisteredUserController extends Controller
             'username' => ['required', 'string', 'regex:/^[_A-z0-9]*((-|\S)*^[A-Za-z])*$/','max:16', 'unique:'.User::class],
             'email' => ['required', 'string', 'email', 'regex:/^.+@.+$/i','max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+			'g-recaptcha-response' => ['required'],
         ]);
+		$response = Http::withHeaders([
+            'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8',
+        ])->get('https://www.google.com/recaptcha/api/siteverify', [
+            'secret'   => "6LdbAA0pAAAAAJ8IZXRrT8w-Z5kStzjI90kDwCcF",
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $_SERVER['REMOTE_ADDR']
+        ]);
+    
+        $data = $response->json();
+        if (!$data['success']) {
+            return redirect()->back()->withErrors(['g-recaptcha-response' => 'Verificación reCAPTCHA fallida'])->withInput();
+        }
 
         $user = User::create([
             'username' => $request->username,

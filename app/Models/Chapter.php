@@ -32,12 +32,12 @@ class Chapter extends Model{
     }
     public function next($mangaid){
         // GET NEXT
-        $id = Chapter::where('manga_id', '=', $mangaid)->where('id', '>', $this->id)->min('id');
-        return Chapter::where('id', '=', $id)->get('slug')->first();
+        $chapter = Chapter::where('manga_id', '=', $mangaid)->where('order', '>', $this->order)->orderBy('order', 'asc')->first();
+        return $chapter ? Chapter::where('id', '=', $chapter->id)->get('slug')->first() : null;
     }
     public  function prev($mangaid){
         // GET PREVIOUS
-        $id = Chapter::where('manga_id', '=', $mangaid)->where('id', '<', $this->id)->max('id');
-        return Chapter::where('id', '=', $id)->get('slug')->first();
+        $chapter = Chapter::where('manga_id', '=', $mangaid)->where('order', '<', $this->order)->orderBy('order', 'desc')->latest()->first();
+        return $chapter? Chapter::where('id', '=', $chapter->id)->get('slug')->first() : null;
     }
 }

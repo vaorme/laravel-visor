@@ -16,7 +16,7 @@ class ViewerChapter extends Controller{
             return abort(404);
         }
 
-        $chapters = Chapter::where('manga_id', '=', $manga->id)->orderBy('id', 'desc')->get();
+        $chapters = Chapter::where('manga_id', '=', $manga->id)->orderBy('order', 'desc')->get();
         $currentChapter = Chapter::where('slug', '=', $request->chapter_slug)->where('manga_id', '=', $manga->id)->get()->first();
         if(!$currentChapter){
             return abort(404);
@@ -45,7 +45,7 @@ class ViewerChapter extends Controller{
         ];
 
         // :MANGA
-        if($currentChapter->type == "manga"){
+        if($currentChapter->type == "comic"){
             $images = json_decode($currentChapter->images);
             if(isset($images) && !empty($images)){
                 if(isset($request->reader_type)){

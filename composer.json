@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "league/flysystem": "^3.24",
+        "league/flysystem-ftp": "3.0",
         "nelexa/zip": "^4.0",
         "nesbot/carbon": "^2.67",
         "platformcommunity/flysystem-bunnycdn": "^3.3",

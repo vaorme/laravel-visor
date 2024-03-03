@@ -97,7 +97,7 @@
                     @endif
                 </div>
                 <div class="manga__description">
-                    <p>{{ $manga->description }}</p>
+                    {!! $manga->description !!}
                 </div>
                 <div class="manga__extra">
                     <div class="manga__categories">

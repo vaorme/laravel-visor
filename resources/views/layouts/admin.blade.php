@@ -58,6 +58,21 @@
     </head>
     <body>
         @routes
+		<script>
+            let currentUrl = window.location.href;
+            let ziggyUrl;
+
+            // Check if the current URL contains a specific domain or path
+            if (currentUrl.includes("nartag.com")) {
+                ziggyUrl = 'https://nartag.com'; // Change this to the appropriate URL for domain1
+            } else if (currentUrl.includes("lectornartag.com")) {
+                ziggyUrl = 'https://lectornartag.com'; // Change this to the appropriate URL for domain2
+            } else {
+                ziggyUrl = '{{ env('APP_URL') }}'; // Fallback to the default URL from environment variable
+            }
+
+            Ziggy.url = ziggyUrl;
+        </script>
         <div id="app">
             <x-header />
             <main class="main flex">

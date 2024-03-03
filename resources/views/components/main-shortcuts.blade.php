@@ -34,13 +34,14 @@
 								@foreach ($mangas as $item)
 									@php
 										$base64 = asset('storage/images/error-loading-image.png');
-										if (Storage::disk('public')->exists($item->featured_image)) {
+										// Check if featured_image is not null
+										if ($item->featured_image && Storage::disk('public')->exists($item->featured_image)) {
 											$pathImage = 'storage/'.$item->featured_image;
 											$imageExtension = pathinfo($pathImage)["extension"];
 											$img = ManipulateImage::cache(function($image) use ($item) {
 												return $image->make('storage/'.$item->featured_image)->fit(40, 40);
 											}, 10, true);
-
+							
 											$img->response($imageExtension, 70);
 											$base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
 										}

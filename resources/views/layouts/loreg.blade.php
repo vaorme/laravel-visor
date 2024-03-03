@@ -9,6 +9,7 @@
         <link rel="shortcut icon" href="{{ config('app.favicon') ? asset('storage/'.config('app.favicon')): asset('storage/images/favicon.png') }}" type="image/png">
 
         <!-- Scripts -->
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
         @vite(['resources/css/global.scss', 'resources/css/loreg.scss', 'resources/js/library.js'])
         @php
             $insertHead = config('app.head');

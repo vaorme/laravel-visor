@@ -47,9 +47,15 @@
         
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
-        
+				<div class="group">
+                    <div class="g-recaptcha" data-sitekey="6LdbAA0pAAAAAICUbylSAHX_fTWy3vsiKLVrZAfT"></div>
+                    @if($errors->has('g-recaptcha-response'))
+                        <ul class="g-cap text-sm text-red-600 space-y-1 mt-2">
+                            <li>{{ $errors->first('g-recaptcha-response') }}</li>
+                        </ul>
+                    @endif
+                </div>
                 <div class="group buttons flex items-center justify-end">
-        
                     <button type="submit">
                         {{ __('Registrarme') }}
                     </button>

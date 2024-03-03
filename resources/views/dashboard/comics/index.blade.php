@@ -28,6 +28,7 @@
                         <select type="text" class="form-select" id="select-labels" value="">
 							<option value="" data-custom-properties="&lt;span class=&quot;badge bg-muted&quot;&gt;&lt;/span&gt;" selected>Estado</option>
                             <option value="published" data-custom-properties="&lt;span class=&quot;badge bg-success&quot;&gt;&lt;/span&gt;" {{ (request()->status == 'published')? 'selected' : null }}>Publicado</option>
+							<option value="programmed" data-custom-properties="&lt;span class=&quot;badge bg-primary&quot;&gt;&lt;/span&gt;" {{ (request()->status == 'programmed')? 'selected' : null }}>Programado</option>
                             <option value="draft" data-custom-properties="&lt;span class=&quot;badge bg-warning&quot;&gt;&lt;/span&gt;" {{ (request()->status == 'draft')? 'selected' : null }}>Borrador</option>
                             <option value="private" data-custom-properties="&lt;span class=&quot;badge bg-purple&quot;&gt;&lt;/span&gt;" {{ (request()->status == 'private')? 'selected' : null }}>Privado</option>
                         </select>

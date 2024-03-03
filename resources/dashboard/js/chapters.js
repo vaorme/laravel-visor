@@ -158,7 +158,7 @@ function chapterContentForm(manga_id, chapter){
         case "s3":
             url = import.meta.env.VITE_S3_URL;
             break;
-		case "s3":
+		case "bunnycdn":
 			url = import.meta.env.VITE_BUNNY_FTP_URL;
 			break;
     
@@ -430,20 +430,23 @@ function chapterContentForm(manga_id, chapter){
     const addMoreDropZone = function(zone, allowed){
         const drop = document.querySelector(zone);
         let inputElement;
+		let currentImages;
         if(drop){
             inputElement = drop.nextElementSibling;
-
             inputElement.addEventListener('change', function (e) {
-                previewImages = [];
+                currentImages = [];
                 previewImages.push(...e.target.files);
+				currentImages.push(...e.target.files);
                 if(previewImages.length > 0){
                     previewImages = addMoreButton(previewImages, allowed);
+					currentImages = addMoreButton(currentImages, allowed);
                     if(isChapterEdit){
-                        generateImages(previewImages, manga_id, chapter.id);
+                        generateImages(currentImages, manga_id, chapter.id);
                     }else{
-                        generateImages(previewImages);
+                        generateImages(currentImages);
                     }
                 }
+				console.log('preview1: ', previewImages);
             })
             drop.addEventListener('click', () => inputElement.click());
             drop.addEventListener('dragover', (e) => {
@@ -451,16 +454,19 @@ function chapterContentForm(manga_id, chapter){
             });
             drop.addEventListener('drop', (e) => {
                 e.preventDefault();
-                previewImages = [];
+                currentImages = [];
                 previewImages.push(...e.dataTransfer.files);
+				currentImages.push(...e.dataTransfer.files);
                 if(previewImages.length > 0){
                     previewImages = addMoreButton(previewImages, allowed);
+					currentImages = addMoreButton(currentImages, allowed);
                     if(isChapterEdit){
-                        generateImages(previewImages, manga_id, chapter.id);
+                        generateImages(currentImages, manga_id, chapter.id);
                     }else{
-                        generateImages(previewImages);
+                        generateImages(currentImages);
                     }
                 }
+				console.log('preview2: ', previewImages);
             });
         }
     }
@@ -658,6 +664,8 @@ async function chapterContentFormSubmit(){
     }
 }
 
+const currentOrigin = window.location.origin;
+
 // * APPEND CHAPTER HTML
 function appendChapter(data){
     const chapter = data.item;
@@ -693,7 +701,7 @@ function appendChapter(data){
         </div>
         <div class="rig w-full d-flex justify-content-end">
             <div class="actions">
-                <a href="${data.manga_slug}/${chapter.slug}" data-id="${chapter.id}" class="botn view btn btn-lime btn-icon" target="_blank">
+                <a href="${currentOrigin}/v/${data.manga_slug}/${chapter.slug}" data-id="${chapter.id}" class="botn view btn btn-lime btn-icon" target="_blank">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M7 4v16l13 -8z"></path>
@@ -885,7 +893,7 @@ function checkChaptersList(){
 }
 
 async function generateImages(images, manga_id, chapter_id){
-    clearImages();
+    // clearImages();
 
     let disk = document.querySelector('form.frmo-chapter input[name="disk"]:checked').value;
     let previewBox = document.querySelector('form.frmo-chapter .chapter-images');
@@ -918,7 +926,6 @@ async function generateImages(images, manga_id, chapter_id){
     }
 
     if(isChapterEdit){
-        console.log(images);
         let res = new Promise(async (resolve, reject) => {
             const arrayImages = Object.values(images);
             let count = 0;
@@ -996,7 +1003,7 @@ async function generateImages(images, manga_id, chapter_id){
 }
 
 function clearImages(){
-    let items = document.querySelectorAll('#chapter-modal .modal-body .chapter-images .item');
+    let items = document.querySelectorAll('#chapter-modal .modal-body .chapter-images .image');
     if(items){
         items.forEach(item =>{
             item.remove();
@@ -1008,19 +1015,16 @@ function clearImages(){
 
 const importChapterModal = document.getElementById('modal-chapter-import');
 let btnImpotChapterModal = importChapterModal? new bootstrap.Modal(importChapterModal) : '';
+let importFiles = [];
 importChapterModal?.addEventListener('hide.bs.modal', () =>{
-    const fileList = document.querySelector('form.frmo-import .file-list')
+    const fileList = document.querySelector('form.frmo-import .file-list');
     importFiles = [];
     if(fileList){
         fileList.innerHTML = "";
     }
 });
-
-const fileAllow = ['zip'];
-let importFiles = [];
-dropButton('form.frmo-import .dz-choose', fileAllow);
-
-function dropButton(zone, allowed){
+dropButton('form.frmo-import .dz-choose');
+function dropButton(zone){
     const drop = document.querySelector(zone);
     let inputElement;
     if(drop){
@@ -1029,7 +1033,6 @@ function dropButton(zone, allowed){
             const file = this.files[0];
             const fileExists = importFiles.some(item => item.name === file.name);
             if(fileExists){
-                console.log(importFiles);
                 Toastify({
                     text: "El archivo ya se encuentra agregado",
                     className: "error",
@@ -1089,15 +1092,20 @@ importButton?.addEventListener('click', async function(e){
     this.disabled = true;
     await importUploadFiles(importFiles);
     this.disabled = false;
-    
 });
 
 async function importUploadFiles(files) {
     // const uploadPromises = files.map((file, index) => importUploadFile(file, index));
     // await Promise.all(uploadPromises);
 
-    for (const index in files) {
-        await importUploadFile(files[index], index);
+    // for (const index in files) {
+	// 	console.log('cuantas veces', files);
+    //     await importUploadFile(files[index], index);
+    // }
+
+	for (const file of files) {
+		const index = files.indexOf(file);
+        await importUploadFile(file, index);
     }
 
     // * CLEAN FILES WATING ROOM
@@ -1107,7 +1115,6 @@ function importUploadFile(file, index){
     const allowed = ['zip'];
     const extension = file.name.split('.').pop().toLowerCase();
     if(!allowed.includes(extension)){
-        console.log('si, fue este');
         Toastify({
             text: "Tipo de archivo no permitido",
             className: "error",

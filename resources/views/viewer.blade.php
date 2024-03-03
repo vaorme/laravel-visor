@@ -35,7 +35,7 @@
                         @endforeach
                     </select>
                 </div>
-                @if ($currentChapter->type == "manga")
+                @if ($currentChapter->type == "comic")
                     <div class="view__select chapter__reader_type">
                         <select id="slct_reader_type" placeholder="Tipo de lector" autocomplete="off">
                             <option value="0">Tipo de lector</option>
@@ -135,7 +135,7 @@
                     </div>
                 </div>
             @endif
-            @if ($currentChapter->type == "manga")
+            @if ($currentChapter->type == "comic")
                 @if (isset($paginado))
                     <div class="view__paged">
                         @if (isset($prev_paged))
@@ -186,7 +186,7 @@
                     @case("novel")
                         {!! nl2br($content) !!}
                     @break
-                    @case("manga")
+                    @case("comic")
                         @if(isset($images) && !empty($images))
                             @foreach ($images as $index => $image)
                                 <div class="reader__item">

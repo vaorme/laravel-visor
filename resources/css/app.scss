@@ -323,7 +323,10 @@ div.toastify.error{
 	grid-template-columns: calc(100% - 406px) 406px;
 }
 #app main.main .main__wrap.main__home .main__content{
+	display: flex;
+    gap: 50px;
 	padding-right: 1.5rem;
+    flex-direction: column;
 }
 #app main.main .main__wrap.main__home aside.main__sidebar{
 	display: grid;
