@@ -5,7 +5,9 @@ import axios from "axios";
 import OwnValidator from "./own-validator";
 import { removeClass, sluggify } from "./own-helpers";
 
-axios.defaults.baseURL = axios.defaults.baseURL + '/space/comics/demographies';
+const urlAxios = window.location.origin;
+
+axios.defaults.baseURL = urlAxios + '/space/comics/demographies';
 
 let formValidator;
 let currentItemID;

@@ -7,7 +7,9 @@ import ownDropZone from "./own-dropzone";
 import OwnValidator from "./own-validator";
 import { addClass, formattedUsername, generateUniqueID, isUrl, isValidEmail, removeClass, sluggify } from "./own-helpers";
 
-axios.defaults.baseURL = axios.defaults.baseURL + '/space/users';
+const urlAxios = window.location.origin;
+
+axios.defaults.baseURL = urlAxios + '/space/users';
 
 // ?: PREVIEW COVER
 const inputCoverPreview = document.querySelector('form.frmo input[name="cover_url"]');

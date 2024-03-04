@@ -31,23 +31,23 @@
         </style>
     </head>
     <body>
-        <script src="{{ asset('storage/assets/dashboard/js/dependencies/demo-theme.min.js') }}"></script>
+        <script src="{{ asset('assets/dashboard/js/dependencies/demo-theme.min.js') }}"></script>
         <x-dashboard.header />
         {{ $slot }}
         <x-dashboard.footer/>
         <!-- Libs JS -->
-        <script src="{{ asset('storage/assets/dashboard/libs/apexcharts/dist/apexcharts.min.js') }}" defer></script>
-        <script src="{{ asset('storage/assets/dashboard/libs/jsvectormap/dist/js/jsvectormap.min.js') }}" defer></script>
-        <script src="{{ asset('storage/assets/dashboard/libs/jsvectormap/dist/maps/world.js') }}" defer></script>
-        <script src="{{ asset('storage/assets/dashboard/libs/jsvectormap/dist/maps/world-merc.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/libs/apexcharts/dist/apexcharts.min.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/libs/jsvectormap/dist/js/jsvectormap.min.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/libs/jsvectormap/dist/maps/world.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/libs/jsvectormap/dist/maps/world-merc.js') }}" defer></script>
         <!-- Tabler Core -->
-        <script src="{{ asset('storage/assets/dashboard/libs/list.js/dist/list.min.js') }}" defer></script>
-        <script src="{{ asset('storage/assets/dashboard/libs/flatpickr/dist/flatpickr.min.js') }}" defer></script>
-        <script src="{{ asset('storage/assets/dashboard/libs/litepicker/dist/litepicker.js') }}" defer></script>
-        <script src="{{ asset('storage/assets/dashboard/libs/tom-select/dist/js/tom-select.complete.min.js') }}" defer></script>
-        <script src="{{ asset('storage/assets/dashboard/libs/tinymce/tinymce.min.js') }}" defer></script>
-        <script src="{{ asset('storage/assets/dashboard/js/dependencies/tabler.min.js') }}" defer></script>
-        <script src="{{ asset('storage/assets/dashboard/js/dependencies/demo.min.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/libs/list.js/dist/list.min.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/libs/flatpickr/dist/flatpickr.min.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/libs/litepicker/dist/litepicker.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/libs/tom-select/dist/js/tom-select.complete.min.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/libs/tinymce/tinymce.min.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/js/dependencies/tabler.min.js') }}" defer></script>
+        <script src="{{ asset('assets/dashboard/js/dependencies/demo.min.js') }}" defer></script>
 		
 		@if (Route::is(['comics.index', 'comics.create', 'comics.edit']))
 			<script type="module" src="{{ Vite::asset('resources/dashboard/js/comics.js') }}" defer></script>

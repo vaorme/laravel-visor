@@ -7,7 +7,9 @@ import ownDropZone from "./own-dropzone";
 import OwnValidator from "./own-validator";
 import { sluggify } from "./own-helpers";
 
-axios.defaults.baseURL = axios.defaults.baseURL + '/space/comics';
+const urlAxios = window.location.origin;
+
+axios.defaults.baseURL = urlAxios + '/space/comics';
 
 const sortChapters = new Sortable(document.querySelectorAll('.chapters .card-body'), {
     draggable: '.chapters .item',
