@@ -76,6 +76,37 @@ export default defineConfig({
                 'resources/js/library.js',
                 'resources/css/global.scss',
                 'resources/css/app.scss',
+
+				// ?:DASH DEPENDENCIES
+				'resources/dashboard/js/dependencies/tabler.min.js',
+				'resources/dashboard/css/dependencies/tabler.min.css',
+				'resources/dashboard/css/dependencies/tabler-flags.min.css',
+				'resources/dashboard/css/dependencies/tabler-payments.min.css',
+				'resources/dashboard/css/dependencies/tabler-vendors.min.css',
+				'resources/dashboard/libs/flatpickr/dist/flatpickr.min.css',
+				'resources/dashboard/css/dependencies/demo.min.css',
+				'resources/dashboard/js/dependencies/demo-theme.min.js',
+				'resources/dashboard/libs/apexcharts/dist/apexcharts.min.js',
+        		'resources/dashboard/libs/jsvectormap/dist/js/jsvectormap.min.js',
+        		'resources/dashboard/libs/jsvectormap/dist/maps/world.js',
+        		'resources/dashboard/libs/jsvectormap/dist/maps/world-merc.js',
+        		'resources/dashboard/libs/list.js/dist/list.min.js',
+        		'resources/dashboard/libs/flatpickr/dist/flatpickr.min.js',
+        		'resources/dashboard/libs/litepicker/dist/litepicker.js',
+        		'resources/dashboard/libs/tom-select/dist/js/tom-select.complete.min.js',
+        		'resources/dashboard/libs/tinymce/tinymce.min.js',
+				'resources/dashboard/js/dependencies/demo.min.js',
+				'resources/dashboard/js/comics.js',
+				'resources/dashboard/js/chapters.js',
+				'resources/dashboard/js/users.js',
+				'resources/dashboard/js/comics.types.js',
+				'resources/dashboard/js/comics.status.js',
+
+				// ?:DASH GLOBAL
+				'resources/dashboard/css/global.scss',
+				'resources/dashboard/css/comics.scss',
+				'resources/dashboard/css/users.scss'
+
             ],
             refresh: true,
         }),
