@@ -8,7 +8,9 @@ window._ = _;
  */
 
 import axios from 'axios';
-axios.defaults.baseURL = import.meta.env.VITE_APP_URL;
+
+const urlAxios = window.location.origin;
+axios.defaults.baseURL = urlAxios;
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
