@@ -78,6 +78,13 @@ export default defineConfig({
                 'resources/css/app.scss',
 
 				// ?:DASH DEPENDENCIES
+				'resources/dashboard/css/dependencies/tabler.min.css',
+				'resources/dashboard/css/dependencies/tabler-flags.min.css',
+				'resources/dashboard/css/dependencies/tabler-payments.min.css',
+				'resources/dashboard/css/dependencies/tabler-vendors.min.css',
+				'resources/dashboard/libs/flatpickr/dist/flatpickr.min.css',
+				'resources/dashboard/css/dependencies/demo.min.css',
+
 				'resources/dashboard/js/comics.js',
 				'resources/dashboard/js/chapters.js',
 				'resources/dashboard/js/users.js',

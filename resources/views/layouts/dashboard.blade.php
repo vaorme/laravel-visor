@@ -7,12 +7,12 @@
         <title>{{ $title ?? config('app.title') }}</title>
         <x-seo/>
         <link rel="shortcut icon" href="{{ config('app.favicon') ? asset('storage/'.config('app.favicon')): asset('storage/images/favicon.png') }}" type="image/png">
-        <link href="{{ asset('storage/assets/dashboard/css/dependencies/tabler.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('storage/assets/dashboard/css/dependencies/tabler-flags.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('storage/assets/dashboard/css/dependencies/tabler-payments.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('storage/assets/dashboard/css/dependencies/tabler-vendors.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('storage/assets/dashboard/libs/flatpickr/dist/flatpickr.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('storage/assets/dashboard/css/dependencies/demo.min.css') }}" rel="stylesheet"/>
+        <link href="{{ Vite::asset('resources/dashboard/css/dependencies/tabler.min.css') }}" rel="stylesheet"/>
+        <link href="{{ Vite::asset('resources/dashboard/css/dependencies/tabler-flags.min.css') }}" rel="stylesheet"/>
+        <link href="{{ Vite::asset('resources/dashboard/css/dependencies/tabler-payments.min.css') }}" rel="stylesheet"/>
+        <link href="{{ Vite::asset('resources/dashboard/css/dependencies/tabler-vendors.min.css') }}" rel="stylesheet"/>
+        <link href="{{ Vite::asset('resources/dashboard/libs/flatpickr/dist/flatpickr.min.css') }}" rel="stylesheet"/>
+        <link href="{{ Vite::asset('resources/dashboard/css/dependencies/demo.min.css') }}" rel="stylesheet"/>
         <link href="{{ Vite::asset('resources/dashboard/css/global.scss') }}" rel="stylesheet"/>
         @if (Route::is(['comics.*']))
             <link href="{{ Vite::asset('resources/dashboard/css/comics.scss') }}" rel="stylesheet"/>
