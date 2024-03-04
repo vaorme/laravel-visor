@@ -76,7 +76,7 @@ return [
             'url' => env('FTP_URL'),
             // Optional FTP Settings...
             'port' => env('FTP_PORT', 21),
-            'root' => "/web/turincondemanwhas.com/public_html/test-media",
+            'root' => "/web/turincondemanwhas.com/public_html/media",
             'passive' => true,
             // 'ssl' => true,
             // 'timeout' => 30,
