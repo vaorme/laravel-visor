@@ -9,7 +9,7 @@ import { addClass, formattedUsername, generateUniqueID, isUrl, isValidEmail, rem
 
 axios.defaults.baseURL = axios.defaults.baseURL + '/space/users';
 
-// ? PREVIEW COVER
+// ?: PREVIEW COVER
 const inputCoverPreview = document.querySelector('form.frmo input[name="cover_url"]');
 inputCoverPreview?.addEventListener('change', coverPreview);
 
@@ -271,8 +271,6 @@ btnSubmit?.addEventListener('click', function(){
 		}).showToast();
 		return false;
 	}
-	console.log('paso todo');
-	return true;
 	frmo?.submit();
 });
 

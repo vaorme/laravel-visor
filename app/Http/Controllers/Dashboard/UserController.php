@@ -75,6 +75,7 @@ class UserController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
+		return response()->json($request->all());
         $request->validate([
             'username' => ['required', 'string', 'regex:/^[_A-z0-9]*((-|\S)*[_A-z0-9])*$/','max:16', 'unique:'.User::class],
 			'avatar_file' => ['dimensions:max_width=248,max_height=248', 'max:400', 'mimes:jpg,jpeg,png,gif'],
