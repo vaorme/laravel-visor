@@ -13,7 +13,7 @@ class Shortcut extends Model{
     protected $table = "user_shortcuts";
 
     public function url(){
-        return URL::route('manga_detail.index', [
+        return URL::route('comic_detail.index', [
             'slug' => $this->slug
         ]);
     }

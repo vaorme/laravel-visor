@@ -13,6 +13,7 @@ use App\Models\UserHasFavorite;
 use App\Models\UserHasRole;
 use App\Models\UserViewChapter;
 use App\Models\UserViewManga;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
@@ -75,10 +76,9 @@ class UserController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-		return response()->json($request->all());
         $request->validate([
             'username' => ['required', 'string', 'regex:/^[_A-z0-9]*((-|\S)*[_A-z0-9])*$/','max:16', 'unique:'.User::class],
-			'avatar_file' => ['dimensions:max_width=248,max_height=248', 'max:400', 'mimes:jpg,jpeg,png,gif'],
+			'avataravatar_file' => ['dimensions:max_width=248,max_height=248', 'max:400', 'mimes:jpg,jpeg,png,gif'],
             'email' => ['required', 'string', 'email', 'regex:/^.+@.+$/i','max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
 		]);
@@ -89,16 +89,16 @@ class UserController extends Controller{
         $user->password = Hash::make($request->password);
         $userSaved = $user->save();
 
-        // Asignamos monedas
-        if(isset($request->coins) && !empty($request->coins)){
-            $user->purchaseCoins($request->coins);
-        }
-        // Asignamos dias
-        if(isset($request->days_without_ads) && !empty($request->days_without_ads)){
-            $user->purchaseDays($request->days_without_ads);
-        }
+        // ? ASSIGN COINS
+        // if(isset($request->coins) && !empty($request->coins)){
+        //     $user->purchaseCoins($request->coins);
+        // }
+        // ? ASSIGN DAYS
+        // if(isset($request->days_without_ads) && !empty($request->days_without_ads)){
+        //     $user->purchaseDays($request->days_without_ads);
+        // }
 
-        // Assign Role
+        // ? ASSIGN ROLE
 		if(isset($request->roles)){
 			$role = Role::findByName($request->roles);
 		}else{
@@ -113,31 +113,28 @@ class UserController extends Controller{
 		$profile->name = $request->name;
 		$profile->message = $request->message;
         $profile->user_id = $user->id;
-		if(isset($request->default_avatar) && !empty($request->default_avatar)){
-			$profile->avatar = $request->default_avatar;
+		if(isset($request->avatar)){
+			Storage::disk($this->disk)->deleteDirectory('images/users/'.$user->username);
+			Storage::disk($this->disk)->makeDirectory('images/users/'.$user->username);
+			$avatarExtension = $request->file('avatar')->extension();
+			$pathAvatar = $request->file('avatar')->store('images/users/'.$request->username, $this->disk);
+			$profile->avatar = $pathAvatar;
 		}else{
-			if(isset($request->avatar_file)){
-                Storage::disk($this->disk)->deleteDirectory('images/users/'.$user->username);
-                Storage::disk($this->disk)->makeDirectory('images/users/'.$user->username);
-                $avatarExtension = $request->file('avatar_file')->extension();
-                $pathAvatar = $request->file('avatar_file')->store('images/users/'.$request->username, $this->disk);
-                $profile->avatar = $pathAvatar;
-			}else{
-				$profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
-			}
+			$profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
 		}
-		if(isset($request->cover) && !empty($request->cover)){
-			$profile->cover = $request->cover;
+		if(isset($request->cover_url) && !empty($request->cover_url)){
+			$profile->cover = $request->cover_url;
 		}
 		if(isset($request->public_profile)){
-			$profile->public_profile = $request->public_profile;
+			$profile->public_profile = 1;
+		}else{
+			$profile->public_profile = 0;
 		}
-		if(isset($request->redes)){
-			$encodeRedes = json_encode($request->redes);
+		if(isset($request->social)){
+			$encodeRedes = json_encode($request->social);
 			$profile->redes = $encodeRedes;
 		}
         $profileSaved = $profile->save();
-
         if($userSaved && $profileSaved){
             $user->SendEmailVerificationNotification();
             $response['success'] = [
@@ -153,7 +150,7 @@ class UserController extends Controller{
             ];
         }
 
-        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente');
+		return redirect()->route('users.edit', ['id' => $user->id])->with('success', 'Usuario creado correctamente');
     }
 
     /**
@@ -209,7 +206,7 @@ class UserController extends Controller{
 		// return response()->json($request->all());
 		$request->validate([
             'username' => ['string', 'regex:/^[_A-z0-9]*((-|\S)*[_A-z0-9])*$/','max:16'],
-			'avatar_file' => ['dimensions:max_width=248,max_height=248', 'max:400', 'mimes:jpg,jpeg,png,gif'],
+			'avatar' => ['dimensions:max_width=248,max_height=248', 'max:400', 'mimes:jpg,jpeg,png,gif'],
             'email' => ['string', 'email', 'regex:/^.+@.+$/i','max:255']
 		]);
         
@@ -218,51 +215,48 @@ class UserController extends Controller{
 		
         if($user->username !== $request->username){
 			if(User::where('username', $request->username)->exists()){
-				return response()->json("Usuario existe");
+				return response()->json("El nombre de usuario ya existe.");
 			}
 			$user->username = $request->username;
 		}
         if($user->email !== $request->email){
 			if(User::where('email', $request->email)->exists()){
-				return response()->json("email existe");
+				return response()->json("El correo ya existe.");
 			}
 			$user->email = $request->email;
-		}
-		if(!empty($request->password)){
-			$user->password = Hash::make($request->password);
 		}
         $userSaved = $user->save();
         if($oldEmail !== $request->email){
 			$user->SendEmailVerificationNotification();
 		}
 
-        $userCoins = $request->coins;
+        // $userCoins = $request->coins;
 
-        if(!isset($userCoins)){
-            $userCoins = 0;
-        }
-        if(isset($userCoins) && $userCoins != ""){
-            if(isset($user->coins) && $user->coins->exists()){
-                $user->assignCoins($userCoins);
-            }else{
-                $user->purchaseCoins($userCoins);
-            }
-        }
+        // if(!isset($userCoins)){
+        //     $userCoins = 0;
+        // }
+        // if(isset($userCoins) && $userCoins != ""){
+        //     if(isset($user->coins) && $user->coins->exists()){
+        //         $user->assignCoins($userCoins);
+        //     }else{
+        //         $user->purchaseCoins($userCoins);
+        //     }
+        // }
 
-        $userDays = $request->days_without_ads;
+        // $userDays = $request->days_without_ads;
         
-        if(!isset($userDays)){
-            $userDays = 0;
-        }
-        if(isset($userDays) && $userDays != ""){
-            if(isset($user->daysNotAds) && $user->daysNotAds->exists()){
-                $user->assignDays($userDays);
-            }else{
-                $user->purchaseDays($userDays);
-            }
-        }
+        // if(!isset($userDays)){
+        //     $userDays = 0;
+        // }
+        // if(isset($userDays) && $userDays != ""){
+        //     if(isset($user->daysNotAds) && $user->daysNotAds->exists()){
+        //         $user->assignDays($userDays);
+        //     }else{
+        //         $user->purchaseDays($userDays);
+        //     }
+        // }
 		
-        // Assign Role
+        // ? ASSIGN ROLE
 		if(isset($request->roles) && !empty($request->roles)){
 			$role = Role::findByName($request->roles);
 		}else{
@@ -276,31 +270,30 @@ class UserController extends Controller{
 		if(isset($request->country) && !empty($request->country)){
 			$profile->country_id = $request->country;
 		}
-		if(isset($request->default_avatar) && !empty($request->default_avatar)){
-			$profile->avatar = $request->default_avatar;
+
+		if(!isset($request->avatar) && (isset($request->current_avatar) && !empty($request->current_avatar))){
+			$profile->avatar = $request->current_avatar;
 		}else{
-			if(isset($request->current_avatar) && !empty($request->current_avatar)){
-                $profile->avatar = $request->current_avatar;
-            }else{
-                if(isset($request->avatar_file)){
-                    Storage::disk($this->disk)->deleteDirectory('images/users/'.$user->username);
-                    Storage::disk($this->disk)->makeDirectory('images/users/'.$user->username);
-                    $avatarExtension = $request->file('avatar_file')->extension();
-                    $pathAvatar = $request->file('avatar_file')->store('images/users/'.$request->username, $this->disk);
-                    $profile->avatar = $pathAvatar;
-                }else{
-                    $profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
-                }
-            }
+			if(isset($request->avatar)){
+				Storage::disk($this->disk)->deleteDirectory('images/users/'.$user->username);
+				Storage::disk($this->disk)->makeDirectory('images/users/'.$user->username);
+				$avatarExtension = $request->file('avatar')->extension();
+				$pathAvatar = $request->file('avatar')->store('images/users/'.$request->username, $this->disk);
+				$profile->avatar = $pathAvatar;
+			}else{
+				$profile->avatar = 'avatares/avatar-'.rand(1, 10).'.jpg';
+			}
 		}
-		if(isset($request->cover) && !empty($request->cover)){
-			$profile->cover = $request->cover;
+		if(isset($request->cover_url) && !empty($request->cover_url)){
+			$profile->cover = $request->cover_url;
 		}
 		if(isset($request->public_profile)){
-			$profile->public_profile = $request->public_profile;
+			$profile->public_profile = 1;
+		}else{
+			$profile->public_profile = 0;
 		}
-		if(isset($request->redes)){
-			$encodeRedes = json_encode($request->redes);
+		if(isset($request->social)){
+			$encodeRedes = json_encode($request->social);
 			$profile->redes = $encodeRedes;
 		}
         $profileSaved = $profile->save();
@@ -322,6 +315,62 @@ class UserController extends Controller{
         //return $response;
 		return redirect()->route('users.edit', ['id' => $id])->with('success', 'Usuario actualizado correctamente');
     }
+
+	public function changePassword(Request $request){
+		$request->validate([
+			'id' => ['required', 'integer', 'exists:users,id'],
+			'password' => ['required', 'confirmed', Rules\Password::defaults()],
+		]);
+		$user = User::find($request->id);
+		$user->password = Hash::make($request->password);
+		if($user->save()){
+			return response()->json([
+				'status' => true,
+				'msg' => "Contraseña actualizada correctamente."
+			]);
+		}
+		return response()->json([
+			'status' => true,
+			'msg' => "Ha ocurrido un error."
+		]);
+	}
+	public function activateAccount(Request $request){
+		$request->validate([
+			'id' => ['required', 'integer', 'exists:users,id']
+		]);
+
+		$user = User::find($request->id);
+		$user->email_verified_at = Carbon::now();
+		if($user->save()){
+			return response()->json([
+				'status' => true,
+				'msg' => "Cuenta activada correctamente."
+			]);
+		}
+		return response()->json([
+			'status' => true,
+			'msg' => "Ha ocurrido un error."
+		]);
+	}
+
+	public function deactivateAccount(Request $request){
+			$request->validate([
+				'id' => ['required', 'integer', 'exists:users,id']
+			]);
+
+			$user = User::find($request->id);
+			$user->email_verified_at = null;
+			if($user->save()){
+				return response()->json([
+					'status' => true,
+					'msg' => "Cuenta desactivada correctamente."
+				]);
+			}
+			return response()->json([
+				'status' => true,
+				'msg' => "Ha ocurrido un error."
+			]);
+		}
 
     /**
      * Remove the specified resource from storage.

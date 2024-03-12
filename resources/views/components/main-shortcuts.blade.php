@@ -46,7 +46,7 @@
 											$base64 = 'data:image/' . $imageExtension . ';base64,' . base64_encode($img);
 										}
 									@endphp
-									<option value="{{ $item->id }}" data-url="{{ route('manga_detail.index', ['slug' => $item->slug]) }}" data-src="{!! $base64 !!}">{{ $item->name }}</option>
+									<option value="{{ $item->id }}" data-url="{{ route('comic_detail.index', ['slug' => $item->slug]) }}" data-src="{!! $base64 !!}">{{ $item->name }}</option>
 								@endforeach
 							@endif
 						</select>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\web\ComicDetailController;
 use App\Http\Controllers\MangaDetailController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -115,7 +116,7 @@ Route::prefix('l')->group(function(){
     Route::get('/', function(){
         return redirect('/biblioteca'); // Redirect home if user go to /u/
     });
-    Route::get('{slug}', [MangaDetailController::class, 'index'])->name('manga_detail.index');
+    Route::get('{slug}', [ComicDetailController::class, 'index'])->name('comic_detail.index');
 });
 
 // :VIEWER CHAPTER

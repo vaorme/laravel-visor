@@ -17,7 +17,7 @@
             'resources/css/global.scss',
             'resources/css/app.scss'
         ]) --}}
-        @if (Route::is(['manga_detail.index']))
+        @if (Route::is(['comic_detail.index']))
             <link href="{{ Vite::asset('resources/css/web/mangaDetail.scss') }}" rel="stylesheet">
         @endif
 
@@ -109,7 +109,7 @@
         @if (Route::is(['profile.index']))
             <script type="module" src="{{ Vite::asset('resources/js/web/profile.js') }}"></script>
         @endif
-        @if (Route::is(['manga_detail.index']))
+        @if (Route::is(['comic_detail.index']))
             <script type="module" src="{{ Vite::asset('resources/js/web/mangaDetail.js') }}"></script>
         @endif
         @if (Route::is(['account.index']))

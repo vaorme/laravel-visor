@@ -321,6 +321,7 @@ class ChaptersController extends Controller{
             foreach ($order as $key => $itemId) {
                 Chapter::where('id', $itemId)->update(['order' => $key]);
             }
+            Cache::forget('new_chapters');
             return response()->json([
                 'status' => "success",
                 'msg' => "Orden actualizado."

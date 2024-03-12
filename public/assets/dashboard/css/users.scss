@@ -1,0 +1,33 @@
+form.frmo{
+
+}
+form.frmo .dropzone{
+	min-height: 210px;
+}
+form.frmo .password-validation{
+
+}
+form.frmo .password-validation .invalid{
+	color: var(--tblr-danger);
+}
+form.frmo .password-validation .valid{
+	color: var(--tblr-success);
+}
+form.frmo .cover-preview{
+	position: relative;
+}
+form.frmo .cover-preview img{
+	position: absolute;
+	display: block;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	visibility: hidden;
+}
+form.frmo .cover-preview img.added{
+	opacity: 1;
+	visibility: visible;
+}

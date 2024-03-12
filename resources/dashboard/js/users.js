@@ -5,11 +5,66 @@ import { Sortable, Plugins } from '@shopify/draggable';
 
 import ownDropZone from "./own-dropzone";
 import OwnValidator from "./own-validator";
-import { addClass, formattedUsername, generateUniqueID, isUrl, isValidEmail, removeClass, sluggify } from "./own-helpers";
+import { addClass, formattedUsername, generateUniqueID, hasClass, isUrl, isValidEmail, removeClass, sluggify } from "./own-helpers";
 
 const urlAxios = window.location.origin;
 
 axios.defaults.baseURL = urlAxios + '/space/users';
+
+// ?: AVATAR
+
+// * DROPZONE COVER COMIC
+const allowedExtensions = ['jpg', 'png', 'gif', 'webp'];
+ownDropZone('.own-dropzone .dz-choose', allowedExtensions);
+
+const divAvatarActions = document.querySelector('form.frmo .avatar-actions');
+const avatarImgPreview = document.querySelector('form.frmo .dz-choose .dz-preview img');
+const inputDz = document.querySelector('form.frmo .own-dropzone input.dz-input');
+inputDz?.addEventListener('change', function(){
+	const files = this.files;
+	if(files.length > 0){
+		const extension = files[0].name.split('.').pop().toLowerCase();
+		if(!allowedExtensions.includes(extension)){
+			return false;
+		}
+		divAvatarActions.innerHTML = `
+			<a href="javascript:void(0);" class="card-btn btn-primary action-change">
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-photo-edit me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M15 8h.01" /><path d="M11 20h-4a3 3 0 0 1 -3 -3v-10a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v4" /><path d="M4 15l4 -4c.928 -.893 2.072 -.893 3 0l3 3" /><path d="M14 14l1 -1c.31 -.298 .644 -.497 .987 -.596" /><path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z" /></svg>
+				Cambiar
+			</a>
+			<a href="javascript:void(0);" class="card-btn action-remove">
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rounded-minus me-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 12h6" /><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /></svg>
+				Eliminar
+			</a>
+		`;
+	}else{
+		divAvatarActions.innerHTML = "";
+	}
+});
+
+document.addEventListener("click", function(e) {
+	if (e.target.classList.contains("action-remove")) {
+		e.preventDefault();
+		const inputCurrentAvatar = document.querySelector('form.frmo input[name="current_avatar"]');
+
+		avatarImgPreview.src = "";
+		removeClass(avatarImgPreview, 'show');
+		
+		inputDz.value = "";
+		if(inputCurrentAvatar){
+			inputCurrentAvatar.value = "";
+		}
+
+		// *: MANUALLY TRIGGER INPUT EVENT ON INPUT SLUG
+		const inputEvent = new Event('change', { bubbles: true });
+		inputDz.dispatchEvent(inputEvent);
+	}
+	if (e.target.classList.contains("action-change")) {
+		e.preventDefault();
+		inputDz.click();
+	}
+});
+
 
 // ?: PREVIEW COVER
 const inputCoverPreview = document.querySelector('form.frmo input[name="cover_url"]');
@@ -44,42 +99,7 @@ function coverPreview(e){
 		img.onerror = (err) => reject(err);
 		img.src = url;
 	});
-
-	// Usage example:
 	(async() => {
-		// const img = await getDimensions(urlPreview);
-		// let sta = true;
-		// if(img.naturalWidth > 1440){
-		// 	Toastify({
-		// 		text: "El ancho maximo debe ser de 1440px.",
-		// 		className: "error",
-		// 		duration: 5000,
-		// 		newWindow: true,
-		// 		close: true,
-		// 		gravity: "top",
-		// 		position: "center",
-		// 	}).showToast();
-		// 	coverPreview.setAttribute('data-validated', false);
-		// 	sta = false;
-		// }
-		// if(img.naturalHeight > 380){
-		// 	Toastify({
-		// 		text: "El alto maximo debe ser de 380px.",
-		// 		className: "error",
-		// 		duration: 5000,
-		// 		newWindow: true,
-		// 		close: true,
-		// 		gravity: "top",
-		// 		position: "center",
-		// 	}).showToast();
-		// 	coverPreview.setAttribute('data-validated', false);
-		// 	sta = false;
-		// }
-
-		// if(!sta){
-		// 	return false;
-		// }
-
 		addClass(coverPreview, 'added');
 		coverPreview.setAttribute('data-validated', true);
 	})();
@@ -140,7 +160,7 @@ function addSocial(e){
 	inputSocialLink.value = "";
 }
 
-// ? CREATE COMIC
+// ? CREATE/UPDATE COMIC
 let validator;
 const frmo = document.querySelector('form.frmo');
 frmo?.addEventListener('submit', function(e){
@@ -163,7 +183,7 @@ inputUserName?.addEventListener('input', function(){
 
 // ?: PASSWORD VALIDATION
 const inputPassword = document.querySelector('form.frmo input[name="password"]');
-const inputConfirmPassword = document.querySelector('form.frmo input[name="confirm_password"]');
+const inputConfirmPassword = document.querySelector('form.frmo input[name="password_confirmation"]');
 const passwordFields = {
 	'letter': document.querySelector(".password-validation #letter"),
 	'capital': document.querySelector(".password-validation #capital"),
@@ -237,18 +257,39 @@ inputEmail?.addEventListener('change', function(){
 	}
 });
 
-// ?: HANDLE SUBMIT FORM
-if(frmo){
-    validator = new OwnValidator(frmo);
-    validator.formValidationOnChange();
-}
-const btnSubmit = document.querySelector('button.btn-submit');
-btnSubmit?.addEventListener('click', function(){
-    const formData = new FormData(frmo);
-    if(!validator.formValidation()){
-		return true;
-    }
+// ?: CHANGE PASSWORD
+const buttonChangePassword = document.querySelector('form.update a#btnChangePassword');
+buttonChangePassword?.addEventListener('click', changePassword);
 
+async function changePassword(){
+	if(inputPassword.value === ""){
+		Toastify({
+			text: "El campo contraseña no puede estar vacio.",
+			className: "error",
+			duration: 4000,
+			newWindow: true,
+			close: true,
+			gravity: "top",
+			position: "center",
+		}).showToast();
+		inputPassword.focus();
+		addClass(inputPassword, 'is-invalid');
+		return false;
+	}
+	if(inputConfirmPassword.value === ""){
+		Toastify({
+			text: "El campo Confirmar contraseña no puede estar vacío.",
+			className: "error",
+			duration: 4000,
+			newWindow: true,
+			close: true,
+			gravity: "top",
+			position: "center",
+		}).showToast();
+		inputConfirmPassword.focus();
+		addClass(inputConfirmPassword, 'is-invalid');
+		return false;
+	}
 	if(!passwordValidated){
 		Toastify({
 			text: "Contraseña invalida.",
@@ -272,6 +313,91 @@ btnSubmit?.addEventListener('click', function(){
 			position: "center",
 		}).showToast();
 		return false;
+	}
+	const id = document.querySelector('form.update input[name="user_id"]');
+	
+	await axios.put("/change-password", {
+		_method: 'PUT',
+		id: id.value,
+		password: inputPassword.value,
+		password_confirmation: inputConfirmPassword.value
+	}).then(function (response){
+		const data = response.data;
+		if(data && data.status){
+			Toastify({
+				className: 'success',
+				text: data.msg,
+				duration: 1000,
+				newWindow: false,
+				close: true,
+				gravity: "top",
+				position: "center"
+			}).showToast();
+		}else if(data && !data.status){
+			Toastify({
+				className: 'error',
+				text: data.msg,
+				duration: 3000,
+				newWindow: false,
+				close: true,
+				gravity: "top",
+				position: "center"
+			}).showToast();
+		}
+	}).catch(function (error){
+		console.log(error);
+	});
+	
+	passwordFields.letter.classList.remove('valid');
+	passwordFields.letter.classList.add('invalid');
+	passwordFields.capital.classList.remove('valid');
+	passwordFields.capital.classList.add('invalid');
+	passwordFields.number.classList.remove('valid');
+	passwordFields.number.classList.add('invalid');
+	passwordFields.length.classList.remove('valid');
+	passwordFields.length.classList.add('invalid');
+
+	inputPassword.value = "";
+	inputConfirmPassword.value = "";
+}
+
+// ?: HANDLE SUBMIT FORM
+
+if(frmo){
+    validator = new OwnValidator(frmo);
+    validator.formValidationOnChange();
+}
+const btnSubmit = document.querySelector('button.btn-submit');
+btnSubmit?.addEventListener('click', function(){
+    if(!validator.formValidation()){
+		return true;
+    }
+	const formData = new FormData(frmo);
+	if(!hasClass(frmo, 'update')){
+		if(!passwordValidated){
+			Toastify({
+				text: "Contraseña invalida.",
+				className: "error",
+				duration: 4000,
+				newWindow: true,
+				close: true,
+				gravity: "top",
+				position: "center",
+			}).showToast();
+			return false;
+		}
+		if(inputConfirmPassword.value !== inputPassword.value){
+			Toastify({
+				text: "Las contraseñas deben coincidir.",
+				className: "error",
+				duration: 4000,
+				newWindow: true,
+				close: true,
+				gravity: "top",
+				position: "center",
+			}).showToast();
+			return false;
+		}
 	}
 	frmo?.submit();
 });
@@ -338,3 +464,340 @@ async function itemDestroy(){
         ${buttonText}
     `;
 };
+// ? CLICK ACTIVATE/DEACTIVATE ACCOUNT
+document.addEventListener('click', function(event) {
+	if (event.target.matches('a#deactivateAccount')) {
+		event.preventDefault();
+		deactivateAccount();
+	}
+	if (event.target.matches('a#activateAccount')) {
+		event.preventDefault();
+		activateAccount();
+	}
+});
+// ?: ACTIVATE ACCOUNT
+async function activateAccount(){
+	const buttonActivateAccount = document.getElementById('activateAccount');
+	const id = document.querySelector('form.update input[name="user_id"]');
+	await axios.put("/activate-account", {
+		_method: 'PUT',
+		id: id.value
+	}).then(function (response){
+		console.log(response);
+		const data = response.data;
+		if(data && data.status){
+			Toastify({
+				className: 'success',
+				text: data.msg,
+				duration: 1000,
+				newWindow: false,
+				close: true,
+				gravity: "top",
+				position: "center"
+			}).showToast();
+			const buttonDeactivateAccount = document.createElement('a');
+			buttonDeactivateAccount.classList.add('btn', 'btn-danger', 'w-100');
+			buttonDeactivateAccount.setAttribute('href', 'javascript:void(0);');
+			buttonDeactivateAccount.setAttribute('id', 'deactivateAccount');
+			buttonDeactivateAccount.innerHTML = `
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rotated-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9.793 2.893l-6.9 6.9c-1.172 1.171 -1.172 3.243 0 4.414l6.9 6.9c1.171 1.172 3.243 1.172 4.414 0l6.9 -6.9c1.172 -1.171 1.172 -3.243 0 -4.414l-6.9 -6.9c-1.171 -1.172 -3.243 -1.172 -4.414 0z" stroke-width="0" fill="currentColor" /></svg>
+				Desactivar cuenta
+			`;
+			
+			buttonActivateAccount.insertAdjacentElement('afterend',buttonDeactivateAccount);
+			buttonActivateAccount.remove();
+		}else if(data && !data.status){
+			Toastify({
+				className: 'error',
+				text: data.msg,
+				duration: 3000,
+				newWindow: false,
+				close: true,
+				gravity: "top",
+				position: "center"
+			}).showToast();
+		}
+	}).catch(function (error){
+		console.log(error);
+	});
+}
+
+// ?: DEACTIVATE ACCOUNT
+async function deactivateAccount(){
+	const buttonDeactivateAccount = document.getElementById('deactivateAccount');
+	const id = document.querySelector('form.update input[name="user_id"]');
+	await axios.put("/deactivate-account", {
+		_method: 'PUT',
+		id: id.value
+	}).then(function (response){
+		const data = response.data;
+		if(data && data.status){
+			Toastify({
+				className: 'success',
+				text: data.msg,
+				duration: 1000,
+				newWindow: false,
+				close: true,
+				gravity: "top",
+				position: "center"
+			}).showToast();
+			const buttonActivateAccount = document.createElement('a');
+			buttonActivateAccount.classList.add('btn', 'btn-green', 'w-100');
+			buttonActivateAccount.setAttribute('href', 'javascript:void(0);');
+			buttonActivateAccount.setAttribute('id', 'activateAccount');
+			buttonActivateAccount.innerHTML = `
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rotated" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M13.446 2.6l7.955 7.954a2.045 2.045 0 0 1 0 2.892l-7.955 7.955a2.045 2.045 0 0 1 -2.892 0l-7.955 -7.955a2.045 2.045 0 0 1 0 -2.892l7.955 -7.955a2.045 2.045 0 0 1 2.892 0z"></path></svg>
+				Activar cuenta
+			`;
+			
+			buttonDeactivateAccount.insertAdjacentElement('afterend',buttonActivateAccount);
+			buttonDeactivateAccount.remove();
+		}else if(data && !data.status){
+			Toastify({
+				className: 'error',
+				text: data.msg,
+				duration: 3000,
+				newWindow: false,
+				close: true,
+				gravity: "top",
+				position: "center"
+			}).showToast();
+		}
+	}).catch(function (error){
+		console.log(error);
+	});
+}
+
+// ? ASSIGN COINS/DAYS
+const itemModal = document.getElementById('modalCoinsAds');
+const coinsAdsModal = itemModal? new bootstrap.Modal(itemModal) : '';
+itemModal?.addEventListener('hide.bs.modal', () =>{
+	const buttonConfirm = document.querySelector('#buttonModalSubmit');
+	buttonConfirm?.removeEventListener('click', modalContentFormSubmit);
+});
+
+// document.addEventListener('click', function(event) {
+// 	if (event.target.matches('a.action-coinsads')) {
+// 		event.preventDefault();
+// 		const type = event.target.getAttribute('data-type');
+// 		coinsAdsModal.show();
+// 		modalContentForm(type);
+// 	}
+// });
+
+itemModal?.addEventListener('show.bs.modal', async (e) => {
+	const type = e.relatedTarget.getAttribute('data-type');
+	switch (type) {
+		case "coins":
+			await axios.get("/"+id).then(function (response){
+				let res = response.data;
+				if(res.status){
+					let { show } = res;
+					modalContentForm(show);
+				}else{
+					console.log(response);
+				}
+			}).catch(function (error){
+				console.log('error:', error);
+				const data = error.response.data;
+				if(data && data.status === "error"){
+					Toastify({
+						className: 'error',
+						text: data.msg,
+						duration: 3000,
+						newWindow: false,
+						close: true,
+						gravity: "top",
+						position: "right"
+					}).showToast();
+				}else{
+					console.log(error);
+				}
+			});
+			break;
+		case "days":
+			
+			break;
+	
+		default:
+			break;
+	}
+	// ? SEND CHAPTER FORM
+	const button = document.querySelector('#buttonModalSubmit');
+	button?.addEventListener('click', modalContentFormSubmit);
+})
+
+function modalContentForm(type){
+	const element = document.querySelector('#modalCoinsAds .modal-content');
+	element.innerHTML = `
+		<div class="modal-header">
+			<h5 class="modal-title">Asignar ${type === "coins"? 'monedas' : 'días'}</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<form action="" id="modalForm" class="frmo-modal" enctype="multipart/form-data">
+				<div class="row row-cards">
+					<div class="col-3">
+						<label class="form-label">Disminuir</label>
+						<div class="row row-cards">
+							<div class="col-6">
+								<a href="javascript:void(0);" class="btn btn-danger btn-add w-100">-5</a>
+							</div>
+							<div class="col-6">
+								<a href="javascript:void(0);" class="btn btn-danger btn-add w-100">-1</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-6">
+						<label class="form-label required">Cantidad</label>
+						<input name="url" type="text" class="form-control" value="0">
+					</div>
+					<div class="col-3">
+						<label class="form-label">Aumentar</label>
+						<div class="row row-cards">
+							<div class="col-6">
+								<a href="javascript:void(0);" class="btn btn-green btn-add w-100">+1</a>
+							</div>
+							<div class="col-6">
+								<a href="javascript:void(0);" class="btn btn-green btn-add w-100">+5</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn me-auto" data-bs-dismiss="modal">Cerrar</button>
+			<button type="button" id="buttonModalSubmit" class="position-relative btn btn-primary">Asignar</button>
+		</div>
+	`;
+
+	// ?: PREVENT FROM SUBMISSION
+	const frmo = document.querySelector('form#modalForm');
+	frmo?.addEventListener('submit', function(e){
+		e.preventDefault();
+	});
+}
+
+// ?: CREATE/UPDATE ITEM
+async function modalContentFormSubmit(){
+	
+	const modalForm = document.querySelector('form#modalForm');
+	const formData = new FormData(modalForm);
+
+	let buttonText = this.textContent;
+	this.disabled = true;
+	this.innerHTML = `
+		${buttonText}
+		<span class="position-relative ms-2 input-icon-addon min-width-auto" style="min-width: auto;">
+			<div class="spinner-border spinner-border-sm text-white" role="status"></div>
+		</span>
+	`;
+
+	if(isItemEdit){
+		const getName = formData.get('name');
+		const getSlug = formData.get('slug');
+		const getDescription = formData.get('description');
+
+		await axios.put("/"+currentItemID, {
+			name: getName,
+			slug: getSlug,
+			description: getDescription,
+		}).then(function (response){
+			const data = response.data;
+			if(data && data.status){
+				Toastify({
+					className: 'success',
+					text: data.msg,
+					duration: 1000,
+					newWindow: false,
+					close: true,
+					gravity: "top",
+					position: "right"
+				}).showToast();
+				setTimeout(() =>{
+					window.location.reload(true);
+				}, 500)
+			}else if(data && !data.status){
+				Toastify({
+					className: 'error',
+					text: data.msg,
+					duration: 3000,
+					newWindow: false,
+					close: true,
+					gravity: "top",
+					position: "right"
+				}).showToast();
+			}
+		}).catch(function (error){
+			console.log('error:', error);
+			const data = error;
+			if(data && !data.error){
+				Toastify({
+					className: 'error',
+					text: data.msg,
+					duration: 3000,
+					newWindow: false,
+					close: true,
+					gravity: "top",
+					position: "right"
+				}).showToast();
+			}else{
+				console.log(error);
+			}
+		});
+	}else{
+		currentItemID = "";
+		await axios.post("/add", formData, {
+			headers:{
+				'Content-Type': 'multipart/form-data'
+			}
+		}).then(function (response){
+			const data = response.data;
+			if(data && data.status){
+				Toastify({
+					className: 'success',
+					text: data.msg,
+					duration: 1000,
+					newWindow: false,
+					close: true,
+					gravity: "top",
+					position: "right"
+				}).showToast();
+				setTimeout(() =>{
+					window.location.reload(true);
+				}, 500)
+			}else if(data && !data.status){
+				Toastify({
+					className: 'error',
+					text: data.msg,
+					duration: 3000,
+					newWindow: false,
+					close: true,
+					gravity: "top",
+					position: "right"
+				}).showToast();
+			}
+		}).catch(function (error){
+			console.log('error:', error);
+			const data = error;
+			if(data && data.error === "error"){
+				Toastify({
+					className: 'error',
+					text: data.msg,
+					duration: 3000,
+					newWindow: false,
+					close: true,
+					gravity: "top",
+					position: "right"
+				}).showToast();
+			}else{
+				console.log(error);
+			}
+		});
+	}
+	this.disabled = false;
+	this.innerHTML = `
+		${buttonText}
+	`;
+}

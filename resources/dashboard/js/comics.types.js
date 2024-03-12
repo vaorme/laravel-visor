@@ -12,15 +12,6 @@ axios.defaults.baseURL = urlAxios + '/space/comics/types';
 let formValidator;
 let currentItemID;
 
-function resetForm(form){
-	const elements = form?.elements;
-	const elementsArray = elements ? Array.from(elements) : [];
-	elementsArray?.forEach(item => {
-		removeClass(item, 'is-invalid')
-	});
-	form.reset();
-}
-
 // ? CREATE/EDIT ITEM
 let isItemEdit = false;
 

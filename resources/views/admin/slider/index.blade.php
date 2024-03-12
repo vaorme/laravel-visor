@@ -157,7 +157,7 @@
                                         }
 										
 									@endphp
-									<option value="{{ $item->id }}" data-url="{{ route('manga_detail.index', ['slug' => $item->slug]) }}" data-src="{!! $base64 !!}" {{ (isset($edit) && $edit->manga_id == $item->id)? 'selected': null }}>{{ $item->name }}</option>
+									<option value="{{ $item->id }}" data-url="{{ route('comic_detail.index', ['slug' => $item->slug]) }}" data-src="{!! $base64 !!}" {{ (isset($edit) && $edit->manga_id == $item->id)? 'selected': null }}>{{ $item->name }}</option>
 								@endforeach
 							@endif
 						</select>

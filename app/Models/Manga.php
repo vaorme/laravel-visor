@@ -21,24 +21,24 @@ class Manga extends Model{
     }
 
     public function url(){
-        return URL::route('manga_detail.index', [
+        return URL::route('comic_detail.index', [
             'slug' => $this->slug
         ]);
     }
     public function chapters(){
-        return $this->hasMany(Chapter::class)->orderBy('id', 'DESC');
+        return $this->hasMany(Chapter::class)->orderBy('order', 'DESC');
     }
     public function latestChapters(){
         $week = date('Y-m-d', strtotime("-1 week"));
-        return $this->hasMany(Chapter::class)->where('chapters.created_at', '>=', $week)->orderBy('created_at', 'DESC')->limit(2);
+        return $this->hasMany(Chapter::class)->where('chapters.created_at', '>=', $week)->orderBy('order', 'DESC')->limit(2);
     }
     public function lastChapter(){
         $week = date('Y-m-d', strtotime("-1 week"));
-        return $this->hasOne(Chapter::class)->where('chapters.created_at', '>=', $week)->orderBy('id', 'DESC');
+        return $this->hasOne(Chapter::class)->where('chapters.created_at', '>=', $week)->orderBy('order', 'DESC');
     }
     public function latestMonthChapters(){
         $month = date('Y-m-d', strtotime("-1 month"));
-        return $this->hasMany(Chapter::class)->where('chapters.created_at', '>=', $month)->orderBy('created_at', 'DESC')->limit(2);
+        return $this->hasMany(Chapter::class)->where('chapters.created_at', '>=', $month)->orderBy('order', 'DESC')->limit(2);
     }
     public function categories(){
         return $this->belongsToMany(Category::class, 'manga_has_categories', 'manga_id');

@@ -65,7 +65,11 @@
                                 <tr class="align-middle">
                                     <td>
                                         <a href="{{ route('users.edit', ['id' => $item->id]) }}" class="d-inline-block">
-                                            <div class="avatar avatar-md img-responsive-1x1 rounded-3 border" style="background-image: url({{ asset('storage/'.$item->profile->avatar) }})"></div>
+											@if (isset($item->profile))
+												<div class="avatar avatar-md img-responsive-1x1 rounded-3 border" style="background-image: url({{ asset('storage/'.$item->profile->avatar) }})"></div>
+											@else
+												<div class="avatar avatar-md img-responsive-1x1 rounded-3 border">{{ Str::limit($item->username, $limit = 2, $end = '') }}</div>
+											@endif
                                         </a>
                                     </td>
                                     <td class="sort-name">

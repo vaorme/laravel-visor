@@ -31,13 +31,20 @@ function ownDropZone(zone, allowed){
 }
 function dropFile(file, preview, allowed){
     if(!file) {
-        console.log('error, no hay archivo');
-        return 'error';
+        return false;
     }
-    let extension = file.name.split('.').pop().toLowerCase();
+    const extension = file.name.split('.').pop().toLowerCase();
     if(!allowed.includes(extension)){
-        alert('Tipo de archivo no permitido');
-        return 'no allowed';
+		Toastify({
+			text: "Tipo de archivo no permitido.",
+			className: "error",
+			duration: 5000,
+			newWindow: true,
+			close: true,
+			gravity: "top",
+			position: "center",
+		}).showToast();
+        return false;
     }
     removeClass(preview, 'show');
     removeClass(preview.nextElementSibling, 'visually-hidden')

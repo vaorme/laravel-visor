@@ -20,7 +20,7 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
         // ?: COMICS
         Route::prefix('comics')->group(function(){
             Route::get('/', [ComicsController::class, 'index'])->name('comics.index');
-            
+
 			// ? TYPES
 			Route::prefix('types')->group(function(){
 				Route::get('/', [ComicTypesController::class, 'index'])->name('comics.types.index');
@@ -28,11 +28,11 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 				// * CREATE
 				Route::get('/add', [ComicTypesController::class, 'create'])->name('comics.types.create');
 				Route::post('/add', [ComicTypesController::class, 'store'])->name('comics.types.store');
-	
+
 				// * EDIT
 				Route::get('/{id}', [ComicTypesController::class, 'show'])->name('comics.types.show');
 				Route::put('/{id}', [ComicTypesController::class, 'update'])->name('comics.types.update');
-	
+
 				// * DELETE
 				Route::delete('/{id}', [ComicTypesController::class, 'destroy'])->middleware(['permission:manga.destroy'])->name('comics.types.destroy');
 			});
@@ -44,11 +44,11 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 				// * CREATE
 				Route::get('/add', [ComicStatusController::class, 'create'])->name('comics.status.create');
 				Route::post('/add', [ComicStatusController::class, 'store'])->name('comics.status.store');
-	
+
 				// * EDIT
 				Route::get('/{id}', [ComicStatusController::class, 'show'])->name('comics.status.show');
 				Route::put('/{id}', [ComicStatusController::class, 'update'])->name('comics.status.update');
-	
+
 				// * DELETE
 				Route::delete('/{id}', [ComicStatusController::class, 'destroy'])->middleware(['permission:manga.destroy'])->name('comics.status.destroy');
 			});
@@ -60,11 +60,11 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 				// * CREATE
 				Route::get('/add', [ComicDemographiesController::class, 'create'])->name('comics.demographies.create');
 				Route::post('/add', [ComicDemographiesController::class, 'store'])->name('comics.demographies.store');
-	
+
 				// * EDIT
 				Route::get('/{id}', [ComicDemographiesController::class, 'show'])->name('comics.demographies.show');
 				Route::put('/{id}', [ComicDemographiesController::class, 'update'])->name('comics.demographies.update');
-	
+
 				// * DELETE
 				Route::delete('/{id}', [ComicDemographiesController::class, 'destroy'])->middleware(['permission:manga.destroy'])->name('comics.demographies.destroy');
 			});
@@ -76,11 +76,11 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 				// * CREATE
 				Route::get('/add', [ComicCategoriesController::class, 'create'])->name('comics.categories.create');
 				Route::post('/add', [ComicCategoriesController::class, 'store'])->name('comics.categories.store');
-	
+
 				// * EDIT
 				Route::get('/{id}', [ComicCategoriesController::class, 'show'])->name('comics.categories.show');
 				Route::put('/{id}', [ComicCategoriesController::class, 'update'])->name('comics.categories.update');
-	
+
 				// * DELETE
 				Route::delete('/{id}', [ComicCategoriesController::class, 'destroy'])->middleware(['permission:manga.destroy'])->name('comics.categories.destroy');
 			});
@@ -92,11 +92,11 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 				// * CREATE
 				Route::get('/add', [ComicTagsController::class, 'create'])->name('comics.tags.create');
 				Route::post('/add', [ComicTagsController::class, 'store'])->name('comics.tags.store');
-	
+
 				// * EDIT
 				Route::get('/{id}', [ComicTagsController::class, 'show'])->name('comics.tags.show');
 				Route::put('/{id}', [ComicTagsController::class, 'update'])->name('comics.tags.update');
-	
+
 				// * DELETE
 				Route::delete('/{id}', [ComicTagsController::class, 'destroy'])->middleware(['permission:manga.destroy'])->name('comics.tags.destroy');
 			});
@@ -114,7 +114,7 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 
                 // * CHAPTER UPLOAD (FILE)
                 Route::post('upload/{mangaid}', [ChapterUploadController::class, 'store'])->middleware(['permission:chapters.store'])->name('upload-chapter.store');
-                
+
                 // * CHAPTER UPLOAD IMAGES
                 // Route::post('images-upload/{mangaid}', [ChapterUploadController::class, 'subirImagenes'])->middleware(['permission:chapters.create'])->name('images-upload.store');
 
@@ -159,6 +159,15 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
             Route::get('/add', [UserController::class, 'create'])->name('users.create');
             Route::post('/add', [UserController::class, 'store'])->name('users.store');
 
+			// * CHANGE PASSWORD
+			Route::put('/change-password', [UserController::class, 'changePassword'])->name('users.change-password');
+
+			// * ACTIVATE ACCOUNT
+			Route::put('/activate-account', [UserController::class, 'activateAccount'])->name('users.activate-account');
+
+			// * DEACTIVATE ACCOUNT
+			Route::put('/deactivate-account', [UserController::class, 'deactivateAccount'])->name('users.deactivate-account');
+
             // * EDIT COMIC
             Route::get('/{id}', [UserController::class, 'edit'])->name('users.edit');
             Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
@@ -168,5 +177,5 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
         });
     });
 
-	
+
 });

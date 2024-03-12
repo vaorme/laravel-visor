@@ -264,11 +264,19 @@
                                                                 <select type="text" name="author" class="form-select" id="select-author" value="" required>
                                                                     @if ($users->isNotEmpty())
                                                                         @foreach ($users as $user)
-                                                                            <option value="{{ $user->id }}" data-custom-properties="&lt;span class=&quot;avatar avatar-xs&quot; style=&quot;background-image: url({{ asset('storage/'.$user->profile->avatar) }})&quot;&gt;&lt;/span&gt;" {{
-                                                                            ($isEdit && $comic->user_id == $user->id) ? 'selected' :
-                                                                            ((!$isEdit && $user->id === Auth::id()) ? 'selected' : '') }}>
-                                                                                {{ $user->username }}
-                                                                            </option>
+																			@if (isset($user->profile))
+																				<option value="{{ $user->id }}" data-custom-properties="&lt;span class=&quot;avatar avatar-xs&quot; style=&quot;background-image: url({{ asset('storage/'.$user->profile->avatar) }})&quot;&gt;&lt;/span&gt;" {{
+																				($isEdit && $comic->user_id == $user->id) ? 'selected' :
+																				((!$isEdit && $user->id === Auth::id()) ? 'selected' : '') }}>
+																					{{ $user->username }}
+																				</option>
+																			@else
+																				<option value="{{ $user->id }}" data-custom-properties="&lt;span class=&quot;avatar avatar-xs&quot;&gt;N/A&lt;/span&gt;" {{
+																				($isEdit && $comic->user_id == $user->id) ? 'selected' :
+																				((!$isEdit && $user->id === Auth::id()) ? 'selected' : '') }}>
+																					{{ $user->username }}
+																				</option>
+																			@endif
                                                                         @endforeach
                                                                     @endif
                                                                 </select>
