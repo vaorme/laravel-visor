@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\ComicStatusController;
 use App\Http\Controllers\Dashboard\ComicTagsController;
 use App\Http\Controllers\Dashboard\ComicTypesController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\uploadChaptersController;
 use Illuminate\Support\Facades\Route;
@@ -168,12 +169,44 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 			// * DEACTIVATE ACCOUNT
 			Route::put('/deactivate-account', [UserController::class, 'deactivateAccount'])->name('users.deactivate-account');
 
+			// * GET COINS
+			Route::get('/get-coins/{id}', [UserController::class, 'getCoins'])->name('users.get-coins');
+			// * ASSIGN COINS
+			Route::post('/assign-coins/{id}', [UserController::class, 'assignCoins'])->name('users.assign-coins');
+
+			// * GET DAYS
+			Route::get('/get-days/{id}', [UserController::class, 'getDays'])->name('users.get-days');
+			// * ASSIGN COINS
+			Route::post('/assign-days/{id}', [UserController::class, 'assignDays'])->name('users.assign-days');
+
             // * EDIT COMIC
             Route::get('/{id}', [UserController::class, 'edit'])->name('users.edit');
             Route::put('/{id}', [UserController::class, 'update'])->name('users.update');
 
             // * DELETE COMIC
             Route::delete('{id}', [UserController::class, 'destroy'])->middleware(['permission:manga.destroy'])->name('users.destroy');
+        });
+
+		// ? ROLES
+        Route::prefix('roles')->group(function(){
+			// * INDEX
+            Route::get('/', [RoleController::class, 'index'])->name('roles.index');
+
+			// * CREATE
+			Route::get('/add', [RoleController::class, 'create'])->name('roles.create');
+			Route::post('/add', [RoleController::class, 'store'])->name('roles.store');
+
+			// * GET PERMISSIONS
+			Route::get('/permissions', [RoleController::class, 'getPermissions'])->name('roles.permissions.index');
+			// * GET USER PERMISSIONS
+			Route::get('/permissions/{id}', [RoleController::class, 'getUserPermissions'])->name('roles.user.permissions.index');
+
+			// * EDIT
+			Route::get('/{id}', [RoleController::class, 'show'])->name('roles.show');
+			Route::put('/{id}', [RoleController::class, 'update'])->name('roles.update');
+
+			// * DELETE
+			Route::delete('/{id}', [RoleController::class, 'destroy'])->middleware(['permission:manga.destroy'])->name('roles.destroy');
         });
     });
 

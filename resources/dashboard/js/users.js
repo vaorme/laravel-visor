@@ -411,7 +411,6 @@ modalDestroy?.addEventListener('show.bs.modal', e => {
     button.setAttribute('data-id', id);
     button?.addEventListener('click', itemDestroy);
 })
-
 async function itemDestroy(){
     const id = this.getAttribute('data-id');
     this.disabled = true;
@@ -435,7 +434,8 @@ async function itemDestroy(){
                 position: "right"
             }).showToast();
             setTimeout(() => {
-                window.location.reload();
+				const newUrl = window.location.origin;
+				window.location.href = newUrl+"/space/users";
             }, 600);
         }else{
             console.log(response);
@@ -572,51 +572,57 @@ async function deactivateAccount(){
 const itemModal = document.getElementById('modalCoinsAds');
 const coinsAdsModal = itemModal? new bootstrap.Modal(itemModal) : '';
 itemModal?.addEventListener('hide.bs.modal', () =>{
+	const modal = document.querySelector('#modalCoinsAds .modal-content');
 	const buttonConfirm = document.querySelector('#buttonModalSubmit');
 	buttonConfirm?.removeEventListener('click', modalContentFormSubmit);
+	setTimeout(() => {
+		modal.innerHTML = "";
+	}, 500);
 });
-
-// document.addEventListener('click', function(event) {
-// 	if (event.target.matches('a.action-coinsads')) {
-// 		event.preventDefault();
-// 		const type = event.target.getAttribute('data-type');
-// 		coinsAdsModal.show();
-// 		modalContentForm(type);
-// 	}
-// });
 
 itemModal?.addEventListener('show.bs.modal', async (e) => {
 	const type = e.relatedTarget.getAttribute('data-type');
+	const id = document.querySelector('form.update input[name="user_id"]');
 	switch (type) {
 		case "coins":
-			await axios.get("/"+id).then(function (response){
+			await axios.get("/get-coins/"+id.value).then(function (response){
 				let res = response.data;
 				if(res.status){
-					let { show } = res;
-					modalContentForm(show);
+					modalContentForm('coins', (res.data)? res.data.coins : 0);
 				}else{
-					console.log(response);
-				}
-			}).catch(function (error){
-				console.log('error:', error);
-				const data = error.response.data;
-				if(data && data.status === "error"){
 					Toastify({
 						className: 'error',
-						text: data.msg,
+						text: res.data.msg,
 						duration: 3000,
 						newWindow: false,
 						close: true,
 						gravity: "top",
-						position: "right"
+						position: "center"
 					}).showToast();
-				}else{
-					console.log(error);
 				}
+			}).catch(function (error){
+				console.log(error);
 			});
 			break;
 		case "days":
-			
+			await axios.get("/get-days/"+id.value).then(function (response){
+				let res = response.data;
+				if(res.status){
+					modalContentForm('days', (res.data)? res.data.days_without_ads : 0);
+				}else{
+					Toastify({
+						className: 'error',
+						text: res.data.msg,
+						duration: 3000,
+						newWindow: false,
+						close: true,
+						gravity: "top",
+						position: "center"
+					}).showToast();
+				}
+			}).catch(function (error){
+				console.log(error);
+			});
 			break;
 	
 		default:
@@ -627,7 +633,7 @@ itemModal?.addEventListener('show.bs.modal', async (e) => {
 	button?.addEventListener('click', modalContentFormSubmit);
 })
 
-function modalContentForm(type){
+function modalContentForm(type, amount = 0){
 	const element = document.querySelector('#modalCoinsAds .modal-content');
 	element.innerHTML = `
 		<div class="modal-header">
@@ -636,30 +642,31 @@ function modalContentForm(type){
 		</div>
 		<div class="modal-body">
 			<form action="" id="modalForm" class="frmo-modal" enctype="multipart/form-data">
+				<input type="hidden" name="type" value="${type}">
 				<div class="row row-cards">
 					<div class="col-3">
 						<label class="form-label">Disminuir</label>
 						<div class="row row-cards">
 							<div class="col-6">
-								<a href="javascript:void(0);" class="btn btn-danger btn-add w-100">-5</a>
+								<a href="javascript:void(0);" class="btn btn-danger btn-minus w-100">-5</a>
 							</div>
 							<div class="col-6">
-								<a href="javascript:void(0);" class="btn btn-danger btn-add w-100">-1</a>
+								<a href="javascript:void(0);" class="btn btn-danger btn-minus w-100">-1</a>
 							</div>
 						</div>
 					</div>
 					<div class="col-6">
 						<label class="form-label required">Cantidad</label>
-						<input name="url" type="text" class="form-control" value="0">
+						<input name="amount" type="number" class="form-control" value="${amount}">
 					</div>
 					<div class="col-3">
 						<label class="form-label">Aumentar</label>
 						<div class="row row-cards">
 							<div class="col-6">
-								<a href="javascript:void(0);" class="btn btn-green btn-add w-100">+1</a>
+								<a href="javascript:void(0);" class="btn btn-green btn-plus w-100">+1</a>
 							</div>
 							<div class="col-6">
-								<a href="javascript:void(0);" class="btn btn-green btn-add w-100">+5</a>
+								<a href="javascript:void(0);" class="btn btn-green btn-plus w-100">+5</a>
 							</div>
 						</div>
 					</div>
@@ -679,11 +686,33 @@ function modalContentForm(type){
 	});
 }
 
-// ?: CREATE/UPDATE ITEM
+// * INCREMENT AMOUNT COINS/DAYS
+
+document.addEventListener('click', function(event){
+	if (event.target.matches('a.btn-minus')) {
+		event.preventDefault();
+		const amountInput = document.querySelector('#modalCoinsAds form.frmo-modal input[name="amount"]');
+		const txt = event.target.textContent;
+		const sub = (txt === "-1")? 1 : 5;
+		const newValue = (amountInput.value - sub) < 0? 0 : (amountInput.value - sub);
+		amountInput.value = newValue;
+	}
+	if (event.target.matches('a.btn-plus')) {
+		event.preventDefault();
+		const amountInput = document.querySelector('#modalCoinsAds form.frmo-modal input[name="amount"]');
+		const txt = event.target.textContent;
+		const sub = (txt === "+1")? 1 : 5;
+		const newValue = parseInt(amountInput.value) + sub;
+		amountInput.value = newValue;
+	}
+});
+
+// ?: ASSIGN COINS/DAYS
 async function modalContentFormSubmit(){
-	
-	const modalForm = document.querySelector('form#modalForm');
-	const formData = new FormData(modalForm);
+	const modalForm = document.querySelector('#modalCoinsAds form#modalForm');
+	const type = document.querySelector('#modalCoinsAds form.frmo-modal input[name="type"]');
+	const id = document.querySelector('form.update input[name="user_id"]');
+	const amount = document.querySelector('#modalCoinsAds form.frmo-modal input[name="amount"]');
 
 	let buttonText = this.textContent;
 	this.disabled = true;
@@ -694,108 +723,49 @@ async function modalContentFormSubmit(){
 		</span>
 	`;
 
-	if(isItemEdit){
-		const getName = formData.get('name');
-		const getSlug = formData.get('slug');
-		const getDescription = formData.get('description');
+	await axios.post("/assign-"+type.value+"/"+id.value, { amount: amount.value}).then(function (response){
+		const data = response.data;
+		console.log(response);
+		if(data && data.status){
+			Toastify({
+				className: 'success',
+				text: data.msg,
+				duration: 1000,
+				newWindow: false,
+				close: true,
+				gravity: "top",
+				position: "right"
+			}).showToast();
+			coinsAdsModal.hide();
+		}else if(data && !data.status){
+			Toastify({
+				className: 'error',
+				text: data.msg,
+				duration: 3000,
+				newWindow: false,
+				close: true,
+				gravity: "top",
+				position: "right"
+			}).showToast();
+		}
+	}).catch(function (error){
+		console.log('error:', error);
+		const data = error;
+		if(data && !data.error){
+			Toastify({
+				className: 'error',
+				text: data.msg,
+				duration: 3000,
+				newWindow: false,
+				close: true,
+				gravity: "top",
+				position: "right"
+			}).showToast();
+		}else{
+			console.log(error);
+		}
+	});
 
-		await axios.put("/"+currentItemID, {
-			name: getName,
-			slug: getSlug,
-			description: getDescription,
-		}).then(function (response){
-			const data = response.data;
-			if(data && data.status){
-				Toastify({
-					className: 'success',
-					text: data.msg,
-					duration: 1000,
-					newWindow: false,
-					close: true,
-					gravity: "top",
-					position: "right"
-				}).showToast();
-				setTimeout(() =>{
-					window.location.reload(true);
-				}, 500)
-			}else if(data && !data.status){
-				Toastify({
-					className: 'error',
-					text: data.msg,
-					duration: 3000,
-					newWindow: false,
-					close: true,
-					gravity: "top",
-					position: "right"
-				}).showToast();
-			}
-		}).catch(function (error){
-			console.log('error:', error);
-			const data = error;
-			if(data && !data.error){
-				Toastify({
-					className: 'error',
-					text: data.msg,
-					duration: 3000,
-					newWindow: false,
-					close: true,
-					gravity: "top",
-					position: "right"
-				}).showToast();
-			}else{
-				console.log(error);
-			}
-		});
-	}else{
-		currentItemID = "";
-		await axios.post("/add", formData, {
-			headers:{
-				'Content-Type': 'multipart/form-data'
-			}
-		}).then(function (response){
-			const data = response.data;
-			if(data && data.status){
-				Toastify({
-					className: 'success',
-					text: data.msg,
-					duration: 1000,
-					newWindow: false,
-					close: true,
-					gravity: "top",
-					position: "right"
-				}).showToast();
-				setTimeout(() =>{
-					window.location.reload(true);
-				}, 500)
-			}else if(data && !data.status){
-				Toastify({
-					className: 'error',
-					text: data.msg,
-					duration: 3000,
-					newWindow: false,
-					close: true,
-					gravity: "top",
-					position: "right"
-				}).showToast();
-			}
-		}).catch(function (error){
-			console.log('error:', error);
-			const data = error;
-			if(data && data.error === "error"){
-				Toastify({
-					className: 'error',
-					text: data.msg,
-					duration: 3000,
-					newWindow: false,
-					close: true,
-					gravity: "top",
-					position: "right"
-				}).showToast();
-			}else{
-				console.log(error);
-			}
-		});
-	}
 	this.disabled = false;
 	this.innerHTML = `
 		${buttonText}

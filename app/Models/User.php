@@ -133,11 +133,7 @@ class User extends Authenticatable implements MustVerifyEmail{
     public function daysNotAds(){
         return $this->hasOne(UserBuyDays::class);
     }
-    public function coins(){
-        return $this->hasOne(UserBuyCoins::class);
-    }
     public function purchaseDays($days = 0){
-        // Check if the user already has an ad-free days record
         $existingRecord = $this->daysNotAds;
         if ($existingRecord) {
 
@@ -157,49 +153,122 @@ class User extends Authenticatable implements MustVerifyEmail{
 
             $existingRecord->last_updated = Carbon::now();
             $existingRecord->days_without_ads += $days;
-            $existingRecord->save();
+            if($existingRecord->save()){
+                return true;
+            }else{
+                return false;
+            }
         }else{
-            UserBuyDays::create([
+            $create = UserBuyDays::create([
                 'username' => $this->username,
                 'user_id' => $this->id,
                 'last_updated' => Carbon::now(),
                 'days_without_ads' => $days,
             ]);
+            if($create){
+                return true;
+            }else{
+                return false;
+            }
         }
-        return true;
+    }
+    public function assignDays($days = 0) {
+        $existingRecord = $this->daysNotAds;
+        if ($existingRecord) {
+            // Update existing record
+            $existingRecord->last_updated = Carbon::now();
+            $existingRecord->days_without_ads = $days;
+    
+            if ($existingRecord->save()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            // Create a new record
+            $create = UserBuyDays::create([
+                'username' => $this->username,
+                'user_id' => $this->id,
+                'last_updated' => Carbon::now(),
+                'days_without_ads' => $days,
+            ]);
+    
+            if ($create) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    
+    public function removeDays($days = 0){
+        $instance = UserBuyDays::where('user_id', $this->id);
+        if($instance->exists()){
+            $current = $this->daysNotAds;
+            $resta = $current->days_without_ads - $days;
+            if($resta <= 0){
+                $current->days_without_ads = 0;
+                $current->save();
+            }else{
+                $current->days_without_ads = $resta;
+                $current->save();
+            }
+            return true;
+        }
+        return false;
+    }
+    public function coins(){
+        return $this->hasOne(UserBuyCoins::class);
     }
     public function purchaseCoins($coins = 0){
         $existingRecord = $this->coins;
         if ($existingRecord) {
-            $existingRecord->increment('coins', $coins);
+            $affectedRows = $existingRecord->increment('coins', intval($coins));
+            if ($affectedRows > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            UserBuyCoins::create([
+            $create = UserBuyCoins::create([
                 'username' => $this->username,
                 'user_id' => $this->id,
                 'coins' => $coins,
             ]);
+            if($create){
+                return true;
+            }else{
+                return false;
+            }
         }
         return true;
     }
-    public function assignCoins($coins = 0){
-        $instance = UserBuyCoins::where('user_id', $this->id);
-        if($instance->exists()){
-            $instance->update([
+    public function assignCoins($coins = 0) {
+        $existingRecord = $this->coins;
+    
+        if ($existingRecord) {
+            // Update existing record
+            $existingRecord->coins = $coins;
+    
+            if ($existingRecord->save()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            // Create a new record
+            $create = UserBuyCoins::create([
+                'username' => $this->username,
+                'user_id' => $this->id,
                 'coins' => $coins,
             ]);
-            return true;
+    
+            if ($create) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        return false;
-    }
-    public function assignDays($days = 0){
-        $instance = UserBuyDays::where('user_id', $this->id);
-        if($instance->exists()){
-            $instance->update([
-                'days_without_ads' => $days,
-            ]);
-            return true;
-        }
-        return false;
     }
     public function removeCoins($coins = 0){
         $instance = UserBuyCoins::where('user_id', $this->id);
@@ -211,22 +280,6 @@ class User extends Authenticatable implements MustVerifyEmail{
                 $current->save();
             }else{
                 $current->coins = $resta;
-                $current->save();
-            }
-            return true;
-        }
-        return false;
-    }
-    public function removeDays($days = 0){
-        $instance = UserBuyDays::where('user_id', $this->id);
-        if($instance->exists()){
-            $current = $this->daysNotAds;
-            $resta = $current->days_without_ads - $days;
-            if($resta <= 0){
-                $current->days_without_ads = 0;
-                $current->save();
-            }else{
-                $current->days_without_ads = $resta;
                 $current->save();
             }
             return true;

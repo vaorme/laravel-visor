@@ -32,12 +32,17 @@ class UserController extends Controller{
     public function index(Request $request){
         $loop = User::orderBy('created_at', 'desc');
         $param_search = strip_tags($request->s);
+        $param_status = ($request->status)? strip_tags($request->status) : 'active';
         if(isset($param_search) && !empty($param_search)){
             $loop->where(function ($query) use ($param_search) {
                 $query->where('username', 'LIKE', '%'.$param_search.'%');
             });
         }
-
+        if(isset($param_status) && $param_status === "active"){
+            $loop->whereNotNull('email_verified_at');
+        }else{
+            $loop->whereNull('email_verified_at');
+        }
 		$loop = $loop->paginate(20);
 		$viewData = [
             'loop' => $loop
@@ -45,6 +50,9 @@ class UserController extends Controller{
 		if ($loop->lastPage() === 1 && $loop->currentPage() !== 1) {
             $queryParams = $request->query();
             $queryParams['page'] = 1;
+            if(isset($param_status)) {
+                $queryParams['status'] = $param_status;
+            }
             $redirectUrl = 'space/users?' . http_build_query($queryParams);
 
             return Redirect::to($redirectUrl);
@@ -354,23 +362,118 @@ class UserController extends Controller{
 	}
 
 	public function deactivateAccount(Request $request){
-			$request->validate([
-				'id' => ['required', 'integer', 'exists:users,id']
-			]);
+        $request->validate([
+            'id' => ['required', 'integer', 'exists:users,id']
+        ]);
 
-			$user = User::find($request->id);
-			$user->email_verified_at = null;
-			if($user->save()){
-				return response()->json([
-					'status' => true,
-					'msg' => "Cuenta desactivada correctamente."
-				]);
-			}
-			return response()->json([
-				'status' => true,
-				'msg' => "Ha ocurrido un error."
-			]);
-		}
+        $user = User::find($request->id);
+        $user->email_verified_at = null;
+        if($user->save()){
+            return response()->json([
+                'status' => true,
+                'msg' => "Cuenta desactivada correctamente."
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'msg' => "Ha ocurrido un error."
+        ]);
+    }
+    public function getCoins($id){
+        if(!isset($id)){
+            return response()->json([
+                'status' => false,
+                'msg' => "Ha ocurrido un error."
+            ]);    
+        }
+
+        $user = User::find($id);
+        if($user){
+            return response()->json([
+                'status' => true,
+                'data' => $user->coins,
+                'msg' => "Monedas obtenidas."
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'msg' => "Ha ocurrido un error."
+        ]);
+    }
+    public function assignCoins(Request $request,$id){
+        if(!isset($id)){
+            return response()->json([
+                'status' => false,
+                'msg' => "Ha ocurrido un error."
+            ]);    
+        }
+
+        $user = User::find($id);
+        if($user){
+            if($user->assignCoins($request->amount)){
+                return response()->json([
+                    'status' => true,
+                    'msg' => "Monedas asignadas correctamente."
+                ]);
+            }
+            return response()->json([
+                'status' => false,
+                'msg' => "Ups, algo salio mal."
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'msg' => "Ha ocurrido un error."
+        ]);
+    }
+
+    public function assignDays(Request $request,$id){
+        if(!isset($id)){
+            return response()->json([
+                'status' => false,
+                'msg' => "Ha ocurrido un error."
+            ]);    
+        }
+
+        $user = User::find($id);
+        if($user){
+            if($user->assignDays($request->amount)){
+                return response()->json([
+                    'status' => true,
+                    'msg' => "Días asignados correctamente."
+                ]);
+            }
+            return response()->json([
+                'status' => false,
+                'msg' => "Ups, algo salio mal."
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'msg' => "Ha ocurrido un error."
+        ]);
+    }
+    public function getDays($id){
+        if(!isset($id)){
+            return response()->json([
+                'status' => false,
+                'msg' => "Ha ocurrido un error."
+            ]);    
+        }
+
+        $user = User::find($id);
+        if($user){
+            return response()->json([
+                'status' => true,
+                'data' => $user->daysNotAds,
+                'msg' => "Días obtenidas."
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'msg' => "Ha ocurrido un error."
+        ]);
+    }
 
     /**
      * Remove the specified resource from storage.

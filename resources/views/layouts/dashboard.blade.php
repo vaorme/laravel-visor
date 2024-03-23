@@ -71,5 +71,8 @@
 		@if (Route::is(['comics.tags.*']))
 			<script type="module" src="{{ Vite::asset('resources/dashboard/js/comics.tags.js') }}" defer></script>
         @endif
+        @if (Route::is(['roles.index', 'roles.create', 'roles.edit']))
+            <script type="module" src="{{ Vite::asset('resources/dashboard/js/roles.js') }}" defer></script>
+        @endif
     </body>
 </html>

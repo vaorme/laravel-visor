@@ -125,10 +125,10 @@ class PaymentController extends Controller{
                             $product = Product::find($productId[1]);
                             switch ($product->product_type_id) {
                                 case 1:
-                                    $user->purchaseCoins($product->coins);
+                                    $purchaseCoins =$user->purchaseCoins($product->coins);
                                     break;
                                 case 2:
-                                    $user->purchaseDays($product->days_without_ads);
+                                    $purchaseDays = $user->purchaseDays($product->days_without_ads);
                                     break;
                                 default:
                                     break;

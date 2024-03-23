@@ -57,6 +57,7 @@
                         <th>Correo</th>
                         <th>Estado</th>
                         <th>Monedas</th>
+                        <th>Días</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
@@ -90,6 +91,13 @@
                                     <td class="sort-type">
                                         @if ($item->coins && $item->coins->coins > 0)
 											<span class="badge bg-yellow-lt p-2">{{ $item->coins->coins }}</span>
+										@else
+											<span class="badge bg-muted-lt p-2">0</span>
+										@endif
+                                    </td>
+                                    <td class="sort-type">
+                                        @if ($item->remainingDays() > 0)
+											<span class="badge bg-blue-lt p-2">{{ $item->remainingDays() }}</span>
 										@else
 											<span class="badge bg-muted-lt p-2">0</span>
 										@endif
