@@ -1273,6 +1273,27 @@ div.toastify.error{
     align-items: center;
     justify-content: center;
 }
+.page .page-politicas .box{
+	background-color: rgba(255, 255, 255, 0.1);
+	padding: 30px;
+	border-radius: 12px;
+}
+.page .page-politicas h1{
+	font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+	margin-bottom: 20px;
+}
+.page .page-politicas h4{
+	font-weight: bold;
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+.page .page-politicas p{
+	opacity: .8;
+	font-size: 14px;
+	margin-bottom: 15px;
+}
 
 @media (max-width: 1920px){
 	#app main.main .manga .manga__list{

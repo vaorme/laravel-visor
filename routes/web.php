@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\web\ComicDetailController;
 use App\Http\Controllers\MangaDetailController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShortcutsController;
@@ -111,7 +112,6 @@ Route::prefix('biblioteca')->group(function(){
 });
 
 // :MANGA DETAIL
-
 Route::prefix('l')->group(function(){
     Route::get('/', function(){
         return redirect('/biblioteca'); // Redirect home if user go to /u/
@@ -128,6 +128,9 @@ Route::prefix('v')->group(function(){
     ->where(['reader_type' => 'paginado', 'current_page' => '[0-9]+'])
     ->name('chapter_viewer.index'); 
 });
+
+// ?: PAGES
+Route::get("/politicas-privacidad", [PagesController::class, 'policies'])->name('privacy_policies.index');
 
 require __DIR__.'/admin.php';
 

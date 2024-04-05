@@ -74,5 +74,11 @@
         @if (Route::is(['roles.index', 'roles.create', 'roles.edit']))
             <script type="module" src="{{ Vite::asset('resources/dashboard/js/roles.js') }}" defer></script>
         @endif
+        @if (Route::is(['permissions.index']))
+            <script type="module" src="{{ Vite::asset('resources/dashboard/js/permissions.js') }}" defer></script>
+        @endif
+        @if (Route::is(['settings.index']))
+            <script type="module" src="{{ Vite::asset('resources/dashboard/js/settings.js') }}" defer></script>
+        @endif
     </body>
 </html>

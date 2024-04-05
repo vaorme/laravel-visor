@@ -7,11 +7,10 @@ import { removeClass, sluggify } from "./own-helpers";
 
 const urlAxios = window.location.origin;
 
-axios.defaults.baseURL = urlAxios + '/space/roles';
+axios.defaults.baseURL = urlAxios + '/space/permissions';
 
 let formValidator;
 let currentItemID;
-let permissions;
 
 // ? CREATE/EDIT ITEM
 let isItemEdit = false;
@@ -19,41 +18,11 @@ let isItemEdit = false;
 const itemModal = document.getElementById('itemModal');
 const btnEditModal = itemModal? new bootstrap.Modal(itemModal) : '';
 itemModal?.addEventListener('hide.bs.modal', () =>{
-	const element = document.querySelector('#itemModal .modal-content');
     const buttonConfirm = document.querySelector('#buttonModalSubmit');
     buttonConfirm?.removeEventListener('click', modalContentFormSubmit);
-	setTimeout(() => {
-		element.innerHTML = "";
-	}, 500);
 });
 itemModal?.addEventListener('show.bs.modal', async (e) => {
     const id = e.relatedTarget.getAttribute('data-id');
-
-	// * GET PERMISSIONS
-	await axios.get("/permissions").then(function (response){
-		let res = response.data;
-		if(res.status){
-			permissions = res.data;
-		}else{
-			console.log(response);
-		}
-	}).catch(function (error){
-		console.log('error:', error);
-		const data = error.response.data;
-		if(data && data.status === "error"){
-			Toastify({
-				className: 'error',
-				text: data.msg,
-				duration: 3000,
-				newWindow: false,
-				close: true,
-				gravity: "top",
-				position: "right"
-			}).showToast();
-		}else{
-			console.log(error);
-		}
-	});
     if(id){
         isItemEdit = true;
         const element = document.querySelector('#itemModal .modal-content');
@@ -64,7 +33,6 @@ itemModal?.addEventListener('show.bs.modal', async (e) => {
         `;
         await axios.get("/"+id).then(function (response){
 			let res = response.data;
-			console.log(response);
 			if(res.status){
 				let { show } = res;
 				modalContentForm(show);
@@ -102,7 +70,7 @@ function modalContentForm(item){
 	const element = document.querySelector('#itemModal .modal-content');
 	element.innerHTML = `
 		<div class="modal-header">
-			<h5 class="modal-title">${isItemEdit? 'Actualizar' : 'Agregar'} rol</h5>
+			<h5 class="modal-title">${isItemEdit? 'Actualizar' : 'Agregar'} permiso</h5>
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		</div>
 		<div class="modal-body">
@@ -119,44 +87,13 @@ function modalContentForm(item){
 					</div>
 					<div class="col-6">
 						<div class="form-floating">
-							<input type="text" class="form-control" id="floating-input" name="guard_name" autocomplete="off" value="${item && item.name? item.guard_name : ''}" required>
-							<label for="floating-input">Tipo</label>  
+							<input type="text" class="form-control" id="floating-input" name="guard_name" autocomplete="off" value="${item && item.guard_name? item.guard_name : ''}" required>
+							<label for="floating-input">Tipo</label>
 							<div class="invalid-feedback">
 								Campo <b>Tipo</b> es requerido
 							</div>
 						</div>
 					</div>
-					<div class="col-12">
-						<small class="form-hint">Sólo se permiten letras sin espacios y sin caracteres especiales.</small>
-					</div>
-					<div class="col-12">
-						<label class="form-label">Permisos</label>
-						<div class="accordion" id="accordion-example">
-							${(permissions)? Object.keys(permissions).map((key) => {
-								return `
-									<div class="accordion-item">
-										<h2 class="accordion-header" id="heading-${key}">
-										<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-${key}" aria-expanded="false">
-											${key}
-										</button>
-										</h2>
-										<div id="collapse-${key}" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
-											<div class="accordion-body pt-0">
-												${(permissions && permissions[key].length > 0)? permissions[key].map((child) => {
-													return `
-														<div class="form-check">
-															<input id="check-${child.id}" class="form-check-input" type="checkbox" value="${child.name}" name="permissions[]" ${item && item.permissions && item.permissions.some(permission => permission.name === child.name)? 'checked' : ''}>
-															<label class="form-check-label" for="check-${child.id}">${child.name}</label>
-														</div>
-													`;
-												}).join(''): ''}
-											</div>
-										</div>
-									</div>
-								`;
-							}).join('') : ''}
-						</div>
-                    </div>
 				</div>
 			</form>
 		</div>
@@ -197,20 +134,15 @@ async function modalContentFormSubmit(){
             <div class="spinner-border spinner-border-sm text-white" role="status"></div>
         </span>
     `;
+
     if(isItemEdit){
-        let permissions = [];
 		const getName = formData.get('name');
-        const getGuardName = formData.get('guard_name');
-        const checkboxes = document.querySelectorAll('input[name="permissions[]"]:checked');
-        checkboxes?.forEach(function(checkbox) {
-            permissions.push(checkbox.value);
-        });
+		const getGuardName = formData.get('guard_name');
+
         await axios.put("/"+currentItemID, {
             name: getName,
             guard_name: getGuardName,
-            permissions
 		}).then(function (response){
-			console.log(response);
             const data = response.data;
 			if(data && data.status){
 				Toastify({
@@ -226,7 +158,6 @@ async function modalContentFormSubmit(){
 					window.location.reload(true);
 				}, 500)
 			}else if(data && !data.status){
-                console.log(data);
                 Toastify({
                     className: 'error',
                     text: data.msg,
@@ -243,7 +174,7 @@ async function modalContentFormSubmit(){
             if(data && !data.error){
                 Toastify({
                     className: 'error',
-                    text: data.message,
+                    text: data.msg,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -261,7 +192,6 @@ async function modalContentFormSubmit(){
                 'Content-Type': 'multipart/form-data'
             }
         }).then(function (response){
-			console.log(response);
             const data = response.data;
             if(data && data.status){
 				Toastify({

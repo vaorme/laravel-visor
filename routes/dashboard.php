@@ -8,7 +8,9 @@ use App\Http\Controllers\Dashboard\ComicsController;
 use App\Http\Controllers\Dashboard\ComicStatusController;
 use App\Http\Controllers\Dashboard\ComicTagsController;
 use App\Http\Controllers\Dashboard\ComicTypesController;
+use App\Http\Controllers\Dashboard\ConfigurationController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\PermissionController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\uploadChaptersController;
@@ -207,6 +209,38 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 
 			// * DELETE
 			Route::delete('/{id}', [RoleController::class, 'destroy'])->middleware(['permission:manga.destroy'])->name('roles.destroy');
+        });
+
+		// ? PERMISSIONS
+		Route::prefix('permissions')->group(function(){
+			Route::get('/', [PermissionController::class, 'index'])->name('permissions.index');
+
+			// * CREATE
+			Route::get('/add', [PermissionController::class, 'create'])->name('permissions.create');
+			Route::post('/add', [PermissionController::class, 'store'])->name('permissions.store');
+
+			// * EDIT
+			Route::get('/{id}', [PermissionController::class, 'show'])->name('permissions.show');
+			Route::put('/{id}', [PermissionController::class, 'update'])->name('permissions.update');
+
+			// * DELETE
+			Route::delete('/{id}', [PermissionController::class, 'destroy'])->middleware(['permission:manga.destroy'])->name('permissions.destroy');
+		});
+		// ? CONFIGURATION
+		Route::prefix('settings')->group(function(){
+            Route::get("/", [ConfigurationController::class, 'index'])->middleware(['permission:settings.index'])->name('settings.index');
+            // :UPDATE
+            Route::patch('/', [ConfigurationController::class, 'update'])->middleware(['permission:settings.edit'])->name('settings.update');
+
+            // :ADS
+            Route::get("/ads", [ConfigurationController::class, 'ads'])->middleware(['permission:settings.ads.index'])->name('settings.ads.index');
+            Route::post("/ads", [ConfigurationController::class, 'adsStore'])->middleware(['permission:settings.ads.index'])->name('settings.ads.store');
+            Route::patch("/ads", [ConfigurationController::class, 'adsUpdate'])->middleware(['permission:settings.ads.update'])->name('settings.ads.update');
+
+            // :SEO
+            Route::get("/seo", [ConfigurationController::class, 'seo'])->middleware(['permission:settings.seo.index'])->name('settings.seo.index');
+            Route::post("/seo", [ConfigurationController::class, 'seoStore'])->middleware(['permission:settings.seo.index'])->name('settings.seo.store');
+            Route::patch("/seo", [ConfigurationController::class, 'seoUpdate'])->middleware(['permission:settings.seo.update'])->name('settings.seo.update');
         });
     });
 

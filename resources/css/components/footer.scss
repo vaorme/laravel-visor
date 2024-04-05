@@ -1,6 +1,13 @@
 footer.footer{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 20px;
     padding-top: 5rem;
     padding-bottom: 2rem;
+    .footer_col{
+        width: 33.33%;
+        padding: 0 10px;
+    }
     .footer__copy{
         text-align: center;
     }
@@ -9,5 +16,30 @@ footer.footer{
         margin: 0;
         color: #777;
         font-weight: 500;
+    }
+    ul.nav{
+        text-align: right;
+        li{
+            display: inline-block;
+            a{
+                display: block;
+                opacity: .7;
+                transition: opacity .4s ease;
+                &:hover{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 768px){
+    footer.footer{
+        gap: 20px;
+    }
+    footer.footer .footer_col{
+        width: 100%;
+    }
+    footer.footer .footer_col ul.nav{
+        text-align: center;
     }
 }

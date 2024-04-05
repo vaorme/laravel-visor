@@ -88,6 +88,7 @@ export default defineConfig({
 				'resources/dashboard/js/comics.js',
 				'resources/dashboard/js/chapters.js',
 				'resources/dashboard/js/users.js',
+                'resources/dashboard/js/roles.js',
 				'resources/dashboard/js/comics.types.js',
 				'resources/dashboard/js/comics.status.js',
 				'resources/dashboard/js/comics.categories.js',
