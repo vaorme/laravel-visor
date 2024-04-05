@@ -1,0 +1,19 @@
+.settings .own-dropzone.logo .dz-choose{
+	max-width: 100%;
+	min-height: 100px;
+}
+.settings .own-dropzone.favicon .dz-choose{
+    max-width: 40px;
+    min-height: 40px;
+	border-radius: .4rem;
+	margin-right: 0;
+}
+.settings .own-dropzone.favicon .dz-choose .dz-preview .dz-change a.btn{
+	padding: 4px;
+}
+.settings .own-dropzone .dz-choose p.dz-text{
+	margin: 0;
+}
+.settings .own-dropzone .dz-choose .dz-preview img{
+	object-fit: contain;
+}

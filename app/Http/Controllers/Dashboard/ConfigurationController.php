@@ -25,7 +25,6 @@ class ConfigurationController extends Controller{
         return view('dashboard.settings.index', $viewData);
     }
     public function update(Request $request){
-        // return response()->json($request->all());
         $request->validate([
             'title' => ['nullable', 'string', 'max:60'],
             'email' => ['nullable', 'string', 'email', 'regex:/^.+@.+$/i','max:255'],
@@ -40,8 +39,16 @@ class ConfigurationController extends Controller{
         $update->email = $request->email;
         $update->chat_id = $request->chat_id;
         $update->global_message = $request->message;
-        $update->maintenance = $request->maintenance;
-        $update->allow_new_users = $request->allow_new_users;
+        if(isset($request->maintenance) && $request->maintenance == 'on'){
+            $update->maintenance = 1;
+        }else{
+            $update->maintenance = 0;
+        }
+        if(isset($request->allow_new_users) && $request->allow_new_users == 'on'){
+            $update->allow_new_users = 1;
+        }else{
+            $update->allow_new_users = 0;
+        }
         $update->disk = $request->disk;
         $update->insert_head = $request->insert_head;
         $update->insert_body = $request->insert_body;

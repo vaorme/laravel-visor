@@ -23,7 +23,7 @@
         </div>
     </div>
     <!-- Page body -->
-    <div class="page-body comics">
+    <div class="page-body settings">
         <div class="container-xl">
             <form action="{{ route('settings.update') }}" class="frmo" method="post" novalidate enctype="multipart/form-data">
                 @csrf
@@ -127,13 +127,64 @@
                                                 <div id="collapse-1" class="accordion-collapse collapse show">
                                                     <div class="accordion-body pt-0">
                                                         <div class="row row-cards">
+                                                            <div class="col-12">
+                                                                <label for="logo" class="mb-3">Logo</label>
+                                                                <div class="own-dropzone logo">
+                                                                    <div class="dz-choose">
+                                                                        <div class="dz-preview">
+                                                                            <img src="{{ (isset($setting) && $setting->logo != "")? asset('storage/'.old('logo', $setting->logo)) : '' }}" alt="" class="dz-image{{ (isset($setting) && $setting->logo != "")? ' show' : '' }}">
+                                                                            <div class="dz-change{{ (isset($setting) && $setting->logo == "") ? ' visually-hidden' : '' }}">
+                                                                                <a href="javascript:void(0)" class="btn btn-pinterest w-auto">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-exchange-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                                        <path d="M17 10h-14l4 -4"></path>
+                                                                                        <path d="M7 14h14l-4 4"></path>
+                                                                                    </svg>
+                                                                                    Cambiar logo
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <p class="dz-text">Elegir logo</p>
+                                                                    </div>
+                                                                    <input type="file" name="logo" class="dz-input" accept="image/*" hidden>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <label for="favicon">Favicon</label>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <div class="own-dropzone favicon">
+                                                                    <div class="dz-choose">
+                                                                        <div class="dz-preview">
+                                                                            <img src="{{ (isset($setting) && $setting->favicon != "")? asset('storage/'.old('favicon', $setting->favicon)) : '' }}" alt="" class="dz-image{{ (isset($setting) && $setting->favicon != "")? ' show' : '' }}">
+                                                                            <div class="dz-change{{ (isset($setting) && $setting->favicon == "") ? ' visually-hidden' : '' }}">
+                                                                                <a href="javascript:void(0)" class="btn btn-pinterest w-auto">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-exchange-2 m-0" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                                        <path d="M17 10h-14l4 -4"></path>
+                                                                                        <path d="M7 14h14l-4 4"></path>
+                                                                                    </svg>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <p class="dz-text">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-exchange-2 m-0" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                                <path d="M17 10h-14l4 -4"></path>
+                                                                                <path d="M7 14h14l-4 4"></path>
+                                                                            </svg>
+                                                                        </p>
+                                                                    </div>
+                                                                    <input type="file" name="favicon" class="dz-input" accept="image/*" hidden>
+                                                                </div>
+                                                            </div>
 															<div class="col-8">
 																<label for="maintenance_mode">Modo mantenimiento</label>
 															</div>
 															<div class="col-4">
 																<span>
 																	<label class="form-check form-check-single form-switch p-0 d-flex justify-content-end">
-																		<input class="form-check-input" id="maintenance_mode" name="maintenance" type="checkbox">
+																		<input class="form-check-input" id="maintenance_mode" name="maintenance" type="checkbox" {{ (isset($setting) && $setting->maintenance)? 'checked': '' }}>
 																	</label>
 																</span>
 															</div>
@@ -143,7 +194,7 @@
 															<div class="col-4">
 																<span>
 																	<label class="form-check form-check-single form-switch p-0 d-flex justify-content-end">
-																		<input class="form-check-input" id="allow_new_users" name="allow_new_users" type="checkbox">
+																		<input class="form-check-input" id="allow_new_users" name="allow_new_users" type="checkbox" {{ (isset($setting) && $setting->allow_new_users)? 'checked': '' }}>
 																	</label>
 																</span>
 															</div>
@@ -176,62 +227,6 @@
 																	@endif
 																</div>
 															</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="accordion-item border-0 border-bottom">
-                                                <h2 class="accordion-header" id="heading-2">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false">Logo</button>
-                                                </h2>
-                                                <div id="collapse-2" class="accordion-collapse collapse">
-                                                    <div class="accordion-body pt-0">
-                                                        <div class="own-dropzone">
-                                                            <div class="dz-choose">
-                                                                <div class="dz-preview">
-                                                                    <img src="{{ (isset($setting) && $setting->logo != "")? asset('storage/'.old('logo', $setting->logo)) : '' }}" alt="" class="dz-image{{ (isset($setting) && $setting->logo != "")? ' show' : '' }}">
-                                                                    <div class="dz-change{{ (isset($setting) && $setting->logo == "") ? ' visually-hidden' : '' }}">
-                                                                        <a href="javascript:void(0)" class="btn btn-pinterest w-auto">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-exchange-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                                <path d="M17 10h-14l4 -4"></path>
-                                                                                <path d="M7 14h14l-4 4"></path>
-                                                                            </svg>
-                                                                            Cambiar logo
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <p class="dz-text">Elegir logo</p>
-                                                            </div>
-                                                            <input type="file" name="cover" class="dz-input" accept="image/*" hidden>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="accordion-item border-0 border-bottom">
-                                                <h2 class="accordion-header" id="heading-3">
-                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-3" aria-expanded="false">Favicon</button>
-                                                </h2>
-                                                <div id="collapse-3" class="accordion-collapse collapse">
-                                                    <div class="accordion-body pt-0">
-                                                        <div class="own-dropzone">
-                                                            <div class="dz-choose">
-                                                                <div class="dz-preview">
-                                                                    <img src="{{ (isset($setting) && $setting->favicon != "")? asset('storage/'.old('favicon', $setting->favicon)) : '' }}" alt="" class="dz-image{{ (isset($setting) && $setting->favicon != "")? ' show' : '' }}">
-                                                                    <div class="dz-change{{ (isset($setting) && $setting->favicon == "") ? ' visually-hidden' : '' }}">
-                                                                        <a href="javascript:void(0)" class="btn btn-pinterest w-auto">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrows-exchange-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                                <path d="M17 10h-14l4 -4"></path>
-                                                                                <path d="M7 14h14l-4 4"></path>
-                                                                            </svg>
-                                                                            Cambiar favicon
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <p class="dz-text">Elegir favicon</p>
-                                                            </div>
-                                                            <input type="file" name="cover" class="dz-input" accept="image/*" hidden>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -321,4 +316,4 @@
             </script>
         </div>
     </div>
-    </x-dashboard-layout>
+</x-dashboard-layout>

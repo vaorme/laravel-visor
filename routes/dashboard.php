@@ -230,17 +230,17 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 		Route::prefix('settings')->group(function(){
             Route::get("/", [ConfigurationController::class, 'index'])->middleware(['permission:settings.index'])->name('settings.index');
             // :UPDATE
-            Route::patch('/', [ConfigurationController::class, 'update'])->middleware(['permission:settings.edit'])->name('settings.update');
+            Route::put('/', [ConfigurationController::class, 'update'])->middleware(['permission:settings.edit'])->name('settings.update');
 
             // :ADS
             Route::get("/ads", [ConfigurationController::class, 'ads'])->middleware(['permission:settings.ads.index'])->name('settings.ads.index');
             Route::post("/ads", [ConfigurationController::class, 'adsStore'])->middleware(['permission:settings.ads.index'])->name('settings.ads.store');
-            Route::patch("/ads", [ConfigurationController::class, 'adsUpdate'])->middleware(['permission:settings.ads.update'])->name('settings.ads.update');
+            Route::put("/ads", [ConfigurationController::class, 'adsUpdate'])->middleware(['permission:settings.ads.update'])->name('settings.ads.update');
 
             // :SEO
             Route::get("/seo", [ConfigurationController::class, 'seo'])->middleware(['permission:settings.seo.index'])->name('settings.seo.index');
             Route::post("/seo", [ConfigurationController::class, 'seoStore'])->middleware(['permission:settings.seo.index'])->name('settings.seo.store');
-            Route::patch("/seo", [ConfigurationController::class, 'seoUpdate'])->middleware(['permission:settings.seo.update'])->name('settings.seo.update');
+            Route::put("/seo", [ConfigurationController::class, 'seoUpdate'])->middleware(['permission:settings.seo.update'])->name('settings.seo.update');
         });
     });
 

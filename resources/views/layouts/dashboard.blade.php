@@ -20,6 +20,9 @@
 		@if (Route::is(['users.*']))
             <link href="{{ Vite::asset('resources/dashboard/css/users.scss') }}" rel="stylesheet"/>
         @endif
+        @if (Route::is(['settings.*']))
+            <link href="{{ Vite::asset('resources/dashboard/css/settings.scss') }}" rel="stylesheet"/>
+        @endif
         <style>
             @import url('https://rsms.me/inter/inter.css');
             :root {
