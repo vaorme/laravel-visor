@@ -84,6 +84,7 @@ export default defineConfig({
 				'resources/dashboard/css/dependencies/tabler-vendors.min.css',
 				'resources/dashboard/libs/flatpickr/dist/flatpickr.min.css',
 				'resources/dashboard/css/dependencies/demo.min.css',
+                'resources/dashboard/css/settings.scss',
 
 				'resources/dashboard/js/comics.js',
 				'resources/dashboard/js/chapters.js',
