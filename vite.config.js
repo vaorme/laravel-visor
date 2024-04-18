@@ -92,6 +92,8 @@ export default defineConfig({
                 'resources/dashboard/js/roles.js',
                 'resources/dashboard/js/permissions.js',
                 'resources/dashboard/js/settings.js',
+                'resources/dashboard/js/settings.seo.js',
+                'resources/dashboard/js/settings.ads.js',
 				'resources/dashboard/js/comics.types.js',
 				'resources/dashboard/js/comics.status.js',
 				'resources/dashboard/js/comics.categories.js',

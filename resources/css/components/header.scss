@@ -62,6 +62,8 @@ header.header nav.navbar .logo{
         display: block;
         width: 62px;
         height: 53px;
+        object-fit: contain;
+        object-position: center;
     }
     &::after{
         background-color: rgb(#fff, .2);

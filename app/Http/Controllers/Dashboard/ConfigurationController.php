@@ -91,7 +91,26 @@ class ConfigurationController extends Controller{
 		
         return view('dashboard.settings.ads', $viewData);
     }
-    public function adsStore(Request $request){
+    public function adsSave(Request $request){
+        $update = SettingAds::get()->first();
+        if($update){
+            $update->ads_1 = $request->ads_1;
+            $update->ads_2 = $request->ads_2;
+            $update->ads_3 = $request->ads_3;
+            $update->ads_4 = $request->ads_4;
+            $update->ads_5 = $request->ads_5;
+            $update->ads_6 = $request->ads_6;
+            $update->ads_7 = $request->ads_7;
+            $update->ads_8 = $request->ads_8;
+            $update->ads_9 = $request->ads_9;
+            $update->ads_10 = $request->ads_10;
+            
+            if($update->save()){
+                Cache::forget('settings_ads');
+                return redirect()->route('settings.ads.index')->with('success', 'ADS actualizados');
+            }
+            return redirect()->route('settings.ads.index')->with('error', 'Ups, se complico la cosa');
+        }
         $store = new SettingAds;
         $store->ads_1 = $request->ads_1;
         $store->ads_2 = $request->ads_2;
@@ -110,25 +129,6 @@ class ConfigurationController extends Controller{
         }
         return redirect()->route('settings.ads.index')->with('error', 'Ups, se complico la cosa');
     }
-    public function adsUpdate(Request $request){
-        $update = SettingAds::get()->first();
-        $update->ads_1 = $request->ads_1;
-        $update->ads_2 = $request->ads_2;
-        $update->ads_3 = $request->ads_3;
-        $update->ads_4 = $request->ads_4;
-        $update->ads_5 = $request->ads_5;
-        $update->ads_6 = $request->ads_6;
-        $update->ads_7 = $request->ads_7;
-        $update->ads_8 = $request->ads_8;
-        $update->ads_9 = $request->ads_9;
-        $update->ads_10 = $request->ads_10;
-        
-        if($update->save()){
-            Cache::forget('settings_ads');
-            return redirect()->route('settings.ads.index')->with('success', 'ADS actualizados');
-        }
-        return redirect()->route('settings.ads.index')->with('error', 'Ups, se complico la cosa');
-    }
     public function seo(){
         $settings = SettingSeo::exists();
         if($settings){
@@ -142,7 +142,22 @@ class ConfigurationController extends Controller{
 		
         return view('dashboard.settings.seo', $viewData);
     }
-    public function seoStore(Request $request){
+    public function seoSave(Request $request){
+        $update = SettingSeo::get()->first();
+        if($update){
+            $update->seo_title = $request->seo_title;
+            $update->seo_description = $request->seo_description;
+            $update->seo_keywords = $request->seo_keywords;
+            $update->seo_author = $request->seo_author;
+            $update->seo_subject = $request->seo_subject;
+            $update->seo_robots = $request->seo_robots;
+            
+            if($update->save()){
+                Cache::forget('settings_seo');
+                return redirect()->route('settings.seo.index')->with('success', 'SEO actualizado');
+            }
+            return redirect()->route('settings.seo.index')->with('error', 'Ups, se complico la cosa');
+        }
         $store = new SettingSeo;
         $store->seo_title = $request->seo_title;
         $store->seo_description = $request->seo_description;
@@ -154,21 +169,6 @@ class ConfigurationController extends Controller{
         if($store->save()){
             Cache::forget('settings_seo');
             return redirect()->route('settings.seo.index')->with('success', 'SEO Creado');
-        }
-        return redirect()->route('settings.seo.index')->with('error', 'Ups, se complico la cosa');
-    }
-    public function seoUpdate(Request $request){
-        $update = SettingSeo::get()->first();
-        $update->seo_title = $request->seo_title;
-        $update->seo_description = $request->seo_description;
-        $update->seo_keywords = $request->seo_keywords;
-        $update->seo_author = $request->seo_author;
-        $update->seo_subject = $request->seo_subject;
-        $update->seo_robots = $request->seo_robots;
-        
-        if($update->save()){
-            Cache::forget('settings_seo');
-            return redirect()->route('settings.seo.index')->with('success', 'SEO actualizado');
         }
         return redirect()->route('settings.seo.index')->with('error', 'Ups, se complico la cosa');
     }

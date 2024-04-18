@@ -234,13 +234,11 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
 
             // :ADS
             Route::get("/ads", [ConfigurationController::class, 'ads'])->middleware(['permission:settings.ads.index'])->name('settings.ads.index');
-            Route::post("/ads", [ConfigurationController::class, 'adsStore'])->middleware(['permission:settings.ads.index'])->name('settings.ads.store');
-            Route::put("/ads", [ConfigurationController::class, 'adsUpdate'])->middleware(['permission:settings.ads.update'])->name('settings.ads.update');
+            Route::put("/ads", [ConfigurationController::class, 'adsSave'])->middleware(['permission:settings.ads.update'])->name('settings.ads.update');
 
             // :SEO
             Route::get("/seo", [ConfigurationController::class, 'seo'])->middleware(['permission:settings.seo.index'])->name('settings.seo.index');
-            Route::post("/seo", [ConfigurationController::class, 'seoStore'])->middleware(['permission:settings.seo.index'])->name('settings.seo.store');
-            Route::put("/seo", [ConfigurationController::class, 'seoUpdate'])->middleware(['permission:settings.seo.update'])->name('settings.seo.update');
+            Route::put("/seo", [ConfigurationController::class, 'seoSave'])->middleware(['permission:settings.seo.update'])->name('settings.seo.update');
         });
     });
 

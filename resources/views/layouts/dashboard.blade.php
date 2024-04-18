@@ -83,5 +83,11 @@
         @if (Route::is(['settings.index']))
             <script type="module" src="{{ Vite::asset('resources/dashboard/js/settings.js') }}" defer></script>
         @endif
+        @if (Route::is(['settings.ads.index']))
+            <script type="module" src="{{ Vite::asset('resources/dashboard/js/settings.ads.js') }}" defer></script>
+        @endif
+        @if (Route::is(['settings.seo.index']))
+            <script type="module" src="{{ Vite::asset('resources/dashboard/js/settings.seo.js') }}" defer></script>
+        @endif
     </body>
 </html>
