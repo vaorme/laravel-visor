@@ -63,7 +63,7 @@ class ComicTagsController extends Controller{
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'msg' => $validator->errors()->all()
+                'message' => $validator->errors()->all()
             ]);
         }
 
@@ -74,13 +74,13 @@ class ComicTagsController extends Controller{
         if($store->save()){
 			return [
 				"status" => true,
-				"msg" => "Tag creado.",
+				"message" => "Tag creado.",
 				"item" => $store
 			];
         }
 		return [
 			"status" => true,
-			"msg" => "Ups, error.",
+			"message" => "Ups, error.",
 			"item" => $store
 		];
     }
@@ -133,7 +133,7 @@ class ComicTagsController extends Controller{
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'msg' => $validator->errors()->all()
+                'message' => $validator->errors()->all()
             ]);
         }
 
@@ -145,7 +145,7 @@ class ComicTagsController extends Controller{
             if($slugExists){
 				return response()->json([
 					'status' => false,
-					'msg' => "Slug $update->slug ya existe."
+					'message' => "Slug $update->slug ya existe."
 				]);
             }
             $update->slug = $request->slug;
@@ -154,12 +154,12 @@ class ComicTagsController extends Controller{
         if($update->save()){
 			return response()->json([
 				'status' => true,
-				'msg' => "Tag actualizado correctamente."
+				'message' => "Tag actualizado correctamente."
 			]);
         }
 		return response()->json([
 			'status' => false,
-			'msg' => "Ups, se complico la cosa"
+			'message' => "Ups, se complico la cosa"
 		]);
     }
 
@@ -176,12 +176,12 @@ class ComicTagsController extends Controller{
 		if(!$delete){
             return response()->json([
                 'status' => false,
-                'msg' => "Ups, algo paso",
+                'message' => "Ups, algo paso",
             ]);
         }
         return response()->json([
             'status' => true,
-            'msg' => "Eliminado correctamente"
+            'message' => "Eliminado correctamente"
         ]);
     }
 }

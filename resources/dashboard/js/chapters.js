@@ -37,10 +37,10 @@ chapterModal?.addEventListener('show.bs.modal', async (e) => {
         }).catch(function (error){
             console.log('error:', error);
             const data = error.response.data;
-            if(data && data.status === "error"){
+            if(data && !data.status){
                 Toastify({
                     className: 'error',
-                    text: data.msg,
+                    text: data.message,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -96,9 +96,9 @@ async function deleteImageChapter(files, index){
             if(clearInput){
                 clearInput.value = "";
             }
-            if(data && data.status === "success"){
+            if(data && data.status){
                 Toastify({
-                    text: data.msg,
+                    text: data.message,
                     className: "success",
                     duration: 2000,
                     newWindow: true,
@@ -390,7 +390,7 @@ function chapterContentForm(manga_id, chapter){
                         }).then(function (response){
                             console.log(response);
                             const data = response.data;
-                            if(data && data.status === "success"){
+                            if(data && data.status){
                                 Toastify({
                                     text: "Orden actualizado",
                                     className: "success",
@@ -529,11 +529,11 @@ async function chapterContentFormSubmit(){
             content: getComicContent
         }).then(function (response){
             const data = response.data;
-            if(data && data.status === "success"){
+            if(data && data.status){
                 const chapter = data.item;
                 Toastify({
                     className: 'success',
-                    text: data.msg,
+                    text: data.message,
                     duration: 1000,
                     newWindow: false,
                     close: true,
@@ -550,10 +550,10 @@ async function chapterContentFormSubmit(){
         }).catch(function (error){
             console.log('error:', error);
             const data = error;
-            if(data && data.error === "error"){
+            if(data && !data.error){
                 Toastify({
                     className: 'error',
-                    text: data.msg,
+                    text: data.message,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -578,7 +578,7 @@ async function chapterContentFormSubmit(){
             }
         }).then(function (response){
             const data = response.data;
-            if(data && data.status === "success"){
+            if(data && data.status){
                 const chapter = data.item;
                 const reponseUpload = new Promise(async (resolve, reject) => {
                     const arrayImages = Object.values(previewImages);
@@ -599,7 +599,7 @@ async function chapterContentFormSubmit(){
                             }).then(function (response){
                                 console.log(response);
                                 const data = response.data;
-                                if(data && data.status == "success"){
+                                if(data && data.status){
                                     addClass(currentStatus, 'uploaded');
                                 }
                             }).catch(function (error){
@@ -619,7 +619,7 @@ async function chapterContentFormSubmit(){
                 reponseUpload.then(() =>{
                     Toastify({
                         className: 'success',
-                        text: data.msg,
+                        text: data.message,
                         duration: 1000,
                         newWindow: false,
                         close: true,
@@ -633,10 +633,10 @@ async function chapterContentFormSubmit(){
                 }).catch((error) =>{
                     console.log(error);
                 })
-            }else if(data && data.status === "error"){
+            }else if(data && !data.status){
                 Toastify({
                     className: 'error',
-                    text: data.msg,
+                    text: data.message,
                     duration: 1000,
                     newWindow: false,
                     close: true,
@@ -647,10 +647,10 @@ async function chapterContentFormSubmit(){
         }).catch(function (error){
             console.log('error:', error);
             const data = error;
-            if(data && data.error === "error"){
+            if(data && !data.error){
                 Toastify({
                     className: 'error',
-                    text: data.msg,
+                    text: data.message,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -766,10 +766,10 @@ async function chapterDestroy(chapter_id){
     await axios.delete("chapters/"+id).then(function (response){
         //console.log(response);
         const data = response.data;
-        if(data && data.status == "success"){
+        if(data && data.status){
             Toastify({
                 className: 'success',
-                text: data.msg,
+                text: data.message,
                 duration: 1000,
                 newWindow: false,
                 close: true,
@@ -783,7 +783,7 @@ async function chapterDestroy(chapter_id){
     }).catch(function (error){
         console.log('error:', error);
         const data = error.response.data;
-        if(data && data.status === "error"){
+        if(data && !data.status){
             Toastify({
                 className: 'error',
                 text: data.message,
@@ -951,7 +951,7 @@ async function generateImages(images, manga_id, chapter_id){
                     }).then(function (response){
                         const data = response.data;
                         console.log(data);
-                        if(data && data.status === "success"){
+                        if(data && data.status){
                             if(data.excluded.length > 0){
                                 const excluded = data.excluded;
                                 Toastify({
@@ -1191,7 +1191,7 @@ function importUploadFile(file, index){
             if(created){
                 created.forEach(item => {
                     Toastify({
-                        text: item.msg,
+                        text: item.message,
                         className: "success",
                         duration: 5000,
                         newWindow: true,
@@ -1208,7 +1208,7 @@ function importUploadFile(file, index){
                 if(errors){
                     errors.forEach(item => {
                         Toastify({
-                            text: item.msg,
+                            text: item.message,
                             className: "error",
                             duration: 5000,
                             newWindow: true,

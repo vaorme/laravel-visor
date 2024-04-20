@@ -3,11 +3,11 @@ import '../../js/app';
 import axios from "axios";
 
 import OwnValidator from "./own-validator";
-import { removeClass, sluggify } from "./own-helpers";
+import { removeClass, formatDate } from "./own-helpers";
 
 const urlAxios = window.location.origin;
 
-axios.defaults.baseURL = urlAxios + '/space/comics/tags';
+axios.defaults.baseURL = urlAxios + '/space/orders';
 
 let formValidator;
 let currentItemID;
@@ -41,6 +41,7 @@ itemModal?.addEventListener('show.bs.modal', async (e) => {
             </div>
         `;
         await axios.get("/"+id).then(function (response){
+            console.log(response);
 			let res = response.data;
 			if(res.status){
 				let { show } = res;
@@ -77,38 +78,123 @@ itemModal?.addEventListener('show.bs.modal', async (e) => {
 
 function modalContentForm(item){
 	const element = document.querySelector('#itemModal .modal-content');
+	const urlSite = window.location.origin;
+	let statusBadge = "";
+	const formatPrice = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+	})
+	if(isItemEdit){
+		statusBadge = `
+			${(() => {
+				switch(item.status) {
+				case "CREATED":
+					return `<span class="badge bg-yellow-lt p-2">${item.status}</span>`;
+				case "COMPLETED":
+					return `<span class="badge bg-green-lt p-2">${item.status}</span>`;
+				case "CANCELLED":
+					return `<span class="badge bg-red-lt p-2">${item.status}</span>`;
+				case "PENDING":
+					return `<span class="badge bg-pending-lt p-2">${item.status}</span>`;
+				default:
+					return `<span class="badge bg-muted-lt p-2">SIN ESTADO</span>`;
+				}
+			})()}
+		`;
+		
+	}
+	
 	element.innerHTML = `
 		<div class="modal-header">
-			<h5 class="modal-title">${isItemEdit? 'Actualizar' : 'Agregar'} estado</h5>
+			<h5 class="modal-title">Detalle orden</h5>
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		</div>
 		<div class="modal-body">
 			<form action="" id="modalForm" class="frmo-modal${isItemEdit? ' update' : ''}" enctype="multipart/form-data">
-				<div class="row row-cards">
-					<div class="col-6">
-						<div class="form-floating">
-							<input type="text" class="form-control" id="floating-input" name="name" autocomplete="off" value="${item && item.name? item.name : ''}" required>
-							<label for="floating-input">Nombre</label>  
-							<div class="invalid-feedback">
-								Campo <b>Nombre</b> es requerido
-							</div>
+				<div class="datagrid">
+					<div class="datagrid-item">
+						<div class="datagrid-title">Orden #</div>
+						<div class="datagrid-content">
+							${item && item.order_id? `<span class="badge bg-muted-lt p-2">${item.order_id}</span>` : ''}
 						</div>
 					</div>
-					<div class="col-6">
-						<div class="form-floating">
-							<input type="text" class="form-control" id="floating-input" name="slug" autocomplete="off" value="${item && item.slug? item.slug : ''}" required>
-							<label for="floating-input">Slug</label>
-							<div class="invalid-feedback">
-								Campo <b>Slug</b> es requerido
+					<div class="datagrid-item">
+						<div class="datagrid-title">Transacción #</div>
+						<div class="datagrid-content">
+							${item && item.transaction_id? `<span class="badge bg-green-lt p-2">${item.transaction_id}</span>` : ''}
+						</div>
+					</div>
+					<div class="datagrid-item">
+						<div class="datagrid-title">Nombre</div>
+						<div class="datagrid-content">${item && item.name? item.name : ''}</div>
+					</div>
+					<div class="datagrid-item">
+						<div class="datagrid-title">Correo</div>
+						<div class="datagrid-content">${item && item.email? item.email : ''}</div>
+					</div>
+					<div class="datagrid-item">
+						<div class="datagrid-title">Estado</div>
+						<div class="datagrid-content">
+							${statusBadge}
+						</div>
+					</div>
+					<div class="datagrid-item">
+						<div class="datagrid-title">Total</div>
+						<div class="datagrid-content">
+							${formatPrice.format(item && item.total? item.total : 0)}
+						</div>
+					</div>
+				</div>
+				<div class="datagrid border-top mt-4 pt-4">
+					<div class="datagrid-item">
+						<div class="datagrid-title">Fecha</div>
+						<div class="datagrid-content">${item && item.created_at? formatDate(item.created_at) : ''}</div>
+					</div>
+					<div class="datagrid-item">
+						<div class="datagrid-title">Usuario</div>
+						<div class="datagrid-content">
+							<div class="d-flex align-items-center">
+								<span class="avatar avatar-xs me-2 rounded" style="background-image: url(${item && item.user_avatar? urlSite+'/storage/'+item.user_avatar : ''})"></span>
+								${item && item.username? item.username : ''}
 							</div>
 						</div>
 					</div>
 				</div>
+                ${(item.product_id)?
+                    `
+                    <div class="datagrid border-top mt-4 pt-4">
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">Producto</div>
+                            <div class="datagrid-content">${item && item.product_name? item.product_name : ''}</div>
+                        </div>
+                        ${(item.product_coins)?
+                            `
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">Monedas</div>
+                                <div class="datagrid-content">${item && item.product_coins? item.product_coins : ''}</div>
+                            </div>
+                            `
+                            : ''}
+                        ${(item.product_days)?
+                            `
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">Días sin Publicidad</div>
+                                <div class="datagrid-content">${item && item.product_days? item.product_days : ''}</div>
+                            </div>
+                            `
+                            : ''}
+                        <div class="datagrid-item">
+                            <div class="datagrid-title">Precio</div>
+                            <div class="datagrid-content">${item && item.product_price? formatPrice.format(item && item.product_price? item.product_price : 0) : ''}</div>
+                        </div>
+                    </div>
+                    `
+                :
+                ''}
 			</form>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn me-auto" data-bs-dismiss="modal">Cerrar</button>
-			<button type="button" id="buttonModalSubmit" class="position-relative btn btn-${isItemEdit? 'primary' : 'success'}">${isItemEdit? 'Actualizar' : 'Crear'}</button>
 		</div>
     `;
 
@@ -116,29 +202,15 @@ function modalContentForm(item){
 		currentItemID = item.id;
 	}
 
-	// ?: GENERATE SLUG
-	const inputName = document.querySelector('form#modalForm:not(.update) input[name="name"]');
-	const inputSlug = document.querySelector('form#modalForm input[name="slug"]');
-	inputName?.addEventListener('input', function(){
-		inputSlug.value = sluggify(inputName.value);
-
-		// *: MANUALLY TRIGGER INPUT EVENT ON INPUTSLUG
-		const inputEvent = new Event('input', { bubbles: true });
-		inputSlug.dispatchEvent(inputEvent);
-	});
-	inputSlug?.addEventListener('input', function(){
-		inputSlug.value = sluggify(inputSlug.value);
-	});
-
 	// ?: PREVENT FROM SUBMISSION
 	const frmo = document.querySelector('form#modalForm');
 	frmo?.addEventListener('submit', function(e){
 		e.preventDefault();
 	});
 
-	// ?: VALIDATE FORM
-	formValidator = new OwnValidator(frmo);
-	formValidator.comicValidateOnChange();
+	// // ?: VALIDATE FORM
+	// formValidator = new OwnValidator(frmo);
+	// formValidator.comicValidateOnChange();
 }
 
 // ?: CREATE/UPDATE ITEM

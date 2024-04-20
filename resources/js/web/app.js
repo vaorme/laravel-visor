@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }).then(function(response){
             console.log(response);
-            if(response.data.status == "success"){
+            if(response.data.status){
                 Toastify({
                     text: response.data.message,
                     className: "success",
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }, 1000);
             }
-            if(response.data.status == "error"){
+            if(!response.data.status){
                 Toastify({
                     text: response.data.message,
                     className: "error",

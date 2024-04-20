@@ -259,20 +259,20 @@ Route::middleware(['auth', 'verified', 'role:developer|administrador|moderador']
         });
 
         // :SETTINGS
-        Route::prefix('settings')->group(function(){
-            Route::get("/", [SettingsController::class, 'index'])->middleware(['permission:settings.index'])->name('settings.index');
-            // :UPDATE
-            Route::patch('/', [SettingsController::class, 'update'])->middleware(['permission:settings.edit'])->name('settings.update');
+        // Route::prefix('settings')->group(function(){
+        //     Route::get("/", [SettingsController::class, 'index'])->middleware(['permission:settings.index'])->name('settings.index');
+        //     // :UPDATE
+        //     Route::patch('/', [SettingsController::class, 'update'])->middleware(['permission:settings.edit'])->name('settings.update');
 
-            // :ADS
-            Route::get("/ads", [SettingsController::class, 'ads'])->middleware(['permission:settings.ads.index'])->name('settings.ads.index');
-            Route::post("/ads", [SettingsController::class, 'adsStore'])->middleware(['permission:settings.ads.index'])->name('settings.ads.store');
-            Route::patch("/ads", [SettingsController::class, 'adsUpdate'])->middleware(['permission:settings.ads.update'])->name('settings.ads.update');
+        //     // :ADS
+        //     Route::get("/ads", [SettingsController::class, 'ads'])->middleware(['permission:settings.ads.index'])->name('settings.ads.index');
+        //     Route::post("/ads", [SettingsController::class, 'adsStore'])->middleware(['permission:settings.ads.index'])->name('settings.ads.store');
+        //     Route::patch("/ads", [SettingsController::class, 'adsUpdate'])->middleware(['permission:settings.ads.update'])->name('settings.ads.update');
 
-            // :SEO
-            Route::get("/seo", [SettingsController::class, 'seo'])->middleware(['permission:settings.seo.index'])->name('settings.seo.index');
-            Route::post("/seo", [SettingsController::class, 'seoStore'])->middleware(['permission:settings.seo.index'])->name('settings.seo.store');
-            Route::patch("/seo", [SettingsController::class, 'seoUpdate'])->middleware(['permission:settings.seo.update'])->name('settings.seo.update');
-        });
+        //     // :SEO
+        //     Route::get("/seo", [SettingsController::class, 'seo'])->middleware(['permission:settings.seo.index'])->name('settings.seo.index');
+        //     Route::post("/seo", [SettingsController::class, 'seoStore'])->middleware(['permission:settings.seo.index'])->name('settings.seo.store');
+        //     Route::patch("/seo", [SettingsController::class, 'seoUpdate'])->middleware(['permission:settings.seo.update'])->name('settings.seo.update');
+        // });
     });
 });

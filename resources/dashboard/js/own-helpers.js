@@ -65,7 +65,32 @@ function generateUniqueID() {
 	return Math.random().toString(36).substring(2, 15) + Math.round(new Date().getTime() / 1000).toString(36);
 }
 
+function formatDate(dateString) {
+    const months = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+        "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    const date = new Date(dateString);
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    let hour = date.getHours();
+    const minute = date.getMinutes();
+    const period = (hour >= 12) ? "PM" : "AM";
+
+    // Convert hour from 24-hour to 12-hour format
+    if (hour > 12) {
+        hour -= 12;
+    } else if (hour === 0) {
+        hour = 12;
+    }
+
+    return `${month} ${day}, ${year} - ${hour}:${minute < 10 ? '0' : ''}${minute} ${period}`;
+}
+
 export {
+    formatDate,
     sluggify,
     hasClass,
     toggleClass,

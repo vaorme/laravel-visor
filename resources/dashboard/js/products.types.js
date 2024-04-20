@@ -7,19 +7,10 @@ import { removeClass, sluggify } from "./own-helpers";
 
 const urlAxios = window.location.origin;
 
-axios.defaults.baseURL = urlAxios + '/space/comics/tags';
+axios.defaults.baseURL = urlAxios + '/space/products/types';
 
 let formValidator;
 let currentItemID;
-
-function resetForm(form){
-	const elements = form?.elements;
-	const elementsArray = elements ? Array.from(elements) : [];
-	elementsArray?.forEach(item => {
-		removeClass(item, 'is-invalid')
-	});
-	form.reset();
-}
 
 // ? CREATE/EDIT ITEM
 let isItemEdit = false;
@@ -79,27 +70,18 @@ function modalContentForm(item){
 	const element = document.querySelector('#itemModal .modal-content');
 	element.innerHTML = `
 		<div class="modal-header">
-			<h5 class="modal-title">${isItemEdit? 'Actualizar' : 'Agregar'} estado</h5>
+			<h5 class="modal-title">${isItemEdit? 'Actualizar' : 'Agregar'} tipo</h5>
 			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		</div>
 		<div class="modal-body">
 			<form action="" id="modalForm" class="frmo-modal${isItemEdit? ' update' : ''}" enctype="multipart/form-data">
 				<div class="row row-cards">
-					<div class="col-6">
+					<div class="col-12">
 						<div class="form-floating">
 							<input type="text" class="form-control" id="floating-input" name="name" autocomplete="off" value="${item && item.name? item.name : ''}" required>
 							<label for="floating-input">Nombre</label>  
 							<div class="invalid-feedback">
 								Campo <b>Nombre</b> es requerido
-							</div>
-						</div>
-					</div>
-					<div class="col-6">
-						<div class="form-floating">
-							<input type="text" class="form-control" id="floating-input" name="slug" autocomplete="off" value="${item && item.slug? item.slug : ''}" required>
-							<label for="floating-input">Slug</label>
-							<div class="invalid-feedback">
-								Campo <b>Slug</b> es requerido
 							</div>
 						</div>
 					</div>
@@ -115,20 +97,6 @@ function modalContentForm(item){
 	if(isItemEdit){
 		currentItemID = item.id;
 	}
-
-	// ?: GENERATE SLUG
-	const inputName = document.querySelector('form#modalForm:not(.update) input[name="name"]');
-	const inputSlug = document.querySelector('form#modalForm input[name="slug"]');
-	inputName?.addEventListener('input', function(){
-		inputSlug.value = sluggify(inputName.value);
-
-		// *: MANUALLY TRIGGER INPUT EVENT ON INPUTSLUG
-		const inputEvent = new Event('input', { bubbles: true });
-		inputSlug.dispatchEvent(inputEvent);
-	});
-	inputSlug?.addEventListener('input', function(){
-		inputSlug.value = sluggify(inputSlug.value);
-	});
 
 	// ?: PREVENT FROM SUBMISSION
 	const frmo = document.querySelector('form#modalForm');
@@ -161,10 +129,12 @@ async function modalContentFormSubmit(){
     if(isItemEdit){
 		const getName = formData.get('name');
 		const getSlug = formData.get('slug');
+		const getDescription = formData.get('description');
 
         await axios.put("/"+currentItemID, {
             name: getName,
             slug: getSlug,
+            description: getDescription,
 		}).then(function (response){
             const data = response.data;
 			if(data && data.status){

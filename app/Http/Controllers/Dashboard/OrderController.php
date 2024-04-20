@@ -3,24 +3,31 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\MangaBookStatus;
+use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
-class ComicStatusController extends Controller{
+class OrderController extends Controller{
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $loop = MangaBookStatus::latest()->orderBy('id', 'desc');
+        $loop = Order::latest()->orderBy('id', 'desc');
         $param_search = strip_tags($request->s);
+        $param_status = ($request->status)? strip_tags($request->status) : '';
         if(isset($param_search) && !empty($param_search)){
             $loop->where(function ($query) use ($param_search) {
-                $query->where('name', 'LIKE', '%'.$param_search.'%');
+                $query->where('name', 'LIKE', '%'.$param_search.'%')
+                ->orWhere('order_id', 'LIKE', '%'.$param_search.'%')
+                ->orWhere('transaction_id', 'LIKE', '%'.$param_search.'%');
             });
+        }
+        if(!empty($param_status)){
+            $param_status = strtoupper($param_status);
+            $loop->where('status', $param_status);
         }
 		$loop = $loop->paginate(15);
         $viewData = [
@@ -30,11 +37,11 @@ class ComicStatusController extends Controller{
 		if ($loop->lastPage() === 1 && $loop->currentPage() !== 1) {
             $queryParams = $request->query();
             $queryParams['page'] = 1;
-            $redirectUrl = 'space/comics/status?' . http_build_query($queryParams);
+            $redirectUrl = 'space/orders?' . http_build_query($queryParams);
 
             return Redirect::to($redirectUrl);
         }
-        return view('dashboard.comics.status.index', $viewData);
+        return view('dashboard.orders.index', $viewData);
     }
 
     /**
@@ -67,7 +74,7 @@ class ComicStatusController extends Controller{
             ]);
         }
 
-        $store = new MangaBookStatus();
+        $store = new Order();
 
         $store->name = $request->name;
         $store->slug = $request->slug;
@@ -93,7 +100,21 @@ class ComicStatusController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function show($id){
-		$show = MangaBookStatus::where('id', $id)->get()->first();
+		$show = Order::where('orders.id', $id)
+        ->leftJoin('users', 'orders.user_id', '=', 'users.id')
+        ->leftJoin('profiles', 'users.id', '=', 'profiles.user_id')
+        ->leftJoin('order_items', 'orders.id', '=', 'order_items.order_id')
+        ->leftJoin('products', 'order_items.product_id', '=', 'products.id')
+        ->select(
+            "orders.*",
+            "users.username",
+            "profiles.avatar as user_avatar",
+            "products.id as product_id",
+            "products.name as product_name",
+            "products.coins as product_coins",
+            "products.days_without_ads as product_days",
+            "products.price as product_price",
+        )->get()->first();
         if($show){
             return response()->json([
                 'status' => true,
@@ -114,8 +135,8 @@ class ComicStatusController extends Controller{
      * @return \Illuminate\Http\Response
      */
     public function edit($id){
-        $edit = MangaBookStatus::find($id);
-        return view('admin.manga.status.edit', ['edit' => $edit]);
+        $edit = Order::find($id);
+        return view('dashboard.orders.edit', ['edit' => $edit]);
     }
 
     /**
@@ -138,11 +159,11 @@ class ComicStatusController extends Controller{
             ]);
         }
 
-        $update = MangaBookStatus::find($id);
+        $update = Order::find($id);
 
         $update->name = $request->name;
         if($update->slug != $request->slug){
-            $slugExists = MangaBookStatus::where('slug', $request->slug)->exists();
+            $slugExists = Order::where('slug', $request->slug)->exists();
             if($slugExists){
 				return response()->json([
 					'status' => false,
@@ -172,7 +193,7 @@ class ComicStatusController extends Controller{
      */
     public function destroy($id)
     {
-        $delete = MangaBookStatus::destroy($id);
+        $delete = Order::destroy($id);
 
 		if(!$delete){
             return response()->json([

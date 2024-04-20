@@ -179,7 +179,7 @@
 				}
 			}).then(function (response){
 				console.log(response);
-				if(response.data.status == "success"){
+				if(response.data.status){
 					// Creamos el DIV
 					let divShortcut = document.createElement('div');
 					divShortcut.classList.add('shortcuts__item');
@@ -190,7 +190,7 @@
 					`;
 					shortcutList.append(divShortcut);
 					Toastify({
-						text: response.data.msg,
+						text: response.data.message,
 						className: "success",
 						duration: 4000,
 						newWindow: false,
@@ -204,9 +204,9 @@
 
 					tom.clear();
 				}
-				if(response.data.status == "error"){
+				if(!response.data.status){
 					Toastify({
-						text: response.data.msg,
+						text: response.data.message,
 						className: "error",
 						duration: 4000,
 						newWindow: false,
@@ -223,8 +223,16 @@
 				}, 1000);
 			})
 			.catch(function (error){
-				// handle error
 				console.log('error: ',error);
+				Toastify({
+					text: error.response.data.message,
+					className: "error",
+					duration: 5000,
+					newWindow: true,
+					close: true,
+					gravity: "top",
+					position: "center",
+				}).showToast();
 				setTimeout(() => {
 					shortcutSpam = false;
 				}, 1000);

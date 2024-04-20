@@ -136,9 +136,9 @@ class CategoryController extends Controller{
     public function destroy($id){
         $delete = Category::destroy($id);
         if($delete){
-            $response['msg'] = "Categoria eliminada correctamente.";
+            $response['message'] = "Categoria eliminada correctamente.";
         }else{
-            $response['msg'] = "Ups, algo salio mal socio.";
+            $response['message'] = "Ups, algo salio mal socio.";
         }
 
         return $response;

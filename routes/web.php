@@ -1,15 +1,10 @@
 <?php
 
 use App\Http\Controllers\web\ComicDetailController;
-use App\Http\Controllers\MangaDetailController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShortcutsController;
-use App\Http\Controllers\uploadChaptersController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\web\CartController;
-use App\Http\Controllers\web\CheckoutController;
 use App\Http\Controllers\web\LibraryController;
 use App\Http\Controllers\web\MembersController;
 use App\Http\Controllers\web\ShopController;
@@ -131,8 +126,6 @@ Route::prefix('v')->group(function(){
 
 // ?: PAGES
 Route::get("/politicas-privacidad", [PagesController::class, 'policies'])->name('privacy_policies.index');
-
-require __DIR__.'/admin.php';
 
 require __DIR__.'/dashboard.php';
 

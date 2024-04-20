@@ -59,7 +59,7 @@
                     </li>
                     @if (Auth::check() && in_array($auth->profile->getRole(), $controllerRoles))
                         <li>
-                            <a href="{{ URL::to('/controller') }}" class="block font-medium">
+                            <a href="{{ URL::to('/space') }}" class="block font-medium">
                                 <div class="item__icon">
                                     <i class="fa-solid fa-user-secret"></i>
                                 </div>

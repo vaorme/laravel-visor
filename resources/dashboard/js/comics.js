@@ -57,11 +57,11 @@ sortChapters.on('drag:stop', async (event) => {
             order: currentOrder
         }).then(function (response) {
             const data = response.data;
-            if (data && data.status === "success") {
+            if (data && data.status) {
                 // Show success message using Toastify
                 Toastify({
                     className: 'success',
-                    text: data.msg,
+                    text: data.message,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -159,7 +159,7 @@ async function comicDestroy(){
         </span>
     `;
     await axios.delete("/"+id).then(function (response){
-        const message = response.data.msg;
+        const message = response.data.message;
         if(message){
             Toastify({
                 className: 'success',

@@ -146,13 +146,13 @@ class UserController extends Controller{
         if($userSaved && $profileSaved){
             $user->SendEmailVerificationNotification();
             $response['success'] = [
-                'msg' => "Usuario creado correctamente.",
+                'message' => "Usuario creado correctamente.",
                 // 'data' => $user,
 				'status' => 200
             ];
         }else{
             $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
+                'message' => "Ups, se complico la cosa",
                 // 'user' => $user,
                 // 'profile' => $profile
             ];
@@ -237,32 +237,6 @@ class UserController extends Controller{
         if($oldEmail !== $request->email){
 			$user->SendEmailVerificationNotification();
 		}
-
-        // $userCoins = $request->coins;
-
-        // if(!isset($userCoins)){
-        //     $userCoins = 0;
-        // }
-        // if(isset($userCoins) && $userCoins != ""){
-        //     if(isset($user->coins) && $user->coins->exists()){
-        //         $user->assignCoins($userCoins);
-        //     }else{
-        //         $user->purchaseCoins($userCoins);
-        //     }
-        // }
-
-        // $userDays = $request->days_without_ads;
-        
-        // if(!isset($userDays)){
-        //     $userDays = 0;
-        // }
-        // if(isset($userDays) && $userDays != ""){
-        //     if(isset($user->daysNotAds) && $user->daysNotAds->exists()){
-        //         $user->assignDays($userDays);
-        //     }else{
-        //         $user->purchaseDays($userDays);
-        //     }
-        // }
 		
         // ? ASSIGN ROLE
 		if(isset($request->roles) && !empty($request->roles)){
@@ -308,13 +282,13 @@ class UserController extends Controller{
 
         if($userSaved && $profileSaved){
             $response['success'] = [
-                'msg' => "Usuario actualizado correctamente",
+                'message' => "Usuario actualizado correctamente",
                 // 'data' => $user,
 				'status' => 200
             ];
         }else{
             $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
+                'message' => "Ups, se complico la cosa",
                 // 'user' => $user,
                 // 'profile' => $profile
             ];
@@ -334,12 +308,12 @@ class UserController extends Controller{
 		if($user->save()){
 			return response()->json([
 				'status' => true,
-				'msg' => "Contraseña actualizada correctamente."
+				'message' => "Contraseña actualizada correctamente."
 			]);
 		}
 		return response()->json([
 			'status' => true,
-			'msg' => "Ha ocurrido un error."
+			'message' => "Ha ocurrido un error."
 		]);
 	}
 	public function activateAccount(Request $request){
@@ -352,12 +326,12 @@ class UserController extends Controller{
 		if($user->save()){
 			return response()->json([
 				'status' => true,
-				'msg' => "Cuenta activada correctamente."
+				'message' => "Cuenta activada correctamente."
 			]);
 		}
 		return response()->json([
 			'status' => true,
-			'msg' => "Ha ocurrido un error."
+			'message' => "Ha ocurrido un error."
 		]);
 	}
 
@@ -371,19 +345,19 @@ class UserController extends Controller{
         if($user->save()){
             return response()->json([
                 'status' => true,
-                'msg' => "Cuenta desactivada correctamente."
+                'message' => "Cuenta desactivada correctamente."
             ]);
         }
         return response()->json([
             'status' => false,
-            'msg' => "Ha ocurrido un error."
+            'message' => "Ha ocurrido un error."
         ]);
     }
     public function getCoins($id){
         if(!isset($id)){
             return response()->json([
                 'status' => false,
-                'msg' => "Ha ocurrido un error."
+                'message' => "Ha ocurrido un error."
             ]);    
         }
 
@@ -392,19 +366,19 @@ class UserController extends Controller{
             return response()->json([
                 'status' => true,
                 'data' => $user->coins,
-                'msg' => "Monedas obtenidas."
+                'message' => "Monedas obtenidas."
             ]);
         }
         return response()->json([
             'status' => false,
-            'msg' => "Ha ocurrido un error."
+            'message' => "Ha ocurrido un error."
         ]);
     }
     public function assignCoins(Request $request,$id){
         if(!isset($id)){
             return response()->json([
                 'status' => false,
-                'msg' => "Ha ocurrido un error."
+                'message' => "Ha ocurrido un error."
             ]);    
         }
 
@@ -413,17 +387,17 @@ class UserController extends Controller{
             if($user->assignCoins($request->amount)){
                 return response()->json([
                     'status' => true,
-                    'msg' => "Monedas asignadas correctamente."
+                    'message' => "Monedas asignadas correctamente."
                 ]);
             }
             return response()->json([
                 'status' => false,
-                'msg' => "Ups, algo salio mal."
+                'message' => "Ups, algo salio mal."
             ]);
         }
         return response()->json([
             'status' => false,
-            'msg' => "Ha ocurrido un error."
+            'message' => "Ha ocurrido un error."
         ]);
     }
 
@@ -431,7 +405,7 @@ class UserController extends Controller{
         if(!isset($id)){
             return response()->json([
                 'status' => false,
-                'msg' => "Ha ocurrido un error."
+                'message' => "Ha ocurrido un error."
             ]);    
         }
 
@@ -440,24 +414,24 @@ class UserController extends Controller{
             if($user->assignDays($request->amount)){
                 return response()->json([
                     'status' => true,
-                    'msg' => "Días asignados correctamente."
+                    'message' => "Días asignados correctamente."
                 ]);
             }
             return response()->json([
                 'status' => false,
-                'msg' => "Ups, algo salio mal."
+                'message' => "Ups, algo salio mal."
             ]);
         }
         return response()->json([
             'status' => false,
-            'msg' => "Ha ocurrido un error."
+            'message' => "Ha ocurrido un error."
         ]);
     }
     public function getDays($id){
         if(!isset($id)){
             return response()->json([
                 'status' => false,
-                'msg' => "Ha ocurrido un error."
+                'message' => "Ha ocurrido un error."
             ]);    
         }
 
@@ -466,12 +440,12 @@ class UserController extends Controller{
             return response()->json([
                 'status' => true,
                 'data' => $user->daysNotAds,
-                'msg' => "Días obtenidas."
+                'message' => "Días obtenidas."
             ]);
         }
         return response()->json([
             'status' => false,
-            'msg' => "Ha ocurrido un error."
+            'message' => "Ha ocurrido un error."
         ]);
     }
 
@@ -487,7 +461,7 @@ class UserController extends Controller{
             if($delete){
                 return response()->json([
                     'status' => true,
-                    'msg' => "Eliminado correctamente"
+                    'message' => "Eliminado correctamente"
                 ], 200);
             }
         } catch (\Exception $e) {

@@ -326,7 +326,7 @@ async function changePassword(){
 		if(data && data.status){
 			Toastify({
 				className: 'success',
-				text: data.msg,
+				text: data.message,
 				duration: 1000,
 				newWindow: false,
 				close: true,
@@ -336,7 +336,7 @@ async function changePassword(){
 		}else if(data && !data.status){
 			Toastify({
 				className: 'error',
-				text: data.msg,
+				text: data.message,
 				duration: 3000,
 				newWindow: false,
 				close: true,
@@ -422,7 +422,7 @@ async function itemDestroy(){
         </span>
     `;
     await axios.delete("/"+id).then(function (response){
-        const message = response.data.msg;
+        const message = response.data.message;
         if(message){
             Toastify({
                 className: 'success',
@@ -488,7 +488,7 @@ async function activateAccount(){
 		if(data && data.status){
 			Toastify({
 				className: 'success',
-				text: data.msg,
+				text: data.message,
 				duration: 1000,
 				newWindow: false,
 				close: true,
@@ -509,7 +509,7 @@ async function activateAccount(){
 		}else if(data && !data.status){
 			Toastify({
 				className: 'error',
-				text: data.msg,
+				text: data.message,
 				duration: 3000,
 				newWindow: false,
 				close: true,
@@ -534,7 +534,7 @@ async function deactivateAccount(){
 		if(data && data.status){
 			Toastify({
 				className: 'success',
-				text: data.msg,
+				text: data.message,
 				duration: 1000,
 				newWindow: false,
 				close: true,
@@ -555,7 +555,7 @@ async function deactivateAccount(){
 		}else if(data && !data.status){
 			Toastify({
 				className: 'error',
-				text: data.msg,
+				text: data.message,
 				duration: 3000,
 				newWindow: false,
 				close: true,
@@ -592,7 +592,7 @@ itemModal?.addEventListener('show.bs.modal', async (e) => {
 				}else{
 					Toastify({
 						className: 'error',
-						text: res.data.msg,
+						text: res.data.message,
 						duration: 3000,
 						newWindow: false,
 						close: true,
@@ -612,7 +612,7 @@ itemModal?.addEventListener('show.bs.modal', async (e) => {
 				}else{
 					Toastify({
 						className: 'error',
-						text: res.data.msg,
+						text: res.data.message,
 						duration: 3000,
 						newWindow: false,
 						close: true,
@@ -729,7 +729,7 @@ async function modalContentFormSubmit(){
 		if(data && data.status){
 			Toastify({
 				className: 'success',
-				text: data.msg,
+				text: data.message,
 				duration: 1000,
 				newWindow: false,
 				close: true,
@@ -740,7 +740,7 @@ async function modalContentFormSubmit(){
 		}else if(data && !data.status){
 			Toastify({
 				className: 'error',
-				text: data.msg,
+				text: data.message,
 				duration: 3000,
 				newWindow: false,
 				close: true,
@@ -754,7 +754,7 @@ async function modalContentFormSubmit(){
 		if(data && !data.error){
 			Toastify({
 				className: 'error',
-				text: data.msg,
+				text: data.message,
 				duration: 3000,
 				newWindow: false,
 				close: true,

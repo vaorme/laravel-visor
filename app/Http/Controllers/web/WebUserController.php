@@ -89,7 +89,7 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
@@ -99,7 +99,7 @@ class WebUserController extends Controller{
 
         if($exists){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "Ya lo sigues"
             ]);
         }
@@ -110,13 +110,13 @@ class WebUserController extends Controller{
         
         if($follow->save()){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Siguiendo"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, algo paso",
         ]);
     }
@@ -131,7 +131,7 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
@@ -141,7 +141,7 @@ class WebUserController extends Controller{
 
         if($notExists){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "No lo sigues"
             ]);
         }
@@ -149,13 +149,13 @@ class WebUserController extends Controller{
         $follow = UserFollowManga::where('manga_id', '=', $id)->where('user_id', '=', $user_id);
         if($follow->delete()){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Lo dejaste de seguir"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, algo paso",
         ]);
     }
@@ -172,7 +172,7 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
@@ -182,7 +182,7 @@ class WebUserController extends Controller{
 
         if($exists){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "Ya lo viste"
             ]);
         }
@@ -193,13 +193,13 @@ class WebUserController extends Controller{
         
         if($follow->save()){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Viendo"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, algo paso",
         ]);
     }
@@ -214,7 +214,7 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
@@ -224,7 +224,7 @@ class WebUserController extends Controller{
 
         if($notExists){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "No lo ves"
             ]);
         }
@@ -232,13 +232,13 @@ class WebUserController extends Controller{
         $follow = UserViewManga::where('manga_id', '=', $id)->where('user_id', '=', $user_id);
         if($follow->delete()){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Lo dejaste de ver"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, algo paso",
         ]);
     }
@@ -255,7 +255,7 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
@@ -265,7 +265,7 @@ class WebUserController extends Controller{
 
         if($exists){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "Ya es favorito"
             ]);
         }
@@ -276,13 +276,13 @@ class WebUserController extends Controller{
         
         if($follow->save()){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Agregado a favoritos"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, algo paso",
         ]);
     }
@@ -297,7 +297,7 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
@@ -307,7 +307,7 @@ class WebUserController extends Controller{
 
         if($notExists){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "No es favorito"
             ]);
         }
@@ -315,13 +315,13 @@ class WebUserController extends Controller{
         $follow = UserHasFavorite::where('manga_id', '=', $id)->where('user_id', '=', $user_id);
         if($follow->delete()){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Ya no es favorito"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, algo paso",
         ]);
     }
@@ -338,7 +338,7 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
@@ -348,7 +348,7 @@ class WebUserController extends Controller{
 
         if($exists){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "Ya lo viste"
             ]);
         }
@@ -359,13 +359,13 @@ class WebUserController extends Controller{
         
         if($follow->save()){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Viendo"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, algo paso",
         ]);
     }
@@ -380,7 +380,7 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
@@ -390,7 +390,7 @@ class WebUserController extends Controller{
 
         if($notExists){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "No lo ves"
             ]);
         }
@@ -398,13 +398,13 @@ class WebUserController extends Controller{
         $follow = UserViewChapter::where('chapter_id', '=', $id)->where('user_id', '=', $user_id);
         if($follow->delete()){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Lo dejaste de ver"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, algo paso",
         ]);
     }
@@ -418,20 +418,20 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
         if(!Auth::check()){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "Solo para usuarios registrados"
             ]);
         }
         $user = Auth::user();
         if(!$user->verifiedEmail()){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "Debes verificar tu correo"
             ]);
         }
@@ -439,7 +439,7 @@ class WebUserController extends Controller{
         $rating = UserRateManga::where('user_id', '=', $user->id)->where('manga_id', '=', $mangaid);
         if($rating->exists()){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "Ya lo calificaste"
             ]);
         }
@@ -457,13 +457,13 @@ class WebUserController extends Controller{
             Cache::forget('categories_home');
             Cache::forget('top_month');
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Calificado"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, algo paso",
         ]);
     }
@@ -476,7 +476,7 @@ class WebUserController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => $validator->errors()->all()
             ]);
         }
@@ -484,7 +484,7 @@ class WebUserController extends Controller{
         $chapterId = $request->params['chapter_id'];
         if($user->userBuyChapter($chapterId)){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "El capítulo ya fue comprado."
             ]);
         }

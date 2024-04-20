@@ -42,10 +42,10 @@ itemModal?.addEventListener('show.bs.modal', async (e) => {
         }).catch(function (error){
             console.log('error:', error);
             const data = error.response.data;
-            if(data && data.status === "error"){
+            if(data && !data.status){
                 Toastify({
                     className: 'error',
-                    text: data.msg,
+                    text: data.message,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -147,7 +147,7 @@ async function modalContentFormSubmit(){
 			if(data && data.status){
 				Toastify({
 					className: 'success',
-					text: data.msg,
+					text: data.message,
 					duration: 1000,
 					newWindow: false,
 					close: true,
@@ -160,7 +160,7 @@ async function modalContentFormSubmit(){
 			}else if(data && !data.status){
                 Toastify({
                     className: 'error',
-                    text: data.msg,
+                    text: data.message,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -174,7 +174,7 @@ async function modalContentFormSubmit(){
             if(data && !data.error){
                 Toastify({
                     className: 'error',
-                    text: data.msg,
+                    text: data.message,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -196,7 +196,7 @@ async function modalContentFormSubmit(){
             if(data && data.status){
 				Toastify({
 					className: 'success',
-					text: data.msg,
+					text: data.message,
 					duration: 1000,
 					newWindow: false,
 					close: true,
@@ -209,7 +209,7 @@ async function modalContentFormSubmit(){
 			}else if(data && !data.status){
                 Toastify({
                     className: 'error',
-                    text: data.msg,
+                    text: data.message,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -220,10 +220,10 @@ async function modalContentFormSubmit(){
         }).catch(function (error){
             console.log('error:', error);
             const data = error;
-            if(data && data.error === "error"){
+            if(data && !data.error){
                 Toastify({
                     className: 'error',
-                    text: data.msg,
+                    text: data.message,
                     duration: 3000,
                     newWindow: false,
                     close: true,
@@ -283,7 +283,7 @@ async function moduleDestroy(id){
         if(data && data.status){
             Toastify({
                 className: 'success',
-                text: data.msg,
+                text: data.message,
                 duration: 1000,
                 newWindow: false,
                 close: true,

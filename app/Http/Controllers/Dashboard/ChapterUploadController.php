@@ -135,11 +135,11 @@ class ChapterUploadController extends Controller{
                 }
 
                 $res = $this->createChapter($mangaid, $request->disk,$simpleChapterName, 'comic', $simpleChapterSlug, $collectImages);
-                if($res['status'] == "success"){
+                if($res['status']){
 					$response['created'][] = $res;
-				}else if($res['status'] == "error"){
+				}else if(!$res['status']){
                     $response['error'][] = [
-                        'msg' => $res['msg'],
+                        'message' => $res['message'],
                     ];
 					// ? DELETE DIRECTORY IF THE CHAPTER IS NOT CREATED
 					$dir_path = "comic/$manga->slug/$simpleChapterSlug";
@@ -181,9 +181,9 @@ class ChapterUploadController extends Controller{
                         Storage::deleteDirectory("$tmp_path/$dirSlug");
                         
                         $res = $this->createChapter($mangaid, $request->disk, $dirName, 'comic', $dirSlug, $collectImages);
-                        if($res['status'] == "error"){
+                        if(!$res['status']){
                             $response['error'][] = [
-                                'msg' => $res['msg'],
+                                'message' => $res['message'],
                             ];
 							// ? DELETE DIRECTORY IF THE CHAPTER IS NOT CREATED
 							$dir_path = "comic/$manga->slug/$dirSlug";
@@ -227,9 +227,9 @@ class ChapterUploadController extends Controller{
                 $fileConten = Storage::disk('local')->get("tmp/$manga->slug/$nBaseName");
                 $res = $this->createChapter($mangaid, $request->disk, $fileName, 'novel', $slugify, "", $fileConten);
 
-                if($res['status'] == "error"){
+                if(!$res['status']){
                     $response['error'][] = [
-                        'msg' => $res['msg']
+                        'message' => $res['message']
                     ];
                 }
                 $response['created'][] = $res;
@@ -251,14 +251,14 @@ class ChapterUploadController extends Controller{
 
         if($chapter->save()){
             return response()->json([
-                'status' => "success",
-                'msg' => "Orden actualizado",
+                'status' => true,
+                'message' => "Orden actualizado",
                 'old' => $old,
                 'new' => $chapter->images
             ]);
         }else{
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'error' => "algo paso"
             ]);
         }
@@ -273,8 +273,8 @@ class ChapterUploadController extends Controller{
                 $eliminado = Storage::disk($chapter->disk)->delete($imagenes[$request->index]);
                 if(!$eliminado){
                     return response()->json([
-                        'status' => "error",
-                        'msg' => "No se encontro archivo o no pudo ser eliminado",
+                        'status' => false,
+                        'message' => "No se encontro archivo o no pudo ser eliminado",
                         'data' => $eliminado
                     ]);
                 }
@@ -285,12 +285,12 @@ class ChapterUploadController extends Controller{
 
         if($chapter->save()){
             return response()->json([
-                'status' => "success",
-                'msg' => "Imagen eliminada"
+                'status' => true,
+                'message' => "Imagen eliminada"
             ]);
         }else{
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'error' => "Ups, algo paso"
             ]);
         }
@@ -326,8 +326,8 @@ class ChapterUploadController extends Controller{
             $create->save();
             Cache::forget('new_chapters');
             return [
-                "status" => "success",
-                "msg" => "Chapter $create->name created",
+                "status" => true,
+                "message" => "Chapter $create->name created",
                 "item" => $create,
                 "manga_slug" => $mangaSlug->slug
             ];
@@ -335,8 +335,8 @@ class ChapterUploadController extends Controller{
             catch(\Exception $e){
             // do task when error
             return [
-                "status" => "error",
-                "msg" => $e->getMessage()
+                "status" => false,
+                "message" => $e->getMessage()
             ];
         }
     }
@@ -346,8 +346,8 @@ class ChapterUploadController extends Controller{
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
-                'msg' => $validator->errors()->all()
+                'status' => false,
+                'message' => $validator->errors()->all()
             ]);
         }
         $chapter = Chapter::find($request->chapter_id);
@@ -386,15 +386,15 @@ class ChapterUploadController extends Controller{
         if($chapter->save()){
             Cache::forget('new_chapters');
             return response()->json([
-                "msg" => 'Imagen agregada',
-                "status" => "success",
+                "message" => 'Imagen agregada',
+                "status" => true,
                 "excluded" => $excluded,
                 "data" => $dbImages,
             ]);
         }
         return response()->json([
-            "status" => "error",
-            "msg" => "Ups, Algo paso"
+            "status" => false,
+            "message" => "Ups, Algo paso"
         ]);
     }
 

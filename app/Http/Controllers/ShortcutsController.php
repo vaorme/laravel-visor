@@ -16,8 +16,8 @@ class ShortcutsController extends Controller{
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
-                'msg' => $validator->errors()->all()
+                'status' => false,
+                'message' => $validator->errors()->all()
             ]);
         }
 
@@ -26,15 +26,15 @@ class ShortcutsController extends Controller{
         $exists = Shortcut::where('manga_id', '=', $request->manga_id)->where('user_id', '=', $id)->exists();
         if($exists){
             return response()->json([
-                'status' => "error",
-                'msg' => "El atajo ya existe"
+                'status' => false,
+                'message' => "El atajo ya existe"
             ]);
         }
         $count = Shortcut::where('user_id', '=', $id)->count();
         if($count >= 20){
             return response()->json([
-                'status' => "error",
-                'msg' => "Limite de atajos alcanzado"
+                'status' => false,
+                'message' => "Limite de atajos alcanzado"
             ]);
         }
 
@@ -45,14 +45,14 @@ class ShortcutsController extends Controller{
 
         if($store->save()){
             return response()->json([
-                'status' => "success",
-                'msg' => "Atajo creado correctamente"
+                'status' => true,
+                'message' => "Atajo creado correctamente"
             ]);
         }
 
         return response()->json([
-            'status' => "error",
-            'msg' => "Ups, algo paso."
+            'status' => false,
+            'message' => "Ups, algo paso."
         ]);
     }
 
@@ -80,25 +80,25 @@ class ShortcutsController extends Controller{
     public function destroy(Request $request){
         if(!isset($request->user_id) && !isset($request->manga_id)){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "ID Requerido"
             ]);
         }
         if($request->user_id != Auth::id()){
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "No puedes hacer eso."
             ]);
         }
         $delete = Shortcut::where('user_id', '=', $request->user_id)->where('manga_id', '=', $request->manga_id);
         if($delete->delete()){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'message' => "Atajo eliminado correctamente"
             ]);
         }else{
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "Ups, algo salio mal socio."
             ]);
         }

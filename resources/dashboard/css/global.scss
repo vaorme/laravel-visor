@@ -23,6 +23,7 @@ svg{
 // * COMICS OWN DROPZONE
 
 .settings .own-dropzone .dz-choose,
+.products .own-dropzone .dz-choose,
 .users .own-dropzone .dz-choose,
 .comics .own-dropzone .dz-choose,
 .comics .im-dropzone .dz-choose{
@@ -50,6 +51,7 @@ svg{
     min-height: 140px;
 }
 .settings .own-dropzone .dz-choose .dz-preview .dz-change,
+.products .own-dropzone .dz-choose .dz-preview .dz-change,
 .comics .own-dropzone .dz-choose .dz-preview .dz-change{
     background-color: rgb(0 0 0 / 40%);
     position: absolute;
@@ -65,6 +67,7 @@ svg{
     transition: opacity .4s ease, visibility .4s ease;
 }
 .settings .own-dropzone .dz-choose:hover .dz-preview .dz-change,
+.products .own-dropzone .dz-choose:hover .dz-preview .dz-change,
 .comics .own-dropzone .dz-choose:hover .dz-preview .dz-change{
     opacity: 1;
     visibility: visible;
@@ -73,6 +76,7 @@ svg{
 	margin: 0;
 }
 .settings .own-dropzone .dz-choose .dz-preview img,
+.products .own-dropzone .dz-choose .dz-preview img,
 .users .own-dropzone .dz-choose .dz-preview img,
 .comics .own-dropzone .dz-choose .dz-preview img{
     position: absolute;
@@ -89,6 +93,7 @@ svg{
     object-position: center;
 }
 .settings .own-dropzone .dz-choose .dz-preview img.show,
+.products .own-dropzone .dz-choose .dz-preview img.show,
 .users .own-dropzone .dz-choose .dz-preview img.show,
 .comics .own-dropzone .dz-choose .dz-preview img.show{
     animation-name: dzIn;
@@ -106,6 +111,7 @@ svg{
     border-radius: 0;
 }
 .settings .own-dropzone,
+.products .own-dropzone,
 .users .own-dropzone{
 	overflow: hidden;
 }

@@ -47,7 +47,7 @@ document.addEventListener('click', async function (e) {
         }
     }).then(function (response){
         console.log(response);
-        if(response.data.status == "success"){
+        if(response.data.status){
             btn.remove();
             let unfollowButton = document.createElement('button');
             addClass(unfollowButton, 'action__follow unfollow');
@@ -57,7 +57,7 @@ document.addEventListener('click', async function (e) {
 
             divActions.prepend(unfollowButton);
         }
-        if(response.data.status == "error"){
+        if(!response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "error",
@@ -127,7 +127,7 @@ document.addEventListener('click', async function (e) {
         }
     }).then(function (response){
         console.log(response);
-        if(response.data.status == "success"){
+        if(response.data.status){
             btn.remove();
 
             let followButton = document.createElement('button');
@@ -137,7 +137,7 @@ document.addEventListener('click', async function (e) {
 
             divActions.prepend(followButton);
         }
-        if(response.data.status == "error"){
+        if(!response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "error",
@@ -208,7 +208,7 @@ document.addEventListener('click', async function (e) {
         }
     }).then(function (response){
         console.log(response);
-        if(response.data.status == "success"){
+        if(response.data.status){
 
             const divButtonView = document.querySelector('.manga__actions button.action__view.view');
 
@@ -225,7 +225,7 @@ document.addEventListener('click', async function (e) {
 
             btn.remove();
         }
-        if(response.data.status == "error"){
+        if(!response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "error",
@@ -294,7 +294,7 @@ document.addEventListener('click', async function (e) {
         }
     }).then(function (response){
         console.log(response);
-        if(response.data.status == "success"){
+        if(response.data.status){
             const divButtonUnview = document.querySelector('.manga__actions button.action__view.unview');
 
             let viewButton = document.createElement('button');
@@ -311,7 +311,7 @@ document.addEventListener('click', async function (e) {
 
             btn.remove();
         }
-        if(response.data.status == "error"){
+        if(!response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "error",
@@ -381,7 +381,7 @@ document.addEventListener('click', async function (e) {
         }
     }).then(function (response){
         console.log(response);
-        if(response.data.status == "success"){
+        if(response.data.status){
 
             const divButtonFav = document.querySelector('.manga__actions button.action__fav.fav');
 
@@ -398,7 +398,7 @@ document.addEventListener('click', async function (e) {
 
             btn.remove();
         }
-        if(response.data.status == "error"){
+        if(!response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "error",
@@ -468,7 +468,7 @@ document.addEventListener('click', async function (e) {
         }
     }).then(function (response){
         console.log(response);
-        if(response.data.status == "success"){
+        if(response.data.status){
             const divButtonUnFav = document.querySelector('.manga__actions button.action__fav.unfav');
 
             let favButton = document.createElement('button');
@@ -485,7 +485,7 @@ document.addEventListener('click', async function (e) {
 
             btn.remove();
         }
-        if(response.data.status == "error"){
+        if(!response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "error",
@@ -555,7 +555,7 @@ document.addEventListener('click', async function (e) {
         }
     }).then(function (response){
         console.log(response);
-        if(response.data.status == "success"){
+        if(response.data.status){
             let unviewButton = document.createElement('button');
             addClass(unviewButton, 'action__view unview');
             unviewButton.setAttribute('data-tippy-content', 'Desmarcar como visto');
@@ -569,7 +569,7 @@ document.addEventListener('click', async function (e) {
 
             btn.remove();
         }
-        if(response.data.status == "error"){
+        if(!response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "error",
@@ -638,7 +638,7 @@ document.addEventListener('click', async function (e) {
         }
     }).then(function (response){
         console.log(response);
-        if(response.data.status == "success"){
+        if(response.data.status){
 
             let viewButton = document.createElement('button');
             addClass(viewButton, 'action__view view');
@@ -654,7 +654,7 @@ document.addEventListener('click', async function (e) {
 
             btn.remove();
         }
-        if(response.data.status == "error"){
+        if(!response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "error",
@@ -737,7 +737,7 @@ document.addEventListener('click', async function (e) {
         }
     }).then(function (response){
         // console.log(response);
-        if(response.data.status == "success"){
+        if(response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "success",
@@ -750,7 +750,7 @@ document.addEventListener('click', async function (e) {
 
             numbers.textContent = Number(numbers.textContent) + 1;
         }
-        if(response.data.status == "error"){
+        if(!response.data.status){
             Toastify({
                 text: response.data.message,
                 className: "error",

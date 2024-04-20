@@ -73,7 +73,7 @@ return [
         'webhook_errors' => [
             'driver' => 'single',
             'path' => storage_path('logs/webhook-errors.log'),
-            'level' => "error",
+            'level' => false,
             'days' => 15,
         ],
 

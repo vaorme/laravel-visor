@@ -67,13 +67,13 @@ class ComicDemographiesController extends Controller{
         if($store->save()){
 			return [
 				"status" => true,
-				"msg" => "Demografia creada.",
+				"message" => "Demografia creada.",
 				"item" => $store
 			];
         }
 		return [
 			"status" => true,
-			"msg" => "Ups, error.",
+			"message" => "Ups, error.",
 			"item" => $store
 		];
     }
@@ -132,7 +132,7 @@ class ComicDemographiesController extends Controller{
             if($slugExists){
 				return response()->json([
 					'status' => false,
-					'msg' => "Slug $update->slug ya existe."
+					'message' => "Slug $update->slug ya existe."
 				]);
             }
             $update->slug = $request->slug;
@@ -142,12 +142,12 @@ class ComicDemographiesController extends Controller{
         if($update->save()){
 			return response()->json([
 				'status' => true,
-				'msg' => "Demografia actualizada correctamente"
+				'message' => "Demografia actualizada correctamente"
 			]);
         }
 		return response()->json([
 			'status' => false,
-			'msg' => "Ups, se complico la cosa"
+			'message' => "Ups, se complico la cosa"
 		]);
     }
 
@@ -164,12 +164,12 @@ class ComicDemographiesController extends Controller{
 		if(!$delete){
             return response()->json([
                 'status' => false,
-                'msg' => "Ups, algo paso",
+                'message' => "Ups, algo paso",
             ]);
         }
         return response()->json([
             'status' => true,
-            'msg' => "Eliminado correctamente"
+            'message' => "Eliminado correctamente"
         ]);
     }
 }

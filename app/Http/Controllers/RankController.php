@@ -51,12 +51,12 @@ class RankController extends Controller
 
         if($store->save()){
             $response['success'] = [
-                'msg' => "Rango creado correctamente.",
+                'message' => "Rango creado correctamente.",
                 'data' => $store
             ];
         }else{
             $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
+                'message' => "Ups, se complico la cosa",
                 'data' => $store
             ];
         }
@@ -112,12 +112,12 @@ class RankController extends Controller
 
         if($store->save()){
             $response['success'] = [
-                'msg' => "Rango creado correctamente.",
+                'message' => "Rango creado correctamente.",
                 'data' => $store
             ];
         }else{
             $response['error'] = [
-                'msg' => "Ups, se complico la cosa",
+                'message' => "Ups, se complico la cosa",
                 'data' => $store
             ];
         }

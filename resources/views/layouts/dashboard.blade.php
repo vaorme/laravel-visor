@@ -23,6 +23,9 @@
         @if (Route::is(['settings.*']))
             <link href="{{ Vite::asset('resources/dashboard/css/settings.scss') }}" rel="stylesheet"/>
         @endif
+        @if (Route::is(['products.*']))
+            <link href="{{ Vite::asset('resources/dashboard/css/products.scss') }}" rel="stylesheet"/>
+        @endif
         <style>
             @import url('https://rsms.me/inter/inter.css');
             :root {
@@ -88,6 +91,15 @@
         @endif
         @if (Route::is(['settings.seo.index']))
             <script type="module" src="{{ Vite::asset('resources/dashboard/js/settings.seo.js') }}" defer></script>
+        @endif
+        @if (Route::is(['products.*']))
+            <script type="module" src="{{ Vite::asset('resources/dashboard/js/products.js') }}" defer></script>
+        @endif
+        @if (Route::is(['products.types.*']))
+            <script type="module" src="{{ Vite::asset('resources/dashboard/js/products.types.js') }}" defer></script>
+        @endif
+        @if (Route::is(['orders.*']))
+            <script type="module" src="{{ Vite::asset('resources/dashboard/js/orders.js') }}" defer></script>
         @endif
     </body>
 </html>

@@ -206,7 +206,7 @@
                     <div class="module__content">
                         <div class="manga__actions">
                             <a href="{{ url('/space/comics/'.$manga->id) }}" class="action__link create"><i class="fa-solid fa-plus"></i> Crear capítulo</a>
-                            <a href="{{ url('/controller/manga/'.$manga->id) }}" class="action__link edit"><i class="fa-solid fa-pen"></i> Editar {{ $manga->type->name }}</a>
+                            <a href="{{ url('/space/comics/'.$manga->id) }}" class="action__link edit"><i class="fa-solid fa-pen"></i> Editar {{ $manga->type->name }}</a>
                         </div>
                     </div>
                 </div>

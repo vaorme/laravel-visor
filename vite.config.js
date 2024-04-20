@@ -6,22 +6,7 @@ export default defineConfig({
         laravel({
             input: [
                 // :ADMIN
-                'resources/js/admin/library.js',
-                'resources/js/admin/admin.js',
-                'resources/css/admin/admin.scss',
-                'resources/js/admin/slider.js',
-                'resources/css/admin/slider.scss',
-                // :MANGA
-                'resources/js/admin/manga.js',
-                'resources/js/admin/manga_extras.js',
-
-                // :PRODUCTS
-                'resources/js/admin/products.js',
-                'resources/css/admin/products.scss',
-
-                // :ORDERS
-                'resources/js/admin/orders.js',
-
+                'resources/js/admin/helpers/helpers.js',
                 // :WEB
 
                 // LOGIN / REGISTER
@@ -48,10 +33,6 @@ export default defineConfig({
                 // :LIBRARY
                 'resources/js/web/library.js',
                 'resources/css/web/library.scss',
-
-                // :SETTINGS
-                'resources/css/admin/settings.scss',
-                'resources/js/admin/settings.js',
 
                 // :MANGA DETAIL
                 'resources/js/web/mangaDetail.js',
@@ -85,6 +66,7 @@ export default defineConfig({
 				'resources/dashboard/libs/flatpickr/dist/flatpickr.min.css',
 				'resources/dashboard/css/dependencies/demo.min.css',
                 'resources/dashboard/css/settings.scss',
+                'resources/dashboard/css/products.scss',
 
 				'resources/dashboard/js/comics.js',
 				'resources/dashboard/js/chapters.js',
@@ -99,6 +81,9 @@ export default defineConfig({
 				'resources/dashboard/js/comics.categories.js',
 				'resources/dashboard/js/comics.demographies.js',
 				'resources/dashboard/js/comics.tags.js',
+                'resources/dashboard/js/orders.js',
+                'resources/dashboard/js/products.js',
+                'resources/dashboard/js/products.types.js',
 				'resources/dashboard/js/own-dropzone.js',
 				'resources/dashboard/js/own-helpers.js',
 				'resources/dashboard/js/own-validator.js',

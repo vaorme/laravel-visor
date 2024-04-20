@@ -28,7 +28,7 @@ if(buttonsRemoveShortcut){
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
             }).then(function(response){
-                if(response.data.status == "success"){
+                if(response.data.status){
                     Toastify({
                         text: response.data.message,
                         className: "success",
@@ -48,7 +48,7 @@ if(buttonsRemoveShortcut){
                         profileShortcut.remove()
                     }
                 }
-                if(response.data.status == "error"){
+                if(!response.data.status){
                     Toastify({
                         text: response.data.message,
                         className: "error",

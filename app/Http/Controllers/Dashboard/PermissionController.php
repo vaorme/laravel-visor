@@ -54,8 +54,8 @@ class PermissionController extends Controller{
      */
     public function store(Request $request){		
         $request->validate([
-            'name' => ['required', 'max:24'],
-            'guard_name' => ['required', 'max:24']
+            'name' => ['required', 'max:48'],
+            'guard_name' => ['required', 'max:48']
         ]);
 
         $store = new Permission;
@@ -66,13 +66,13 @@ class PermissionController extends Controller{
         if($store->save()){
 			return [
 				"status" => true,
-				"msg" => "Permiso creado.",
+				"message" => "Permiso creado.",
 				"item" => $store
 			];
         }
 		return [
 			"status" => true,
-			"msg" => "Ups, error.",
+			"message" => "Ups, error.",
 			"item" => $store
 		];
     }
@@ -119,8 +119,8 @@ class PermissionController extends Controller{
      */
     public function update(Request $request, $id){
         $request->validate([
-            'name' => ['required', 'max:24'],
-            'guard_name' => ['required', 'max:24']
+            'name' => ['required', 'max:48'],
+            'guard_name' => ['required', 'max:48']
         ]);
 
         $update = Permission::find($id);
@@ -131,12 +131,12 @@ class PermissionController extends Controller{
         if($update->save()){
 			return response()->json([
 				'status' => true,
-				'msg' => "Permiso actualizado."
+				'message' => "Permiso actualizado."
 			]);
         }
 		return response()->json([
 			'status' => false,
-			'msg' => "Ups, se complico la cosa"
+			'message' => "Ups, se complico la cosa"
 		]);
     }
 
@@ -153,12 +153,12 @@ class PermissionController extends Controller{
 		if(!$delete){
             return response()->json([
                 'status' => false,
-                'msg' => "Ups, algo paso",
+                'message' => "Ups, algo paso",
             ]);
         }
         return response()->json([
             'status' => true,
-            'msg' => "Eliminado correctamente"
+            'message' => "Eliminado correctamente"
         ]);
     }
 }

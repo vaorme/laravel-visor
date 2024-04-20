@@ -5,18 +5,18 @@
 			<div class="row g-2 align-items-center">
 				<div class="col">
 					<div class="page-pretitle">Overview</div>
-					<h2 class="page-title">Types</h2>
+					<h2 class="page-title">Comics</h2>
 				</div>
 				<div class="col-auto ms-auto d-print-none">
-					@can('comics.types.create')
-						<div class="btn-list">
-							<a href="#" class="btn btn-primary d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#itemModal">
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
-								Agregar
-							</a>
-						</div>
-					@endcan
-				</div>
+						@can('products.create')
+							<div class="btn-list">
+								<a href="{{ route('products.create') }}" class="btn btn-primary d-sm-inline-block" >
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
+									Agregar
+								</a>
+							</div>
+						@endcan
+				  </div>
 			</div>
 		</div>
 	</div>
@@ -47,35 +47,66 @@
 					<table class="table">
 						<thead>
 						<tr>
-							<th>#</th>
+							<th>Portada</th>
 							<th><button class="table-sort" data-sort="sort-name">Nombre</button></th>
-							<th>Slug</th>
-							<th>Descripción</th>
+							<th>Precio</th>
+							<th>Servicio</th>
+							<th>Cantidad</th>
 							<th>Acciones</th>
 						</tr>
 						</thead>
 						<tbody class="table-tbody">
-								@foreach ($newLoop as $item)
+								@foreach ($loop as $item)
 									<tr class="align-middle">
 										<td>
-											<span class="avatar">{{ $item->id }}</span>
+											<a href="{{ route('products.edit', ['id' => $item->id]) }}" class="d-inline-block">
+												@if ($item->image)
+													<div class="avatar avatar-md img-responsive-1x1 rounded-3 border" style="background-image: url({{ asset("storage/".$item->image); }})"></div>
+												@else
+													<div class="avatar avatar-md img-responsive-1x1 rounded-3 border">
+														@switch($item->product_type_id)
+															@case(1)
+																<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+																	<path d="M8 0.5C12.1423 0.5 15.5 3.85775 15.5 8C15.5 12.1423 12.1423 15.5 8 15.5C3.85775 15.5 0.5 12.1423 0.5 8C0.5 3.85775 3.85775 0.5 8 0.5ZM7.46975 5.348L5.348 7.46975C5.2074 7.6104 5.12841 7.80113 5.12841 8C5.12841 8.19887 5.2074 8.3896 5.348 8.53025L7.46975 10.652C7.6104 10.7926 7.80113 10.8716 8 10.8716C8.19887 10.8716 8.3896 10.7926 8.53025 10.652L10.652 8.53025C10.7926 8.3896 10.8716 8.19887 10.8716 8C10.8716 7.80113 10.7926 7.6104 10.652 7.46975L8.53025 5.348C8.3896 5.2074 8.19887 5.12841 8 5.12841C7.80113 5.12841 7.6104 5.2074 7.46975 5.348Z" fill-opacity="0.5"/>
+																</svg>
+																@break
+															@case(2)
+																<svg viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+																	<path d="M496 127.1C496 381.3 309.1 512 255.1 512C204.9 512 16 385.3 16 127.1c0-19.41 11.7-36.89 29.61-44.28l191.1-80.01c4.906-2.031 13.13-3.701 18.44-3.701c5.281 0 13.58 1.67 18.46 3.701l192 80.01C484.3 91.1 496 108.6 496 127.1z" fill-opacity="0.5"/>
+																</svg>
+																@break
+															@default
+														@endswitch
+													</div>
+												@endif
+											</a>
 										</td>
 										<td class="sort-name">
-											<a href="javascript:void(0)" data-id="{{ $item->id }}" class="d-inline-block" data-bs-toggle="modal" data-bs-target="#itemModal">
+											<a href="{{ route('products.edit', ['id' => $item->id]) }}" class="d-inline-block">
 												<h4 class="d-block m-0 text-dark" style="max-width: 300px">{{ $item->name }}</h4>
 											</a>
 										</td>
-										<td>
-											{{ $item->slug }}
+										<td class="sort-price">
+											@php
+												$currency = Number::currency($item->price, in: 'USD');
+												echo $currency;
+											@endphp
 										</td>
 										<td>
-											{{ $item->description }}
+											<span class="badge bg-muted-lt p-2">{{ $item->type_name }}</span>
+										</td>
+										<td>
+											@if (isset($item->coins) && !empty($item->coins))
+												<span class="badge bg-yellow-lt p-2">{{ $item->coins }}</span>
+											@elseif (isset($item->days_without_ads) && !empty($item->days_without_ads))
+												<span class="badge bg-yellow-lt p-2">{{ $item->days_without_ads }}</span>
+											@endif
 										</td>
 										<td>
 											<div class="btn-list flex-nowrap">
-												@can('comics.types.edit')
+												@can('products.edit')
 													<div class="botn" title="Editar" data-bs-toggle="tooltip" data-bs-placement="top">
-														<a href="javascript:void(0)" data-id="{{ $item->id }}" class="btn btn-bitbucket w-auto btn-icon" data-bs-toggle="modal" data-bs-target="#itemModal">
+														<a href="{{ route('products.edit', ['id' => $item->id]) }}" class="btn btn-bitbucket w-auto btn-icon">
 															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-minus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
 																<path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
@@ -85,9 +116,9 @@
 														</a>
 													</div>
 												@endcan
-												@can('comics.types.destroy')
+												@can('products.destroy')
 													<div class="botn" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="top">
-														<a href="javascript:void(0)" class="btn btn-pinterest w-auto btn-icon" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#modalDestroy">
+														<a href="javascript:void(0)" class="btn btn-pinterest w-auto btn-icon" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#modal-destroy">
 															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 																<path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
 																<path d="M4 7l16 0"></path>
@@ -125,7 +156,7 @@
 					</div>
 				@endif
 			</div>
-			<div class="modal modal-blur fade" id="modalDestroy" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal modal-blur fade" id="modal-destroy" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="modal-dialog modal-sm modal-dialog-centered" role="document">
 					<div class="modal-content">
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -157,20 +188,14 @@
 					const list = new List('table-default', {
 						sortClass: 'table-sort',
 						listClass: 'table-tbody',
-						valueNames: [ 'sort-name',
+						valueNames: [ 'sort-name', 'sort-score', 'sort-chapters',
 							{ attr: 'data-date', name: 'sort-date' },
-							{ attr: 'data-progress', name: 'sort-progress' }
+							{ attr: 'data-progress', name: 'sort-progress' },
+							'sort-quantity'
 						]
 					});
 				})
 			</script>
 		</div>
 	</div>
-	{{-- ? CREATE/EDIT TYPES --}}
-	<div class="modal modal-blur fade" id="itemModal" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-			<div class="modal-content"></div>
-		</div>
-	</div>
-
-</x-dashboard-layout>
+	</x-dashboard-layout>

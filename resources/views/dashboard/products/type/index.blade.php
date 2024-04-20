@@ -8,15 +8,13 @@
 					<h2 class="page-title">Types</h2>
 				</div>
 				<div class="col-auto ms-auto d-print-none">
-					@can('comics.types.create')
 						<div class="btn-list">
 							<a href="#" class="btn btn-primary d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#itemModal">
 								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 5l0 14"></path><path d="M5 12l14 0"></path></svg>
 								Agregar
 							</a>
 						</div>
-					@endcan
-				</div>
+				  </div>
 			</div>
 		</div>
 	</div>
@@ -73,7 +71,7 @@
 										</td>
 										<td>
 											<div class="btn-list flex-nowrap">
-												@can('comics.types.edit')
+												@can('products.types.edit')
 													<div class="botn" title="Editar" data-bs-toggle="tooltip" data-bs-placement="top">
 														<a href="javascript:void(0)" data-id="{{ $item->id }}" class="btn btn-bitbucket w-auto btn-icon" data-bs-toggle="modal" data-bs-target="#itemModal">
 															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil-minus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -85,7 +83,7 @@
 														</a>
 													</div>
 												@endcan
-												@can('comics.types.destroy')
+												@can('products.types.destroy')
 													<div class="botn" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="top">
 														<a href="javascript:void(0)" class="btn btn-pinterest w-auto btn-icon" data-id="{{ $item->id }}" data-bs-toggle="modal" data-bs-target="#modalDestroy">
 															<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

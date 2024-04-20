@@ -89,13 +89,13 @@ class User extends Authenticatable implements MustVerifyEmail{
             $userCoins = $this->coins;
             if(!$userCoins){
                 return response()->json([
-                    'status' => "error",
+                    'status' => false,
                     'message' => "No tienes suficientes monedas."
                 ]);
             }
             if($userCoins->coins < $chapter->price){
                 return response()->json([
-                    'status' => "error",
+                    'status' => false,
                     'message' => "No tienes suficientes monedas."
                 ]);
             }
@@ -110,23 +110,23 @@ class User extends Authenticatable implements MustVerifyEmail{
                 $chapter = Chapter::find($chapterid);
                 if($chapter){
                     return response()->json([
-                        'status' => "success",
+                        'status' => true,
                         'url' => $chapter->url(),
                         'message' => "Capítulo comprado."
                     ]);
                 }
                 return response()->json([
-                    'status' => "success",
+                    'status' => true,
                     'message' => "Capítulo comprado."
                 ]);
             }
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'message' => "Ups, algo paso con tu compra."
             ]);
         }
         return response()->json([
-            'status' => "error",
+            'status' => false,
             'message' => "Ups, capítulo no encontrado"
         ]);
     }

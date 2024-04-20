@@ -63,7 +63,7 @@ class ComicCategoriesController extends Controller{
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'msg' => $validator->errors()->all()
+                'message' => $validator->errors()->all()
             ]);
         }
 
@@ -84,13 +84,13 @@ class ComicCategoriesController extends Controller{
         if($store->save()){
 			return [
 				"status" => true,
-				"msg" => "Categoría creada.",
+				"message" => "Categoría creada.",
 				"item" => $store
 			];
         }
 		return [
 			"status" => true,
-			"msg" => "Ups, error.",
+			"message" => "Ups, error.",
 			"item" => $store
 		];
     }
@@ -143,7 +143,7 @@ class ComicCategoriesController extends Controller{
         if ($validator->fails()) {
             return response()->json([
                 'status' => false,
-                'msg' => $validator->errors()->all()
+                'message' => $validator->errors()->all()
             ]);
         }
 
@@ -155,7 +155,7 @@ class ComicCategoriesController extends Controller{
             if($slugExists){
 				return response()->json([
 					'status' => false,
-					'msg' => "Slug $update->slug ya existe."
+					'message' => "Slug $update->slug ya existe."
 				]);
             }
             $update->slug = $request->slug;
@@ -164,12 +164,12 @@ class ComicCategoriesController extends Controller{
         if($update->save()){
 			return response()->json([
 				'status' => true,
-				'msg' => "Categoría actualizada correctamente"
+				'message' => "Categoría actualizada correctamente"
 			]);
         }
 		return response()->json([
 			'status' => false,
-			'msg' => "Ups, se complico la cosa"
+			'message' => "Ups, se complico la cosa"
 		]);
     }
 
@@ -186,12 +186,12 @@ class ComicCategoriesController extends Controller{
 		if(!$delete){
             return response()->json([
                 'status' => false,
-                'msg' => "Ups, algo paso",
+                'message' => "Ups, algo paso",
             ]);
         }
         return response()->json([
             'status' => true,
-            'msg' => "Eliminado correctamente"
+            'message' => "Eliminado correctamente"
         ]);
     }
 }

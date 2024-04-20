@@ -43,8 +43,8 @@ class ChaptersController extends Controller{
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
-                'msg' => $validator->errors()->all()
+                'status' => false,
+                'message' => $validator->errors()->all()
             ]);
         }
         
@@ -58,8 +58,8 @@ class ChaptersController extends Controller{
         $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $request->slug)->exists();
         if($chapterExists){
             $response = [
-                "status" => "error",
-                "msg" => "Ups, ya existe un capitulo con el slug $request->slug"
+                "status" => false,
+                "message" => "Ups, ya existe un capitulo con el slug $request->slug"
             ];
             return $response;
         }
@@ -92,16 +92,16 @@ class ChaptersController extends Controller{
         if($chapter->save()){
             Cache::forget('new_chapters');
             $response = [
-                "status" => "success",
-                "msg" => "Capítulo $chapter->name creado",
+                "status" => true,
+                "message" => "Capítulo $chapter->name creado",
                 "item" => $chapter,
                 "manga_slug" => $comic->slug
             ];
             return $response;
         }
         $response = [
-            "status" => "error",
-            "msg" => "Ups, algo paso",
+            "status" => false,
+            "message" => "Ups, algo paso",
             "item" => $chapter
         ];
         return $response;
@@ -116,12 +116,12 @@ class ChaptersController extends Controller{
         $chapter = Chapter::where('id', $id)->get()->first();
         if($chapter){
             return response()->json([
-                'status' => "success",
+                'status' => true,
                 'chapter' => $chapter
             ]);
         }else{
             return response()->json([
-                'status' => "error",
+                'status' => false,
                 'chapter' => $chapter
             ]);
         }
@@ -151,8 +151,8 @@ class ChaptersController extends Controller{
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
-                'msg' => $validator->errors()->all()
+                'status' => false,
+                'message' => $validator->errors()->all()
             ]);
         }
 
@@ -168,8 +168,8 @@ class ChaptersController extends Controller{
             ])->exists();
             if($slugExists){
                 $response = [
-                    "status" => "error",
-                    "msg" => "Ups, ya existe un capitulo con el slug $request->slug"
+                    "status" => false,
+                    "message" => "Ups, ya existe un capitulo con el slug $request->slug"
                 ];
                 return $response;
             }
@@ -199,16 +199,16 @@ class ChaptersController extends Controller{
         if($chapter->save()){
             Cache::forget('new_chapters');
             $response = [
-                "status" => "success",
-                "msg" => "Capítulo $chapter->name actualizado",
+                "status" => true,
+                "message" => "Capítulo $chapter->name actualizado",
                 "item" => $chapter,
                 "manga_slug" => $comic->slug
             ];
             return $response;
         }
         $response = [
-            "status" => "error",
-            "msg" => "Ups, algo paso",
+            "status" => false,
+            "message" => "Ups, algo paso",
             "item" => $chapter
         ];
         return $response;
@@ -231,14 +231,14 @@ class ChaptersController extends Controller{
         $delete = Chapter::destroy($id);
         if(!$delete){
             return response()->json([
-                'status' => "error",
-                'msg' => "Ups, algo paso",
+                'status' => false,
+                'message' => "Ups, algo paso",
             ]);
         }
         Cache::forget('new_chapters');
         return response()->json([
-            'status' => "success",
-            'msg' => "Eliminado correctamente",
+            'status' => true,
+            'message' => "Eliminado correctamente",
             'id' => $id
         ]);
     }
@@ -250,8 +250,8 @@ class ChaptersController extends Controller{
         ]);
         if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
-                'msg' => $validator->errors()->all()
+                'status' => false,
+                'message' => $validator->errors()->all()
             ]);
         }
         
@@ -265,8 +265,8 @@ class ChaptersController extends Controller{
         $chapterExists = Chapter::where('manga_id', $mangaid)->where('slug', $request->slug)->exists();
         if($chapterExists){
             $response = [
-                "status" => "error",
-                "msg" => "Ups, ya existe un capitulo con el slug $request->slug"
+                "status" => false,
+                "message" => "Ups, ya existe un capitulo con el slug $request->slug"
             ];
             return $response;
         }
@@ -298,16 +298,16 @@ class ChaptersController extends Controller{
         if($chapter->save()){
             Cache::forget('new_chapters');
             $response = [
-                "status" => "success",
-                "msg" => "Capítulo $chapter->name creado",
+                "status" => true,
+                "message" => "Capítulo $chapter->name creado",
                 "item" => $chapter,
                 "manga_slug" => $mangaSlug->slug
             ];
             return $response;
         }
         $response = [
-            "status" => "error",
-            "msg" => "Ups, algo paso",
+            "status" => false,
+            "message" => "Ups, algo paso",
             "item" => $chapter
         ];
         return $response;
@@ -323,12 +323,12 @@ class ChaptersController extends Controller{
             }
             Cache::forget('new_chapters');
             return response()->json([
-                'status' => "success",
-                'msg' => "Orden actualizado."
+                'status' => true,
+                'message' => "Orden actualizado."
             ], 200);
         } catch (\Exception $e) {
             // Error response
-            return response()->json(['msg' => $e->getMessage()], 400);
+            return response()->json(['message' => $e->getMessage()], 400);
         }
     }
 }

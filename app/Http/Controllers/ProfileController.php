@@ -142,8 +142,8 @@ class ProfileController extends Controller
 		]);
 		if ($validator->fails()) {
             return response()->json([
-                'status' => "error",
-                'msg' => $validator->errors()->all()
+                'status' => false,
+                'message' => $validator->errors()->all()
             ]);
         }
 

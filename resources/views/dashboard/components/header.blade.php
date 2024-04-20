@@ -6,7 +6,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                <a href="/">
+                <a href="{{ route('dashboard.index') }}">
                     MANGA
                 </a>
             </h1>
@@ -39,7 +39,7 @@
                 <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="./" >
+                            <a class="nav-link" href="{{ route('web.index') }}" >
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rounded-arrow-left-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -49,42 +49,44 @@
                                 <span class="nav-link-title">Volver a Nartag.com</span>
                             </a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="{{ route('comics.index') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-                                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
-                                        <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
-                                        <path d="M3 6l0 13"></path>
-                                        <path d="M12 6l0 13"></path>
-                                        <path d="M21 6l0 13"></path>
-                                    </svg>
-                                </span>
-                                <span class="nav-link-title">Comics</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ route('comics.index') }}" rel="noopener">Todos</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('comics.types.index') }}" rel="noopener">Tipos</a>
-                                <a class="dropdown-item" href="{{ route('comics.status.index') }}" rel="noopener">Estados</a>
-                                <a class="dropdown-item" href="{{ route('comics.demographies.index') }}" rel="noopener">Demografias</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="{{ route('comics.categories.index') }}" rel="noopener">Categorías</a>
-                                <a class="dropdown-item" href="{{ route('comics.tags.index') }}" rel="noopener">Tags</a>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="./form-elements.html">
-                                <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-columns-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M3 3m0 1a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v16a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1zm9 -1v18"></path>
-                                    </svg>
-                                </span>
-                                <span class="nav-link-title">Slider</span>
-                            </a>
-                        </li>
+                        @can('comics.index')
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="{{ route('comics.index') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-book" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M3 19a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+                                            <path d="M3 6a9 9 0 0 1 9 0a9 9 0 0 1 9 0"></path>
+                                            <path d="M3 6l0 13"></path>
+                                            <path d="M12 6l0 13"></path>
+                                            <path d="M21 6l0 13"></path>
+                                        </svg>
+                                    </span>
+                                    <span class="nav-link-title">Comics</span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="{{ route('comics.index') }}" rel="noopener">Todos</a>
+                                    <div class="dropdown-divider"></div>
+                                    @can('comics.types.index')
+                                        <a class="dropdown-item" href="{{ route('comics.types.index') }}" rel="noopener">Tipos</a>
+                                    @endcan
+                                    @can('comics.status.index')
+                                        <a class="dropdown-item" href="{{ route('comics.status.index') }}" rel="noopener">Estados</a>
+                                    @endcan
+                                    @can('comics.demography.index')
+                                        <a class="dropdown-item" href="{{ route('comics.demographies.index') }}" rel="noopener">Demografias</a>
+                                    @endcan
+                                    @can('comics.categories.index')
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ route('comics.categories.index') }}" rel="noopener">Categorías</a>
+                                    @endcan
+                                    @can('comics.tags.index')
+                                        <a class="dropdown-item" href="{{ route('comics.tags.index') }}" rel="noopener">Tags</a>
+                                    @endcan
+                                </div>
+                            </li>
+                        @endcan
+                        @can('products.index')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -97,10 +99,18 @@
                                 <span class="nav-link-title">E-commerce</span>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="https://tabler.io/docs" target="_blank" rel="noopener">Productos</a>
-                                <a class="dropdown-item" href="https://tabler.io/docs" target="_blank" rel="noopener">Pedidos</a>
+                                @can('products.index')
+                                    <a class="dropdown-item" href="{{ route('products.index') }}" rel="noopener">Productos</a>
+                                    {{-- <a class="dropdown-item" href="{{ route('products.types.index') }}" rel="noopener">Tipos</a> --}}
+                                @endcan
+                                @can('orders.index')
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('orders.index') }}" rel="noopener">Ordenes</a>
+                                @endcan
                             </div>
                         </li>
+                        @endcan
+                        @if(auth()->user()->can('users.inex') || auth()->user()->can('roles.inex') || auth()->user()->can('permissions.inex'))
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -121,36 +131,44 @@
                                 <span class="nav-link-title">Core</span>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ route('users.index') }}" rel="noopener">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users me-1  " width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
-                                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
-                                    </svg>
-                                    Usuarios
-                                </a>
-                                <a class="dropdown-item" href="{{ route('roles.index') }}" rel="noopener">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category-2 me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M14 4h6v6h-6z"></path>
-                                        <path d="M4 14h6v6h-6z"></path>
-                                        <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                                        <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
-                                    </svg>
-                                    Roles
-                                </a>
-                                <a class="dropdown-item" href="{{ route('permissions.index') }}" rel="noopener">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category-2 me-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-key">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z"></path>
-                                        <path d="M15 9h.01"></path>
-                                    </svg>
-                                    Permisos
-                                </a>
+                                @can('users.index')
+                                    <a class="dropdown-item" href="{{ route('users.index') }}" rel="noopener">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users me-1  " width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+                                        </svg>
+                                        Usuarios
+                                    </a>
+                                @endcan
+                                @can('roles.index')
+                                    <a class="dropdown-item" href="{{ route('roles.index') }}" rel="noopener">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category-2 me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M14 4h6v6h-6z"></path>
+                                            <path d="M4 14h6v6h-6z"></path>
+                                            <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                                            <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                                        </svg>
+                                        Roles
+                                    </a>
+                                @endcan
+                                @can('permissions.index')
+                                    <a class="dropdown-item" href="{{ route('permissions.index') }}" rel="noopener">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category-2 me-1" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-key">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z"></path>
+                                            <path d="M15 9h.01"></path>
+                                        </svg>
+                                        Permisos
+                                    </a>
+                                @endcan
                             </div>
                         </li>
+                        @endif
+                        @can('settings.index')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="{{ route('settings.index') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
                                 <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -163,20 +181,27 @@
                                 <span class="nav-link-title">Configuración</span>
                             </a>
                             <div class="dropdown-menu">
+                                @can('settings.index')
                                 <a class="dropdown-item" href="{{ route('settings.index') }}" rel="noopener">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-settings-2 me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.875 6.27a2.225 2.225 0 0 1 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033z" /><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /></svg>
                                     General
                                 </a>
+                                @endcan
+                                @can('settings.ads.index')
                                 <a class="dropdown-item" href="{{ route('settings.ads.index') }}" rel="noopener">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-ad me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 5m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" /><path d="M7 15v-4a2 2 0 0 1 4 0v4" /><path d="M7 13l4 0" /><path d="M17 9v6h-1.5a1.5 1.5 0 1 1 1.5 -1.5" /></svg>
                                     Publicidad
                                 </a>
+                                @endcan
+                                @can('settings.seo.index')
                                 <a class="dropdown-item" href="{{ route('settings.seo.index') }}" rel="noopener">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-seo me-1"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8h-3a1 1 0 0 0 -1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-3" /><path d="M14 16h-4v-8h4" /><path d="M11 12h2" /><path d="M17 8m0 1a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1z" /></svg>
                                     SEO
                                 </a>
+                                @endcan
                             </div>
                         </li>
+                        @endcan
                     </ul>
                 </div>
             </div>

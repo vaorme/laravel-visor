@@ -14,6 +14,7 @@ use App\Models\MangaType;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use ManipulateImage;
@@ -153,10 +154,10 @@ class ComicsController extends Controller{
                     }
                 }
             }
-
+            Cache::forget('new_records');
+            Cache::forget('new_chapters');
             return redirect()->route('comics.edit', ['id' => $manga->id])->with('success', 'Manga creado correctamente');
         }
-        
     }
 
     public function edit($id){
@@ -267,6 +268,8 @@ class ComicsController extends Controller{
         }
 
         if($manga->save()){
+            Cache::forget('new_records');
+            Cache::forget('new_chapters');
             return redirect()->route('comics.edit', ['id' => $manga->id])->with('success', 'Comic actualizado correctamente');
         }
     }
@@ -280,9 +283,11 @@ class ComicsController extends Controller{
                 if(Storage::disk($this->disk)->exists($path)){
                     Storage::disk($this->disk)->deleteDirectory($path);
                 }
+                Cache::forget('new_records');
+                Cache::forget('new_chapters');
                 return response()->json([
-                    'status' => "success",
-                    'msg' => "Eliminado correctamente"
+                    'status' => true,
+                    'message' => "Eliminado correctamente"
                 ], 200);
             }
         } catch (\Exception $e) {
