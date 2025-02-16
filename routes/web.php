@@ -68,7 +68,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     // :SHORTCUTE REMOVE
     Route::post('/u/remove_shortcut', [ShortcutsController::class, 'destroy'])->name('shortcut.destroy');
-    
+
     Route::post('/rate/{manga_id}', [WebUserController::class, 'rateManga'])->name('rate_manga.store');
 
     Route::controller(PaymentController::class)->prefix('checkout')->group(function () {
@@ -121,7 +121,7 @@ Route::prefix('v')->group(function(){
     });
     Route::get('{manga_slug}/{chapter_slug}/{reader_type?}/{current_page?}', [ViewerChapter::class, 'index'])
     ->where(['reader_type' => 'paginado', 'current_page' => '[0-9]+'])
-    ->name('chapter_viewer.index'); 
+    ->name('chapter_viewer.index');
 });
 
 // ?: PAGES

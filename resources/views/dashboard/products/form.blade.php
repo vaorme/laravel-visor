@@ -86,7 +86,7 @@
                                             <div class="col-12">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="floating-input" name="name" autocomplete="off" value="{{ $isEdit? $product->name : '' }}" required>
-                                                    <label for="floating-input">Nombre</label>  
+                                                    <label for="floating-input">Nombre</label>
                                                     <div class="invalid-feedback">
                                                         Campo <b>Nombre</b> es requerido
                                                     </div>
@@ -216,7 +216,6 @@
                             detectChange(value);
                         }
                     };
-
                     if(window.TomSelect){
                         tmSelectTypes = new TomSelect(document.getElementById('select-types'), tsOptions);
                         const typeValue = tmSelectTypes.getValue();

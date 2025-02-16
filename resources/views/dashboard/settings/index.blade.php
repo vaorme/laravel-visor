@@ -75,7 +75,7 @@
                                             <div class="col-12">
                                                 <div class="form-floating">
                                                     <input type="text" class="form-control" id="floating-input" name="title" autocomplete="off" value="{{ isset($setting)? old('title', $setting->title) : '' }}" required>
-                                                    <label for="floating-input">Titulo</label>  
+                                                    <label for="floating-input">Titulo</label>
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -92,7 +92,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="floating-input" name="chat_id" autocomplete="off" value="{{ isset($setting)? old('chat_id', $setting->chat_id) : '' }}" required>
+                                                    <input type="text" class="form-control" id="floating-input" name="chat_id" autocomplete="off" value="{{ isset($setting)? old('chat_id', $setting->chat_id) : '' }}">
                                                     <label for="floating-input">Chat ID</label>
                                                 </div>
                                             </div>

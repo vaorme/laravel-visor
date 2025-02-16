@@ -84,18 +84,18 @@ class WebController extends Controller{
 		$newChapters = $newChapters->sortByDesc(function ($manga) {
 			return optional($manga->latestMonthChapters->first())->created_at; // Get the creation date of the latest chapter
 		})->values();
-		
+
 		$perPage = 12; // Number of items per page.
-		
+
 		// Calculate the total number of items.
 		$total = $newChapters->count();
-		
+
 		// Get the current page from the query parameters (e.g., from request).
 		$page = request()->input('page', 1);
-		
+
 		// Slice the collection to get the items for the current page.
 		$currentPageItems = $newChapters->slice(($page - 1) * $perPage, $perPage);
-		
+
 		// Create a LengthAwarePaginator instance.
 		$paginator = new LengthAwarePaginator(
 			$currentPageItems,
